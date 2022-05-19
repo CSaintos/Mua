@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
   // create lexer with file name
   stem::Lexer lexer(file_name);
   // create parser
-  stem::Parser parser();
+  stem::Parser parser;
 
   // Loop variables
   int line_length = 0;
@@ -39,11 +39,16 @@ int main(int argc, char *argv[])
     // lex the char list
     lexer.lex(reader.getList(), line_num);
     // TODO parse
-    token_stream = lexer.getList(); //? temp
+    parser.parse(lexer.getList()); //? temp
+
+    // TODO print parse output
+    stem::Node *root_node = parser.getParseTree();
+    if (root_node != nullptr)
+    {
+      std::cout << root_node->to_string() << std::endl;
+    }
 
   } while (line_length != -1);
-
-  // TODO print parse output
 
   return 0;
 }

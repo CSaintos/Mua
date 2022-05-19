@@ -37,7 +37,7 @@ stem::BinOpNode::~BinOpNode()
 
 std::string stem::BinOpNode::to_string()
 {
-  return (m_node_left->to_string() + ", "+ m_tok_op.to_string() + ", " + m_node_right->to_string());
+  return ("(" + m_node_left->to_string() + ", "+ m_tok_op.to_string() + ", " + m_node_right->to_string() + ")");
 }
 
 stem::UnaOpNode::UnaOpNode(Token tok_op, std::unique_ptr<Node> &node)
@@ -51,5 +51,5 @@ stem::UnaOpNode::~UnaOpNode()
 
 std::string stem::UnaOpNode::to_string()
 {
-  return (m_node->to_string() + ", " + m_tok_op.to_string());
+  return ("(" + m_node->to_string() + ", " + m_tok_op.to_string() + ")");
 }

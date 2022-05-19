@@ -13,6 +13,7 @@
 
 #include "Error.hpp"
 #include "Token.hpp"
+#include "Node.hpp"
 
 namespace stem
 {
@@ -31,7 +32,15 @@ namespace stem
     /// iterator to last element in token stream
     std::list<stem::Token>::iterator m_end;
 
-    
+
+    std::unique_ptr<stem::Node> m_root_node;
+    std::unique_ptr<stem::Node> m_curr_node;
+    std::unique_ptr<stem::Node> m_left_node;
+    std::unique_ptr<stem::Node> m_right_node;
+
+    stem::Token m_tok_op;
+
+    void advance();
     void factor();
     void term();
     void expr();
@@ -39,6 +48,7 @@ namespace stem
     Parser();
     ~Parser();
 
-    bool parse(std::list<stem::Token> *token_stream);
+    void parse(std::list<stem::Token> *token_stream);
+    Node* getParseTree();
   };
 }
