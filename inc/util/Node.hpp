@@ -3,10 +3,12 @@
  * 
  * @file node.hpp
  * @author Christian Santos
- * @version 1.0.0 5/17/2022
+ * @version 1.0.0 5/18/2022
  */
 
 #pragma once
+
+#include <memory>
 
 #include "Token.hpp"
 
@@ -101,13 +103,13 @@ namespace stem
   struct BinOpNode final : virtual public OpNode
   {
   public:
-    Node &m_node_left; ///< left operand
-    Node &m_node_right; ///< right operand
+    std::unique_ptr<Node> m_node_left; ///< left operand
+    std::unique_ptr<Node> m_node_right; ///< right operand
     
     /**
      * @brief BinOpNode(node_left, tok_op, node_right) constructor
      */
-    BinOpNode(ValueNode &node_left, Token tok_op, ValueNode &node_right);
+    BinOpNode(std::unique_ptr<Node> &node_left, Token tok_op, std::unique_ptr<Node> &node_right);
     /**
      * @brief ~BinOpNode() destructor
      */
@@ -127,12 +129,12 @@ namespace stem
    */
   struct UnaOpNode final : virtual public OpNode
   {
-    Node &m_node; ///< left operand
+    std::unique_ptr<Node> m_node; ///< left operand
 
     /**
      * @brief UnaOpNode(tok_op, node)
      */
-    UnaOpNode(Token tok_op, ValueNode &node);
+    UnaOpNode(Token tok_op, std::unique_ptr<Node> &node);
     /**
      * @brief ~UnaOpNode() destructor
      */

@@ -3,10 +3,11 @@
  * 
  * @file NodeTest.cpp
  * @author Christian Santos
- * @version 1.0.0 5/17/2022
+ * @version 1.0.0 5/18/2022
  */
 
 #include <iostream>
+#include <memory>
 
 #include "Node.hpp"
 #include "Token.hpp"
@@ -24,8 +25,8 @@ int main(int argc, char *argv[])
   tok_plus.m_type = stem::TokenType::PLUS;
   tok_plus.m_lexemes = "+";
   // Create nodes
-  stem::DigitNode node_0(tok_0);
-  stem::DigitNode node_1(tok_1);
+  std::unique_ptr<stem::Node> node_0 = std::make_unique<stem::DigitNode>(tok_0);
+  std::unique_ptr<stem::Node> node_1 = std::make_unique<stem::DigitNode>(tok_1);
   stem::BinOpNode node_plus(node_0, tok_plus, node_1);
   // Print single node
   std::cout << node_plus.to_string() << std::endl;

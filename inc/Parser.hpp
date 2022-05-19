@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <memory>
 #include <list>
 
 #include "Error.hpp"
@@ -30,6 +31,10 @@ namespace stem
     /// iterator to last element in token stream
     std::list<stem::Token>::iterator m_end;
 
+    
+    void factor();
+    void term();
+    void expr();
   public:
     Parser();
     ~Parser();

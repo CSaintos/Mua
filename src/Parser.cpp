@@ -9,6 +9,31 @@ stem::Parser::Parser()
 stem::Parser::~Parser()
 {}
 
+void stem::Parser::factor()
+{
+  switch (m_itr->m_type)
+  {
+    case TokenType::DIGIT:
+    case TokenType::IDENTIFIER:
+      break;
+    case TokenType::PLUS:
+    case TokenType::MINUS:
+      break;
+    case TokenType::LPAREN:
+      break;
+  }
+}
+
+void stem::Parser::term()
+{
+
+}
+
+void stem::Parser::expr()
+{
+
+}
+
 bool stem::Parser::parse(std::list<stem::Token> *token_stream)
 {
   // initialize member variables
@@ -20,7 +45,7 @@ bool stem::Parser::parse(std::list<stem::Token> *token_stream)
   {
     // TODO parse single token
 
-
+    
 
     // end of parse
     ++m_itr;
