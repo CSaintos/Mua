@@ -3,3 +3,4 @@ factor : IDENTIFIER | DIGIT
   : LPAREN expr RPAREN
 term : factor ((MUL | DIV) factor)*
 expr : term ((PLUS) | MINUS)*
+equa :...

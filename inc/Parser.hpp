@@ -28,14 +28,14 @@ namespace stem
   {
   private:
     /// stack of nodes
-    std::stack<stem::Node> m_node_stack;
+    std::stack<std::unique_ptr<stem::Node>> m_node_stack;
+    //^ Do not do stack<Node> as that causes "object slicing"
     /// pointer to token stream
     std::list<stem::Token> *m_token_stream;
     /// iterator to current element in token stream
     std::list<stem::Token>::iterator m_itr;
     /// iterator to last element in token stream
     std::list<stem::Token>::iterator m_end;
-
 
     //~~std::unique_ptr<stem::Node> m_root_node;
     std::unique_ptr<stem::Node> m_curr_node;
@@ -47,11 +47,13 @@ namespace stem
     stem::TokenType m_last_op;
 
     void advance();
+    void err(int i); //? Temporary syntax error
 
-    void factor();
-    void term();
-    void expr();
-
+    //~~void factor();
+    //~~void term();
+    //~~void expr();
+    void buildBinOp(); // TODO err checking
+    void toParseTree();
     void scanOneToken();
   public:
     Parser();

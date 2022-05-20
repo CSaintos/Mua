@@ -20,6 +20,8 @@ namespace stem
    */
   struct Node
   {
+    Token *m_tok; ///< Default represented token
+
     /**
      * @brief Returns node as string representation
      * 
@@ -58,7 +60,7 @@ namespace stem
     /**
      * @brief DigitNode(tok) constructor
      */
-    DigitNode(Token tok);
+    DigitNode(Token &tok_digit);
     /**
      * @brief ~DigitNode() destructor
      */
@@ -82,7 +84,7 @@ namespace stem
     /**
      * @brief IdentifierNode(tok) constructor
      */
-    IdentifierNode(Token tok);
+    IdentifierNode(Token &tok_identifier);
     /**
      * @brief ~IdentifierNode() destructor
      */
@@ -109,11 +111,11 @@ namespace stem
     /**
      * @brief BinOpNode(tok_op)
      */
-    BinOpNode(Token tok_op);
+    BinOpNode(Token &tok_op);
     /**
      * @brief BinOpNode(node_left, tok_op, node_right) constructor
      */
-    BinOpNode(std::unique_ptr<Node> &node_left, Token tok_op, std::unique_ptr<Node> &node_right);
+    BinOpNode(std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
     /**
      * @brief ~BinOpNode() destructor
      */
@@ -138,11 +140,11 @@ namespace stem
     /**
      * @brief UnaOpNode(tok_op)
      */
-    UnaOpNode(Token tok_op);
+    UnaOpNode(Token &tok_op);
     /**
      * @brief UnaOpNode(tok_op, node)
      */
-    UnaOpNode(Token tok_op, std::unique_ptr<Node> &node);
+    UnaOpNode(Token &tok_op, std::unique_ptr<Node> &node);
     /**
      * @brief ~UnaOpNode() destructor
      */
