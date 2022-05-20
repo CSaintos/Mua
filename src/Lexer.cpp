@@ -41,6 +41,15 @@ stem::TokenType stem::Lexer::charToTokenType(char &ch)
   return type;
 }
 
+void stem::Lexer::err(char &ch)
+{
+  m_pos_temp.m_column_nums[1] = m_pos_temp.m_column_nums[0];
+  m_pos_temp.m_column_nums[0]--;
+  stem::IllegalCharError err(m_pos_temp, "'" + std::string(1, ch) + "'");
+  std::cout << err.to_string() << std::endl;
+  exit(1);
+}
+
 void stem::Lexer::toTokenStream()
 {
   if (stem::TokenUtils::m_RT_map.find(ss.str()) != stem::TokenUtils::m_RT_map.end())
@@ -89,6 +98,8 @@ void stem::Lexer::scanOneChar(char &ch)
       toTokenStream();
       m_token_temp.m_type = type;
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::SEMICOLON:
@@ -102,9 +113,12 @@ void stem::Lexer::scanOneChar(char &ch)
       toTokenStream();
       createToken(type, ch);
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::COLON:
+    err(ch);
     break;
   case TokenType::LPAREN:
     switch (m_token_temp.m_type)
@@ -117,6 +131,8 @@ void stem::Lexer::scanOneChar(char &ch)
       toTokenStream();
       createToken(type, ch);
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::RPAREN:
@@ -127,6 +143,8 @@ void stem::Lexer::scanOneChar(char &ch)
       toTokenStream();
       createToken(type, ch);
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::LBRACKET:
@@ -135,6 +153,8 @@ void stem::Lexer::scanOneChar(char &ch)
     case TokenType::SPACE:
       createToken(type, ch);
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::RBRACKET:
@@ -144,6 +164,8 @@ void stem::Lexer::scanOneChar(char &ch)
       toTokenStream();
       createToken(type, ch);
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::LBRACE:
@@ -152,6 +174,8 @@ void stem::Lexer::scanOneChar(char &ch)
     case TokenType::EMPTY:
       createToken(type, ch);
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::RBRACE:
@@ -162,9 +186,12 @@ void stem::Lexer::scanOneChar(char &ch)
       toTokenStream();
       createToken(type, ch);
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::AMPERSAND:
+    err(ch);
     break;
   case TokenType::VSLASH:
     switch(m_token_temp.m_type)
@@ -172,9 +199,12 @@ void stem::Lexer::scanOneChar(char &ch)
     case TokenType::SPACE:
       createToken(type, ch);
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::TILDE:
+    err(ch);
     break;
   case TokenType::EQUAL:
     switch (m_token_temp.m_type)
@@ -187,6 +217,8 @@ void stem::Lexer::scanOneChar(char &ch)
       toTokenStream();
       createToken(type, ch);
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::LESSTHAN:
@@ -195,6 +227,8 @@ void stem::Lexer::scanOneChar(char &ch)
     case TokenType::SPACE:
       createToken(type, ch);
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::MORETHAN:
@@ -203,6 +237,8 @@ void stem::Lexer::scanOneChar(char &ch)
     case TokenType::SPACE:
       createToken(type, ch);
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::EXCLAMATION:
@@ -212,6 +248,8 @@ void stem::Lexer::scanOneChar(char &ch)
       toTokenStream();
       createToken(type, ch);
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::COMMA:
@@ -221,6 +259,8 @@ void stem::Lexer::scanOneChar(char &ch)
       toTokenStream();
       createToken(type, ch);
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::DOT:
@@ -240,6 +280,8 @@ void stem::Lexer::scanOneChar(char &ch)
         ++m_dot_count;
       }
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::PLUS:
@@ -253,6 +295,8 @@ void stem::Lexer::scanOneChar(char &ch)
       toTokenStream();
       createToken(type, ch);
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::MINUS:
@@ -266,6 +310,8 @@ void stem::Lexer::scanOneChar(char &ch)
       toTokenStream();
       createToken(type, ch);
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::ASTERISK:
@@ -279,6 +325,8 @@ void stem::Lexer::scanOneChar(char &ch)
     case TokenType::SPACE:
       createToken(type, ch);
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::FSLASH:
@@ -295,6 +343,8 @@ void stem::Lexer::scanOneChar(char &ch)
         m_token_temp.m_type = TokenType::COMMENT;
       }
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::PERCENT:
@@ -307,6 +357,8 @@ void stem::Lexer::scanOneChar(char &ch)
       toTokenStream();
       createToken(type, ch);
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::CARET:
@@ -317,6 +369,8 @@ void stem::Lexer::scanOneChar(char &ch)
       toTokenStream();
       createToken(type, ch);
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::UNDERSCORE:
@@ -326,6 +380,8 @@ void stem::Lexer::scanOneChar(char &ch)
       toTokenStream();
       createToken(type, ch);
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::DIGIT:
@@ -350,6 +406,8 @@ void stem::Lexer::scanOneChar(char &ch)
       createToken(type, ch);
       m_dot_count = 0;
       break;
+    default:
+      err(ch);
     }
     break;
   case TokenType::IDENTIFIER:
@@ -376,14 +434,12 @@ void stem::Lexer::scanOneChar(char &ch)
     case TokenType::IDENTIFIER:
       ss << ch;
       break;
+    default:
+      err(ch);
     }
     break;
   default:
-    m_pos_temp.m_column_nums[1] = m_pos_temp.m_column_nums[0];
-    m_pos_temp.m_column_nums[0]--;
-    stem::IllegalCharError err(m_pos_temp, "'" + std::string(1, ch) + "'");
-    std::cout << err.to_string() << std::endl;
-    exit(1);
+    err(ch);
     break;
   }
 }

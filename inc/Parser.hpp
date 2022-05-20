@@ -3,13 +3,15 @@
  * 
  * @file Parser.hpp
  * @author Christian Santos
- * @version 1.0.0 5/18/2022
+ * @version 1.0.0 5/19/2022
  */
 
 #pragma once
 
+#include <iostream>
 #include <memory>
 #include <list>
+#include <stack>
 
 #include "Error.hpp"
 #include "Token.hpp"
@@ -25,6 +27,8 @@ namespace stem
   class Parser
   {
   private:
+    /// stack of nodes
+    std::stack<stem::Node> m_node_stack;
     /// pointer to token stream
     std::list<stem::Token> *m_token_stream;
     /// iterator to current element in token stream
@@ -33,17 +37,22 @@ namespace stem
     std::list<stem::Token>::iterator m_end;
 
 
-    std::unique_ptr<stem::Node> m_root_node;
+    //~~std::unique_ptr<stem::Node> m_root_node;
     std::unique_ptr<stem::Node> m_curr_node;
     std::unique_ptr<stem::Node> m_left_node;
     std::unique_ptr<stem::Node> m_right_node;
-
     stem::Token m_tok_op;
 
+    stem::TokenType m_last_type;
+    stem::TokenType m_last_op;
+
     void advance();
+
     void factor();
     void term();
     void expr();
+
+    void scanOneToken();
   public:
     Parser();
     ~Parser();

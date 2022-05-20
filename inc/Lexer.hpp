@@ -3,7 +3,7 @@
  * 
  * @file Lexer.hpp
  * @author Christian Santos
- * @version 1.0.0 5/17/2022
+ * @version 1.0.0 5/19/2022
  */
 
 #pragma once
@@ -53,6 +53,13 @@ namespace stem
      * @return TokenType that the char belongs to
      */
     stem::TokenType charToTokenType(char &ch);
+    /**
+     * @brief Throws an exception and stops program
+     * @note this method is temporary
+     * 
+     * @param ch single char to error 
+     */
+    void err(char &ch);
     /**
      * @brief Packages the temp token into token stream
      * - Then re-initializes the string stream and temp token.

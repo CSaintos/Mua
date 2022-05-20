@@ -3,7 +3,7 @@
  * 
  * @file node.hpp
  * @author Christian Santos
- * @version 1.0.0 5/18/2022
+ * @version 1.0.0 5/19/2022
  */
 
 #pragma once
@@ -107,6 +107,10 @@ namespace stem
     std::unique_ptr<Node> m_node_right; ///< right operand
     
     /**
+     * @brief BinOpNode(tok_op)
+     */
+    BinOpNode(Token tok_op);
+    /**
      * @brief BinOpNode(node_left, tok_op, node_right) constructor
      */
     BinOpNode(std::unique_ptr<Node> &node_left, Token tok_op, std::unique_ptr<Node> &node_right);
@@ -131,6 +135,10 @@ namespace stem
   {
     std::unique_ptr<Node> m_node; ///< left operand
 
+    /**
+     * @brief UnaOpNode(tok_op)
+     */
+    UnaOpNode(Token tok_op);
     /**
      * @brief UnaOpNode(tok_op, node)
      */
