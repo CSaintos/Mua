@@ -3,7 +3,7 @@
  * 
  * @file ParserTest.cpp
  * @author Christian Santos
- * @version 1.0.0 5/18/2022
+ * @version 1.0.1 5/22/2022
  */
 
 #include <string>
@@ -30,7 +30,8 @@ int main(int argc, char *argv[])
   // Loop variables
   int line_length = 0;
   int line_num = 0;
-  std::list<stem::Token> *token_stream = nullptr;
+  //~~std::list<stem::Token> *token_stream = nullptr;
+  //~~std::list<stem::Token>::iterator itr;
 
   do {
     ++line_num;
@@ -38,10 +39,10 @@ int main(int argc, char *argv[])
     line_length = reader.readLine();
     // lex the char list
     lexer.lex(reader.getList(), line_num);
-    // TODO parse
+    // parse token stream
     parser.parse(lexer.getList()); //? temp
 
-    // TODO print parse output
+    // print parse tree
     stem::Node *root_node = parser.getParseTree();
     if (root_node != nullptr)
     {

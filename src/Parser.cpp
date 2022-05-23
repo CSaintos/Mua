@@ -8,14 +8,6 @@ stem::Parser::Parser()
 stem::Parser::~Parser()
 {}
 
-void stem::Parser::advance()
-{
-  if (m_itr != m_end)
-  {
-    ++m_itr;
-  }
-}
-
 void stem::Parser::err(int i)
 {
   switch (i)
@@ -29,6 +21,7 @@ void stem::Parser::err(int i)
   default:
     std::cout << "Syntax Err: Undefined" << std::endl;
   }
+  exit(1);
 }
 
 void stem::Parser::buildBinOp()
@@ -40,34 +33,73 @@ void stem::Parser::buildBinOp()
     m_node_stack.pop();
   }
 
-  //? assuming ...
-  m_tok_op = *(m_node_stack.top()->m_tok);
-  m_node_stack.pop();
+  if (!m_node_stack.empty())
+  {
+    m_op_node = std::move(m_node_stack.top());
+    m_node_stack.pop();
+  }
+  else
+  {
+    m_op_node = nullptr;
+  }
 
-  //? We're assuming that we have nodes left to pop
-  m_left_node = std::move(m_node_stack.top());
-  m_node_stack.pop();
-
+  if (!m_node_stack.empty())
+  {
+    m_left_node = std::move(m_node_stack.top());
+    m_node_stack.pop();
+  }
+  else if (m_op_node != nullptr)
+  {
+    if (m_curr_node != nullptr)
+    {
+      m_left_node = std::move(m_curr_node);
+    }
+    else
+    {
+      //! Error
+      err(1); // expected d or i
+    }
+  }
+  
   // Build tree branch
-  m_right_node = std::make_unique<BinOpNode>(m_left_node, m_tok_op, m_right_node);
+  if (m_left_node != nullptr)
+  {
+    m_right_node = std::make_unique<BinOpNode>(m_left_node, m_op_node, m_right_node);
+  }
 }
 
 void stem::Parser::toParseTree()
 {
   while (!m_node_stack.empty())
   {
-    switch (m_node_stack.top()->m_tok->m_type)
+    TokenType type_top = m_node_stack.top()->m_tok->m_type;
+
+    switch (type_top)
     {
     case TokenType::DIGIT:
     case TokenType::IDENTIFIER:
       buildBinOp();
       break;
-    
+    case TokenType::PLUS:
+    case TokenType::MINUS:
+    case TokenType::ASTERISK:
+    case TokenType::FSLASH:
+      if (m_right_node != nullptr)
+      {
+        buildBinOp();
+      }
+      else
+      {
+        // TODO unary node
+        err(1);
+      }
+      break;
     default:
       //! Error
       err(1); // expected d or i
     }
   }
+  m_curr_node = std::move(m_right_node);
 }
 
 void stem::Parser::scanOneToken()
@@ -114,12 +146,15 @@ void stem::Parser::scanOneToken()
       switch (m_last_op)
       {
       case TokenType::EMPTY:
+      case TokenType::PLUS:
+      case TokenType::MINUS:
         m_last_type = m_itr->m_type;
         m_last_op = m_last_type;
         m_node_stack.push(std::make_unique<BinOpNode>(*m_itr));
         break;
       default:
-        // TODO empty stack and build tree
+        // empty stack and build tree
+        toParseTree();
       }
     }
     break;
@@ -142,12 +177,14 @@ void stem::Parser::scanOneToken()
         m_node_stack.push(std::make_unique<BinOpNode>(*m_itr));
         break;
       default:
-        // TODO empty stack and build tree
+        // empty stack and build tree
+        toParseTree();
       }
     }
     break;
   default:
     // TODO throw unknown syntax error
+    err(0);
   }
 }
 
@@ -155,17 +192,15 @@ void stem::Parser::parse(std::list<stem::Token> *token_stream)
 {
   // initialize member variables
   m_token_stream = token_stream;
-  m_itr = m_token_stream->begin();
-  m_end = m_token_stream->end();
   m_curr_node = nullptr;
-
-  while (m_itr != m_end) // if token stream isn't empty
+  
+  for (m_itr = token_stream->begin(); m_itr != token_stream->end(); ++m_itr)
   {
-    // TODO parse single token
+    // parse single token
     scanOneToken();
     // end of parse
-    advance();
   }
+
   toParseTree();
 }
 

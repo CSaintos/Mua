@@ -3,11 +3,12 @@
  * 
  * @file node.hpp
  * @author Christian Santos
- * @version 1.0.0 5/19/2022
+ * @version 1.0.2 5/22/2022
  */
 
 #pragma once
 
+#include <iostream>
 #include <memory>
 
 #include "Token.hpp"
@@ -115,7 +116,7 @@ namespace stem
     /**
      * @brief BinOpNode(node_left, tok_op, node_right) constructor
      */
-    BinOpNode(std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
+    BinOpNode(std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node_right);
     /**
      * @brief ~BinOpNode() destructor
      */
@@ -144,7 +145,7 @@ namespace stem
     /**
      * @brief UnaOpNode(tok_op, node)
      */
-    UnaOpNode(Token &tok_op, std::unique_ptr<Node> &node);
+    UnaOpNode(std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node);
     /**
      * @brief ~UnaOpNode() destructor
      */

@@ -5,6 +5,12 @@ stem::Token::Token()
   init();
 }
 
+stem::Token::Token(const Token &tok)
+    : m_type(tok.m_type),
+      m_lexemes(tok.m_lexemes),
+      m_pos(tok.m_pos)
+{}
+
 void stem::Token::init()
 {
   m_type = stem::TokenType::EMPTY;

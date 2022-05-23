@@ -3,7 +3,7 @@
  * 
  * @file token.hpp
  * @author Christian Santos
- * @version 1.0.1 5/17/2022
+ * @version 1.0.2 5/22/2022
  * 
  * @note There might be a way to implement using a hash table
  */
@@ -78,6 +78,12 @@ namespace stem
      * @see init()
      */
     Token();
+
+    /**
+     * @brief Token(const Token &tok) copy constructor
+     * @see Token()
+     */
+    Token(const Token &tok);
 
     /**
      * @brief Re-initializes 'this' token
