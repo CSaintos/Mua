@@ -24,6 +24,30 @@ void stem::Parser::err(int i)
   exit(1);
 }
 
+void stem::Parser::buildUnaOp()
+{
+  // Extract nodes
+  if (m_op_node == nullptr)
+  {
+    m_op_node = std::move(m_node_stack.top());
+    m_node_stack.pop();
+  }
+
+  if (!m_node_stack.empty() && m_right_node == nullptr)
+  {
+    m_right_node = std::move(m_node_stack.top());
+    m_node_stack.pop();
+  }
+  else if (m_node_stack.empty() && m_right_node == nullptr)
+  {
+    //! Error
+    err(1); // expected 1 or d
+  }
+
+  // build tree branch
+  m_right_node = std::make_unique<UnaOpNode>(m_op_node, m_right_node);
+}
+
 void stem::Parser::buildBinOp()
 {
   // Extract nodes
@@ -40,7 +64,7 @@ void stem::Parser::buildBinOp()
   }
   else
   {
-    m_op_node = nullptr;
+    m_op_node.release();
   }
 
   if (!m_node_stack.empty())
@@ -82,18 +106,27 @@ void stem::Parser::toParseTree()
       break;
     case TokenType::PLUS:
     case TokenType::MINUS:
-    case TokenType::ASTERISK:
-    case TokenType::FSLASH:
       if (m_right_node != nullptr)
       {
         buildBinOp();
       }
       else
       {
-        // TODO unary node
-        err(1);
+        buildUnaOp();
       }
       break;
+    case TokenType::ASTERISK:
+    case TokenType::FSLASH:
+    case TokenType::CARET:
+      if (m_right_node != nullptr)
+      {
+        buildBinOp();
+      }
+      else
+      {
+        //! Error
+        err(1); // expected d or 1
+      }
     default:
       //! Error
       err(1); // expected d or i
@@ -111,7 +144,7 @@ void stem::Parser::scanOneToken()
     {
     case TokenType::DIGIT:
     case TokenType::IDENTIFIER:
-      //? Error May not happen
+      //! Error
       err(2); // value after value err
       break;
     default:
@@ -125,13 +158,47 @@ void stem::Parser::scanOneToken()
     {
     case TokenType::DIGIT:
     case TokenType::IDENTIFIER:
-      //? Error May not happen
+      //! Error
       err(2); // value after value err
       break;
     default:
       m_last_type = m_itr->m_type;
       m_node_stack.push(std::make_unique<IdentifierNode>(*m_itr));
       break;
+    }
+    break;
+  case TokenType::MINUS:
+  case TokenType::PLUS:
+    switch (m_last_type)
+    {
+    case TokenType::EMPTY:
+      // TODO write unary operator case
+      err(1); // expected d or i
+      break;
+    default:
+      switch (m_last_op)
+      {
+      case TokenType::EMPTY:
+        m_last_type = m_itr->m_type;
+        m_last_op = m_last_type;
+        m_node_stack.push(std::make_unique<BinOpNode>(*m_itr));
+        break;
+      case TokenType::PLUS:
+      case TokenType::MINUS:
+      case TokenType::ASTERISK:
+      case TokenType::FSLASH:
+      case TokenType::CARET:
+        // empty stack and build tree
+        toParseTree();
+        // add token to stack
+        m_last_type = m_itr->m_type;
+        m_last_op = m_last_type;
+        m_node_stack.push(std::make_unique<BinOpNode>(*m_itr));
+        break;
+      default:
+        // error
+        err(0); // unknown
+      }
     }
     break;
   case TokenType::FSLASH:
@@ -152,33 +219,44 @@ void stem::Parser::scanOneToken()
         m_last_op = m_last_type;
         m_node_stack.push(std::make_unique<BinOpNode>(*m_itr));
         break;
-      default:
+      case TokenType::ASTERISK:
+      case TokenType::FSLASH:
+      case TokenType::CARET:
         // empty stack and build tree
         toParseTree();
+        // add token to stack
+        m_last_type = m_itr->m_type;
+        m_last_op = m_last_type;
+        m_node_stack.push(std::make_unique<BinOpNode>(*m_itr));
+      default:
+        // error unknown
+        err(0);
       }
     }
     break;
-  case TokenType::MINUS:
-  case TokenType::PLUS:
+  case TokenType::CARET:
     switch (m_last_type)
     {
     case TokenType::EMPTY:
-      // TODO write unary operator case
+      //! Error
       err(1); // expected d or i
       break;
     default:
       switch (m_last_op)
       {
       case TokenType::EMPTY:
-      case TokenType::FSLASH:
+      case TokenType::PLUS:
+      case TokenType::MINUS:
       case TokenType::ASTERISK:
+      case TokenType::FSLASH:
+      case TokenType::CARET:
         m_last_type = m_itr->m_type;
         m_last_op = m_last_type;
         m_node_stack.push(std::make_unique<BinOpNode>(*m_itr));
         break;
       default:
-        // empty stack and build tree
-        toParseTree();
+        // TODO implement parantheses case
+        err(0);
       }
     }
     break;
@@ -192,7 +270,7 @@ void stem::Parser::parse(std::list<stem::Token> *token_stream)
 {
   // initialize member variables
   m_token_stream = token_stream;
-  m_curr_node = nullptr;
+  m_curr_node.release();
   
   for (m_itr = token_stream->begin(); m_itr != token_stream->end(); ++m_itr)
   {

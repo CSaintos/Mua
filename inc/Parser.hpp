@@ -3,7 +3,7 @@
  * 
  * @file Parser.hpp
  * @author Christian Santos
- * @version 1.0.2 5/22/2022
+ * @version 1.0.3 5/22/2022
  */
 
 #pragma once
@@ -34,24 +34,18 @@ namespace stem
     std::list<stem::Token> *m_token_stream;
     /// iterator to current element in token stream
     std::list<stem::Token>::iterator m_itr;
-    /// iterator to last element in token stream
-    //~~std::list<stem::Token>::iterator m_end;
-
-    //~~std::unique_ptr<stem::Node> m_root_node;
+    
     std::unique_ptr<stem::Node> m_curr_node;
     std::unique_ptr<stem::Node> m_left_node;
     std::unique_ptr<stem::Node> m_right_node;
     std::unique_ptr<stem::Node> m_op_node;
-    //~~stem::Token m_tok_op;
 
     stem::TokenType m_last_type;
     stem::TokenType m_last_op;
 
     void err(int i); //? Temporary syntax error
 
-    //~~void factor();
-    //~~void term();
-    //~~void expr();
+    void buildUnaOp();
     void buildBinOp(); // TODO err checking
     void toParseTree();
     void scanOneToken();
