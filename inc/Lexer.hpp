@@ -3,7 +3,7 @@
  * 
  * @file Lexer.hpp
  * @author Christian Santos
- * @version 1.0.0 5/19/2022
+ * @version 1.0.1 5/25/2022
  */
 
 #pragma once
@@ -37,7 +37,7 @@ namespace stem
     Token m_token_temp; ///< current token being analyzed/created
     Position m_pos_temp; ///< current position during lex process
 
-    int m_dot_count;
+    int m_dot_count; ///< making sure only one dot in decimal
 
     /**
      * @brief initializes member variables

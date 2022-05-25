@@ -81,13 +81,14 @@ void stem::Lexer::scanOneChar(char &ch)
   case TokenType::SPACE:
     switch (m_token_temp.m_type)
     {
+    case TokenType::DIGIT:
     case TokenType::IDENTIFIER:
     case TokenType::PLUS:
-    case TokenType::DIGIT:
-    case TokenType::FSLASH:
     case TokenType::MINUS:
     case TokenType::ASTERISK:
+    case TokenType::FSLASH:
     case TokenType::PERCENT:
+    case TokenType::CARET:
     case TokenType::RPAREN:
     case TokenType::EQUAL:
     case TokenType::EXCLAMATION:
@@ -140,6 +141,7 @@ void stem::Lexer::scanOneChar(char &ch)
     {
     case TokenType::DIGIT:
     case TokenType::IDENTIFIER:
+    case TokenType::RPAREN:
       toTokenStream();
       createToken(type, ch);
       break;
@@ -214,6 +216,7 @@ void stem::Lexer::scanOneChar(char &ch)
       break;
     case TokenType::IDENTIFIER:
     case TokenType::DIGIT:
+    case TokenType::RPAREN:
       toTokenStream();
       createToken(type, ch);
       break;
@@ -225,6 +228,7 @@ void stem::Lexer::scanOneChar(char &ch)
     switch (m_token_temp.m_type)
     {
     case TokenType::SPACE:
+    case TokenType::DIGIT:
       createToken(type, ch);
       break;
     default:
@@ -235,6 +239,7 @@ void stem::Lexer::scanOneChar(char &ch)
     switch (m_token_temp.m_type)
     {
     case TokenType::SPACE:
+    case TokenType::DIGIT:
       createToken(type, ch);
       break;
     default:
@@ -267,7 +272,6 @@ void stem::Lexer::scanOneChar(char &ch)
     switch (m_token_temp.m_type)
     {
     case TokenType::DIGIT:
-
       if (m_dot_count > 1)
       {
         stem::IllegalCharError err(m_pos_temp, "DIGIT already has DOT '.'");
@@ -287,6 +291,7 @@ void stem::Lexer::scanOneChar(char &ch)
   case TokenType::PLUS:
     switch (m_token_temp.m_type)
     {
+    case TokenType::EMPTY:
     case TokenType::SPACE:
       createToken(type, ch);
       break;
@@ -302,6 +307,7 @@ void stem::Lexer::scanOneChar(char &ch)
   case TokenType::MINUS:
     switch (m_token_temp.m_type)
     {
+    case TokenType::EMPTY:
     case TokenType::SPACE:
       createToken(type, ch);
       break;
@@ -353,6 +359,7 @@ void stem::Lexer::scanOneChar(char &ch)
     case TokenType::SPACE:
       createToken(type, ch);
       break;
+    case TokenType::IDENTIFIER:
     case TokenType::DIGIT:
       toTokenStream();
       createToken(type, ch);
@@ -364,6 +371,9 @@ void stem::Lexer::scanOneChar(char &ch)
   case TokenType::CARET:
     switch (m_token_temp.m_type)
     {
+    case TokenType::SPACE:
+      createToken(type, ch);
+      break;
     case TokenType::DIGIT:
     case TokenType::IDENTIFIER:
       toTokenStream();

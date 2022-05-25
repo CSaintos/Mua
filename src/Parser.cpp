@@ -127,6 +127,7 @@ void stem::Parser::toParseTree()
         //! Error
         err(1); // expected d or 1
       }
+      break;
     default:
       //! Error
       err(1); // expected d or i
@@ -228,6 +229,7 @@ void stem::Parser::scanOneToken()
         m_last_type = m_itr->m_type;
         m_last_op = m_last_type;
         m_node_stack.push(std::make_unique<BinOpNode>(*m_itr));
+        break;
       default:
         // error unknown
         err(0);

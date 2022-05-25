@@ -3,7 +3,7 @@
  * 
  * @file Parser.hpp
  * @author Christian Santos
- * @version 1.0.3 5/22/2022
+ * @version 1.0.4 5/25/2022
  */
 
 #pragma once
