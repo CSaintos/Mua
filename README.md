@@ -9,3 +9,8 @@
 ---
 ### 5. Code Optimzer
 ### 6. Code Generator
+
+In the case that I forget why I'm making this, just remember why:
+  - excel and knockoffs are inferior
+  - C++, Javascript, F#, Prolog, etc. are limited
+  - mathway, symbolab, Cymath, etc. are impractical

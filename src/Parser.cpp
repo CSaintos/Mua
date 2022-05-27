@@ -2,7 +2,8 @@
 
 stem::Parser::Parser()
     : m_last_op(TokenType::EMPTY),
-      m_last_type(TokenType::EMPTY)
+      m_last_type(TokenType::EMPTY),
+      m_paren_count(0)
 {}
 
 stem::Parser::~Parser()
@@ -128,6 +129,12 @@ void stem::Parser::toParseTree()
         err(1); // expected d or 1
       }
       break;
+    case TokenType::LPAREN:
+      m_unaop_node = dynamic_cast<stem::UnaOpNode*>(m_node_stack.top().get());
+      // TODO check if parenthesis contains a node
+      // If it doesn't contain a node, reinsert right node (if not empty) into stack and break loop
+      //? else apply binary operation
+      break;
     default:
       //! Error
       err(1); // expected d or i
@@ -173,13 +180,16 @@ void stem::Parser::scanOneToken()
     switch (m_last_type)
     {
     case TokenType::EMPTY:
-      // TODO write unary operator case
-      err(1); // expected d or i
+      m_last_type = m_itr->m_type;
+      m_last_op = m_last_type;
+      m_node_stack.push(std::make_unique<UnaOpNode>(*m_itr));
       break;
     default:
       switch (m_last_op)
       {
       case TokenType::EMPTY:
+      case TokenType::LPAREN:
+      case TokenType::RPAREN:
         m_last_type = m_itr->m_type;
         m_last_op = m_last_type;
         m_node_stack.push(std::make_unique<BinOpNode>(*m_itr));
@@ -199,7 +209,9 @@ void stem::Parser::scanOneToken()
       default:
         // error
         err(0); // unknown
+        break;
       }
+      break;
     }
     break;
   case TokenType::FSLASH:
@@ -214,6 +226,8 @@ void stem::Parser::scanOneToken()
       switch (m_last_op)
       {
       case TokenType::EMPTY:
+      case TokenType::LPAREN:
+      case TokenType::RPAREN:
       case TokenType::PLUS:
       case TokenType::MINUS:
         m_last_type = m_itr->m_type;
@@ -233,7 +247,9 @@ void stem::Parser::scanOneToken()
       default:
         // error unknown
         err(0);
+        break;
       }
+      break;
     }
     break;
   case TokenType::CARET:
@@ -247,6 +263,8 @@ void stem::Parser::scanOneToken()
       switch (m_last_op)
       {
       case TokenType::EMPTY:
+      case TokenType::LPAREN:
+      case TokenType::RPAREN:
       case TokenType::PLUS:
       case TokenType::MINUS:
       case TokenType::ASTERISK:
@@ -257,14 +275,76 @@ void stem::Parser::scanOneToken()
         m_node_stack.push(std::make_unique<BinOpNode>(*m_itr));
         break;
       default:
-        // TODO implement parantheses case
         err(0);
+        break;
       }
+      break;
+    }
+    break;
+  case TokenType::LPAREN:
+    switch (m_last_type)
+    {
+    case TokenType::RPAREN:
+    case TokenType::DIGIT:
+      //! Error
+      err(0); // expected op or i
+      break;
+    default:
+      switch (m_last_op)
+      {
+      case TokenType::EMPTY:
+      case TokenType::PLUS:
+      case TokenType::MINUS:
+      case TokenType::ASTERISK:
+      case TokenType::FSLASH:
+      case TokenType::CARET:
+        m_last_type = m_itr->m_type;
+        m_last_op = m_last_type;
+        m_node_stack.push(std::make_unique<UnaOpNode>(*m_itr));
+        m_paren_count++;
+        break;
+      default:
+        //? Error
+        err(0); // unknown
+        break;
+      }
+      break;
+    }
+  case TokenType::RPAREN:
+    switch (m_last_type)
+    {
+    case TokenType::EMPTY:
+      //! Error
+      err(0); // not a valid stmt
+      break;
+    default:
+      switch (m_last_op)
+      {
+      case TokenType::PLUS:
+      case TokenType::MINUS:
+      case TokenType::ASTERISK:
+      case TokenType::FSLASH:
+      case TokenType::CARET:
+      case TokenType::LPAREN:
+        // empty stack and build tree
+        toParseTree();
+        // label last token
+        m_last_type = m_itr->m_type;
+        m_last_op = m_last_type;
+        m_paren_count--;
+        break;
+      default:
+        //? Error
+        err(0); // unknown
+        break;
+      }
+      break;
     }
     break;
   default:
     // TODO throw unknown syntax error
     err(0);
+    break;
   }
 }
 

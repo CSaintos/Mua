@@ -1,6 +1,17 @@
-factor : IDENTIFIER | DIGIT
-  : (PLUS | MINUS) factor
-  : LPAREN expr RPAREN
-term : factor ((MUL | DIV) factor)*
-expr : term ((PLUS) | MINUS)*
-equa :...
+atom    : DIGIT | IDENTIFIER
+        : LPAREN expr RPAREN
+
+power   : atom (POW factor)*
+
+factor  : (PLUS | MINUS) factor
+        : power
+
+term    : factor ((MUL | DIV) factor)*
+
+expr    : term ((PLUS) | MINUS) term)*
+
+equa    : expr (EQUAL expr)*
+
+stmt
+
+block

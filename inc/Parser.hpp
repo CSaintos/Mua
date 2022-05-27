@@ -3,7 +3,7 @@
  * 
  * @file Parser.hpp
  * @author Christian Santos
- * @version 1.0.4 5/25/2022
+ * @version 1.0.5 5/27/2022
  */
 
 #pragma once
@@ -39,9 +39,12 @@ namespace stem
     std::unique_ptr<stem::Node> m_left_node;
     std::unique_ptr<stem::Node> m_right_node;
     std::unique_ptr<stem::Node> m_op_node;
+    stem::UnaOpNode *m_unaop_node;
 
     stem::TokenType m_last_type;
     stem::TokenType m_last_op;
+
+    int m_paren_count;
 
     void err(int i); //? Temporary syntax error
 
