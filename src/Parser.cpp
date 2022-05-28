@@ -95,7 +95,8 @@ void stem::Parser::buildBinOp()
 
 void stem::Parser::toParseTree()
 {
-  while (!m_node_stack.empty())
+  bool loop = true;
+  while (!m_node_stack.empty() && loop)
   {
     TokenType type_top = m_node_stack.top()->m_tok->m_type;
 
@@ -131,6 +132,18 @@ void stem::Parser::toParseTree()
       break;
     case TokenType::LPAREN:
       m_unaop_node = dynamic_cast<stem::UnaOpNode*>(m_node_stack.top().get());
+      if (m_unaop_node->m_node == nullptr)
+      {
+        if (m_right_node != nullptr)
+        {
+          m_node_stack.push(std::move(m_right_node));
+        }
+        loop = false;
+      }
+      else
+      {
+
+      }
       // TODO check if parenthesis contains a node
       // If it doesn't contain a node, reinsert right node (if not empty) into stack and break loop
       //? else apply binary operation
@@ -310,6 +323,7 @@ void stem::Parser::scanOneToken()
       }
       break;
     }
+    break;
   case TokenType::RPAREN:
     switch (m_last_type)
     {
@@ -327,6 +341,14 @@ void stem::Parser::scanOneToken()
       case TokenType::CARET:
       case TokenType::LPAREN:
         // empty stack and build tree
+        toParseTree();
+        // attach resulting node to LPAREN node
+        m_right_node = std::move(m_node_stack.top());
+        m_node_stack.pop();
+        m_op_node = std::move(m_node_stack.top());
+        m_node_stack.pop();
+        m_right_node = std::make_unique<UnaOpNode>(m_op_node, m_right_node);
+        // add nodes to tree
         toParseTree();
         // label last token
         m_last_type = m_itr->m_type;
@@ -356,6 +378,7 @@ void stem::Parser::parse(std::list<stem::Token> *token_stream)
   
   for (m_itr = token_stream->begin(); m_itr != token_stream->end(); ++m_itr)
   {
+    //std::cout << (*m_itr).to_string() << std::endl;
     // parse single token
     scanOneToken();
     // end of parse

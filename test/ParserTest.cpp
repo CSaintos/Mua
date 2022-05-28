@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
     // Read the next line
     line_length = reader.readLine();
     // lex the char list
-    // FIXME '^', ('+' or '-' starting) is not an illegal char
+    // FIXME ('+' or '-' starting) is not an illegal char
     lexer.lex(reader.getList(), line_num);
     // parse token stream
     parser.parse(lexer.getList()); //? temp
