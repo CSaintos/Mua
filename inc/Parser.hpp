@@ -3,7 +3,7 @@
  * 
  * @file Parser.hpp
  * @author Christian Santos
- * @version 1.0.6 5/28/2022
+ * @version 1.0.7 5/29/2022
  */
 
 #pragma once
@@ -49,7 +49,8 @@ namespace stem
 
     void err(int i); //? Temporary syntax error
 
-    void buildUnaOp();
+    void buildUnaLOp();
+    void buildUnaROp();
     void buildBinOp(); // TODO err checking
     void toParseTree();
     void scanOneToken();

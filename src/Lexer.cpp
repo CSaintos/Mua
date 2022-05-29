@@ -124,11 +124,18 @@ void stem::Lexer::scanOneChar(char &ch)
   case TokenType::LPAREN:
     switch (m_token_temp.m_type)
     {
+    case TokenType::EMPTY:
     case TokenType::SPACE:
       createToken(type, ch);
       break;
     case TokenType::IDENTIFIER:
+    case TokenType::LPAREN:
     case TokenType::RBRACKET:
+    case TokenType::PLUS:
+    case TokenType::MINUS:
+    case TokenType::ASTERISK:
+    case TokenType::FSLASH:
+    case TokenType::CARET:
       toTokenStream();
       createToken(type, ch);
       break;
@@ -139,6 +146,9 @@ void stem::Lexer::scanOneChar(char &ch)
   case TokenType::RPAREN:
     switch (m_token_temp.m_type)
     {
+    case TokenType::SPACE:
+      createToken(type, ch);
+      break;
     case TokenType::DIGIT:
     case TokenType::IDENTIFIER:
     case TokenType::RPAREN:
@@ -174,6 +184,7 @@ void stem::Lexer::scanOneChar(char &ch)
     switch (m_token_temp.m_type)
     {
     case TokenType::EMPTY:
+    case TokenType::SPACE:
       createToken(type, ch);
       break;
     default:
@@ -297,6 +308,7 @@ void stem::Lexer::scanOneChar(char &ch)
       break;
     case TokenType::DIGIT:
     case TokenType::IDENTIFIER:
+    case TokenType::RPAREN:
       toTokenStream();
       createToken(type, ch);
       break;
@@ -313,6 +325,7 @@ void stem::Lexer::scanOneChar(char &ch)
       break;
     case TokenType::DIGIT:
     case TokenType::IDENTIFIER:
+    case TokenType::RPAREN:
       toTokenStream();
       createToken(type, ch);
       break;
@@ -325,6 +338,7 @@ void stem::Lexer::scanOneChar(char &ch)
     {
     case TokenType::DIGIT:
     case TokenType::IDENTIFIER:
+    case TokenType::RPAREN:
       toTokenStream();
       createToken(type, ch);
       break;
@@ -340,6 +354,12 @@ void stem::Lexer::scanOneChar(char &ch)
     {
     case TokenType::SPACE:
     case TokenType::EMPTY:
+      createToken(type, ch);
+      break;
+    case TokenType::DIGIT:
+    case TokenType::IDENTIFIER:
+    case TokenType::RPAREN:
+      toTokenStream();
       createToken(type, ch);
       break;
     case TokenType::FSLASH:

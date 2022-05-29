@@ -3,7 +3,7 @@
  * 
  * @file Lexer.hpp
  * @author Christian Santos
- * @version 1.0.1 5/25/2022
+ * @version 1.0.2 5/29/2022
  */
 
 #pragma once

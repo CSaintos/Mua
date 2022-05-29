@@ -25,13 +25,47 @@ void stem::Parser::err(int i)
   exit(1);
 }
 
-void stem::Parser::buildUnaOp()
+void stem::Parser::buildUnaLOp()
+{
+  // Extract nodes
+  if (!m_node_stack.empty() && m_right_node == nullptr)
+  {
+    m_right_node = std::move(m_node_stack.top());
+    m_node_stack.pop();
+  } 
+  else if (m_node_stack.empty() && m_right_node == nullptr)
+  {
+    //! Error
+    err(1);
+  }
+
+  if (!m_node_stack.empty() && m_op_node == nullptr)
+  {
+    m_op_node = std::move(m_node_stack.top());
+    m_node_stack.pop();
+  }
+  else
+  {
+    //! Error
+    err(0);
+  }
+
+  // build tree branch
+  m_right_node = std::make_unique<stem::UnaOpNode>(m_op_node, m_right_node);
+}
+
+void stem::Parser::buildUnaROp()
 {
   // Extract nodes
   if (m_op_node == nullptr)
   {
     m_op_node = std::move(m_node_stack.top());
     m_node_stack.pop();
+  }
+  else
+  {
+    //! Error
+    err(0);
   }
 
   if (!m_node_stack.empty() && m_right_node == nullptr)
@@ -104,17 +138,36 @@ void stem::Parser::toParseTree()
     {
     case TokenType::DIGIT:
     case TokenType::IDENTIFIER:
-      buildBinOp();
+      if (m_node_stack.size() > 2)
+      {
+        buildBinOp();
+      }
+      else if (m_node_stack.size() == 2)
+      {
+        buildUnaLOp();
+      }
       break;
     case TokenType::PLUS:
     case TokenType::MINUS:
       if (m_right_node != nullptr)
       {
-        buildBinOp();
+        if (m_node_stack.size() > 1)
+        {
+          buildBinOp();
+        }
+        else if (m_node_stack.size() == 1)
+        {
+          buildUnaLOp();
+        }
+        else
+        {
+          err(0);
+        }
       }
       else
       {
-        buildUnaOp();
+        err(0); //? don't know when this happens
+        //buildUnaOp();
       }
       break;
     case TokenType::ASTERISK:
@@ -153,7 +206,11 @@ void stem::Parser::toParseTree()
       err(1); // expected d or i
     }
   }
-  m_curr_node = std::move(m_right_node);
+
+  if (m_curr_node == nullptr)
+  {
+    m_curr_node = std::move(m_right_node);
+  }
 }
 
 void stem::Parser::scanOneToken()
@@ -343,11 +400,12 @@ void stem::Parser::scanOneToken()
         // empty stack and build tree
         toParseTree();
         // attach resulting node to LPAREN node
-        m_right_node = std::move(m_node_stack.top());
-        m_node_stack.pop();
-        m_op_node = std::move(m_node_stack.top());
-        m_node_stack.pop();
-        m_right_node = std::make_unique<UnaOpNode>(m_op_node, m_right_node);
+        buildUnaLOp();
+        //m_right_node = std::move(m_node_stack.top());
+        //m_node_stack.pop();
+        //m_op_node = std::move(m_node_stack.top());
+        //m_node_stack.pop();
+        //m_right_node = std::make_unique<UnaOpNode>(m_op_node, m_right_node);
         // add nodes to tree
         toParseTree();
         // label last token
