@@ -3,7 +3,7 @@
  * 
  * @file Error.hpp
  * @author Christian Santos
- * @version 1.0.1 5/17/2022
+ * @version 1.0.2 6/1/2022
  */
 
 #pragma once
@@ -30,7 +30,7 @@ namespace stem
   public:
     /**
      * @brief Error() constructor
-     * @see Error(position pos, std::string err_name, std::string details)
+     * @see Error(position &pos, std::string err_name, std::string &details)
      * @see ~Error()
      */
     Error();
@@ -39,13 +39,26 @@ namespace stem
      * @see Error()
      * @see ~Error()
      */
-    Error(Position pos, std::string err_name, std::string details);
+    Error(Position &pos, std::string err_name, std::string &details);
     /**
      * @brief ~Error() destructor
      * @see Error()
-     * @see Error(position pos, std::string err_name, std::string details)
+     * @see Error(position &pos, std::string err_name, std::string &details)
      */
-    ~Error();
+    //~Error();
+
+    /**
+     * @brief Sets error position
+     */
+    inline void setPos(Position &pos) { m_pos = pos; }
+    /**
+     * @brief Sets error name
+     */
+    inline void setName(std::string name) { m_err_name = name; }
+    /**
+     * @brief Sets error details
+     */
+    inline void setDetails(std::string details) { m_details = details; }
 
     /**
      * @brief Returns Error as a string
@@ -65,7 +78,7 @@ namespace stem
   public:
     /**
      * @brief IllegalCharError() constructor
-     * @see IllegalCharError(position pos, std::String details)
+     * @see IllegalCharError(position &pos, std::String details)
      * @see ~IllegalCharError()
      */
     IllegalCharError();
@@ -74,12 +87,32 @@ namespace stem
      * @see IllegalCharError()
      * @see ~IllegalCharError()
      */
-    IllegalCharError(Position pos, std::string details);
+    IllegalCharError(Position &pos, std::string details);
     /**
      * @brief ~IllegalCharError() destructor
      * @see IllegalCharError()
-     * @see IllegalCharError(position pos, std::string details)
+     * @see IllegalCharError(position &pos, std::string details)
      */
-    ~IllegalCharError();
+    //~IllegalCharError();
+  };
+
+  /**
+   * @class SyntaxError
+   * @brief for handling syntax errors
+   * @note typically used in parser or semanticizer
+   */
+  class SyntaxError : public Error
+  {
+  public:
+    /**
+     * @brief SyntaxError() constructor
+     * @see SyntaxError(Position &pos, std::string &details)
+     */
+    SyntaxError();
+    /**
+     * @brief SyntaxError(pos, details) constructor
+     * @see SyntaxError()
+     */
+    SyntaxError(Position &pos, std::string details);
   };
 }

@@ -3,12 +3,14 @@
 stem::Error::Error()
 {}
 
-stem::Error::Error(Position pos, std::string err_name, std::string details)
+stem::Error::Error(Position &pos, std::string err_name, std::string &details)
     : m_pos(pos), m_err_name(err_name), m_details(details)
 {}
 
+/*
 stem::Error::~Error()
 {}
+*/
 
 std::string stem::Error::to_string()
 {
@@ -26,9 +28,19 @@ stem::IllegalCharError::IllegalCharError()
     : Error()
 {}
 
-stem::IllegalCharError::IllegalCharError(Position pos, std::string details)
+stem::IllegalCharError::IllegalCharError(Position &pos, std::string details)
     : Error(pos, "Illegal Character", details)
 {}
 
+/*
 stem::IllegalCharError::~IllegalCharError()
+{}
+*/
+
+stem::SyntaxError::SyntaxError()
+    : Error()
+{}
+
+stem::SyntaxError::SyntaxError(Position &pos, std::string details)
+    : Error(pos, "Syntax Error", details)
 {}
