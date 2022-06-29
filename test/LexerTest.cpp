@@ -21,10 +21,8 @@ int main(int argc, char* argv[])
 
   // create reader with file name
   stem::Reader reader(file_name);
-  //~~std::cout << "Reader file_name: " << reader.getFileName() << std::endl;
   // create lexer with file name
   stem::Lexer lexer(file_name);
-  //~~std::cout << "Lexer file_name: " << lexer.getFileName() << std::endl;
 
   int line_length = 0;
   int line_num = 0;
