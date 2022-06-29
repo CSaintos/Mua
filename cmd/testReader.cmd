@@ -3,8 +3,8 @@
 del ..\build\ReaderTest.exe
 
 :: compiling
-g++ -I..\inc -c ..\src\Reader.cpp -o ..\bin\reader.o -g
-g++ -I..\inc -c ..\test\ReaderTest.cpp -o ..\bin\readerTest.o -g
+g++ -I..\inc\front -c ..\src\front\Reader.cpp -o ..\bin\reader.o -g
+g++ -I..\inc\front -c ..\test\front\ReaderTest.cpp -o ..\bin\readerTest.o -g
 :: building
 g++ ..\bin\reader.o ..\bin\readerTest.o -o ..\build\ReaderTest.exe
 :: cleaning temp files

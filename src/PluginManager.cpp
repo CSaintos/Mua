@@ -43,5 +43,25 @@ void stem::PluginManager::unloadPlugins()
 
 void stem::PluginManager::executePlugins()
 {
-  
+  // Create function pointer
+  typedef void (__cdecl *EPFuncType) ();
+  // Create instance of function pointer
+  EPFuncType entryPoint;
+  // Function address name
+  // FIXME this needs to be generic to apply to all plugins
+  std::string functionName = "_ZN4stem4math7Algebra10entryPointEv";
+
+  for (HINSTANCE hInst : m_modules)
+  {
+    entryPoint = (EPFuncType)GetProcAddress(hInst, functionName.c_str());
+
+    if (entryPoint != NULL)
+    {
+      entryPoint();
+    }
+    else
+    {
+      std::cout << "Unable to get proc address" << std::endl;
+    }
+  }
 }
