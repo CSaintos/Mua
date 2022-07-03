@@ -4,8 +4,8 @@
 del ..\build\PMTest.exe
 
 :: compiling
-g++ -I..\inc -c ..\src\PluginManager.cpp -o ..\bin\pluginManager.o -g
-g++ -I..\inc -c ..\test\PMTest.cpp -o ..\bin\pMTest.o -g
+g++ -I..\interface -I..\inc\util -c ..\src\util\PluginManager.cpp -o ..\bin\pluginManager.o -g
+g++ -I..\interface -I..\inc\util -c ..\test\util\PMTest.cpp -o ..\bin\pMTest.o -g
 
 :: building
 g++ ..\bin\* -o ..\build\PMTest.exe

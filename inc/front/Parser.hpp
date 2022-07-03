@@ -1,9 +1,10 @@
 /**
- * @brief This file is part of {{ stem.inc }}
+ * @brief This file is part of {{ stem.inc.front }}
  * 
  * @file Parser.hpp
  * @author Christian Santos
- * @version 1.0.8 6/1/2022
+ * @version 1.0.8 
+ * @date 6/1/2022
  */
 
 #pragma once

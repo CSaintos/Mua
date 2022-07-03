@@ -1,9 +1,10 @@
 /**
- * @brief This file is part of {{ stem.inc }}
+ * @brief This file is part of {{ stem.inc.front }}
  * 
  * @file Reader.hpp
  * @author Christian Santos
- * @version 1.0.0 5/15/2022
+ * @version 1.0.0 
+ * @date 5/15/2022
  */
 
 #pragma once

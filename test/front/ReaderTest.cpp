@@ -1,5 +1,5 @@
 /**
- * @brief This file is part of {{ stem.test }}
+ * @brief This file is part of {{ stem.test.front }}
  * 
  * @file ReaderTest.cpp
  * @author Christian Santos

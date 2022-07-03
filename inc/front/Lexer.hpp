@@ -1,9 +1,10 @@
 /**
- * @brief This file is part of {{ stem.inc }}
+ * @brief This file is part of {{ stem.inc.front }}
  * 
  * @file Lexer.hpp
  * @author Christian Santos
- * @version 1.0.2 5/29/2022
+ * @version 1.0.2 
+ * @date 5/29/2022
  */
 
 #pragma once

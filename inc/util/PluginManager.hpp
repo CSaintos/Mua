@@ -1,19 +1,24 @@
 /**
- * @brief This file is part of {{ stem.inc }}
+ * @brief This file is part of {{ stem.inc.util }}
  * 
  * @file PluginManager.hpp
  * @author Christian Santos
- * @version 1.0.0
- * @date 6/29/2022
+ * @version 1.0.1
+ * @date 7/2/2022
+ * 
+ * <a href="https://m.cplusplus.com/articles/48TbqMoL/"> TwilightSpectre </a>
  */
 
 #pragma once
 
 #include <iostream>
 #include <vector>
+#include <memory>
 #include <filesystem>
 
 #include <windows.h>
+
+#include "EntryPoint.hpp"
 
 namespace fs = std::filesystem;
 
@@ -39,10 +44,9 @@ namespace stem
      * @brief unloads plugins
      */
     void unloadPlugins();
-    /**
-     * @brief executes plugins
-     */
-    void executePlugins();
+
+    /// list of EntryPoint pointers
+    std::vector<std::unique_ptr<stem::EntryPoint>> m_entryPoints;
   private:
     /// list of DLL handles
     std::vector<HINSTANCE> m_modules;

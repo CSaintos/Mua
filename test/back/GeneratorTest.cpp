@@ -1,20 +1,21 @@
 /**
- * @brief This file is part of {{ stem.test.front }}
+ * @brief This file is part of {{ stem.test.back }}
  * 
- * @file ParserTest.cpp
+ * @file GeneratorTest.cpp
  * @author Christian Santos
- * @version 1.0.4 
- * @date 5/29/2022
+ * @version 1.0.0
+ * @date 7/2/2022
  */
 
-#include <string>
 #include <iostream>
+#include <string>
 
 #include "Token.hpp"
 
 #include "Reader.hpp"
 #include "Lexer.hpp"
 #include "Parser.hpp"
+#include "Generator.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -27,6 +28,8 @@ int main(int argc, char *argv[])
   stem::Lexer lexer(file_name);
   // create parser
   stem::Parser parser;
+  // create generator
+  stem::Generator generator;
 
   // Loop variables
   int line_length = 0;
@@ -39,15 +42,10 @@ int main(int argc, char *argv[])
     // lex the char list
     lexer.lex(reader.getList(), line_num);
     // parse token stream
-    parser.parse(lexer.getList()); //? temp
-
-    // print parse tree
-    stem::Node *root_node = parser.getParseTree();
-    if (root_node != nullptr)
-    {
-      std::cout << root_node->to_string() << std::endl;
-    }
-
+    parser.parse(lexer.getList());
+    // generate result from parse tree
+    generator.generate(parser.getParseTree());
+    
   } while (line_length != -1);
 
   return 0;

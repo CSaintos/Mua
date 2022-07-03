@@ -4,12 +4,13 @@
  * @file Algebra.hpp
  * @author Christian Santos
  * @version 1.0.0
- * @date 6/29/2022
+ * @date 7/2/2022
  */
-
 #pragma once
 
 #include <iostream>
+#include <string>
+#include <memory>
 
 #include "EntryPoint.hpp"
 
@@ -20,18 +21,18 @@ namespace stem
 {
   namespace math
   {
-    class Algebra final : public EntryPoint
+    class Plus final : public EntryPoint
     {
     public:
       /**
        * @brief defines entry point for the plugin
        */
       void entryPoint() override;
-    private:
-      /**
-       * @brief Algebra() constructor
-       */
-      Algebra();
     };
   }
 }
+
+/// Get an instance of the derived class contained in the DLL.
+CALLTYPE EXPORT std::unique_ptr<stem::EntryPoint> getObj(void);
+/// Get the name of the plugin.
+CALLTYPE EXPORT std::string getName(void);
