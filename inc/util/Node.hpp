@@ -3,7 +3,7 @@
  * 
  * @file node.hpp
  * @author Christian Santos
- * @version 1.0.3 7/3/2022
+ * @version 1.0.4 7/4/2022
  */
 
 #pragma once
@@ -15,6 +15,17 @@
 
 namespace stem
 {
+  /**
+   * @enum NodeType
+   * @brief Specifies Type of Node
+   */
+  enum class NodeType 
+  {
+    DIGIT,
+    IDENTIFIER,
+    BINARY_OPERATOR,
+    UNARY_OPERATOR
+  };
   /**
    * @pure @struct Node
    * @brief Specifies generic node
@@ -33,12 +44,16 @@ namespace stem
      * @return true if node is a leaf,
      * false otherwise.
      */
-    virtual bool is_leaf() = 0;
+    virtual bool isLeaf() = 0;
     /**
      * @return true if node has grandchildren,
      * false otherwise.
      */
-    virtual bool has_grandchildren() = 0;
+    virtual bool hasGrandchildren() = 0;
+    /**
+     * @return node type
+     */
+    virtual NodeType getType() = 0;
   };
 
   /**
@@ -54,13 +69,13 @@ namespace stem
      * @return true because a value node is a leaf
      * ? Is it though?
      */
-    inline bool is_leaf() override { return true; }
+    inline bool isLeaf() override { return true; }
 
     /**
      * @return false because value node has no grandchildren
      * ? Does it though?
      */
-    inline bool has_grandchildren() override { return false; }
+    inline bool hasGrandchildren() override { return false; }
   };
 
   /**
@@ -76,7 +91,7 @@ namespace stem
      * @return false because an operator node is not a leaf
      * ? Is it though?
      */
-    inline bool is_leaf() override { return false; }
+    inline bool isLeaf() override { return false; }
   };
 
   /**
@@ -101,6 +116,11 @@ namespace stem
      * @return string node representation
      */
     std::string to_string() override;
+
+    /**
+     * @return Digit node type
+     */
+    inline NodeType getType() override { return NodeType::DIGIT; }
   };
 
   /**
@@ -125,6 +145,11 @@ namespace stem
      * @return string node representation
      */
     std::string to_string() override;
+
+    /**
+     * @return Identifier Node Type
+     */
+    inline NodeType getType() override { return NodeType::IDENTIFIER; }
   };
 
   /**
@@ -161,7 +186,18 @@ namespace stem
      * @return true if node has grandchildren,
      * false otherwise.
      */
-    bool has_grandchildren() override;
+    bool hasGrandchildren() override;
+
+    /**
+     * @return Binary Node Type
+     */
+    inline NodeType getType() override { return NodeType::BINARY_OPERATOR; }
+
+    /**
+     * @return false because an operator node is not a leaf
+     * ? Is it though?
+     */
+    inline bool isLeaf() override { return false; }
   };
 
   /**
@@ -196,6 +232,11 @@ namespace stem
      * @return true if node has grandchildren,
      * false otherwise.
      */
-    bool has_grandchildren() override;
+    bool hasGrandchildren() override;
+
+    /**
+     * @return Unary Node Type
+     */
+    inline NodeType getType() override { return NodeType::UNARY_OPERATOR; }
   };
 }

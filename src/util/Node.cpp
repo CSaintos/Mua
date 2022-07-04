@@ -54,9 +54,9 @@ std::string stem::BinOpNode::to_string()
   return ("(" + m_node_left->to_string() + ", "+ m_tok_op.to_string() + ", " + m_node_right->to_string() + ")");
 }
 
-bool stem::BinOpNode::has_grandchildren()
+bool stem::BinOpNode::hasGrandchildren()
 {
-  if (m_node_left->is_leaf() && m_node_right->is_leaf())
+  if (m_node_left->isLeaf() && m_node_right->isLeaf())
   {
     return false;
   }
@@ -85,9 +85,9 @@ std::string stem::UnaOpNode::to_string()
   return ("(" + m_node->to_string() + ", " + m_tok_op.to_string() + ")");
 }
 
-bool stem::UnaOpNode::has_grandchildren()
+bool stem::UnaOpNode::hasGrandchildren()
 {
-  if (m_node->is_leaf())
+  if (m_node->isLeaf())
   {
     return false;
   }

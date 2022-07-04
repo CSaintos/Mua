@@ -52,7 +52,7 @@ void stem::PluginManager::loadPlugins()
     if (nameFunc != NULL)
     {
       m_entryPoints.push_back(objFunc());
-      std::cout << "Plugin " << nameFunc() << " loaded!" << std::endl;
+      //std::cout << "Plugin " << nameFunc() << " loaded!" << std::endl;
     }
     else
     {
@@ -68,5 +68,5 @@ void stem::PluginManager::unloadPlugins()
     FreeLibrary(hInst);
   }
 
-  std::cout << "Unloaded plugins" << std::endl;
+  //std::cout << "Unloaded plugins" << std::endl;
 }
