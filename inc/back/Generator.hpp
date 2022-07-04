@@ -10,8 +10,11 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
+#include <memory>
 
 #include "Node.hpp"
+#include "EntryPoint.hpp"
 
 namespace stem
 {
@@ -25,9 +28,9 @@ namespace stem
   {
   public:
     /**
-     * @brief Generator() constructor
+     * @brief Generator(&plugin_manager) constructor
      */
-    Generator();
+    Generator(std::vector<std::unique_ptr<stem::EntryPoint>> &entry_points);
 
     /**
      * @brief generates a result
@@ -36,6 +39,10 @@ namespace stem
      */
     void generate(stem::Node *root_node);
   private:
+    /// plugin vector used for evaluation
+    std::vector<std::unique_ptr<stem::EntryPoint>> &m_entry_points;
+    /// plugin vector iterator
+    std::vector<std::unique_ptr<stem::EntryPoint>>::iterator m_itr;
     /// pointer to root node of parse tree
     stem::Node *m_root_node;
   };

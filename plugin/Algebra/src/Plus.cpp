@@ -12,5 +12,10 @@ std::string getName()
 
 void stem::math::Plus::entryPoint()
 {
-  std::cout << "Hello Plus " << std::endl;
+  std::cout << "Hello Plus" << std::endl;
+}
+
+stem::Node *stem::math::Plus::evaluate(stem::OpNode *op_node)
+{
+  if (op_node->m_tok_op.m_type != stem::TokenType::PLUS) return nullptr;
 }

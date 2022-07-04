@@ -12,6 +12,8 @@
 #include <string>
 #include <memory>
 
+#include "Token.hpp"
+#include "Node.hpp"
 #include "EntryPoint.hpp"
 
 #define EXPORT extern "C" __declspec(dllexport)
@@ -28,6 +30,14 @@ namespace stem
        * @brief defines entry point for the plugin
        */
       void entryPoint() override;
+      /**
+       * @brief for evaluating the operation
+       * 
+       * @param op_node op node to be evaluated
+       * 
+       * @return Node result
+       */
+      stem::Node *evaluate(stem::OpNode *op_node) override;
     };
   }
 }

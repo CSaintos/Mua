@@ -144,7 +144,8 @@ void stem::Parser::toParseTree()
     {
     case TokenType::DIGIT:
     case TokenType::IDENTIFIER:
-      if (m_node_stack.size() > 2)
+      if (m_node_stack.size() > 2 ||
+          (m_node_stack.size() == 2 && m_curr_node != nullptr))
       {
         buildBinOp();
       }

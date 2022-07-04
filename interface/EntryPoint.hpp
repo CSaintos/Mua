@@ -8,6 +8,8 @@
  */
 #pragma once
 
+#include "Node.hpp"
+
 namespace stem
 {
   /**
@@ -20,5 +22,7 @@ namespace stem
   public:
   /// entry point for plugin
   virtual void entryPoint() = 0;
+  /// evaluate operation
+  virtual stem::Node *evaluate(stem::OpNode *op_node) = 0;
   };
 }

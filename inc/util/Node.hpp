@@ -3,7 +3,7 @@
  * 
  * @file node.hpp
  * @author Christian Santos
- * @version 1.0.2 5/22/2022
+ * @version 1.0.3 7/3/2022
  */
 
 #pragma once
@@ -29,6 +29,16 @@ namespace stem
      * @return string node representation
      */
     virtual std::string to_string() = 0;
+    /**
+     * @return true if node is a leaf,
+     * false otherwise.
+     */
+    virtual bool is_leaf() = 0;
+    /**
+     * @return true if node has grandchildren,
+     * false otherwise.
+     */
+    virtual bool has_grandchildren() = 0;
   };
 
   /**
@@ -39,6 +49,18 @@ namespace stem
   struct ValueNode : virtual public Node
   {
     Token m_tok_value; ///< token value
+
+    /**
+     * @return true because a value node is a leaf
+     * ? Is it though?
+     */
+    inline bool is_leaf() override { return true; }
+
+    /**
+     * @return false because value node has no grandchildren
+     * ? Does it though?
+     */
+    inline bool has_grandchildren() override { return false; }
   };
 
   /**
@@ -49,6 +71,12 @@ namespace stem
   struct OpNode : virtual public Node
   {
     Token m_tok_op; ///< token operator
+
+    /**
+     * @return false because an operator node is not a leaf
+     * ? Is it though?
+     */
+    inline bool is_leaf() override { return false; }
   };
 
   /**
@@ -128,6 +156,12 @@ namespace stem
      * @return string node representation
      */
     std::string to_string() override;
+
+    /**
+     * @return true if node has grandchildren,
+     * false otherwise.
+     */
+    bool has_grandchildren() override;
   };
 
   /**
@@ -157,5 +191,11 @@ namespace stem
      * @return string node representation
      */
     std::string to_string() override;
+
+    /**
+     * @return true if node has grandchildren,
+     * false otherwise.
+     */
+    bool has_grandchildren() override;
   };
 }
