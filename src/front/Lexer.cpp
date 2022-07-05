@@ -99,6 +99,8 @@ void stem::Lexer::scanOneChar(char &ch)
       toTokenStream();
       m_token_temp.m_type = type;
       break;
+    case TokenType::SPACE:
+      break;
     default:
       err(ch);
     }
@@ -300,22 +302,6 @@ void stem::Lexer::scanOneChar(char &ch)
     }
     break;
   case TokenType::PLUS:
-    switch (m_token_temp.m_type)
-    {
-    case TokenType::EMPTY:
-    case TokenType::SPACE:
-      createToken(type, ch);
-      break;
-    case TokenType::DIGIT:
-    case TokenType::IDENTIFIER:
-    case TokenType::RPAREN:
-      toTokenStream();
-      createToken(type, ch);
-      break;
-    default:
-      err(ch);
-    }
-    break;
   case TokenType::MINUS:
     switch (m_token_temp.m_type)
     {
@@ -334,15 +320,17 @@ void stem::Lexer::scanOneChar(char &ch)
     }
     break;
   case TokenType::ASTERISK:
+  case TokenType::PERCENT:
+  case TokenType::CARET:
     switch (m_token_temp.m_type)
     {
+    case TokenType::SPACE:
+      createToken(type, ch);
+      break;
     case TokenType::DIGIT:
     case TokenType::IDENTIFIER:
     case TokenType::RPAREN:
       toTokenStream();
-      createToken(type, ch);
-      break;
-    case TokenType::SPACE:
       createToken(type, ch);
       break;
     default:
@@ -368,36 +356,6 @@ void stem::Lexer::scanOneChar(char &ch)
       {
         m_token_temp.m_type = TokenType::COMMENT;
       }
-      break;
-    default:
-      err(ch);
-    }
-    break;
-  case TokenType::PERCENT:
-    switch (m_token_temp.m_type)
-    {
-    case TokenType::SPACE:
-      createToken(type, ch);
-      break;
-    case TokenType::IDENTIFIER:
-    case TokenType::DIGIT:
-      toTokenStream();
-      createToken(type, ch);
-      break;
-    default:
-      err(ch);
-    }
-    break;
-  case TokenType::CARET:
-    switch (m_token_temp.m_type)
-    {
-    case TokenType::SPACE:
-      createToken(type, ch);
-      break;
-    case TokenType::DIGIT:
-    case TokenType::IDENTIFIER:
-      toTokenStream();
-      createToken(type, ch);
       break;
     default:
       err(ch);
@@ -494,7 +452,8 @@ bool stem::Lexer::lex(std::list<char> *char_list, int line_num)
   }
 
   //* Add last remaining token to stream
-  if (m_token_temp.m_type != TokenType::EMPTY)
+  if (m_token_temp.m_type != TokenType::EMPTY &&
+      m_token_temp.m_type != TokenType::SPACE)
   {
     if (m_token_temp.m_type != TokenType::COMMENT)
     {
