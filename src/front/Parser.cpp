@@ -31,6 +31,14 @@ void stem::Parser::err(int i, Token &tok)
   exit(1);
 }
 
+void stem::Parser::addExclusiveParent(stem::Node *node)
+{
+  if (node->isExclusiveParent())
+  {
+    m_node_queue.push(node);
+  }
+}
+
 void stem::Parser::buildUnaLOp()
 {
   // Extract nodes
@@ -58,6 +66,8 @@ void stem::Parser::buildUnaLOp()
 
   // build tree branch
   m_right_node = std::make_unique<stem::UnaOpNode>(m_op_node, m_right_node);
+  // If node is an exclusive parent, add it
+  addExclusiveParent(&(*m_right_node));
 }
 
 void stem::Parser::buildUnaROp()
@@ -87,6 +97,8 @@ void stem::Parser::buildUnaROp()
 
   // build tree branch
   m_right_node = std::make_unique<UnaOpNode>(m_op_node, m_right_node);
+  // If node is an exclusive parent, add it
+  addExclusiveParent(&(*m_right_node));
 }
 
 void stem::Parser::buildBinOp()
@@ -130,6 +142,8 @@ void stem::Parser::buildBinOp()
   if (m_left_node != nullptr)
   {
     m_right_node = std::make_unique<BinOpNode>(m_left_node, m_op_node, m_right_node);
+    // If node is an exclusive parent, add it
+    addExclusiveParent(&(*m_right_node));
   }
 }
 

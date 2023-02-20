@@ -3,7 +3,7 @@
  * 
  * @file node.hpp
  * @author Christian Santos
- * @version 1.0.4 7/4/2022
+ * @version 1.0.5 7/5/2022
  */
 
 #pragma once
@@ -41,6 +41,12 @@ namespace stem
      */
     virtual std::string to_string() = 0;
     /**
+     * @brief Returns combined lexemes of each token within each node
+     * 
+     * @return combined lexemes as a string
+     */
+    virtual std::string to_repr() = 0;
+    /**
      * @return true if node is a leaf,
      * false otherwise.
      */
@@ -54,6 +60,14 @@ namespace stem
      * @return node type
      */
     virtual NodeType getType() = 0;
+
+    /**
+     * @return true if node is an exclusive parent,
+     * false otherwise.
+     * @note an exclusive parent is a parent node
+     * that has no grandchildren.
+     */
+    bool isExclusiveParent();
   };
 
   /**
@@ -118,6 +132,13 @@ namespace stem
     std::string to_string() override;
 
     /**
+     * @brief Returns combined lexemes of each token within each node
+     * 
+     * @return combined lexemes as a string
+     */
+    std::string to_repr() override;
+
+    /**
      * @return Digit node type
      */
     inline NodeType getType() override { return NodeType::DIGIT; }
@@ -145,6 +166,13 @@ namespace stem
      * @return string node representation
      */
     std::string to_string() override;
+
+    /**
+     * @brief Returns combined lexemes of each token within each node
+     * 
+     * @return combined lexemes as a string
+     */
+    std::string to_repr() override;
 
     /**
      * @return Identifier Node Type
@@ -181,6 +209,13 @@ namespace stem
      * @return string node representation
      */
     std::string to_string() override;
+
+    /**
+     * @brief Returns combined lexemes of each token within each node
+     * 
+     * @return combined lexemes as a string
+     */
+    std::string to_repr() override;
 
     /**
      * @return true if node has grandchildren,
@@ -227,6 +262,13 @@ namespace stem
      * @return string node representation
      */
     std::string to_string() override;
+
+    /**
+     * @brief Returns combined lexemes of each token within each node
+     * 
+     * @return combined lexemes as a string
+     */
+    std::string to_repr() override;
 
     /**
      * @return true if node has grandchildren,

@@ -1,6 +1,7 @@
 @echo off
+
 :: remove previous build
-del ..\build\ErrorTest.exe
+del ..\build\IllegalCharErrorTest.exe
 
 :: compiling
 g++ -I..\inc\util -c ..\src\util\Error.cpp -o ..\bin\error.o -g

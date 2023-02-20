@@ -1,7 +1,7 @@
 /**
  * @brief This file is part of {{ stem.test.util }}
  * 
- * @file ErrorTest.cpp
+ * @file IllegalCharErrorTest.cpp
  * @author Christian Santos
  * @version 1.0.0 5/16/2022
  */
@@ -10,7 +10,7 @@
 #include <iostream>
 
 #include "Position.hpp"
-#include "Error.hpp"
+#include "IllegalCharError.hpp"
 
 int main(int argc, char *argv[])
 {

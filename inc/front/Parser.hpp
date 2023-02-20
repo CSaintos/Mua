@@ -3,8 +3,8 @@
  * 
  * @file Parser.hpp
  * @author Christian Santos
- * @version 1.0.8 
- * @date 6/1/2022
+ * @version 1.1.0
+ * @date 7/5/2022
  */
 
 #pragma once
@@ -13,6 +13,7 @@
 #include <memory>
 #include <list>
 #include <stack>
+#include <queue>
 
 #include "Error.hpp"
 #include "Token.hpp"
@@ -30,6 +31,8 @@ namespace stem
   private:
     /// stack of nodes
     std::stack<std::unique_ptr<stem::Node>> m_node_stack;
+    /// queue of node pointers
+    std::queue<stem::Node*> m_node_queue;
     //^ Do not do stack<Node> as that causes "object slicing"
     /// pointer to token stream
     std::list<stem::Token> *m_token_stream;
@@ -56,6 +59,10 @@ namespace stem
      */
     void err(int i, Token &tok); //? Temporary syntax error
 
+    /**
+     * @brief adds exclusive parent node to m_node_queue
+     */
+    void addExclusiveParent(stem::Node *node);
     /**
      * @brief builds a unary op node where operator is on the left side
      */

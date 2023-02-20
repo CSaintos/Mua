@@ -1,5 +1,14 @@
 #include "Node.hpp"
 
+bool stem::Node::isExclusiveParent()
+{
+  if (!isLeaf() && !hasGrandchildren())
+  {
+    return true;
+  }
+  return false;
+}
+
 stem::DigitNode::DigitNode(Token &tok_digit)
 {
   m_tok_value = tok_digit;
@@ -14,6 +23,11 @@ std::string stem::DigitNode::to_string()
   return m_tok_value.to_string();
 }
 
+std::string stem::DigitNode::to_repr()
+{
+  return m_tok_value.m_lexemes;
+}
+
 stem::IdentifierNode::IdentifierNode(Token &tok_identifier)
 {
   m_tok_value = tok_identifier;
@@ -26,6 +40,11 @@ stem::IdentifierNode::~IdentifierNode()
 std::string stem::IdentifierNode::to_string()
 {
   return m_tok_value.to_string();
+}
+
+std::string stem::IdentifierNode::to_repr()
+{
+  return m_tok_value.m_lexemes;
 }
 
 stem::BinOpNode::BinOpNode(Token &tok_op)
@@ -52,6 +71,15 @@ std::string stem::BinOpNode::to_string()
     return ("(" + m_tok_op.to_string() + ")");
   }
   return ("(" + m_node_left->to_string() + ", "+ m_tok_op.to_string() + ", " + m_node_right->to_string() + ")");
+}
+
+std::string stem::BinOpNode::to_repr()
+{
+  if (m_node_left == nullptr || m_node_right == nullptr)
+  {
+    return m_tok_op.m_lexemes;
+  }
+  return m_node_left->to_repr() + m_tok_op.m_lexemes + m_node_right->to_repr();
 }
 
 bool stem::BinOpNode::hasGrandchildren()
@@ -83,6 +111,18 @@ stem::UnaOpNode::~UnaOpNode()
 std::string stem::UnaOpNode::to_string()
 {
   return ("(" + m_node->to_string() + ", " + m_tok_op.to_string() + ")");
+}
+
+std::string stem::UnaOpNode::to_repr()
+{
+  std::string str = std::string();
+
+  if (m_tok_op.m_type == stem::TokenType::LPAREN)
+  {
+    str = "(" + m_node->to_repr() + ")";
+  }
+
+  return str;
 }
 
 bool stem::UnaOpNode::hasGrandchildren()

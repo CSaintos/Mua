@@ -3,8 +3,8 @@
  * 
  * @file Generator.hpp
  * @author Christian Santos
- * @version 1.0.0
- * @date 7/2/2022
+ * @version 1.0.1
+ * @date 7/5/2022
  */
 
 #pragma once
