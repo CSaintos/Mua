@@ -5,9 +5,10 @@
  * @author Christian Santos
  * @version 1.0.0 5/16/2022
  */
+
 #include <iostream>
 
-#include "Token.hpp"
+#include "TokenUtils.hpp"
 
 int main(int argc, char *argv[])
 {

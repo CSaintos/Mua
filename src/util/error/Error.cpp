@@ -23,24 +23,3 @@ std::string stem::Error::to_string()
 
   return m_ss.str();
 }
-
-// stem::IllegalCharError::IllegalCharError()
-//     : Error()
-// {}
-
-// stem::IllegalCharError::IllegalCharError(Position &pos, std::string details)
-//     : Error(pos, "Illegal Character", details)
-// {}
-
-// /*
-// stem::IllegalCharError::~IllegalCharError()
-// {}
-// */
-
-// stem::SyntaxError::SyntaxError()
-//     : Error()
-// {}
-
-// stem::SyntaxError::SyntaxError(Position &pos, std::string details)
-//     : Error(pos, "Syntax Error", details)
-// {}
