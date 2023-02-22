@@ -11,7 +11,7 @@
 #include <string>
 
 #include "Token.hpp"
-#include "PluginManager.hpp"
+#include "PluginLoader.hpp"
 
 #include "Reader.hpp"
 #include "Lexer.hpp"

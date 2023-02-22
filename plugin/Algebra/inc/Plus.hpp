@@ -6,6 +6,7 @@
  * @version 1.0.0
  * @date 7/2/2022
  */
+
 #pragma once
 
 #include <iostream>
@@ -14,6 +15,7 @@
 
 #include "Token.hpp"
 #include "Node.hpp"
+#include "BinOpNode.hpp"
 #include "EntryPoint.hpp"
 
 #define EXPORT extern "C" __declspec(dllexport)
