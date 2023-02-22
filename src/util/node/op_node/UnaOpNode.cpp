@@ -5,12 +5,12 @@ stem::UnaOpNode::UnaOpNode(Token &tok_op)
   m_tok = tok_op;
 }
 
-// stem::UnaOpNode::UnaOpNode(std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node)
-//     : m_node(std::move(node))
-// {
-//   m_tok = node_op->m_tok;
-//   node_op.release();
-// }
+stem::UnaOpNode::UnaOpNode(std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node)
+    : m_node(std::move(node))
+{
+  m_tok = node_op->m_tok;
+  node_op.release();
+}
 
 stem::UnaOpNode::UnaOpNode(Token &tok_op, std::unique_ptr<Node> &node)
   : m_node(std::move(node))

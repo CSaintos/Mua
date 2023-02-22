@@ -5,12 +5,12 @@ stem::BinOpNode::BinOpNode(Token &tok_op)
   m_tok = tok_op;
 }
 
-// stem::BinOpNode::BinOpNode(std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node_right)
-//     : m_node_left(std::move(node_left)), m_node_right(std::move(node_right))
-// {
-//   m_tok = node_op->m_tok;
-//   node_op.release();
-// }
+stem::BinOpNode::BinOpNode(std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node_right)
+    : m_node_left(std::move(node_left)), m_node_right(std::move(node_right))
+{
+  m_tok = node_op->m_tok;
+  node_op.release();
+}
 
 stem::BinOpNode::BinOpNode(std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right)
   : m_node_left(std::move(node_left)), m_node_right(std::move(node_right))

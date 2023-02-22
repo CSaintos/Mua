@@ -34,7 +34,7 @@ namespace stem
     /**
      * @brief UnaOpNode(node_op, node)
      */
-    // UnaOpNode(std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node);
+    UnaOpNode(std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node);
     /**
      * @brief UnaOpNode(tok_op, node)
     */

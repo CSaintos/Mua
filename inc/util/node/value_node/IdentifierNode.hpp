@@ -31,20 +31,6 @@ namespace stem
     ~IdentifierNode();
 
     /**
-     * @brief Returns node as string representation
-     * 
-     * @return string node representation
-     */
-    // std::string to_string() override;
-
-    /**
-     * @brief Returns combined lexemes of each token within each node
-     * 
-     * @return combined lexemes as a string
-     */
-    // std::string to_repr() override;
-
-    /**
      * @return Identifier Node Type
      */
     inline NodeType getType() override { return NodeType::IDENTIFIER; }

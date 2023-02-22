@@ -36,7 +36,7 @@ namespace stem
     /**
      * @brief BinOpNode(node_left, node_op, node_right) constructor
      */
-    // BinOpNode(std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node_right);
+    BinOpNode(std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node_right);
     /**
      * @brief BinOpNode(node_left, tok_op, node_right) 
     */

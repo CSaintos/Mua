@@ -19,15 +19,16 @@ void stem::Parser::err(int i, Token &tok)
   {
   case 1:
     serr.setDetails("Expected a DIGIT or IDENTIFIER");
-    std::cout << serr.to_string() << std::endl;
     break;
   case 2:
     serr.setDetails("Encountered a value after a value");
-    std::cout << serr.to_string() << std::endl;
     break;
   default:
-    std::cout << serr.to_string() << std::endl;
+    break;
   }
+
+  std::cout << serr.to_string() << std::endl;
+
   exit(1);
 }
 
@@ -152,7 +153,7 @@ void stem::Parser::toParseTree()
   bool loop = true;
   while (!m_node_stack.empty() && loop)
   {
-    TokenType type_top = m_node_stack.top()->m_tok->m_type;
+    TokenType type_top = m_node_stack.top()->m_tok.m_type;
 
     switch (type_top)
     {
