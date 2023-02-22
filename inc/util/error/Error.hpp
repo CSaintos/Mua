@@ -3,7 +3,8 @@
  * 
  * @file Error.hpp
  * @author Christian Santos
- * @version 1.0.3 2/18/2023
+ * @version 1.0.3  
+ * @date 2/18/2023
  */
 
 #pragma once

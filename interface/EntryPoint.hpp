@@ -8,7 +8,7 @@
  */
 #pragma once
 
-#include "Node.hpp"
+#include "OpNode.hpp"
 
 namespace stem
 {

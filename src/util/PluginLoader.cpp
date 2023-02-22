@@ -1,6 +1,6 @@
-#include "PluginManager.hpp"
+#include "PluginLoader.hpp"
 
-stem::PluginManager::PluginManager()
+stem::PluginLoader::PluginLoader()
   : m_plugin_path("plugin")
 {
   try 
@@ -13,9 +13,8 @@ stem::PluginManager::PluginManager()
   }
 }
 
-void stem::PluginManager::loadPlugins()
+void stem::PluginLoader::loadModules()
 {
-  //* Load all libraries as Handle Instances
   for (fs::directory_entry const& dir_entry : m_path_itr)
   {
     HINSTANCE temp = LoadLibraryA(dir_entry.path().string().c_str());
@@ -30,8 +29,10 @@ void stem::PluginManager::loadPlugins()
     // add loaded module to list of modules
     m_modules.push_back(temp);
   }
-  
-  //* Get function pointers from Handle Instances
+}
+
+void stem::PluginLoader::retrieveFuncPointers()
+{
   // Create function pointers
   typedef std::unique_ptr<stem::EntryPoint> (__cdecl *ObjProc)(void);
   typedef std::string (__cdecl *NameProc)(void);
@@ -61,7 +62,13 @@ void stem::PluginManager::loadPlugins()
   }
 }
 
-void stem::PluginManager::unloadPlugins()
+void stem::PluginLoader::loadPlugins()
+{
+  loadModules();
+  retrieveFuncPointers();
+}
+
+void stem::PluginLoader::unloadPlugins()
 {
   for (HINSTANCE hInst : m_modules)
   {

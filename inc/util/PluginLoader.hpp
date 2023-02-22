@@ -1,7 +1,7 @@
 /**
  * @brief This file is part of {{ stem.inc.util }}
  * 
- * @file PluginManager.hpp
+ * @file PluginLoader.hpp
  * @author Christian Santos
  * @version 1.0.1
  * @date 7/2/2022
@@ -25,16 +25,16 @@ namespace fs = std::filesystem;
 namespace stem
 {
   /**
-   * @class PluginManager
+   * @class PluginLoader
    * @brief handles loading plugins
    */
-  class PluginManager
+  class PluginLoader
   {
   public:
     /**
-     * @brief PluginManager() constructor
+     * @brief PluginLoader() constructor
      */
-    PluginManager();
+    PluginLoader();
 
     /**
      * @brief loads plugins from plugin path
@@ -54,5 +54,14 @@ namespace stem
     fs::path m_plugin_path;
     /// path iterator
     fs::directory_iterator m_path_itr;
+
+    /**
+     * @brief loads Handle instances from given directory (plugin)
+    */
+    void loadModules();
+    /**
+     * @brief retrieves entry point function pointers from m_modules
+    */
+    void retrieveFuncPointers();
   };
 }

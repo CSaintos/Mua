@@ -3,7 +3,8 @@
  * 
  * @file Token.hpp
  * @author Christian Santos
- * @version 1.0.3 2/19/2023
+ * @version 1.0.3 
+ * @date 2/19/2023
  * 
  * @note There might be a way to implement using a hash table
  */

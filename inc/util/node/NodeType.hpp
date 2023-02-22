@@ -3,7 +3,8 @@
  * 
  * @file NodeType.hpp
  * @author Christian
- * @version 1.0.0 2/20/2023
+ * @version 1.0.0 
+ * @date 2/20/2023
 */
 
 #pragma once

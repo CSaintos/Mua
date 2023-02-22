@@ -3,7 +3,8 @@
  * 
  * @file Node.hpp
  * @author Christian Santos
- * @version 1.0.6 2/20/2023
+ * @version 1.0.6 
+ * @date 2/20/2023
  */
 
 #pragma once

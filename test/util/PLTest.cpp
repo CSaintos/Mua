@@ -9,11 +9,11 @@
 
 #include <iostream>
 
-#include "PluginManager.hpp"
+#include "PluginLoader.hpp"
 
 int main(int argc, char* argv[])
 {
-  stem::PluginManager plugin_manager;
+  stem::PluginLoader plugin_manager;
   plugin_manager.loadPlugins();
   plugin_manager.unloadPlugins();
 

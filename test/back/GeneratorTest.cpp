@@ -29,8 +29,8 @@ int main(int argc, char *argv[])
   stem::Lexer lexer(file_name);
   // create parser
   stem::Parser parser;
-  // create PluginManager
-  stem::PluginManager plugin_manager;
+  // create PluginLoader
+  stem::PluginLoader plugin_manager;
   plugin_manager.loadPlugins();
   // create generator
   stem::Generator generator(plugin_manager.m_entryPoints);
