@@ -16,7 +16,10 @@
 #include <unordered_map>
 
 #include "Error.hpp"
+#include "IllegalCharError.hpp"
 #include "Token.hpp"
+#include "TokenType.hpp"
+#include "TokenUtils.hpp"
 #include "Position.hpp"
 
 namespace stem
