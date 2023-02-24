@@ -1,5 +1,5 @@
 
-Set-Variable -Name "includes" -Value "-Iapp\inc\util", "-Iapp\inc\util\error", "-Iapp\inc\util\token", "-Iapp\inc\util\node", "-Iapp\inc\util\node\op_node", "-Iapp\inc\util\node\value_node", "-Iapp\inc\front", "-Iapp\inc\back", "-Iapi"
+Set-Variable -Name "includes" -Value "-Iapp\inc\util", "-Iapp\inc\util\error", "-Iapp\inc\util\token", "-Iapp\inc\util\node", "-Iapp\inc\util\node\op_node", "-Iapp\inc\util\node\value_node", "-Iapp\inc\front", "-Iapp\inc\back", "-Iapp\api"
 
 echo "clean"
 rm build\GeneratorTest.exe

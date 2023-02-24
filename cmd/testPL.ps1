@@ -1,5 +1,5 @@
 
-Set-Variable -Name "includes" -Value "-Iapi", "-Iapp\inc\util", "-Iapp\inc\util\node\op_node", "-Iapp\inc\util\node", "-Iapp\inc\util\token"
+Set-Variable -Name "includes" -Value "-Iapp\api", "-Iapp\inc\util", "-Iapp\inc\util\node\op_node", "-Iapp\inc\util\node", "-Iapp\inc\util\token"
 
 echo "clean"
 rm build\PLTest.exe

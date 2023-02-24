@@ -18,6 +18,7 @@
 #include "Error.hpp"
 #include "SyntaxError.hpp"
 #include "Token.hpp"
+#include "TokenType.hpp"
 #include "Node.hpp"
 #include "UnaOpNode.hpp"
 #include "BinOpNode.hpp"

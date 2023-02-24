@@ -1,5 +1,5 @@
 
-Set-Variable -Name "includes" -Value "-Iapp\inc\util", "-Iapi", "-Iapp\inc\util\token", "-Iapp\inc\util\node", "-Iapp\inc\util\node\op_node", "-Iplugin\Algebra\inc"
+Set-Variable -Name "includes" -Value "-Iapp\inc\util", "-Iapp\api", "-Iapp\inc\util\token", "-Iapp\inc\util\node", "-Iapp\inc\util\node\op_node", "-Iplugin\Algebra\inc"
 
 echo "clean"
 rm build\plugin\Plus.dll

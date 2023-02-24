@@ -14,6 +14,7 @@
 #include <memory>
 
 #include "Node.hpp"
+#include "OpNode.hpp"
 #include "EntryPoint.hpp"
 
 namespace stem
