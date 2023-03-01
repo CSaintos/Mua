@@ -1,12 +1,12 @@
 
-Set-Variable -Name "includes" -Value "-Iapp\inc\front"
+Set-Variable -Name "includes" -Value "-Istem\inc\front"
 
 echo "clean"
 rm build\ReaderTest.exe
 
 echo "compile"
-g++ $includes -c app\src\front\Reader.cpp -o bin\Reader.o -g
-g++ $includes -c app\test\front\ReaderTest.cpp -o bin\ReaderTest.o -g
+g++ $includes -c stem\src\front\Reader.cpp -o bin\Reader.o -g
+g++ $includes -c stem\test\front\ReaderTest.cpp -o bin\ReaderTest.o -g
 
 echo "build"
 g++ bin\Reader.o bin\ReaderTest.o -o build\ReaderTest.exe

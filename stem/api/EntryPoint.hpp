@@ -1,5 +1,5 @@
 /**
- * @brief This file is part of {{ stem.interface }}
+ * @brief This file is part of {{ stem.api }}
  * 
  * @file EntryPoint.hpp
  * @author Christian Santos

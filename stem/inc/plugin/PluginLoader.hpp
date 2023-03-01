@@ -1,5 +1,5 @@
 /**
- * @brief This file is part of {{ stem.inc.util }}
+ * @brief This file is part of {{ stem.inc.plugin }}
  * 
  * @file PluginLoader.hpp
  * @author Christian Santos
