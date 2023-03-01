@@ -1,21 +1,22 @@
--- token.lua
+-- node.lua
 
 require "script/global"
 
-project "token"
+project "node"
   kind "SharedLib"
   language "C++"
   location (prjLoc)
-  targetdir (tarLoc)  
+  targetdir (tarLoc)
   objdir (objLoc)
 
   files {
-    (globalLoc .. "/stem/src/util/token/**.cpp")
+    (globalLoc .. "/stem/src/util/node/**.cpp")
   }
 
   includedirs {
+    (globalLoc .. "/stem/inc/util/node/**"),
     (globalLoc .. "/stem/inc/util/token"),
     (globalLoc .. "/stem/inc/util")
   }
 
-project "token"
+project "node"

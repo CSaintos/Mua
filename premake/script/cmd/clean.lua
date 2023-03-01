@@ -19,12 +19,14 @@ newaction {
   },
 
   newoption {
-    trigger = "stem",
+    trigger = "build",
     value = "project",
-    description = "Clean stem builds",
+    description = "Clean build(s)",
     allowed = {
-      {"token", "token lib"},
-      {"all", "all stem builds"}
+      {"stem-token", "stem: token lib"},
+      {"stem-node", "stem: node lib"},
+      {"stem-error", "stem: error lib"},
+      {"stem-all", "stem: all stem builds"}
     }
   },
 
@@ -49,10 +51,16 @@ newaction {
     elseif (_OPTIONS["make"] == "all") then
       print "Deleting /make"
       os.rmdir(makeLoc)
-    elseif (_OPTIONS["stem"] == "token") then
+    elseif (_OPTIONS["build"] == "stem-token") then
       print "Deleting /build/stem/token"
       os.rmdir(buildLoc .. "/stem/token")
-    elseif (_OPTIONS["stem"] == "all") then
+    elseif (_OPTIONS["build"] == "stem-node") then
+      print "Deleting /build/stem/node"
+      os.rmdir(buildLoc .. "/stem/node")
+    elseif (_OPTIONS["build"] == "stem-error") then
+      print "Deleting /build/stem/error"
+      os.rmdir(buildLoc .. "/stem/error")
+    elseif (_OPTIONS["build"] == "stem-all") then
       print "Deleting /build/stem"
       os.rmdir(buildLoc .. "/stem")
     elseif (_OPTIONS["bin"]) then

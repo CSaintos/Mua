@@ -4,7 +4,7 @@ atom    : DIGIT | IDENTIFIER
 power   : atom (POW factor)*
 
 factor  : (PLUS | MINUS) factor
-        : power
+        : POW
 
 term    : factor ((MUL | DIV) factor)*
 

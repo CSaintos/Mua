@@ -2,8 +2,10 @@
 
 require "script/global"
 
-do 
-local stem_token
+function makeBuild(path)
+  os.chdir(path)
+  os.execute("mingw32-make")
+end
 
 newaction {
   trigger = "build",
@@ -15,24 +17,25 @@ newaction {
     description = "Build project",
     allowed = {
       {"token", "token lib"},
+      {"node", "node lib"},
+      {"error", "error lib"},
       {"all", "all stem projects"}
     }
   },
 
-  onStart = function()
-    if (_OPTIONS["stem"] == "token") then
-      stem_token = true
-    elseif (_OPTIONS["stem"] == "all") then
-      stem_token = true
-    end
-  end,
-
   execute = function()
-    if (stem_token) then
+    if (_OPTIONS["stem"] == "token") then
       print "Building token lib"
-      os.chdir (tokenLoc)
-      os.execute("mingw32-make")
+      makeBuild(tokenLoc)
+    elseif (_OPTIONS["stem"] == "node") then
+      print "Building node lib"
+      makeBuild(nodeLoc)
+    elseif (_OPTIONS["stem"] == "error") then
+      print "Building error lib"
+      makeBuild(errorLoc)
+    elseif (_OPTIONS["stem"] == "all") then
+      print "Building stem project and libs"
+      makeBuild(stemLoc)
     end
   end
 }
-end

@@ -16,6 +16,8 @@ workspace "stem"
   filter {}
 
   include "script/stem/token.lua"
+  include "script/stem/node.lua"
+  include "script/stem/error.lua"
 
 workspace "stem"
 
