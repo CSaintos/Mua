@@ -5,17 +5,15 @@ require "script/global"
 project "token"
   kind "SharedLib"
   language "C++"
-  location (prjLoc)
-  targetdir (tarLoc)  
-  objdir (objLoc)
+  initPrjLocs()
 
   files {
-    (globalLoc .. "/stem/src/util/token/**.cpp")
+    (wGLoc .. "/stem/src/util/token/**.cpp")
   }
 
   includedirs {
-    (globalLoc .. "/stem/inc/util/token"),
-    (globalLoc .. "/stem/inc/util")
+    (wGLoc .. "/stem/inc/util/token"),
+    (wGLoc .. "/stem/inc/util")
   }
 
 project "token"

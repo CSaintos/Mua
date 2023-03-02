@@ -5,17 +5,15 @@ require "script/global"
 project "error"
   kind "SharedLib"
   language "C++"
-  location (prjLoc)
-  targetdir (tarLoc)
-  objdir (objLoc)
+  initPrjLocs()
 
   files {
-    (globalLoc .. "/stem/src/util/error/**.cpp")
+    (wGLoc .. "/stem/src/util/error/**.cpp")
   }
 
   includedirs {
-    {globalLoc .. "/stem/inc/util/error"},
-    {globalLoc .. "/stem/inc/util"}
+    {wGLoc .. "/stem/inc/util/error"},
+    {wGLoc .. "/stem/inc/util"}
   }
 
 project "error"

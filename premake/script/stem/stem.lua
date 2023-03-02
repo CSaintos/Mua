@@ -1,9 +1,10 @@
 -- stem.lua
 
+require "script/global"
+
 workspace "stem"
   configurations { "Debug", "Release" }
-  type { "Test", "Main" }
-  location ("../../../make/stem")
+  location (wMLoc .. "/stem")
 
   filter { "configurations:Debug" }
     defines { "DEBUG" }

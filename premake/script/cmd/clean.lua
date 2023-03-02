@@ -26,7 +26,10 @@ newaction {
       {"stem-token", "stem: token lib"},
       {"stem-node", "stem: node lib"},
       {"stem-error", "stem: error lib"},
-      {"stem-all", "stem: all stem builds"}
+      {"stem-all", "stem: all stem builds"},
+      {"stem-test-TokenUtils", "stem-test: TokenUtils"},
+      {"stem-test-IllegalCharError", "stem-test: IllegalCharError"},
+      {"stem-test-all", "stem-test: all stem test builds"}
     }
   },
 
@@ -63,6 +66,15 @@ newaction {
     elseif (_OPTIONS["build"] == "stem-all") then
       print "Deleting /build/stem"
       os.rmdir(buildLoc .. "/stem")
+    elseif (_OPTIONS["build"] == "stem-test-TokenUtils") then
+      print "Deleting /build/stem-test/TokenUtilsTest"
+      os.rmdir(buildLoc .. "/stem-test/TokenUtilsTest")
+    elseif (_OPTIONS["build"] == "stem-test-IllegalCharError") then
+      print "Deleting /build/stem-test/IllegalCharErrorTest"
+      os.rmdir(buildLoc .. "/stem-test/IllegalCharErrorTest")
+    elseif (_OPTIONS["build"] == "stem-test-all") then
+      print "Deleting /build/stem-test"
+      os.rmdir(buildLoc .. "/stem-test")
     elseif (_OPTIONS["bin"]) then
       print "Deleting /bin"
       os.rmdir(binLoc)

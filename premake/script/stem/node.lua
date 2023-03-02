@@ -5,9 +5,7 @@ require "script/global"
 project "node"
   kind "SharedLib"
   language "C++"
-  location (prjLoc)
-  targetdir (tarLoc)
-  objdir (objLoc)
+  initPrjLocs()
 
   files {
     (globalLoc .. "/stem/src/util/node/**.cpp")
