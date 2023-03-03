@@ -15,3 +15,7 @@ workspace "plugin"
     optimize "On"
 
   filter {}
+
+  include "script/plugin/plus.lua"
+
+workspace "plugin"

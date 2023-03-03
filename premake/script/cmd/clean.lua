@@ -40,7 +40,9 @@ newaction {
       {"stem-test-Lexer", "stem-test: Lexer"},
       {"stem-test-Parser", "stem-test: Parser"},
       {"stem-test-Generator", "stem-test: Generator"},
-      {"stem-test-all", "stem-test: all stem test builds"}
+      {"stem-test-all", "stem-test: all stem test builds"},
+      {"plugin-plus", "plugin: plus lib"},
+      {"plugin-all", "plugin: all plugin buils"}
     }
   },
 
@@ -119,6 +121,12 @@ newaction {
     elseif (_OPTIONS["build"] == "stem-test-all") then
       print "Deleting /build/stem-test"
       os.rmdir(buildLoc .. "/stem-test")
+    elseif (_OPTIONS["build"] == "plugin-plus") then
+      print "Deleting /build/plugin/plus"
+      os.rmdir(buildLoc .. "/plugin/plus")
+    elseif (_OPTIONS["build"] == "plugin-all") then
+      print "Deleting /build/plugin"
+      os.rmdir(buildLoc .. "/plugin")
     elseif (_OPTIONS["bin"]) then
       print "Deleting /bin"
       os.rmdir(binLoc)

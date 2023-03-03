@@ -47,6 +47,16 @@ newaction {
     }
   },
 
+  newoption {
+    trigger = "plugin",
+    value = "plugin project",
+    description = "Build plugin project",
+    allowed = {
+      {"plus", "plus lib"},
+      {"all", "all plugin libs"}
+    }
+  },
+
   execute = function()
     if (_OPTIONS["stem"] == "token") then
       print "Building token lib"
@@ -124,6 +134,10 @@ newaction {
       os.execute("{COPYFILE} ../build/stem/node/node.dll ../build/stem-test/GeneratorTest")
       os.execute("{COPYFILE} ../build/stem/PL/PL.dll ../build/stem-test/GeneratorTest")
       print(os.mkdir("../build/stem-test/GeneratorTest/plugin"))
+    elseif (_OPTIONS["plugin"] == "plus") then
+      print "Building plus lib"
+      makeBuild(plusLoc)
+      os.execute("{COPYFILE} ../build/plugin/plus/plus.dll ../build/stem-test/GeneratorTest/plugin")
     end
   end
 }

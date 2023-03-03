@@ -22,6 +22,7 @@ makeLoc = globalLoc .. "/make"
     ParserTestLoc = stemTestLoc .. "/ParserTest"
     GeneratorTestLoc = stemTestLoc .. "/GeneratorTest"
   pluginLoc = makeLoc .. "/plugin"
+    plusLoc = pluginLoc .. "/plus"
 buildLoc = globalLoc .. "/build"
 binLoc = globalLoc .. "/bin"
 
