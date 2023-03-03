@@ -28,3 +28,12 @@ function useNodeLib()
     ("node:shared")
   }
 end
+
+function useReaderLib()
+  libdirs {
+    (wGLoc .. "/build/stem/reader")
+  }
+  links {
+    ("reader:shared")
+  }
+end

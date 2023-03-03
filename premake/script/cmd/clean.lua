@@ -26,10 +26,12 @@ newaction {
       {"stem-token", "stem: token lib"},
       {"stem-node", "stem: node lib"},
       {"stem-error", "stem: error lib"},
+      {"stem-reader", "stem: reader lib"},
       {"stem-all", "stem: all stem builds"},
       {"stem-test-TokenUtils", "stem-test: TokenUtils"},
       {"stem-test-IllegalCharError", "stem-test: IllegalCharError"},
       {"stem-test-Node", "stem-test: Node"},
+      {"stem-test-Reader", "stem-test: Reader"},
       {"stem-test-all", "stem-test: all stem test builds"}
     }
   },
@@ -64,6 +66,9 @@ newaction {
     elseif (_OPTIONS["build"] == "stem-error") then
       print "Deleting /build/stem/error"
       os.rmdir(buildLoc .. "/stem/error")
+    elseif (_OPTIONS["build"] == "stem-reader") then
+      print "Deleting /build/stem/reader"
+      os.rmdir(buildLoc .. "/stem/reader")
     elseif (_OPTIONS["build"] == "stem-all") then
       print "Deleting /build/stem"
       os.rmdir(buildLoc .. "/stem")
@@ -76,6 +81,9 @@ newaction {
     elseif (_OPTIONS["build"] == "stem-test-Node") then
       print "Deleting /build/stem-test/Node"
       os.rmdir(buildLoc .. "/stem-test/Node")
+    elseif (_OPTIONS["build"] == "stem-test-Reader") then
+      print "Deleting /build/stem-test/Reader"
+      os.rmdir(buildLoc .. "/stem-test/Reader")
     elseif (_OPTIONS["build"] == "stem-test-all") then
       print "Deleting /build/stem-test"
       os.rmdir(buildLoc .. "/stem-test")

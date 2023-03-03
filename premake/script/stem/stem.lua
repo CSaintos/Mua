@@ -19,6 +19,7 @@ workspace "stem"
   include "script/stem/token.lua"
   include "script/stem/node.lua"
   include "script/stem/error.lua"
+  include "script/stem/reader.lua"
 
 workspace "stem"
 

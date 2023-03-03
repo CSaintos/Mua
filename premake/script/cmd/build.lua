@@ -21,6 +21,7 @@ newaction {
       {"token", "token lib"},
       {"node", "node lib"},
       {"error", "error lib"},
+      {"reader", "reader lib"},
       {"all", "all stem projects"}
     }
   },
@@ -33,6 +34,7 @@ newaction {
       {"TokenUtils", "TokenUtilsTest.cpp"},
       {"IllegalCharError", "IllegalCharErrorTest.cpp"},
       {"Node", "NodeTest.cpp"},
+      {"Reader", "ReaderTest.cpp"},
       {"all", "all stem test projects"}
     }
   },
@@ -47,6 +49,9 @@ newaction {
     elseif (_OPTIONS["stem"] == "error") then
       print "Building error lib"
       makeBuild(errorLoc)
+    elseif (_OPTIONS["stem"] == "reader") then
+      print "Building reader lib"
+      makeBuild(readerLoc)
     elseif (_OPTIONS["stem"] == "all") then
       print "Building stem project and libs"
       makeBuild(stemLoc)
@@ -63,6 +68,10 @@ newaction {
       makeBuild(NodeTestLoc)
       os.execute("{COPYFILE} ../build/stem/node/node.dll ../build/stem-test/NodeTest")
       os.execute("{COPYFILE} ../build/stem/token/token.dll ../build/stem-test/NodeTest")
+    elseif (_OPTIONS["stem-test"] == "Reader") then
+      print "Building ReaderTest"
+      makeBuild(ReaderTestLoc)
+      os.execute("{COPYFILE} ../build/stem/reader/reader.dll ../build/stem-test/ReaderTest")
     end
   end
 }
