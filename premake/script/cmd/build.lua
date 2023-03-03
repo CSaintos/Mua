@@ -25,6 +25,7 @@ newaction {
       {"PL", "PL Lib"},
       {"lexer", "lexer lib"},
       {"parser", "parser lib"},
+      {"generator", "generator lib"},
       {"all", "all stem projects"}
     }
   },
@@ -41,6 +42,7 @@ newaction {
       {"PL", "PLTest.cpp"},
       {"Lexer", "LexerTest.cpp"},
       {"Parser", "ParserTest.cpp"},
+      {"Generator", "GeneratorTest.cpp"},
       {"all", "all stem test projects"}
     }
   },
@@ -67,6 +69,9 @@ newaction {
     elseif (_OPTIONS["stem"] == "parser") then
       print "Building parser lib"
       makeBuild(parserLoc)
+    elseif (_OPTIONS["stem"] == "generator") then
+      print "Building generator lib"
+      makeBuild(generatorLoc)
     elseif (_OPTIONS["stem"] == "all") then
       print "Building stem project and libs"
       makeBuild(stemLoc)
@@ -103,12 +108,22 @@ newaction {
       os.execute("{COPYFILE} ../build/stem/token/token.dll ../build/stem-test/ParserTest")
       os.execute("{COPYFILE} ../build/stem/error/error.dll ../build/stem-test/ParserTest")
       os.execute("{COPYFILE} ../build/stem/node/node.dll ../build/stem-test/ParserTest")
-    elseif (_OPTIONS["stem-test"] == "Node") then
-    elseif (_OPTIONS["stem-test"] == "Reader") then
     elseif (_OPTIONS["stem-test"] == "PL") then
       print "Building PLTest"
       makeBuild(PLTestLoc)
       os.execute("{COPYFILE} ../build/stem/PL/PL.dll ../build/stem-test/PLTest")
+    elseif (_OPTIONS["stem-test"] == "Generator") then
+      print "Building GeneratorTest"
+      makeBuild(GeneratorTestLoc)
+      os.execute("{COPYFILE} ../build/stem/generator/generator.dll ../build/stem-test/GeneratorTest")
+      os.execute("{COPYFILE} ../build/stem/parser/parser.dll ../build/stem-test/GeneratorTest")
+      os.execute("{COPYFILE} ../build/stem/lexer/lexer.dll ../build/stem-test/GeneratorTest")
+      os.execute("{COPYFILE} ../build/stem/reader/reader.dll ../build/stem-test/GeneratorTest")
+      os.execute("{COPYFILE} ../build/stem/token/token.dll ../build/stem-test/GeneratorTest")
+      os.execute("{COPYFILE} ../build/stem/error/error.dll ../build/stem-test/GeneratorTest")
+      os.execute("{COPYFILE} ../build/stem/node/node.dll ../build/stem-test/GeneratorTest")
+      os.execute("{COPYFILE} ../build/stem/PL/PL.dll ../build/stem-test/GeneratorTest")
+      print(os.mkdir("../build/stem-test/GeneratorTest/plugin"))
     end
   end
 }

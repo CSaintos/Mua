@@ -64,3 +64,12 @@ function useParserLib()
     ("parser:shared")
   }
 end
+
+function useGeneratorLib()
+  libdirs {
+    (wGLoc .. "/build/stem/generator")
+  }
+  links {
+    ("generator:shared")
+  }
+end

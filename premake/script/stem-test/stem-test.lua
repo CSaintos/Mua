@@ -21,5 +21,6 @@ workspace "stem-test"
   include "script/stem-test/PLTest.lua"
   include "script/stem-test/LexerTest.lua"
   include "script/stem-test/ParserTest.lua"
+  include "script/stem-test/GeneratorTest.lua"
 
 workspace "stem-test"

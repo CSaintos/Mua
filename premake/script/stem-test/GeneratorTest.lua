@@ -1,24 +1,27 @@
--- ParserTest.lua
+-- GeneratorTest.lua
 
 require "script/global"
 require "script/libs"
 
-project "ParserTest"
+project "GeneratorTest"
   kind "ConsoleApp"
   language "C++"
   initPrjLocs()
 
   files {
-    (wGLoc .. "/stem/test/front/ParserTest.cpp")
+    (wGLoc .. "/stem/test/back/GeneratorTest.cpp")
   }
 
   includedirs {
+    (wGLoc .. "/stem/inc/back"),
     (wGLoc .. "/stem/inc/front"),
     (wGLoc .. "/stem/inc/util/token"),
     (wGLoc .. "/stem/inc/util"),
     (wGLoc .. "/stem/inc/util/error"),
     (wGLoc .. "/stem/inc/util/node"),
-    (wGLoc .. "/stem/inc/util/node/**")
+    (wGLoc .. "/stem/inc/util/node/**"),
+    (wGLoc .. "/stem/inc/plugin"),
+    (wGLoc .. "/stem/api")
   }
 
   useTokenLib()
@@ -27,5 +30,7 @@ project "ParserTest"
   useReaderLib()
   useLexerLib()
   useParserLib()
+  useGeneratorLib()
+  usePLLib()
 
-project "ParserTest"
+project "GeneratorTest"
