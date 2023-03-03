@@ -22,6 +22,7 @@ workspace "stem"
   include "script/stem/reader.lua"
   include "script/stem/PL.lua"
   include "script/stem/lexer.lua"
+  include "script/stem/parser.lua"
 
 workspace "stem"
 

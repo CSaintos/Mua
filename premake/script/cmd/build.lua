@@ -24,6 +24,7 @@ newaction {
       {"reader", "reader lib"},
       {"PL", "PL Lib"},
       {"lexer", "lexer lib"},
+      {"parser", "parser lib"},
       {"all", "all stem projects"}
     }
   },
@@ -39,6 +40,7 @@ newaction {
       {"Reader", "ReaderTest.cpp"},
       {"PL", "PLTest.cpp"},
       {"Lexer", "LexerTest.cpp"},
+      {"Parser", "ParserTest.cpp"},
       {"all", "all stem test projects"}
     }
   },
@@ -62,6 +64,9 @@ newaction {
     elseif (_OPTIONS["stem"] == "lexer") then
       print "Building lexer lib"
       makeBuild(lexerLoc)
+    elseif (_OPTIONS["stem"] == "parser") then
+      print "Building parser lib"
+      makeBuild(parserLoc)
     elseif (_OPTIONS["stem"] == "all") then
       print "Building stem project and libs"
       makeBuild(stemLoc)
@@ -89,6 +94,15 @@ newaction {
       os.execute("{COPYFILE} ../build/stem/reader/reader.dll ../build/stem-test/LexerTest")
       os.execute("{COPYFILE} ../build/stem/token/token.dll ../build/stem-test/LexerTest")
       os.execute("{COPYFILE} ../build/stem/error/error.dll ../build/stem-test/LexerTest")
+    elseif (_OPTIONS["stem-test"] == "Parser") then
+      print "Building ParserTest"
+      makeBuild(ParserTestLoc)
+      os.execute("{COPYFILE} ../build/stem/parser/parser.dll ../build/stem-test/ParserTest")
+      os.execute("{COPYFILE} ../build/stem/lexer/lexer.dll ../build/stem-test/ParserTest")
+      os.execute("{COPYFILE} ../build/stem/reader/reader.dll ../build/stem-test/ParserTest")
+      os.execute("{COPYFILE} ../build/stem/token/token.dll ../build/stem-test/ParserTest")
+      os.execute("{COPYFILE} ../build/stem/error/error.dll ../build/stem-test/ParserTest")
+      os.execute("{COPYFILE} ../build/stem/node/node.dll ../build/stem-test/ParserTest")
     elseif (_OPTIONS["stem-test"] == "Node") then
     elseif (_OPTIONS["stem-test"] == "Reader") then
     elseif (_OPTIONS["stem-test"] == "PL") then

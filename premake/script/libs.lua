@@ -55,3 +55,12 @@ function useLexerLib()
     ("lexer:shared")
   }
 end
+
+function useParserLib()
+  libdirs {
+    (wGLoc .. "/build/stem/parser")
+  }
+  links {
+    ("parser:shared")
+  }
+end

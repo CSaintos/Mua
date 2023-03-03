@@ -29,6 +29,7 @@ newaction {
       {"stem-reader", "stem: reader lib"},
       {"stem-PL", "stem: PL lib"},
       {"stem-lexer", "stem: lexer lib"},
+      {"stem-parser", "stem: parser lib"},
       {"stem-all", "stem: all stem builds"},
       {"stem-test-TokenUtils", "stem-test: TokenUtils"},
       {"stem-test-IllegalCharError", "stem-test: IllegalCharError"},
@@ -36,6 +37,7 @@ newaction {
       {"stem-test-Reader", "stem-test: Reader"},
       {"stem-test-PL", "stem-test: PL"},
       {"stem-test-Lexer", "stem-test: Lexer"},
+      {"stem-test-Parser", "stem-test: Parser"},
       {"stem-test-all", "stem-test: all stem test builds"}
     }
   },
@@ -79,6 +81,9 @@ newaction {
     elseif (_OPTIONS["build"] == "stem-lexer") then
       print "Deleting /build/stem/lexer"
       os.rmdir(buildLoc .. "/stem/lexer")
+    elseif (_OPTIONS["build"] == "stem-parser") then
+      print "Deleting /build/stem/parser"
+      os.rmdir(buildLoc .. "/stem/parser")
     elseif (_OPTIONS["build"] == "stem-all") then
       print "Deleting /build/stem"
       os.rmdir(buildLoc .. "/stem")
@@ -100,6 +105,9 @@ newaction {
     elseif (_OPTIONS["build"] == "stem-test-Lexer") then
       print "Deleting /build/stem-test/LexerTest"
       os.rmdir(buildLoc .. "/stem-test/LexerTest")
+    elseif (_OPTIONS["build"] == "stem-test-Parser") then
+      print "Deleting /build/stem-test/ParserTest"
+      os.rmdir(buildLoc .. "/stem-test/ParserTest")
     elseif (_OPTIONS["build"] == "stem-test-all") then
       print "Deleting /build/stem-test"
       os.rmdir(buildLoc .. "/stem-test")
