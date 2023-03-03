@@ -32,6 +32,7 @@ newaction {
     allowed = {
       {"TokenUtils", "TokenUtilsTest.cpp"},
       {"IllegalCharError", "IllegalCharErrorTest.cpp"},
+      {"Node", "NodeTest.cpp"},
       {"all", "all stem test projects"}
     }
   },
@@ -57,6 +58,11 @@ newaction {
       print "Building IllegalCharErrorTest"
       makeBuild(IllegalCharErrorTestLoc)
       os.execute("{COPYFILE} ../build/stem/error/error.dll ../build/stem-test/IllegalCharErrorTest")
+    elseif (_OPTIONS["stem-test"] == "Node") then
+      print "Building NodeTest"
+      makeBuild(NodeTestLoc)
+      os.execute("{COPYFILE} ../build/stem/node/node.dll ../build/stem-test/NodeTest")
+      os.execute("{COPYFILE} ../build/stem/token/token.dll ../build/stem-test/NodeTest")
     end
   end
 }

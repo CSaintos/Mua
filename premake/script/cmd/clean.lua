@@ -29,6 +29,7 @@ newaction {
       {"stem-all", "stem: all stem builds"},
       {"stem-test-TokenUtils", "stem-test: TokenUtils"},
       {"stem-test-IllegalCharError", "stem-test: IllegalCharError"},
+      {"stem-test-Node", "stem-test: Node"},
       {"stem-test-all", "stem-test: all stem test builds"}
     }
   },
@@ -72,6 +73,9 @@ newaction {
     elseif (_OPTIONS["build"] == "stem-test-IllegalCharError") then
       print "Deleting /build/stem-test/IllegalCharErrorTest"
       os.rmdir(buildLoc .. "/stem-test/IllegalCharErrorTest")
+    elseif (_OPTIONS["build"] == "stem-test-Node") then
+      print "Deleting /build/stem-test/Node"
+      os.rmdir(buildLoc .. "/stem-test/Node")
     elseif (_OPTIONS["build"] == "stem-test-all") then
       print "Deleting /build/stem-test"
       os.rmdir(buildLoc .. "/stem-test")

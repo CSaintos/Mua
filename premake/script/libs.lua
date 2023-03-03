@@ -19,3 +19,12 @@ function useErrorLib()
     ("error:shared")
   }
 end
+
+function useNodeLib()
+  libdirs {
+    (wGLoc .. "/build/stem/node")
+  }
+  links {
+    ("node:shared")
+  }
+end

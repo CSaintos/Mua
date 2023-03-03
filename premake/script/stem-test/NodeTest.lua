@@ -1,15 +1,15 @@
--- node.lua
+-- NodeTest.lua
 
 require "script/global"
 require "script/libs"
 
-project "node"
-  kind "SharedLib"
+project "NodeTest"
+  kind "ConsoleApp"
   language "C++"
   initPrjLocs()
 
   files {
-    (wGLoc .. "/stem/src/util/node/**.cpp")
+    (wGLoc .. "/stem/test/util/node/NodeTest.cpp")
   }
 
   includedirs {
@@ -19,6 +19,6 @@ project "node"
     (wGLoc .. "/stem/inc/util")
   }
 
+  useNodeLib()
   useTokenLib()
-
-project "node"
+project "NodeTest"
