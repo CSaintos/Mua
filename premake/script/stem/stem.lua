@@ -20,6 +20,8 @@ workspace "stem"
   include "script/stem/node.lua"
   include "script/stem/error.lua"
   include "script/stem/reader.lua"
+  include "script/stem/PL.lua"
+  include "script/stem/lexer.lua"
 
 workspace "stem"
 

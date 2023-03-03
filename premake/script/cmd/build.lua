@@ -22,6 +22,8 @@ newaction {
       {"node", "node lib"},
       {"error", "error lib"},
       {"reader", "reader lib"},
+      {"PL", "PL Lib"},
+      {"lexer", "lexer lib"},
       {"all", "all stem projects"}
     }
   },
@@ -35,6 +37,8 @@ newaction {
       {"IllegalCharError", "IllegalCharErrorTest.cpp"},
       {"Node", "NodeTest.cpp"},
       {"Reader", "ReaderTest.cpp"},
+      {"PL", "PLTest.cpp"},
+      {"Lexer", "LexerTest.cpp"},
       {"all", "all stem test projects"}
     }
   },
@@ -52,6 +56,12 @@ newaction {
     elseif (_OPTIONS["stem"] == "reader") then
       print "Building reader lib"
       makeBuild(readerLoc)
+    elseif (_OPTIONS["stem"] == "PL") then
+      print "Building PL lib"
+      makeBuild(PLLoc)
+    elseif (_OPTIONS["stem"] == "lexer") then
+      print "Building lexer lib"
+      makeBuild(lexerLoc)
     elseif (_OPTIONS["stem"] == "all") then
       print "Building stem project and libs"
       makeBuild(stemLoc)
@@ -72,6 +82,19 @@ newaction {
       print "Building ReaderTest"
       makeBuild(ReaderTestLoc)
       os.execute("{COPYFILE} ../build/stem/reader/reader.dll ../build/stem-test/ReaderTest")
+    elseif (_OPTIONS["stem-test"] == "Lexer") then
+      print "Building LexerTest"
+      makeBuild(LexerTestLoc)
+      os.execute("{COPYFILE} ../build/stem/lexer/lexer.dll ../build/stem-test/LexerTest")
+      os.execute("{COPYFILE} ../build/stem/reader/reader.dll ../build/stem-test/LexerTest")
+      os.execute("{COPYFILE} ../build/stem/token/token.dll ../build/stem-test/LexerTest")
+      os.execute("{COPYFILE} ../build/stem/error/error.dll ../build/stem-test/LexerTest")
+    elseif (_OPTIONS["stem-test"] == "Node") then
+    elseif (_OPTIONS["stem-test"] == "Reader") then
+    elseif (_OPTIONS["stem-test"] == "PL") then
+      print "Building PLTest"
+      makeBuild(PLTestLoc)
+      os.execute("{COPYFILE} ../build/stem/PL/PL.dll ../build/stem-test/PLTest")
     end
   end
 }

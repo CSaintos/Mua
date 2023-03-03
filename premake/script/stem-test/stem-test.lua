@@ -18,5 +18,7 @@ workspace "stem-test"
   include "script/stem-test/IllegalCharErrorTest.lua"
   include "script/stem-test/NodeTest.lua"
   include "script/stem-test/ReaderTest.lua"
+  include "script/stem-test/PLTest.lua"
+  include "script/stem-test/LexerTest.lua"
 
 workspace "stem-test"

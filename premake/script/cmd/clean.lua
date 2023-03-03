@@ -27,11 +27,15 @@ newaction {
       {"stem-node", "stem: node lib"},
       {"stem-error", "stem: error lib"},
       {"stem-reader", "stem: reader lib"},
+      {"stem-PL", "stem: PL lib"},
+      {"stem-lexer", "stem: lexer lib"},
       {"stem-all", "stem: all stem builds"},
       {"stem-test-TokenUtils", "stem-test: TokenUtils"},
       {"stem-test-IllegalCharError", "stem-test: IllegalCharError"},
       {"stem-test-Node", "stem-test: Node"},
       {"stem-test-Reader", "stem-test: Reader"},
+      {"stem-test-PL", "stem-test: PL"},
+      {"stem-test-Lexer", "stem-test: Lexer"},
       {"stem-test-all", "stem-test: all stem test builds"}
     }
   },
@@ -69,6 +73,12 @@ newaction {
     elseif (_OPTIONS["build"] == "stem-reader") then
       print "Deleting /build/stem/reader"
       os.rmdir(buildLoc .. "/stem/reader")
+    elseif (_OPTIONS["build"] == "stem-PL") then
+      print "Deleting /build/stem/PL"
+      os.rmdir(buildLoc .. "/stem/PL")
+    elseif (_OPTIONS["build"] == "stem-lexer") then
+      print "Deleting /build/stem/lexer"
+      os.rmdir(buildLoc .. "/stem/lexer")
     elseif (_OPTIONS["build"] == "stem-all") then
       print "Deleting /build/stem"
       os.rmdir(buildLoc .. "/stem")
@@ -79,11 +89,17 @@ newaction {
       print "Deleting /build/stem-test/IllegalCharErrorTest"
       os.rmdir(buildLoc .. "/stem-test/IllegalCharErrorTest")
     elseif (_OPTIONS["build"] == "stem-test-Node") then
-      print "Deleting /build/stem-test/Node"
-      os.rmdir(buildLoc .. "/stem-test/Node")
+      print "Deleting /build/stem-test/NodeTest"
+      os.rmdir(buildLoc .. "/stem-test/NodeTest")
     elseif (_OPTIONS["build"] == "stem-test-Reader") then
-      print "Deleting /build/stem-test/Reader"
-      os.rmdir(buildLoc .. "/stem-test/Reader")
+      print "Deleting /build/stem-test/ReaderTest"
+      os.rmdir(buildLoc .. "/stem-test/ReaderTest")
+    elseif (_OPTIONS["build"] == "stem-test-PL") then
+      print "Deleting /build/stem-test/PLTest"
+      os.rmdir(buildLoc .. "/stem-test/PLTest")
+    elseif (_OPTIONS["build"] == "stem-test-Lexer") then
+      print "Deleting /build/stem-test/LexerTest"
+      os.rmdir(buildLoc .. "/stem-test/LexerTest")
     elseif (_OPTIONS["build"] == "stem-test-all") then
       print "Deleting /build/stem-test"
       os.rmdir(buildLoc .. "/stem-test")

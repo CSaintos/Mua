@@ -37,3 +37,21 @@ function useReaderLib()
     ("reader:shared")
   }
 end
+
+function usePLLib()
+  libdirs {
+    (wGLoc .. "/build/stem/PL")
+  }
+  links {
+    ("PL:shared")
+  }
+end
+
+function useLexerLib()
+  libdirs {
+    (wGLoc .. "/build/stem/lexer")
+  }
+  links {
+    ("lexer:shared")
+  }
+end
