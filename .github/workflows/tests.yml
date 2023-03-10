@@ -14,8 +14,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    # - name: locate premake path
-      # run : cd /premake
+    - name: locate premake path
+      run : cd premake
     - name: print premake path
       run : pwd
     - name: check path
