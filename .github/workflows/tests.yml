@@ -18,3 +18,5 @@ jobs:
       # run : cd /premake
     - name: print premake path
       run : pwd
+    - name: check path
+      run : ls
