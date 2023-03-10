@@ -14,8 +14,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: print premake path
+    - name: test premake help
       working-directory: ./premake
       run : |
-        pwd
-        ls
+        ./premake --help
