@@ -17,4 +17,4 @@ jobs:
     - name: print premake path
       working-directory: ./premake
       run : |
-        ./premake5 --help
+        sudo ./premake5 --help
