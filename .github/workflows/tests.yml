@@ -1,0 +1,19 @@
+# tests.yml
+
+name: STEM Tests
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+
+  token_test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: locate premake path
+      run : cd /premake
+      run : pwd
