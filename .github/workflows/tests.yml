@@ -3,8 +3,8 @@
 name: STEM Tests
 
 on:
-  [push, pull_request]
-  workflow_dispatch:
+- [push, pull_request]
+- workflow_dispatch:
     inputs:
       debug_enabled:
         type: boolean
@@ -27,13 +27,13 @@ jobs:
         limit-access-to-actor: true
       timout-minutes: 5
 
-  # token_test:
-  #   runs-on: ubuntu-latest
+# token_test:
+#   runs-on: ubuntu-latest
 
-  #   steps:
-  #   - uses: actions/checkout@v3
-  #   - name: print premake path
-  #     working-directory: ./premake
-  #     run : |
-  #       chmod a+x premake5
-  #       ./premake5 --help
+#   steps:
+#   - uses: actions/checkout@v3
+#   - name: print premake path
+#     working-directory: ./premake
+#     run : |
+#       chmod a+x premake5
+#       ./premake5 --help
