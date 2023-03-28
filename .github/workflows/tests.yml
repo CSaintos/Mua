@@ -26,7 +26,7 @@ jobs:
       if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
       with:
         limit-access-to-actor: true
-      timeout-minutes: 5
+      timeout-minutes: 15
 
 # token_test:
 #   runs-on: ubuntu-latest
