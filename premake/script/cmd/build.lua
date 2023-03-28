@@ -5,7 +5,11 @@ require "script/global"
 function makeBuild(path)
   local cwd = os.getcwd()
   os.chdir(path)
-  os.execute("mingw32-make")
+  if os.host() == "windows" then
+    os.execute("mingw32-make")
+  else 
+    os.execute("make")
+  end
   os.chdir(cwd)
 end
 
