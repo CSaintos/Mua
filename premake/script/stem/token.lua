@@ -8,12 +8,12 @@ project "token"
   initPrjLocs()
 
   files {
-    (wGLoc .. "/stem/src/util/token/**.cpp")
+    (wGL .. "/stem/src/util/token/**.cpp")
   }
 
   includedirs {
-    (wGLoc .. "/stem/inc/util/token"),
-    (wGLoc .. "/stem/inc/util")
+    (wGL .. "/stem/inc/util/token"),
+    (wGL .. "/stem/inc/util")
   }
 
 project "token"

@@ -4,7 +4,7 @@ require "script/global"
 
 workspace "plugin"
   configurations { "Debug", "Release" }
-  location (wMLoc .. "/plugin")
+  location (wML .. "/plugin")
   
   filter { "configurations:Debug" }
     defines { "DEBUG" }

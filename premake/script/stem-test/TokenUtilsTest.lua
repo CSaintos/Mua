@@ -9,12 +9,12 @@ project "TokenUtilsTest"
   initPrjLocs()
 
   files {
-    (wGLoc .. "/stem/test/util/token/TokenUtilsTest.cpp")
+    (wGL .. "/stem/test/util/token/TokenUtilsTest.cpp")
   }
 
   includedirs {
-    (wGLoc .. "/stem/inc/util/token"),
-    (wGLoc .. "/stem/inc/util")
+    (wGL .. "/stem/inc/util/token"),
+    (wGL .. "/stem/inc/util")
   }
 
   useTokenLib()

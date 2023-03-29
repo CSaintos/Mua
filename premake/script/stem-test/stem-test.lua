@@ -4,7 +4,7 @@ require "script/global"
 
 workspace "stem-test"
   configurations { "Debug", "Release" }
-  location (wMLoc .. "/stem-test")
+  location (wML .. "/stem-test")
 
   filter { "configurations:Debug" }
     defines { "DEBUG" }

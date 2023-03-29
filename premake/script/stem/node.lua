@@ -9,14 +9,14 @@ project "node"
   initPrjLocs()
 
   files {
-    (wGLoc .. "/stem/src/util/node/**.cpp")
+    (wGL .. "/stem/src/util/node/**.cpp")
   }
 
   includedirs {
-    (wGLoc .. "/stem/inc/util/node"),
-    (wGLoc .. "/stem/inc/util/node/**"),
-    (wGLoc .. "/stem/inc/util/token"),
-    (wGLoc .. "/stem/inc/util")
+    (wGL .. "/stem/inc/util/node"),
+    (wGL .. "/stem/inc/util/node/**"),
+    (wGL .. "/stem/inc/util/token"),
+    (wGL .. "/stem/inc/util")
   }
 
   useTokenLib()

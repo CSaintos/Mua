@@ -8,16 +8,16 @@ project "generator"
   initPrjLocs()
 
   files {
-    (wGLoc .. "/stem/src/back/Generator.cpp")
+    (wGL .. "/stem/src/back/Generator.cpp")
   }
 
   includedirs {
-    (wGLoc .. "/stem/inc/back"),
-    (wGLoc .. "/stem/inc/util/node"),
-    (wGLoc .. "/stem/inc/util/node/**"),
-    (wGLoc .. "/stem/inc/util/token"),
-    (wGLoc .. "/stem/inc/util"),
-    (wGLoc .. "/stem/api")
+    (wGL .. "/stem/inc/back"),
+    (wGL .. "/stem/inc/util/node"),
+    (wGL .. "/stem/inc/util/node/**"),
+    (wGL .. "/stem/inc/util/token"),
+    (wGL .. "/stem/inc/util"),
+    (wGL .. "/stem/api")
   }
 
   useNodeLib()

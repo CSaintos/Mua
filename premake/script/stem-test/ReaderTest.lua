@@ -9,11 +9,11 @@ project "ReaderTest"
   initPrjLocs()
 
   files {
-    (wGLoc .. "/stem/test/front/ReaderTest.cpp")
+    (wGL .. "/stem/test/front/ReaderTest.cpp")
   }
 
   includedirs {
-    (wGLoc .. "/stem/inc/front")
+    (wGL .. "/stem/inc/front")
   }
 
   useReaderLib()

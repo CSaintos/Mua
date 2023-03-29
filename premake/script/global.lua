@@ -1,64 +1,44 @@
 -- global.lua
 
 -- paths
-globalLoc = ".."
-makeLoc = globalLoc .. "/make"
-  -- stemLoc = makeLoc .. "/stem"
-    -- tokenLoc = stemLoc .. "/token"
-    -- nodeLoc = stemLoc .. "/node"
-    -- errorLoc = stemLoc .. "/error"
-    -- readerLoc = stemLoc .. "/reader"
-    -- PLLoc = stemLoc .. "/PL"
-    -- lexerLoc = stemLoc .. "/lexer"
-    -- parserLoc = stemLoc .. "/parser"
-    -- generatorLoc = stemLoc .. "/generator"
-  -- stemTestLoc = makeLoc .. "/stem-test"
-    -- TokenUtilsTestLoc = stemTestLoc .. "/TokenUtilsTest"
-    -- IllegalCharErrorTestLoc = stemTestLoc .. "/IllegalCharErrorTest"
-    -- NodeTestLoc = stemTestLoc .. "/NodeTest"
-    -- ReaderTestLoc = stemTestLoc .. "/ReaderTest"
-    -- PLTestLoc = stemTestLoc .. "/PLTest"
-    -- LexerTestLoc = stemTestLoc .. "/LexerTest"
-    -- ParserTestLoc = stemTestLoc .. "/ParserTest"
-    -- GeneratorTestLoc = stemTestLoc .. "/GeneratorTest"
-  -- pluginLoc = makeLoc .. "/plugin"
-    -- plusLoc = pluginLoc .. "/plus"
-buildLoc = globalLoc .. "/build"
-binLoc = globalLoc .. "/bin"
+gL = ".."
+mL = gL .. "/make"
+tL = gL .. "/build"
+bL = gL .. "/bin"
 
-stemLoc = "/stem"
-  tokenLoc = stemLoc .. "/token"
-  nodeLoc = stemLoc .. "/node"
-  errorLoc = stemLoc .. "/error"
-  readerLoc = stemLoc .. "/reader"
-  PLLoc = stemLoc .. "/PL"
-  lexerLoc = stemLoc .. "/lexer"
-  parserLoc = stemLoc .. "/parser"
-  generatorLoc = stemLoc .. "/generator"
-stemTestLoc = "/stem-test"
-  TokenUtilsTestLoc = stemTestLoc .. "/TokenUtilsTest"
-  IllegalCharErrorTestLoc = stemTestLoc .. "/IllegalCharErrorTest"
-  NodeTestLoc = stemTestLoc .. "/NodeTest"
-  ReaderTestLoc = stemTestLoc .. "/ReaderTest"
-  PLTestLoc = stemTestLoc .. "/PLTest"
-  LexerTestLoc = stemTestLoc .. "/LexerTest"
-  ParserTestLoc = stemTestLoc .. "/ParserTest"
-  GeneratorTestLoc = stemTestLoc .. "/GeneratorTest"
-pluginLoc = "/plugin"
-  plusLoc = pluginLoc .. "/plus"
+stemL = "/stem"
+  tokenL = stemL .. "/token"
+  nodeL = stemL .. "/node"
+  errorL = stemL .. "/error"
+  readerL = stemL .. "/reader"
+  PLL = stemL .. "/PL"
+  lexerL = stemL .. "/lexer"
+  parserL = stemL .. "/parser"
+  generatorL = stemL .. "/generator"
+stemTL = "/stem-test"
+  TokenUtilsTL = stemTL .. "/TokenUtilsTest"
+  IllegalCharErrorTL = stemTL .. "/IllegalCharErrorTest"
+  NodeTL = stemTL .. "/NodeTest"
+  ReaderTL = stemTL .. "/ReaderTest"
+  PLTL = stemTL .. "/PLTest"
+  LexerTL = stemTL .. "/LexerTest"
+  ParserTL = stemTL .. "/ParserTest"
+  GeneratorTL = stemTL .. "/GeneratorTest"
+pluginL = "/plugin"
+  plusL = pluginL .. "/plus"
 
 -- workspace paths
-wGLoc = "../../.."
-wMLoc = (wGLoc .. "/make")
+wGL = "../../.."
+wML = (wGL .. "/make")
 
 -- project paths
-prjLoc = "%{wks.location}/%{prj.name}"
-tarLoc = "%{wks.location}/../../build/%{wks.name}/%{prj.name}"
-objLoc = "%{wks.location}/../../bin/%{wks.name}/%{prj.name}"
+prjL = "%{wks.location}/%{prj.name}"
+tarL = "%{wks.location}/../../build/%{wks.name}/%{prj.name}"
+objL = "%{wks.location}/../../bin/%{wks.name}/%{prj.name}"
 
 -- project functions
 function initPrjLocs()
-  location (prjLoc)
-  targetdir (tarLoc)
-  objdir (objLoc)
+  location (prjL)
+  targetdir (tarL)
+  objdir (objL)
 end

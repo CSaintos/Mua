@@ -8,12 +8,12 @@ project "error"
   initPrjLocs()
 
   files {
-    (wGLoc .. "/stem/src/util/error/**.cpp")
+    (wGL .. "/stem/src/util/error/**.cpp")
   }
 
   includedirs {
-    {wGLoc .. "/stem/inc/util/error"},
-    {wGLoc .. "/stem/inc/util"}
+    {wGL .. "/stem/inc/util/error"},
+    {wGL .. "/stem/inc/util"}
   }
 
 project "error"

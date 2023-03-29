@@ -8,11 +8,11 @@ project "reader"
   initPrjLocs()
 
   files {
-    (wGLoc .. "/stem/src/front/Reader.cpp")
+    (wGL .. "/stem/src/front/Reader.cpp")
   }
 
   includedirs {
-    (wGLoc .. "/stem/inc/front")
+    (wGL .. "/stem/inc/front")
   }
 
 project "reader"

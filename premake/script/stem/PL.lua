@@ -8,16 +8,16 @@ project "PL"
   initPrjLocs()
 
   files {
-    (wGLoc .. "/stem/src/plugin/PluginLoader.cpp")
+    (wGL .. "/stem/src/plugin/PluginLoader.cpp")
   }
 
   includedirs {
-    (wGLoc .. "/stem/inc/plugin"),
-    (wGLoc .. "/stem/api"),
-    (wGLoc .. "/stem/inc/util/node"),
-    (wGLoc .. "/stem/inc/util/node/**"),
-    (wGLoc .. "/stem/inc/util/token"),
-    (wGLoc .. "/stem/inc/util")
+    (wGL .. "/stem/inc/plugin"),
+    (wGL .. "/stem/api"),
+    (wGL .. "/stem/inc/util/node"),
+    (wGL .. "/stem/inc/util/node/**"),
+    (wGL .. "/stem/inc/util/token"),
+    (wGL .. "/stem/inc/util")
   }
 
 project "PL"

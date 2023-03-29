@@ -9,16 +9,16 @@ project "PLTest"
   initPrjLocs()
 
   files {
-    (wGLoc .. "/stem/test/plugin/PLTest.cpp")
+    (wGL .. "/stem/test/plugin/PLTest.cpp")
   }
 
   includedirs {
-    (wGLoc .. "/stem/inc/plugin"),
-    (wGLoc .. "/stem/api"),
-    (wGLoc .. "/stem/inc/util/node"),
-    (wGLoc .. "/stem/inc/util/node/**"),
-    (wGLoc .. "/stem/inc/util/token"),
-    (wGLoc .. "/stem/inc/util")
+    (wGL .. "/stem/inc/plugin"),
+    (wGL .. "/stem/api"),
+    (wGL .. "/stem/inc/util/node"),
+    (wGL .. "/stem/inc/util/node/**"),
+    (wGL .. "/stem/inc/util/token"),
+    (wGL .. "/stem/inc/util")
   }
 
   usePLLib()

@@ -4,7 +4,7 @@ require "global"
 
 function useTokenLib()
   libdirs {
-    (wGLoc .. "/build/stem/token")
+    (wGL .. "/build/stem/token")
   }
   links {
     ("token:shared")
@@ -13,7 +13,7 @@ end
 
 function useErrorLib()
   libdirs {
-    (wGLoc .. "/build/stem/error")
+    (wGL .. "/build/stem/error")
   }
   links {
     ("error:shared")
@@ -22,7 +22,7 @@ end
 
 function useNodeLib()
   libdirs {
-    (wGLoc .. "/build/stem/node")
+    (wGL .. "/build/stem/node")
   }
   links {
     ("node:shared")
@@ -31,7 +31,7 @@ end
 
 function useReaderLib()
   libdirs {
-    (wGLoc .. "/build/stem/reader")
+    (wGL .. "/build/stem/reader")
   }
   links {
     ("reader:shared")
@@ -40,7 +40,7 @@ end
 
 function usePLLib()
   libdirs {
-    (wGLoc .. "/build/stem/PL")
+    (wGL .. "/build/stem/PL")
   }
   links {
     ("PL:shared")
@@ -49,7 +49,7 @@ end
 
 function useLexerLib()
   libdirs {
-    (wGLoc .. "/build/stem/lexer")
+    (wGL .. "/build/stem/lexer")
   }
   links {
     ("lexer:shared")
@@ -58,7 +58,7 @@ end
 
 function useParserLib()
   libdirs {
-    (wGLoc .. "/build/stem/parser")
+    (wGL .. "/build/stem/parser")
   }
   links {
     ("parser:shared")
@@ -67,7 +67,7 @@ end
 
 function useGeneratorLib()
   libdirs {
-    (wGLoc .. "/build/stem/generator")
+    (wGL .. "/build/stem/generator")
   }
   links {
     ("generator:shared")

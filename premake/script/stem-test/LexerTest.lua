@@ -9,14 +9,14 @@ project "LexerTest"
   initPrjLocs()
 
   files {
-    (wGLoc .. "/stem/test/front/LexerTest.cpp")
+    (wGL .. "/stem/test/front/LexerTest.cpp")
   }
 
   includedirs {
-    (wGLoc .. "/stem/inc/front"),
-    (wGLoc .. "/stem/inc/util/token"),
-    (wGLoc .. "/stem/inc/util"),
-    (wGLoc .. "/stem/inc/util/error")
+    (wGL .. "/stem/inc/front"),
+    (wGL .. "/stem/inc/util/token"),
+    (wGL .. "/stem/inc/util"),
+    (wGL .. "/stem/inc/util/error")
   }
 
   useTokenLib()

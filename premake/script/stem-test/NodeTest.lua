@@ -9,14 +9,14 @@ project "NodeTest"
   initPrjLocs()
 
   files {
-    (wGLoc .. "/stem/test/util/node/NodeTest.cpp")
+    (wGL .. "/stem/test/util/node/NodeTest.cpp")
   }
 
   includedirs {
-    (wGLoc .. "/stem/inc/util/node"),
-    (wGLoc .. "/stem/inc/util/node/**"),
-    (wGLoc .. "/stem/inc/util/token"),
-    (wGLoc .. "/stem/inc/util")
+    (wGL .. "/stem/inc/util/node"),
+    (wGL .. "/stem/inc/util/node/**"),
+    (wGL .. "/stem/inc/util/token"),
+    (wGL .. "/stem/inc/util")
   }
 
   useNodeLib()

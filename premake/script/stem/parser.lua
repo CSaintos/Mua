@@ -8,16 +8,16 @@ project "parser"
   initPrjLocs()
 
   files {
-    (wGLoc .. "/stem/src/front/Parser.cpp")
+    (wGL .. "/stem/src/front/Parser.cpp")
   }
 
   includedirs {
-    (wGLoc .. "/stem/inc/front"),
-    (wGLoc .. "/stem/inc/util/node"),
-    (wGLoc .. "/stem/inc/util/node/**"),
-    (wGLoc .. "/stem/inc/util/token"),
-    (wGLoc .. "/stem/inc/util/error"),
-    (wGLoc .. "/stem/inc/util")
+    (wGL .. "/stem/inc/front"),
+    (wGL .. "/stem/inc/util/node"),
+    (wGL .. "/stem/inc/util/node/**"),
+    (wGL .. "/stem/inc/util/token"),
+    (wGL .. "/stem/inc/util/error"),
+    (wGL .. "/stem/inc/util")
   }
 
   useErrorLib()

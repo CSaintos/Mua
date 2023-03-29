@@ -9,12 +9,12 @@ project "IllegalCharErrorTest"
   initPrjLocs()
 
   files {
-    (wGLoc .. "/stem/test/util/error/IllegalCharErrorTest.cpp")
+    (wGL .. "/stem/test/util/error/IllegalCharErrorTest.cpp")
   }
 
   includedirs {
-    (wGLoc .. "/stem/inc/util/error"),
-    (wGLoc .. "/stem/inc/util")
+    (wGL .. "/stem/inc/util/error"),
+    (wGL .. "/stem/inc/util")
   }
 
   useErrorLib()
