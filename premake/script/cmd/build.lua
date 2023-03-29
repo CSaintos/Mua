@@ -35,7 +35,7 @@ newaction {
   },
 
   newoption {
-    trigger = "stem-test",
+    trigger = "stemT",
     value = "test project",
     description = "Build test project",
     allowed = {
@@ -64,71 +64,71 @@ newaction {
   execute = function()
     if (_OPTIONS["stem"] == "token") then
       print "Building token lib"
-      makeBuild(tokenLoc)
+      makeBuild(makeLoc .. tokenLoc)
     elseif (_OPTIONS["stem"] == "node") then
       print "Building node lib"
-      makeBuild(nodeLoc)
+      makeBuild(makeLoc .. nodeLoc)
     elseif (_OPTIONS["stem"] == "error") then
       print "Building error lib"
-      makeBuild(errorLoc)
+      makeBuild(makeLoc .. errorLoc)
     elseif (_OPTIONS["stem"] == "reader") then
       print "Building reader lib"
-      makeBuild(readerLoc)
+      makeBuild(makeLoc .. readerLoc)
     elseif (_OPTIONS["stem"] == "PL") then
       print "Building PL lib"
-      makeBuild(PLLoc)
+      makeBuild(makeLoc .. PLLoc)
     elseif (_OPTIONS["stem"] == "lexer") then
       print "Building lexer lib"
-      makeBuild(lexerLoc)
+      makeBuild(makeLoc .. lexerLoc)
     elseif (_OPTIONS["stem"] == "parser") then
       print "Building parser lib"
-      makeBuild(parserLoc)
+      makeBuild(makeLoc .. parserLoc)
     elseif (_OPTIONS["stem"] == "generator") then
       print "Building generator lib"
-      makeBuild(generatorLoc)
+      makeBuild(makeLoc .. generatorLoc)
     elseif (_OPTIONS["stem"] == "all") then
       print "Building stem project and libs"
-      makeBuild(stemLoc)
-    elseif (_OPTIONS["stem-test"] == "TokenUtils") then
+      makeBuild(makeLoc .. stemLoc)
+    elseif (_OPTIONS["stemT"] == "TokenUtils") then
       print "Building TokenUtilsTest"
-      makeBuild(TokenUtilsTestLoc)
+      makeBuild(makeLoc .. TokenUtilsTestLoc)
       os.execute("{COPYFILE} ../build/stem/token/token.dll ../build/stem-test/TokenUtilsTest")
-    elseif (_OPTIONS["stem-test"] == "IllegalCharError") then
+    elseif (_OPTIONS["stemT"] == "IllegalCharError") then
       print "Building IllegalCharErrorTest"
-      makeBuild(IllegalCharErrorTestLoc)
+      makeBuild(makeLoc .. IllegalCharErrorTestLoc)
       os.execute("{COPYFILE} ../build/stem/error/error.dll ../build/stem-test/IllegalCharErrorTest")
-    elseif (_OPTIONS["stem-test"] == "Node") then
+    elseif (_OPTIONS["stemT"] == "Node") then
       print "Building NodeTest"
-      makeBuild(NodeTestLoc)
+      makeBuild(makeLoc .. NodeTestLoc)
       os.execute("{COPYFILE} ../build/stem/node/node.dll ../build/stem-test/NodeTest")
       os.execute("{COPYFILE} ../build/stem/token/token.dll ../build/stem-test/NodeTest")
-    elseif (_OPTIONS["stem-test"] == "Reader") then
+    elseif (_OPTIONS["stemT"] == "Reader") then
       print "Building ReaderTest"
-      makeBuild(ReaderTestLoc)
+      makeBuild(makeLoc .. ReaderTestLoc)
       os.execute("{COPYFILE} ../build/stem/reader/reader.dll ../build/stem-test/ReaderTest")
-    elseif (_OPTIONS["stem-test"] == "Lexer") then
+    elseif (_OPTIONS["stemT"] == "Lexer") then
       print "Building LexerTest"
-      makeBuild(LexerTestLoc)
+      makeBuild(makeLoc .. LexerTestLoc)
       os.execute("{COPYFILE} ../build/stem/lexer/lexer.dll ../build/stem-test/LexerTest")
       os.execute("{COPYFILE} ../build/stem/reader/reader.dll ../build/stem-test/LexerTest")
       os.execute("{COPYFILE} ../build/stem/token/token.dll ../build/stem-test/LexerTest")
       os.execute("{COPYFILE} ../build/stem/error/error.dll ../build/stem-test/LexerTest")
-    elseif (_OPTIONS["stem-test"] == "Parser") then
+    elseif (_OPTIONS["stemT"] == "Parser") then
       print "Building ParserTest"
-      makeBuild(ParserTestLoc)
+      makeBuild(makeLoc .. ParserTestLoc)
       os.execute("{COPYFILE} ../build/stem/parser/parser.dll ../build/stem-test/ParserTest")
       os.execute("{COPYFILE} ../build/stem/lexer/lexer.dll ../build/stem-test/ParserTest")
       os.execute("{COPYFILE} ../build/stem/reader/reader.dll ../build/stem-test/ParserTest")
       os.execute("{COPYFILE} ../build/stem/token/token.dll ../build/stem-test/ParserTest")
       os.execute("{COPYFILE} ../build/stem/error/error.dll ../build/stem-test/ParserTest")
       os.execute("{COPYFILE} ../build/stem/node/node.dll ../build/stem-test/ParserTest")
-    elseif (_OPTIONS["stem-test"] == "PL") then
+    elseif (_OPTIONS["stemT"] == "PL") then
       print "Building PLTest"
-      makeBuild(PLTestLoc)
+      makeBuild(makeLoc .. PLTestLoc)
       os.execute("{COPYFILE} ../build/stem/PL/PL.dll ../build/stem-test/PLTest")
-    elseif (_OPTIONS["stem-test"] == "Generator") then
+    elseif (_OPTIONS["stemT"] == "Generator") then
       print "Building GeneratorTest"
-      makeBuild(GeneratorTestLoc)
+      makeBuild(makeLoc .. GeneratorTestLoc)
       os.execute("{COPYFILE} ../build/stem/generator/generator.dll ../build/stem-test/GeneratorTest")
       os.execute("{COPYFILE} ../build/stem/parser/parser.dll ../build/stem-test/GeneratorTest")
       os.execute("{COPYFILE} ../build/stem/lexer/lexer.dll ../build/stem-test/GeneratorTest")
@@ -140,7 +140,7 @@ newaction {
       print(os.mkdir("../build/stem-test/GeneratorTest/plugin"))
     elseif (_OPTIONS["plugin"] == "plus") then
       print "Building plus lib"
-      makeBuild(plusLoc)
+      makeBuild(makeLoc .. plusLoc)
       os.execute("{COPYFILE} ../build/plugin/plus/plus.dll ../build/stem-test/GeneratorTest/plugin")
     end
   end

@@ -13,6 +13,7 @@ newaction {
     description = "Clean make files",
     allowed = {
       {"stem", "Main workspace"},
+      {"stemT", "Test workspace"},
       {"plugin", "Plugin workspace"},
       {"all", "all workspaces"}
     }
@@ -32,15 +33,15 @@ newaction {
       {"stem-parser", "stem: parser lib"},
       {"stem-generator", "stem: generator lib"},
       {"stem-all", "stem: all stem builds"},
-      {"stem-test-TokenUtils", "stem-test: TokenUtils"},
-      {"stem-test-IllegalCharError", "stem-test: IllegalCharError"},
-      {"stem-test-Node", "stem-test: Node"},
-      {"stem-test-Reader", "stem-test: Reader"},
-      {"stem-test-PL", "stem-test: PL"},
-      {"stem-test-Lexer", "stem-test: Lexer"},
-      {"stem-test-Parser", "stem-test: Parser"},
-      {"stem-test-Generator", "stem-test: Generator"},
-      {"stem-test-all", "stem-test: all stem test builds"},
+      {"stemT-TokenUtils", "stemT: TokenUtils"},
+      {"stemT-IllegalCharError", "stemT: IllegalCharError"},
+      {"stemT-Node", "stemT: Node"},
+      {"stemT-Reader", "stemT: Reader"},
+      {"stemT-PL", "stemT: PL"},
+      {"stemT-Lexer", "stemT: Lexer"},
+      {"stemT-Parser", "stemT: Parser"},
+      {"stemT-Generator", "stemT: Generator"},
+      {"stemT-all", "stemT: all stem test builds"},
       {"plugin-plus", "plugin: plus lib"},
       {"plugin-all", "plugin: all plugin buils"}
     }
@@ -60,73 +61,76 @@ newaction {
     -- evaluates options
     if (_OPTIONS["make"] == "stem") then
       print "Deleting /make/stem"
-      os.rmdir(stemLoc)
+      os.rmdir(makeLoc .. stemLoc)
+    elseif (_OPTIONS["make"] == "stemT") then
+      print("Deleting " .. makeLoc .. stemTestLoc)
+      os.rmdir(makeLoc .. stemTestLoc)
     elseif (_OPTIONS["make"] == "plugin") then
       print "Deleting /make/plugin"
-      os.rmdir(pluginLoc)
+      os.rmdir(makeLoc .. pluginLoc)
     elseif (_OPTIONS["make"] == "all") then
       print "Deleting /make"
       os.rmdir(makeLoc)
     elseif (_OPTIONS["build"] == "stem-token") then
       print "Deleting /build/stem/token"
-      os.rmdir(buildLoc .. "/stem/token")
+      os.rmdir(buildLoc .. tokenLoc)
     elseif (_OPTIONS["build"] == "stem-node") then
       print "Deleting /build/stem/node"
-      os.rmdir(buildLoc .. "/stem/node")
+      os.rmdir(buildLoc .. nodeLoc)
     elseif (_OPTIONS["build"] == "stem-error") then
       print "Deleting /build/stem/error"
-      os.rmdir(buildLoc .. "/stem/error")
+      os.rmdir(buildLoc .. nodeLoc)
     elseif (_OPTIONS["build"] == "stem-reader") then
       print "Deleting /build/stem/reader"
-      os.rmdir(buildLoc .. "/stem/reader")
+      os.rmdir(buildLoc .. readerLoc)
     elseif (_OPTIONS["build"] == "stem-PL") then
       print "Deleting /build/stem/PL"
-      os.rmdir(buildLoc .. "/stem/PL")
+      os.rmdir(buildLoc .. PLLoc)
     elseif (_OPTIONS["build"] == "stem-lexer") then
       print "Deleting /build/stem/lexer"
-      os.rmdir(buildLoc .. "/stem/lexer")
+      os.rmdir(buildLoc .. lexerLoc)
     elseif (_OPTIONS["build"] == "stem-parser") then
       print "Deleting /build/stem/parser"
-      os.rmdir(buildLoc .. "/stem/parser")
+      os.rmdir(buildLoc .. parserLoc)
     elseif (_OPTIONS["build"] == "stem-generator") then
       print "Deleting /build/stem/generator"
-      os.rmdir(buildLoc .. "/stem/generator")
+      os.rmdir(buildLoc .. generatorLoc)
     elseif (_OPTIONS["build"] == "stem-all") then
       print "Deleting /build/stem"
-      os.rmdir(buildLoc .. "/stem")
-    elseif (_OPTIONS["build"] == "stem-test-TokenUtils") then
+      os.rmdir(buildLoc .. stemLoc)
+    elseif (_OPTIONS["build"] == "stemT-TokenUtils") then
       print "Deleting /build/stem-test/TokenUtilsTest"
-      os.rmdir(buildLoc .. "/stem-test/TokenUtilsTest")
-    elseif (_OPTIONS["build"] == "stem-test-IllegalCharError") then
+      os.rmdir(buildLoc .. TokenUtilsTestLoc)
+    elseif (_OPTIONS["build"] == "stemT-IllegalCharError") then
       print "Deleting /build/stem-test/IllegalCharErrorTest"
-      os.rmdir(buildLoc .. "/stem-test/IllegalCharErrorTest")
-    elseif (_OPTIONS["build"] == "stem-test-Node") then
+      os.rmdir(buildLoc .. IllegalCharErrorTestLoc)
+    elseif (_OPTIONS["build"] == "stemT-Node") then
       print "Deleting /build/stem-test/NodeTest"
-      os.rmdir(buildLoc .. "/stem-test/NodeTest")
-    elseif (_OPTIONS["build"] == "stem-test-Reader") then
+      os.rmdir(buildLoc .. NodeTestLoc)
+    elseif (_OPTIONS["build"] == "stemT-Reader") then
       print "Deleting /build/stem-test/ReaderTest"
-      os.rmdir(buildLoc .. "/stem-test/ReaderTest")
-    elseif (_OPTIONS["build"] == "stem-test-PL") then
+      os.rmdir(buildLoc .. ReaderTestLoc)
+    elseif (_OPTIONS["build"] == "stemT-PL") then
       print "Deleting /build/stem-test/PLTest"
-      os.rmdir(buildLoc .. "/stem-test/PLTest")
-    elseif (_OPTIONS["build"] == "stem-test-Lexer") then
+      os.rmdir(buildLoc .. PLTestLoc)
+    elseif (_OPTIONS["build"] == "stemT-Lexer") then
       print "Deleting /build/stem-test/LexerTest"
-      os.rmdir(buildLoc .. "/stem-test/LexerTest")
-    elseif (_OPTIONS["build"] == "stem-test-Parser") then
+      os.rmdir(buildLoc .. LexerTestLoc)
+    elseif (_OPTIONS["build"] == "stemT-Parser") then
       print "Deleting /build/stem-test/ParserTest"
-      os.rmdir(buildLoc .. "/stem-test/ParserTest")
-    elseif (_OPTIONS["build"] == "stem-test-Generator") then
+      os.rmdir(buildLoc .. ParserTestLoc)
+    elseif (_OPTIONS["build"] == "stemT-Generator") then
       print "Deleting /build/stem-test/GeneratorTest"
-      os.rmdir(buildLoc .. "/stem-test/GeneratorTest")
-    elseif (_OPTIONS["build"] == "stem-test-all") then
+      os.rmdir(buildLoc .. GeneratorTestLoc)
+    elseif (_OPTIONS["build"] == "stemT-all") then
       print "Deleting /build/stem-test"
-      os.rmdir(buildLoc .. "/stem-test")
+      os.rmdir(buildLoc .. stemTestLoc)
     elseif (_OPTIONS["build"] == "plugin-plus") then
       print "Deleting /build/plugin/plus"
-      os.rmdir(buildLoc .. "/plugin/plus")
+      os.rmdir(buildLoc .. plusLoc)
     elseif (_OPTIONS["build"] == "plugin-all") then
       print "Deleting /build/plugin"
-      os.rmdir(buildLoc .. "/plugin")
+      os.rmdir(buildLoc .. pluginLoc)
     elseif (_OPTIONS["bin"]) then
       print "Deleting /bin"
       os.rmdir(binLoc)
