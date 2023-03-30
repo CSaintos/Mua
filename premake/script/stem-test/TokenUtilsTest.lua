@@ -9,7 +9,7 @@ project "TokenUtilsTest"
   initPrjLocs()
   -- runpathdirs { tL..TokenUtilsTL }
   -- flags {"RelativeLinks"}
-  buildoptions { "-Wl,-rpath='$$ORIGIN'"}
+  buildoptions { "-Wl,-rpath=$$(pwd)"}
 
   files {
     (wGL .. "/stem/test/util/token/TokenUtilsTest.cpp")
