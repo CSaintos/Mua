@@ -3,10 +3,12 @@
 -- OS specific vars
 if os.host() == "windows" then
   makeCmd = "mingw32-make"
-  so = ".dll"
+  soSuffix = ".dll"
+  soPrefix = "/"
 else
   makeCmd = "make"
-  so = ".so"
+  soSuffix = ".so"
+  soPrefix = "/lib"
 end
 
 -- paths
@@ -54,5 +56,5 @@ end
 
 -- build functions
 function copySO(fromDir, toDir, fileName)
-  os.execute("{COPYFILE} "..tL..fromDir..fileName..so.." "..tL..toDir)
+  os.execute("{COPYFILE} "..tL..fromDir..soPrefix..fileName..soSuffix.." "..tL..toDir)
 end
