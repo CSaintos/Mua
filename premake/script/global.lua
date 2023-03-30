@@ -1,5 +1,14 @@
 -- global.lua
 
+-- OS specific vars
+if os.host() == "windows" then
+  makeCmd = "mingw32-make"
+  so = ".dll"
+else
+  makeCmd = "make"
+  so = ".so"
+end
+
 -- paths
 gL = ".."
 mL = gL .. "/make"
@@ -41,4 +50,9 @@ function initPrjLocs()
   location (prjL)
   targetdir (tarL)
   objdir (objL)
+end
+
+-- build functions
+function copySO(fromDir, toDir, fileName)
+  os.execute("{COPYFILE} "..tL..fromDir..fileName..so.." "..tL..toDir)
 end
