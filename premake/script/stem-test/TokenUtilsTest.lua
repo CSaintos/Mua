@@ -7,7 +7,9 @@ project "TokenUtilsTest"
   kind "ConsoleApp"
   language "C++"
   initPrjLocs()
-  runpathdirs { "." }
+  -- runpathdirs { tL..TokenUtilsTL }
+  -- flags {"RelativeLinks"}
+  buildoptions { "-Wl,-rpath=."}
 
   files {
     (wGL .. "/stem/test/util/token/TokenUtilsTest.cpp")
