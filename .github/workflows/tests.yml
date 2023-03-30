@@ -40,4 +40,5 @@ jobs:
         ./premake5 build --stem=token
         ./premake5 build --stemT=TokenUtils
         cd ../build/stem-test/TokenUtilsTest
+        export LD_LIBRARY_PATH=.
         ./TokenUtilsTest
