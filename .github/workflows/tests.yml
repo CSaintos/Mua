@@ -36,6 +36,7 @@ jobs:
       working-directory: ./premake
       run : |
         chmod a+x ./premake5
+        ./premake5 gmake2
         ./premake5 build --stem=token
         ./premake5 build --stemT=TokenUtils
         cd ../build/stem-test/TokenUtilsTest
