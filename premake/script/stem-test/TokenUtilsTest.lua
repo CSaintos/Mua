@@ -7,6 +7,7 @@ project "TokenUtilsTest"
   kind "ConsoleApp"
   language "C++"
   initPrjLocs()
+  runpathdirs { "." }
 
   files {
     (wGL .. "/stem/test/util/token/TokenUtilsTest.cpp")
