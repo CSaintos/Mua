@@ -125,19 +125,19 @@ newaction {
     elseif (_OPTIONS["stemT"] == "Generator") then
       print "Building GeneratorTest"
       makeBuild(mL .. GeneratorTL)
-      copySO(generatorL, generatorTL, "generator")
-      copySO(parserL, generatorTL, "parser")
-      copySO(lexerL, generatorTL, "lexer")
-      copySO(readerL, generatorTL, "reader")
-      copySO(tokenL, generatorTL, "token")
-      copySO(errorL, generatorTL, "error")
-      copySO(nodeL, generatorTL, "node")
-      copySO(PLL, generatorTL, "PL")
+      copySO(generatorL, GeneratorTL, "generator")
+      copySO(parserL, GeneratorTL, "parser")
+      copySO(lexerL, GeneratorTL, "lexer")
+      copySO(readerL, GeneratorTL, "reader")
+      copySO(tokenL, GeneratorTL, "token")
+      copySO(errorL, GeneratorTL, "error")
+      copySO(nodeL, GeneratorTL, "node")
+      copySO(PLL, GeneratorTL, "PL")
       print(os.mkdir("../build/stem-test/GeneratorTest/plugin"))
     elseif (_OPTIONS["plugin"] == "plus") then
       print "Building plus lib"
       makeBuild(mL .. plusL)
-      copySO(plusL, generatorTL, "plus")
+      copySO(plusL, GeneratorTL, "plus")
     end
   end
 }

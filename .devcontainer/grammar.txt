@@ -8,7 +8,7 @@ factor  : (PLUS | MINUS) factor
 
 term    : factor ((MUL | DIV) factor)*
 
-expr    : term ((PLUS) | MINUS) term)*
+expr    : term ((PLUS | MINUS) term)*
 
 equa    : expr (EQUAL expr)*
 

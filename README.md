@@ -11,6 +11,6 @@
 ### 6. Code Generator
 
 In the case that I forget why I'm making this, just remember why:
-  - excel and knockoffs are inferior
-  - C++, Javascript, F#, Prolog, etc. are limited
-  - mathway, symbolab, Cymath, etc. are impractical
+  - spreadsheets are inferior
+  - general purpose programming languages are limited
+  - calculators are impractical
