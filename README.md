@@ -11,6 +11,6 @@
 ### 6. Code Generator
 
 In the case that I forget why I'm making this, just remember why:
-  - spreadsheets are inferior
-  - general purpose programming languages are limited
-  - calculators are impractical
+  - spreadsheets are not really for learning.
+  - general purpose programming languages are limited.
+  - calculators are semi-impractical.

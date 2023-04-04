@@ -1,10 +1,9 @@
 atom    : DIGIT | IDENTIFIER
         : LPAREN expr RPAREN
 
-power   : atom (POW factor)*
+factor  : (PLUS | MINUS) atom
 
-factor  : (PLUS | MINUS) factor
-        : POW
+power   : factor (POW factor)*
 
 term    : factor ((MUL | DIV) factor)*
 
