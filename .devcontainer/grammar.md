@@ -1,3 +1,6 @@
+# Grammar sample
+
+```plantuml
 @startebnf stem EBNF
 'https://plantuml.com/ebnf
 title stem EBNF
@@ -32,3 +35,5 @@ equa = expr, {"=", expr}-;
 stmt = (equa | expr), ";";
 
 @endebnf
+```
+
