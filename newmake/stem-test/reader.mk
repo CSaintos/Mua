@@ -52,12 +52,12 @@ endif
 
 #* Process execution
 ifeq ($(PROCESS), BOTH)
-all: $(OBJDIR) $(OBJECTS) $(TARGETDIR) $(TARGET)
+all: $(OBJECTS) $(TARGETDIR)
 	$(POSTBUILDCMDS)
 else ifeq ($(PROCESS), COMPILEONLY)
-all: $(OBJDIR) $(OBJECTS)
+all: $(OBJECTS)
 else ifeq ($(PROCESS), LINKONLY)
-all: $(TARGETDIR) $(TARGET)
+all: $(TARGET)
 	$(POSTBUILDCMDS)
 else
 all: 
@@ -72,7 +72,7 @@ ifeq ($(wildcard $(OBJDIR)),)
 endif
 
 # Compile sources into objects
-$(OBJECTS): $(SRCS)
+$(OBJECTS): $(SRCS) | $(OBJDIR)
 ifeq ($(BUILDTYPE), EXE)
 	$(call pairmap, compile_exe_cmd, $(SRCS), $(OBJECTS))
 else ifeq ($(BUILDTYPE), STATICLIB)
@@ -92,7 +92,7 @@ ifeq ($(wildcard $(TARGETDIR)),)
 endif
 
 # Build target from objects
-$(TARGET): $(OBJECTS)
+$(TARGET): $(OBJECTS) | $(TARGETDIR)
 ifeq ($(BUILDTYPE), EXE)
 	@$(CXX) $(OBJECTS) $(LDFLAGS) $(LINKS) -o $(TARGET)
 else ifeq ($(BUILDTYPE), STATICLIB)
@@ -102,8 +102,8 @@ else ifeq ($(BUILDTYPE), DYNAMICLIB)
 endif
 	@echo build
 
-compile: $(OBJDIR) | $(OBJECTS)
-build: $(TARGETDIR) | $(TARGET)
+compile: $(OBJECTS)
+build: $(TARGET)
 	$(POSTBUILDCMDS)
 
 clean:
