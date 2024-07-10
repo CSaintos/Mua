@@ -10,9 +10,9 @@ TARGET_NAME = reader-test
 TARGET_PATH = stem-test/reader-test
 INCLUDES = \
 	-Istem/inc/front
-LDFLAGS = \
+LINKDIRS = \
 	-Lbuild/stem/reader
-LINKS = \
+SLINKS = \
 	-lreader
 DEFINES =
 SRCDIRS = \
@@ -26,6 +26,7 @@ TARGETDIR = build/$(TARGET_PATH)
 OBJCLEANDIR = $(OBJDIR)
 TARGETCLEANDIR = $(TARGETDIR)
 CXX = g++
+AR = ar
 
 #? Custom build cmds
 define POSTBUILDCMDS
