@@ -32,8 +32,6 @@ OBJDIR = bin/$(TARGET_PATH)
 TARGETDIR = build/$(TARGET_PATH)
 OBJCLEANDIR = $(OBJDIR)
 TARGETCLEANDIR = $(TARGETDIR)
-CXX = g++
-AR = ar
 
 #? Custom build cmds
 define POSTBUILDCMDS

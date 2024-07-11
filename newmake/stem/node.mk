@@ -1,31 +1,40 @@
-# stem-test/illegalCharError.mk 
+# stem/node.mk
 .PHONY: all compile build clean
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
-BUILDTYPE = EXE
+BUILDTYPE = STATICLIB
 # COMPILEONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
-TARGET_NAME = illegalCharError
-# Path to Target # <path-to-dir>
-TARGET_PATH = stem-test/illegalCharError
+TARGET_NAME = node
+# <path-to-dir>
+TARGET_PATH = stem/node
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
-  -Istem/inc/util/error \
-  -Istem/inc/util
-# Dynamic Link Directories # -L<path-to-dir>
+	-Istem/inc/util/node \
+	-Istem/inc/util/node/op_node \
+	-Istem/inc/util/node/value_node \
+	-Istem/inc/util/token \
+	-Istem/inc/util
+# Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/stem/error
+	-Lbuild/stem/token
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension>
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension>
 SLINKS = \
-	-l:error.lib
-DEFINES =
+	-ltoken
+DEFINES = 
 SRCDIRS = \
-  stem/test/util/error
+	stem/src/util/node \
+	stem/src/util/node/op_node \
+	stem/src/util/node/value_node
 SRCFILES = \
-  IllegalCharErrorTest.cpp
+	Node.cpp \
+	DigitNode.cpp \
+	IdentifierNode.cpp \
+	BinOpNode.cpp \
+	UnaOpNode.cpp
 
 #? Constants
 OBJDIR = bin/$(TARGET_PATH)

@@ -1,9 +1,15 @@
 # makefile
 .PHONY: all clean $(MAKES) $(CLEANS)
 
+export CXX = g++
+export AR = ar
+
 PROJECTS = \
 	./newmake/stem/error.mk \
 	./newmake/stem/reader.mk \
+	./newmake/stem/token.mk \
+	./newmake/stem/node.mk \
+	./newmake/stem/lexer.mk
 
 MAKES = $(foreach PROJECT, $(PROJECTS), m$(PROJECT))
 CLEANS = $(foreach PROJECT, $(PROJECTS), c$(PROJECT))

@@ -6,12 +6,13 @@
 BUILDTYPE = EXE
 # COMPILECONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
-TARGET_NAME = reader-test
-TARGET_PATH = stem-test/reader-test
+TARGET_NAME = reader
+TARGET_PATH = stem-test/reader
 INCLUDES = \
 	-Istem/inc/front
 LINKDIRS = \
 	-Lbuild/stem/reader
+DLINKS =
 SLINKS = \
 	-lreader
 DEFINES =
@@ -25,8 +26,6 @@ OBJDIR = bin/$(TARGET_PATH)
 TARGETDIR = build/$(TARGET_PATH)
 OBJCLEANDIR = $(OBJDIR)
 TARGETCLEANDIR = $(TARGETDIR)
-CXX = g++
-AR = ar
 
 #? Custom build cmds
 define POSTBUILDCMDS

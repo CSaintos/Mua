@@ -1,31 +1,30 @@
-# stem-test/illegalCharError.mk 
+# stem/token.mk
 .PHONY: all compile build clean
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
-BUILDTYPE = EXE
+BUILDTYPE = STATICLIB
 # COMPILEONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
-TARGET_NAME = illegalCharError
-# Path to Target # <path-to-dir>
-TARGET_PATH = stem-test/illegalCharError
+TARGET_NAME = token
+# <path-to-dir>
+TARGET_PATH = stem/token
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
-  -Istem/inc/util/error \
-  -Istem/inc/util
-# Dynamic Link Directories # -L<path-to-dir>
-LINKDIRS = \
-	-Lbuild/stem/error
+	-Istem/inc/util/token \
+	-Istem/inc/util
+# Link Directories # -L<path-to-dir>
+LINKDIRS =
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension>
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension>
-SLINKS = \
-	-l:error.lib
-DEFINES =
+SLINKS =
+DEFINES = 
 SRCDIRS = \
-  stem/test/util/error
+	stem/src/util/token
 SRCFILES = \
-  IllegalCharErrorTest.cpp
+	TokenUtils.cpp \
+	Token.cpp
 
 #? Constants
 OBJDIR = bin/$(TARGET_PATH)
