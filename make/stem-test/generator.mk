@@ -61,4 +61,4 @@ TARGETCLEANDIR = $(TARGETDIR)
 define POSTBUILDCMDS
 endef
 
-include ./newmake/maker.mk
+include ./make/maker.mk

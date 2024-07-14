@@ -5,23 +5,23 @@ export CXX = g++
 export AR = ar
 
 PROJECTS = \
-	./newmake/stem/error.mk \
-	./newmake/stem/reader.mk \
-	./newmake/stem/token.mk \
-	./newmake/stem/node.mk \
-	./newmake/stem/lexer.mk \
-	./newmake/stem/parser.mk \
-	./newmake/stem/PL.mk \
-	./newmake/plugin/plus.mk \
-	./newmake/stem/generator.mk \
-	./newmake/stem-test/illegalCharError.mk \
-	./newmake/stem-test/token.mk \
-	./newmake/stem-test/reader.mk \
-	./newmake/stem-test/node.mk \
-	./newmake/stem-test/lexer.mk \
-	./newmake/stem-test/parser.mk \
-	./newmake/stem-test/PL.mk \
-	./newmake/stem-test/generator.mk
+	./make/stem/error.mk \
+	./make/stem/reader.mk \
+	./make/stem/token.mk \
+	./make/stem/node.mk \
+	./make/stem/lexer.mk \
+	./make/stem/parser.mk \
+	./make/stem/PL.mk \
+	./make/plugin/plus.mk \
+	./make/stem/generator.mk \
+	./make/stem-test/illegalCharError.mk \
+	./make/stem-test/token.mk \
+	./make/stem-test/reader.mk \
+	./make/stem-test/node.mk \
+	./make/stem-test/lexer.mk \
+	./make/stem-test/parser.mk \
+	./make/stem-test/PL.mk \
+	./make/stem-test/generator.mk
 
 MAKES = $(foreach PROJECT, $(PROJECTS), m$(PROJECT))
 CLEANS = $(foreach PROJECT, $(PROJECTS), c$(PROJECT))
