@@ -68,7 +68,7 @@ ifeq ($(BUILDTYPE), EXE)
 else ifeq ($(BUILDTYPE), STATICLIB)
 	$(AR) -rcs $(TARGET) $(OBJECTS)
 else ifeq ($(BUILDTYPE), DYNAMICLIB)
-	$(CXX) -shared -o $(TARGET) $(OBJECTS) $(LINKDIRS) -Wl,-Bstatic $(SLINKS) -Wl,-Ddynamic $(DLINKS) -Wl,--as-needed
+	$(CXX) -shared -o $(TARGET) $(OBJECTS) $(LINKDIRS) -Wl,-Bstatic $(SLINKS) -Wl,-Bdynamic $(DLINKS) -Wl,--as-needed
 endif
 	@echo built
 

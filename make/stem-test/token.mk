@@ -1,35 +1,31 @@
-# stem/lexer.mk
+# stem-test/token.mk
 .PHONY: all compile build clean
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
-BUILDTYPE = STATICLIB
+BUILDTYPE = EXE
 # COMPILEONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
-TARGET_NAME = lexer
+TARGET_NAME = token
 # <path-to-dir>
-TARGET_PATH = stem/lexer
+TARGET_PATH = stem-test/token
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
-	-Istem/inc/front \
 	-Istem/inc/util/token \
-	-Istem/inc/util \
-	-Istem/inc/util/error
+	-Istem/inc/util
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/stem/error \
 	-Lbuild/stem/token
-# Dynamic link files # -l<file-no-extension> or -l:<file-w-extension>
-DLINKS = \
-# Static link files # -l<file-no-extension> or -l:<file-w-extension>
+# Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
+DLINKS =
+# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 SLINKS = \
-	-lerror \
 	-ltoken
 DEFINES = 
 SRCDIRS = \
-	stem/src/front
+	stem/test/util/token
 SRCFILES = \
-	Lexer.cpp
+	TokenUtilsTest.cpp
 
 #? Constants
 OBJDIR = bin/$(TARGET_PATH)

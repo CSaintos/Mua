@@ -4,5 +4,3 @@
 build/*
 # Ignore bin files
 bin/*
-# Ignore make files
-make/

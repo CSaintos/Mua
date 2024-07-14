@@ -27,18 +27,25 @@ jobs:
       with:
         limit-access-to-actor: true
       timeout-minutes: 15
-
-  token_test:
+  make:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: print premake path
-      working-directory: ./premake
-      run : |
-        chmod a+x ./premake5
-        ./premake5 gmake2
-        ./premake5 build --stem=token
-        ./premake5 build --stemT=TokenUtils
-        cd ../build/stem-test/TokenUtilsTest
-        export LD_LIBRARY_PATH=.
-        ./TokenUtilsTest
+    - name: test token
+      working-directory: .
+      run: make
+
+  # token_test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - name: print premake path
+  #     working-directory: ./premake
+  #     run : |
+  #       chmod a+x ./premake5
+  #       ./premake5 gmake2
+  #       ./premake5 build --stem=token
+  #       ./premake5 build --stemT=TokenUtils
+  #       cd ../build/stem-test/TokenUtilsTest
+  #       export LD_LIBRARY_PATH=.
+  #       ./TokenUtilsTest
