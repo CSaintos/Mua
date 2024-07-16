@@ -56,6 +56,8 @@ TARGETCLEANDIR = $(TARGETDIR)
 
 #? Custom build cmds
 define POSTBUILDCMDS
+	@echo copying build/plugin into build/stem-test/generator/plugin
+	@xcopy build\\plugin build\\stem-test\\generator\\plugin /E /I /Y /Q
 endef
 
 include ./make/maker.mk

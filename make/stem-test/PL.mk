@@ -39,7 +39,7 @@ TARGETCLEANDIR = $(TARGETDIR)
 
 #? Custom build cmds
 define POSTBUILDCMDS
-	@echo copying build/plugin into build/stem/plugin
+	@echo copying build/plugin into build/stem-test/PL/plugin
 	@xcopy build\\plugin build\\stem-test\\PL\\plugin /E /I /Y /Q
 endef
 
