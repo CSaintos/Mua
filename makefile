@@ -24,17 +24,23 @@ PROJECTS = \
 	./make/stem-test/PL.mk \
 	./make/stem-test/generator.mk
 
+#? List of TARGET_PATHs to be created first. (Only useful if running `make -j` and there are shared TARGET_PATHs) # ./make/submake1.mk 
+PROJECTDIRS = \
+	./make/stem/error.mk \
+	./make/stem-test/illegalCharError.mk
+
+DIRS = $(foreach PROJECTDIR, $(PROJECTDIRS), d$(PROJECTDIR))
 MAKES = $(foreach PROJECT, $(PROJECTS), m$(PROJECT))
 CLEANS = $(foreach PROJECT, $(PROJECTS), c$(PROJECT))
 
 all: $(MAKES)
 clean: $(CLEANS)
 
-#? Submake dependencies (allows make -j to work) ex. # m./make/submake1.mk: m./make/submake2.mk
+#? Submake dependencies (allows `make -j` to work) ex. # m./make/submake1.mk: m./make/submake2.mk
 #? A submake dependes on another if it uses the target of the other (such as the form of a library) 
 m./make/stem/node.mk: m./make/stem/token.mk
 m./make/stem/lexer.mk: m./make/stem/error.mk m./make/stem/token.mk
-m./make/stem/parser.mk: m./make/stem/error.mk m./make/stem/token.mk m./make/stem/node.mk
+m./make/stem/parser.mk: m./make/stem/error.mk m./make/stem/node.mk
 m./make/stem/generator.mk: m./make/stem/node.mk
 m./make/plugin/plus.mk: m./make/stem/node.mk
 m./make/stem-test/illegalCharError.mk: m./make/stem/error.mk
@@ -47,7 +53,10 @@ m./make/stem-test/PL.mk: m./make/stem/PL.mk
 m./make/stem-test/generator.mk: m./make/stem/generator.mk m./make/stem/PL.mk m./make/stem/parser.mk m./make/stem/lexer.mk m./make/stem/reader.mk
 
 # Static pattern rules for running sub-makes
-$(MAKES): m%: %
+$(DIRS): d%: %
+	@$(MAKE) --no-print-directory -f $< dirs
+
+$(MAKES): m%: % $(DIRS)
 	@$(MAKE) --no-print-directory -f $<
 
 $(CLEANS): c%: %

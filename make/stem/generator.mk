@@ -1,5 +1,4 @@
 # stem/generator.mk
-.PHONY: all compile build clean
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
@@ -8,7 +7,7 @@ BUILDTYPE = STATICLIB
 PROCESS = BOTH
 TARGET_NAME = generator
 # <path-to-dir>
-TARGET_PATH = stem/generator
+TARGET_PATH = stem
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Istem/inc/back \
@@ -20,7 +19,7 @@ INCLUDES = \
 	-Istem/api
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/stem/node
+	-Lbuild/stem
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.

@@ -1,5 +1,4 @@
 # stem-test/token.mk
-.PHONY: all compile build clean
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
@@ -8,14 +7,14 @@ BUILDTYPE = EXE
 PROCESS = BOTH
 TARGET_NAME = token
 # <path-to-dir>
-TARGET_PATH = stem-test/token
+TARGET_PATH = stem-test
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Istem/inc/util/token \
 	-Istem/inc/util
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/stem/token
+	-Lbuild/stem
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.

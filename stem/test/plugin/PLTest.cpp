@@ -15,6 +15,7 @@ int main(int argc, char* argv[])
 {
   stem::PluginLoader plugin_manager;
   plugin_manager.loadPlugins();
+  std::cout << "Loaded Plugins" << std::endl;
   plugin_manager.unloadPlugins();
 
   return 0;

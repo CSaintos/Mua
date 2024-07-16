@@ -1,5 +1,4 @@
 # stem/PL.mk
-.PHONY: all compile build clean
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
@@ -8,7 +7,7 @@ BUILDTYPE = STATICLIB
 PROCESS = BOTH
 TARGET_NAME = PL
 # <path-to-dir>
-TARGET_PATH = stem/PL
+TARGET_PATH = stem
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Istem/inc/plugin \

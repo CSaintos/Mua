@@ -1,5 +1,4 @@
 # stem-test/generator.mk
-.PHONY: all compile build clean
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
@@ -8,7 +7,7 @@ BUILDTYPE = EXE
 PROCESS = BOTH
 TARGET_NAME = generator
 # <path-to-dir>
-TARGET_PATH = stem-test/generator
+TARGET_PATH = stem-test
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Istem/inc/back \
@@ -23,14 +22,7 @@ INCLUDES = \
 	-Istem/api
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/stem/token \
-	-Lbuild/stem/error \
-	-Lbuild/stem/node \
-	-Lbuild/stem/reader \
-	-Lbuild/stem/lexer \
-	-Lbuild/stem/parser \
-	-Lbuild/stem/generator \
-	-Lbuild/stem/PL
+	-Lbuild/stem
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
@@ -42,14 +34,12 @@ SLINKS = \
 	-lPL \
 	-lreader \
 	-ltoken \
-	-lerror \
-
+	-lerror
 DEFINES = 
 SRCDIRS = \
 	stem/test/back
 SRCFILES = \
 	GeneratorTest.cpp
-	
 
 #? Constants
 OBJDIR = bin/$(TARGET_PATH)

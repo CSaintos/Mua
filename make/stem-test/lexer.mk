@@ -1,5 +1,4 @@
 # stem-test/lexer.mk
-.PHONY: all compile build clean
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
@@ -8,7 +7,7 @@ BUILDTYPE = EXE
 PROCESS = BOTH
 TARGET_NAME = lexer
 # <path-to-dir>
-TARGET_PATH = stem-test/lexer
+TARGET_PATH = stem-test
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Istem/inc/front \
@@ -17,10 +16,7 @@ INCLUDES = \
 	-Istem/inc/util/error
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/stem/token \
-	-Lbuild/stem/error \
-	-Lbuild/stem/reader \
-	-Lbuild/stem/lexer
+	-Lbuild/stem
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from least dependent (most depending) to most dependent (least depending) 
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from least dependent (most depending) to most dependent (least depending)

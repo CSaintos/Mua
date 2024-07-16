@@ -1,4 +1,5 @@
 # maker.mk
+.PHONY: all compile build dirs clean
 
 #* First class functions
 find_srcs = $(wildcard $(addprefix $(addsuffix /, $(SRCDIR)), $(SRCFILES)))
@@ -75,6 +76,7 @@ endif
 compile: $(OBJECTS)
 build: $(TARGET)
 	$(POSTBUILDCMDS)
+dirs: $(OBJDIR) $(TARGETDIR)
 
 clean: 
 	@echo clean

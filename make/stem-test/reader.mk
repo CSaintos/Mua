@@ -1,5 +1,4 @@
 # stem-test/reader.mk
-.PHONY: all compile build clean
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
@@ -7,11 +6,11 @@ BUILDTYPE = EXE
 # COMPILECONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
 TARGET_NAME = reader
-TARGET_PATH = stem-test/reader
+TARGET_PATH = stem-test
 INCLUDES = \
 	-Istem/inc/front
 LINKDIRS = \
-	-Lbuild/stem/reader
+	-Lbuild/stem
 DLINKS =
 SLINKS = \
 	-lreader

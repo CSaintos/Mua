@@ -11,7 +11,7 @@ TARGET_NAME = plus
 TARGET_PATH = plugin
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
-	-Iplugin/algebra \
+	-Isplugin/algebra \
 	-Istem/inc/util \
 	-Istem/inc/util/token \
 	-Istem/inc/util/node \
@@ -22,15 +22,14 @@ INCLUDES = \
 LINKDIRS =
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS = \
-	-Lbuild/stem/node \
-	-Lbuild/stem/token
+	-Lbuild/stem
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 SLINKS = \
 	-lnode \
 	-ltoken
 DEFINES = 
 SRCDIRS = \
-	plugin/algebra
+	splugin/algebra
 SRCFILES = \
 	Plus.cpp
 

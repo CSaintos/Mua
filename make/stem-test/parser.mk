@@ -1,5 +1,4 @@
 # stem-test/parser.mk
-.PHONY: all compile build clean
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
@@ -8,7 +7,7 @@ BUILDTYPE = EXE
 PROCESS = BOTH
 TARGET_NAME = parser
 # <path-to-dir>
-TARGET_PATH = stem-test/parser
+TARGET_PATH = stem-test
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Istem/inc/front \
@@ -20,12 +19,7 @@ INCLUDES = \
 	-Istem/inc/util/node/value_node
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/stem/token \
-	-Lbuild/stem/error \
-	-Lbuild/stem/node \
-	-Lbuild/stem/reader \
-	-Lbuild/stem/lexer \
-	-Lbuild/stem/parser
+	-Lbuild/stem
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.

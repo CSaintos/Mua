@@ -1,5 +1,4 @@
 # stem-test/node.mk 
-.PHONY: all compile build clean
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
@@ -8,7 +7,7 @@ BUILDTYPE = EXE
 PROCESS = BOTH
 TARGET_NAME = node
 # <path-to-dir>
-TARGET_PATH = stem-test/node
+TARGET_PATH = stem-test
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Istem/inc/util/node \
@@ -18,8 +17,7 @@ INCLUDES = \
 	-Istem/inc/util
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/stem/node \
-	-Lbuild/stem/token
+	-Lbuild/stem
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension>
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension>
