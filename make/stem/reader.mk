@@ -7,7 +7,7 @@ BUILDTYPE = STATICLIB
 PROCESS = BOTH
 TARGET_NAME = reader
 # <path-to-dir>
-TARGET_PATH = stem
+TARGET_PATH = stem/reader
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Istem/inc/front

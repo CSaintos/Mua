@@ -7,7 +7,7 @@ BUILDTYPE = STATICLIB
 PROCESS = BOTH
 TARGET_NAME = token
 # <path-to-dir>
-TARGET_PATH = stem
+TARGET_PATH = stem/token
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Istem/inc/util/token \

@@ -7,7 +7,7 @@ BUILDTYPE = STATICLIB
 PROCESS = BOTH
 TARGET_NAME = lexer
 # <path-to-dir>
-TARGET_PATH = stem
+TARGET_PATH = stem/lexer
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Istem/inc/front \
@@ -16,7 +16,8 @@ INCLUDES = \
 	-Istem/inc/util/error
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/stem
+	-Lbuild/stem/error \
+	-Lbuild/stem/token
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension>
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension>

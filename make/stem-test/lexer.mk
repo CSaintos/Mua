@@ -7,7 +7,7 @@ BUILDTYPE = EXE
 PROCESS = BOTH
 TARGET_NAME = lexer
 # <path-to-dir>
-TARGET_PATH = stem-test
+TARGET_PATH = stem-test/lexer
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Istem/inc/front \
@@ -16,7 +16,10 @@ INCLUDES = \
 	-Istem/inc/util/error
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/stem
+	-Lbuild/stem/lexer \
+	-Lbuild/stem/reader \
+	-Lbuild/stem/token \
+	-Lbuild/stem/error
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from least dependent (most depending) to most dependent (least depending) 
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from least dependent (most depending) to most dependent (least depending)

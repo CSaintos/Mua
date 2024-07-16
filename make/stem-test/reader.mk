@@ -6,11 +6,11 @@ BUILDTYPE = EXE
 # COMPILECONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
 TARGET_NAME = reader
-TARGET_PATH = stem-test
+TARGET_PATH = stem-test/reader
 INCLUDES = \
 	-Istem/inc/front
 LINKDIRS = \
-	-Lbuild/stem
+	-Lbuild/stem/reader
 DLINKS =
 SLINKS = \
 	-lreader

@@ -7,7 +7,7 @@ BUILDTYPE = EXE
 PROCESS = BOTH
 TARGET_NAME = parser
 # <path-to-dir>
-TARGET_PATH = stem-test
+TARGET_PATH = stem-test/parser
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Istem/inc/front \
@@ -19,7 +19,12 @@ INCLUDES = \
 	-Istem/inc/util/node/value_node
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/stem
+	-Lbuild/stem/parser \
+	-Lbuild/stem/lexer \
+	-Lbuild/stem/reader \
+	-Lbuild/stem/node \
+	-Lbuild/stem/token \
+	-Lbuild/stem/error
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.

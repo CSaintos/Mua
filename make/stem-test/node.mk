@@ -7,7 +7,7 @@ BUILDTYPE = EXE
 PROCESS = BOTH
 TARGET_NAME = node
 # <path-to-dir>
-TARGET_PATH = stem-test
+TARGET_PATH = stem-test/node
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Istem/inc/util/node \
@@ -17,7 +17,8 @@ INCLUDES = \
 	-Istem/inc/util
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/stem
+	-Lbuild/stem/node \
+	-Lbuild/stem/token
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension>
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension>

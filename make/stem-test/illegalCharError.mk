@@ -7,14 +7,14 @@ BUILDTYPE = EXE
 PROCESS = BOTH
 TARGET_NAME = illegalCharError
 # Path to Target # <path-to-dir>
-TARGET_PATH = stem-test
+TARGET_PATH = stem-test/illegalCharError
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
   -Istem/inc/util/error \
   -Istem/inc/util
 # Dynamic Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/stem
+	-Lbuild/stem/error
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension>
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension>

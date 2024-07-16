@@ -7,7 +7,7 @@ BUILDTYPE = EXE
 PROCESS = BOTH
 TARGET_NAME = generator
 # <path-to-dir>
-TARGET_PATH = stem-test
+TARGET_PATH = stem-test/generator
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Istem/inc/back \
@@ -22,7 +22,14 @@ INCLUDES = \
 	-Istem/api
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/stem
+	-Lbuild/stem/parser \
+	-Lbuild/stem/generator \
+	-Lbuild/stem/lexer \
+	-Lbuild/stem/node \
+	-Lbuild/stem/PL \
+	-Lbuild/stem/reader \
+	-Lbuild/stem/token \
+	-Lbuild/stem/error
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.

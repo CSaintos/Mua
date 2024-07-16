@@ -7,14 +7,14 @@ BUILDTYPE = EXE
 PROCESS = BOTH
 TARGET_NAME = token
 # <path-to-dir>
-TARGET_PATH = stem-test
+TARGET_PATH = stem-test/token
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Istem/inc/util/token \
 	-Istem/inc/util
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/stem
+	-Lbuild/stem/token
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.

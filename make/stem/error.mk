@@ -7,7 +7,7 @@ BUILDTYPE = STATICLIB
 PROCESS = BOTH
 TARGET_NAME = error
 # <path-to-dir>
-TARGET_PATH = stem
+TARGET_PATH = stem/error
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Istem/inc/util/error \

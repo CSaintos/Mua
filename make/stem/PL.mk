@@ -7,7 +7,7 @@ BUILDTYPE = STATICLIB
 PROCESS = BOTH
 TARGET_NAME = PL
 # <path-to-dir>
-TARGET_PATH = stem
+TARGET_PATH = stem/PL
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Istem/inc/plugin \
