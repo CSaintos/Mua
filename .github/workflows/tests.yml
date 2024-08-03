@@ -20,7 +20,7 @@ jobs:
   tmate:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup tmate session
       uses: mxschmitt/action-tmate@v3
       if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
@@ -30,8 +30,8 @@ jobs:
   make:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: test token
+    - uses: actions/checkout@v4
+    - name: test make
       working-directory: .
       run: make
 
