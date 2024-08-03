@@ -1,5 +1,5 @@
 # makefile
-.PHONY: all clean $(MAKES) $(CLEANS)
+.PHONY: all clean $(MAKES) $(CLEANS) debug
 
 export CXX = g++
 export AR = ar
@@ -35,6 +35,8 @@ CLEANS = $(foreach PROJECT, $(PROJECTS), c$(PROJECT))
 
 all: $(MAKES)
 clean: $(CLEANS)
+debug:
+	@echo $(OS)
 
 #? Submake dependencies (allows `make -j` to work) ex. # m./make/submake1.mk: m./make/submake2.mk
 #? A submake dependes on another if it uses the target of the other (such as the form of a library) 
