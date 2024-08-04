@@ -9,6 +9,13 @@ compile_exe_cmd = $(shell $(CXX) $(INCLUDES) -c$1 -o$2)
 compile_lib_cmd = $(shell $(CXX) -fPIC $(INCLUDES) -c$1 -o$2)
 
 #* Constants
+ifeq ($(OS),Windows_NT)
+	SYS = Windows
+else ifeq ($(shell uname -s),Linux)
+	SYS = Linux
+else ifeq ($(shell uname -s),Darwin)
+	SYS = OSX
+endif
 SRCS = $(foreach SRCDIR, $(SRCDIRS), $(find_srcs))
 OBJECTS = $(addprefix $(OBJDIR)/, $(patsubst %.cpp, %.o, $(SRCFILES)))
 TARGET = $(TARGETDIR)/$(TARGET_NAME)
@@ -34,7 +41,11 @@ endif
 # Create bin directory
 $(OBJDIR):
 ifeq ($(wildcard $(OBJDIR)),)
+ifeq ($(SYS),Windows)
 	@mkdir $(subst /,\\,$(OBJDIR))
+else ifeq ($(filter $(SYS), Linux OSX),)
+	@mkdir $(OBJDIR)
+endif
 	@echo create bin directory
 endif
 
@@ -53,7 +64,11 @@ endif
 # Create build directory
 $(TARGETDIR):
 ifeq ($(wildcard $(TARGETDIR)),)
+ifeq ($(SYS),Windows)
 	@mkdir $(subst /,\\,$(TARGETDIR))
+else ifeq ($(filter $(SYS), Linux OSX),)
+	@mkdir $(TARGETDIR)
+endif
 	@echo create build directory
 endif
 
@@ -81,9 +96,17 @@ dirs: $(OBJDIR) $(TARGETDIR)
 clean: 
 	@echo clean
 ifneq ($(wildcard $(OBJCLEANDIR)),)
+ifeq ($(SYS),Windows)
 	rmdir /s /q $(subst /,\\,$(OBJCLEANDIR))
+else ifeq ($(filter $(SYS), Linux OSX),)
+	rmdir /s /q $(OBJCLEANDIR)
+endif
 endif
 ifneq ($(wildcard $(TARGETCLEANDIR)),)
+ifeq ($(SYS),Windows)
 	rmdir /s /q $(subst /,\\,$(TARGETCLEANDIR))
+else ifeq ($(filter $(SYS), Linux OSX),)
+	rmdir /s /q $(TARGETCLEANDIR)
+endif
 endif
 	@echo cleaned
