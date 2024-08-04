@@ -43,8 +43,8 @@ $(OBJDIR):
 ifeq ($(wildcard $(OBJDIR)),)
 ifeq ($(SYS),Windows)
 	@mkdir $(subst /,\\,$(OBJDIR))
-else ifeq ($(filter $(SYS), Linux OSX),)
-	@mkdir $(OBJDIR)
+else ifneq ($(filter $(SYS), Linux OSX),)
+	@mkdir -p $(OBJDIR)
 endif
 	@echo create bin directory
 endif
@@ -66,8 +66,8 @@ $(TARGETDIR):
 ifeq ($(wildcard $(TARGETDIR)),)
 ifeq ($(SYS),Windows)
 	@mkdir $(subst /,\\,$(TARGETDIR))
-else ifeq ($(filter $(SYS), Linux OSX),)
-	@mkdir $(TARGETDIR)
+else ifneq ($(filter $(SYS), Linux OSX),)
+	@mkdir -p $(TARGETDIR)
 endif
 	@echo create build directory
 endif
@@ -98,14 +98,14 @@ clean:
 ifneq ($(wildcard $(OBJCLEANDIR)),)
 ifeq ($(SYS),Windows)
 	rmdir /s /q $(subst /,\\,$(OBJCLEANDIR))
-else ifeq ($(filter $(SYS), Linux OSX),)
+else ifneq ($(filter $(SYS), Linux OSX),)
 	rmdir /s /q $(OBJCLEANDIR)
 endif
 endif
 ifneq ($(wildcard $(TARGETCLEANDIR)),)
 ifeq ($(SYS),Windows)
 	rmdir /s /q $(subst /,\\,$(TARGETCLEANDIR))
-else ifeq ($(filter $(SYS), Linux OSX),)
+else ifneq ($(filter $(SYS), Linux OSX),)
 	rmdir /s /q $(TARGETCLEANDIR)
 endif
 endif

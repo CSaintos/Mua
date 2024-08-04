@@ -31,9 +31,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: test make
+    - name: test make token.lib
       working-directory: .
-      run: make
+      run: make -f ./make/stem/token.mk
 
   # token_test:
   #   runs-on: ubuntu-latest
