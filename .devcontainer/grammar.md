@@ -11,7 +11,7 @@ alpha = ? A-z ?;
 
 (* Lexemes *)
 int = {digit}-;
-var = {alpha}-;
+var = alpha, {alpha | digit};
 dec = int, ".", int;
 ' s_int = ["+" | "-"], int;
 ' s_var = ["+" | "-"], var;
