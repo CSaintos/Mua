@@ -21,9 +21,9 @@ void stem::Lexer::init(std::list<char> *char_list, int line_num)
   m_end = m_char_list->end();
   m_token_temp.init();
   m_pos_temp.init();
-  m_pos_temp.m_file_name = m_file_name;
-  m_pos_temp.m_line_num = line_num;
-  m_pos_temp.m_column_nums[0] = 0;
+  m_pos_temp.file_name = m_file_name;
+  m_pos_temp.line_num = line_num;
+  m_pos_temp.column_nums[0] = 0;
   m_token_stream.clear();
   ss.str(std::string());
 }
@@ -43,8 +43,8 @@ stem::TokenType stem::Lexer::charToTokenType(char &ch)
 
 void stem::Lexer::err(char &ch)
 {
-  m_pos_temp.m_column_nums[1] = m_pos_temp.m_column_nums[0];
-  m_pos_temp.m_column_nums[0]--;
+  m_pos_temp.column_nums[1] = m_pos_temp.column_nums[0];
+  m_pos_temp.column_nums[0]--;
   stem::IllegalCharError err(m_pos_temp, "'" + std::string(1, ch) + "'");
   std::cout << err.to_string() << std::endl;
   exit(1);
@@ -55,7 +55,7 @@ void stem::Lexer::toTokenStream()
   if (stem::TokenUtils::m_RT_map.find(ss.str()) != stem::TokenUtils::m_RT_map.end())
       m_token_temp.m_type = TokenUtils::m_RT_map[ss.str()];
   m_token_temp.m_lexemes = ss.str();
-  m_token_temp.m_pos.m_column_nums[1] = m_pos_temp.m_column_nums[0] - 1;
+  m_token_temp.m_pos.column_nums[1] = m_pos_temp.column_nums[0] - 1;
   m_token_stream.push_back(m_token_temp);
 
   m_token_temp.init();
@@ -65,9 +65,9 @@ void stem::Lexer::toTokenStream()
 void stem::Lexer::createToken(stem::TokenType &type, char &ch)
 {
   m_token_temp.m_type = type;
-  m_token_temp.m_pos.m_line_num = m_pos_temp.m_line_num;
-  m_token_temp.m_pos.m_column_nums[0] = m_pos_temp.m_column_nums[0];
-  m_token_temp.m_pos.m_file_name = m_file_name;
+  m_token_temp.m_pos.line_num = m_pos_temp.line_num;
+  m_token_temp.m_pos.column_nums[0] = m_pos_temp.column_nums[0];
+  m_token_temp.m_pos.file_name = m_file_name;
   ss << ch;
 }
 
@@ -442,7 +442,7 @@ bool stem::Lexer::lex(std::list<char> *char_list, int line_num)
   //* iterate through char list and convert to token stream
   while (m_itr != m_end)
   {
-    ++m_pos_temp.m_column_nums[0];
+    ++m_pos_temp.column_nums[0];
 
     //std::cout << "char: " << *m_itr << " ";
     scanOneChar(*m_itr);

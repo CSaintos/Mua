@@ -1,9 +1,9 @@
 /**
- * @brief This file is part of {{ stem.inc.util.token }}
- * 
- * @file TokenType.hpp
+ * @brief This file is part of {{ stem.inc.util.character }}
+ *
+ * @file CharacterType.hpp
  * @author Christian Santos
- * @version 1.0.1 
+ * @version 1.0.0
  * @date 8/5/2024
 */
 
@@ -12,10 +12,10 @@
 namespace stem
 {
   /**
-   * @enum TokenType
-   * @brief Specifies Type of Token
+   * @enum CharacterType
+   * @brief Specifies Type of Character
    */
-  enum class TokenType
+  enum class CharacterType
   {
     TILDE,
     EXCLAMATION,
@@ -44,15 +44,7 @@ namespace stem
     FSLASH,
     SPACE,
     DIGIT,
-    IDENTIFIER,
-    COMMENT,
-    LET,
-    AND,
-    OR,
-    XOR,
-    ONLYIF,
-    IFANDONLYIF,
+    ALPHA,
     EMPTY,
-    UNKNOWN
   };
 }

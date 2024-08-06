@@ -7,6 +7,7 @@ export AR = ar
 #? List of submakes ex. # ./make/submake1.mk
 PROJECTS = \
 	./make/stem/error.mk \
+	./make/stem/character.mk \
 	./make/stem/reader.mk \
 	./make/stem/token.mk \
 	./make/stem/node.mk \
@@ -16,6 +17,7 @@ PROJECTS = \
 	./make/plugin/plus.mk \
 	./make/stem/generator.mk \
 	./make/stem-test/illegalCharError.mk \
+	./make/stem-test/character.mk \
 	./make/stem-test/token.mk \
 	./make/stem-test/reader.mk \
 	./make/stem-test/node.mk \
@@ -44,6 +46,7 @@ m./make/stem/parser.mk: m./make/stem/error.mk m./make/stem/node.mk
 m./make/stem/generator.mk: m./make/stem/node.mk
 m./make/plugin/plus.mk: m./make/stem/node.mk
 m./make/stem-test/illegalCharError.mk: m./make/stem/error.mk
+m./make/stem-test/character.mk: m./make/stem/character.mk
 m./make/stem-test/token.mk: m./make/stem/token.mk
 m./make/stem-test/reader.mk: m./make/stem/reader.mk
 m./make/stem-test/lexer.mk: m./make/stem/lexer.mk m./make/stem/reader.mk

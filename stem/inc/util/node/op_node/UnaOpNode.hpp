@@ -15,7 +15,7 @@
 #include "Node.hpp"
 #include "OpNode.hpp"
 #include "Token.hpp"
-#include "NodeType"
+#include "NodeType.hpp"
 #include "TokenType.hpp"
 
 namespace stem

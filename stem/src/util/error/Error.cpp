@@ -17,9 +17,9 @@ std::string stem::Error::to_string()
   m_ss.str(std::string());
 
   m_ss << m_err_name << ": " << m_details << std::endl
-    << "File: " << m_pos.m_file_name << ", line: " << m_pos.m_line_num
-    << std::endl << "Between columns: " << m_pos.m_column_nums[0]
-    << ", " << m_pos.m_column_nums[1] << std::endl;
+    << "File: " << m_pos.file_name << ", line: " << m_pos.line_num
+    << std::endl << "Between columns: " << m_pos.column_nums[0]
+    << ", " << m_pos.column_nums[1] << std::endl;
 
   return m_ss.str();
 }

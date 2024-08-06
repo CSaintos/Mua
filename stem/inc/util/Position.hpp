@@ -3,8 +3,8 @@
  * 
  * @file position.hpp
  * @author Christian Santos
- * @version 1.0.0 
- * @date 5/15/2022
+ * @version 1.0.1 
+ * @date 8/5/2024
  */
 
 #pragma once
@@ -22,19 +22,19 @@ namespace stem
    */
   struct Position
   {
-    std::string m_file_name; ///< file name
-    int m_column_nums[2]; ///< start and ending indicies
-    int m_line_num; ///< line number in file
+    std::string file_name; ///< file name
+    int column_nums[2]; ///< start and ending indicies
+    int line_num; ///< line number in file
 
     /**
      * @brief Initialize position object with empty fields
      */
     void init() 
     {
-      m_file_name = "";
-      m_column_nums[0] = -1; // start index
-      m_column_nums[1] = -1; // end index
-      m_line_num = -1;
+      file_name = "";
+      column_nums[0] = -1; // start index
+      column_nums[1] = -1; // end index
+      line_num = -1;
     }
 
     /**
@@ -60,9 +60,9 @@ namespace stem
      * @overload
      */
     Position(std::string file_name, int c1, int c2, int line_num)
-      : m_file_name(file_name),
-        m_column_nums{c1, c2},
-        m_line_num(line_num)
+      : file_name(file_name),
+        column_nums{c1, c2},
+        line_num(line_num)
     {}
 
     /**
@@ -77,9 +77,9 @@ namespace stem
      * @overload
      */
     Position(std::string file_name, int c, int line_num)
-        : m_file_name(file_name),
-          m_column_nums{c, c},
-          m_line_num(line_num)
+        : file_name(file_name),
+          column_nums{c, c},
+          line_num(line_num)
     {}
   };
 }

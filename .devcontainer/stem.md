@@ -212,7 +212,6 @@ enum CharacterType
 class CharacterUtils {
 +{static} unordered_map<char, CharacterType> to_chartype_map
 +{static} unordered_map<ChatacterType, string> to_repr_map
-+{static} unordered_set<CharacterType>  
 }
 CharacterUtils o--> CharacterType
 struct Character {
