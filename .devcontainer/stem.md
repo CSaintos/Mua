@@ -162,7 +162,7 @@ Generator ..> OpNode
 
 Token --> "1" Position
 Token --> "1" TokenType
-TokenUtils ..> TokenType
+TokenUtils o--> TokenType
 Token ..> TokenUtils
 Error --> "1" Position
 IllegalCharError --|> Error
@@ -202,15 +202,97 @@ Lexer ..> TokenUtils
 'https://plantuml.com/class-diagram
 title newstem class diagram
 
+struct Position {
+string file_name
+int column_nums[2]
+int line_num
+void init()
+}
 enum CharacterType
 class CharacterUtils {
 +{static} unordered_map<char, CharacterType> to_chartype_map
 +{static} unordered_map<ChatacterType, string> to_repr_map
++{static} unordered_set<CharacterType>  
 }
+CharacterUtils o--> CharacterType
 struct Character {
 CharacterType type
-char character
 Position pos
+char character
+}
+Character --> CharacterType
+Character --> Position
+class Reader {
+fstream file
+list<Character> char_list
+string file_name
+string line
+void open()
++list<Character> *getList()
++int readLine()
+}
+Reader o--> Character
+enum TokenType
+struct Token {
+TokenType type
+Position pos
+string lexemes
+int dot_count
+}
+Token --> TokenType
+Token --> Position
+class TokenUtils {
++{static} unordered_map<TokenType, string> m_TS_map
+}
+TokenUtils o--> TokenType
+class Error {
+-stringstream ss
+#Position pos
+#string err_name
+#string details
+void setPos()
+void setName()
+void setDetails()
+string to_string()
+}
+Error --> Position
+class Lexer {
+stringstream ss
+list<Token> token_stream
+list<Character> *char_list
+list<Character>::iterator itr
+list<Character>::iterator end
+Token token_temp
+void init()
+TokenType charToTokenType()
+void err()
+void toTokenStream()
+void createToken()
+void scanOneChar()
++bool lex()
++list<Token> *getList()
+}
+Lexer o--> Token
+Lexer o--> Character
+Lexer ..> Position
+Lexer ..> TokenType
+class TokenFactory {
+Character &current
+Token token
+CharacterType comparedTo
+TokenFactory(CharacterType comparedTo)
++{static}Token buildToken()
+}
+object TokenFactory_space {
+CharacterType comparedTo = SPACE
+Character current = SPACE
+Token token = {EMPTY, 0.0, ""}
+}
+class Executor {
+unordered_set<TokenType> match
+}
+object Executor_o {
+match = {DIGIT, IDENTIFIER, ...}
 }
 
 ```
