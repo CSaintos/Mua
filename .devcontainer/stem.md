@@ -224,13 +224,17 @@ Character --> Position
 class Reader {
 fstream file
 list<Character> char_list
+Position pos
 string file_name
 string line
 void open()
+string &getFileName()
 +list<Character> *getList()
 +int readLine()
 }
 Reader o--> Character
+Reader --> Position
+Reader ..> CharacterUtils
 enum TokenType
 struct Token {
 TokenType type

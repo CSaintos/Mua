@@ -8,12 +8,16 @@ PROCESS = BOTH
 TARGET_NAME = reader
 TARGET_PATH = stem-test/reader
 INCLUDES = \
-	-Istem/inc/front
+	-Istem/inc/front \
+	-Istem/inc/util \
+	-Istem/inc/util/character
 LINKDIRS = \
+	-Lbuild/stem/character \
 	-Lbuild/stem/reader
 DLINKS =
 SLINKS = \
-	-lreader
+	-lreader \
+	-lcharacter
 DEFINES =
 SRCDIRS = \
 	stem/test/front

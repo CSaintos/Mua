@@ -1,8 +1,8 @@
 /**
  * @file stem/inc/util/character/Character.hpp
  * @author Christian Santos
- * @version 1.0.0
- * @date 8/5/2024
+ * @version 1.0.1
+ * @date 8/8/2024
  */
 
 #pragma once
@@ -23,6 +23,6 @@ namespace stem
     /// copy constructor
     Character(const Character &character);
     void init();
-    std::string to_string();
+    std::string to_string() const;
   };
 }

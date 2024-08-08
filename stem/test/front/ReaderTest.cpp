@@ -1,32 +1,35 @@
 /**
- * @brief This file is part of {{ stem.test.front }}
- * 
- * @file ReaderTest.cpp
+ * @file stem/test/front/ReaderTest.cpp
  * @author Christian Santos
- * @version 1.0.0 5/15/2022
+ * @version 1.0.1
+ * @date 8/8/2024
  */
 
 #include <iostream>
 #include <algorithm>
 
 #include "Reader.hpp"
+#include "Character.hpp"
+
+using namespace stem;
+using namespace std;
 
 int main(int argc, char *argv[])
 {
   // create reader with file name
-  stem::Reader reader(argv[argc-1]);
+  Reader reader(argv[argc-1]);
   // print file name from reader
-  std::cout << "Reader fileName: " << reader.getFileName() << std::endl;
+  cout << "Reader fileName: " << reader.getFileName() << endl;
 
   int line_length = 0;
-  std::list<char> *the_list = nullptr;
+  list<Character> *the_list = nullptr;
   // Do ... while line_length isn't -1
   do 
   {
     // Read the next line and get the length
     line_length = reader.readLine();
     // Print the length of the line
-    std::cout << "Line length: " << line_length << std::endl;
+    cout << "Line length: " << line_length << endl;
     // Get the character list from the reader as pointer.
     the_list = reader.getList();
     // for each element in char list
@@ -35,12 +38,12 @@ int main(int argc, char *argv[])
       the_list->begin(), // start
       the_list->end(), // end
       // lambda function to apply to each element
-      [](const char n)
+      [](const Character c)
       {
-        std::cout << "[" << n << "], ";
+        cout << c.to_string() << " ";
       }
     );
-    std::cout << std::endl;
+    cout << endl;
 
   } while (line_length != -1);
 }

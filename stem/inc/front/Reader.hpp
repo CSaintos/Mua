@@ -1,10 +1,8 @@
 /**
- * @brief This file is part of {{ stem.inc.front }}
- * 
- * @file Reader.hpp
+ * @file stem/inc/front/Reader.hpp
  * @author Christian Santos
- * @version 1.0.0 
- * @date 5/15/2022
+ * @version 1.0.1 
+ * @date 8/8/2024
  */
 
 #pragma once
@@ -13,6 +11,10 @@
 #include <fstream>
 #include <list>
 #include <string>
+
+#include "Character.hpp"
+#include "CharacterUtils.hpp"
+#include "Position.hpp"
 
 namespace stem
 {
@@ -23,10 +25,11 @@ namespace stem
   class Reader
   {
   private:
-    std::fstream m_file; ///< file object
-    std::list<char> m_char_list; ///< char list of line
-    std::string m_file_name; ///< file name
-    std::string m_line; ///< the string line
+    std::fstream file; ///< file object
+    std::list<Character> char_list; ///< char list of line
+    stem::Position pos; ///< current position
+    std::string file_name; ///< file name
+    std::string line; ///< the string line
 
     /**
      * @brief attempts to open the file with specified file name.
@@ -34,6 +37,14 @@ namespace stem
      * @note If a file is already open, it closes then attempts to open the new file.
      */
     void open();
+
+    /**
+     * @brief Gets file name
+     * 
+     * @return fileName string reference
+     */
+    inline const std::string &getFileName() { return  file_name; }
+
   public:
     /**
      * @brief Reader(fileName) constructor
@@ -51,26 +62,20 @@ namespace stem
      */
     ~Reader();
 
-    /**
-     * @brief Gets file name
-     * 
-     * @return fileName string reference
-     */
-    inline const std::string &getFileName() { return  m_file_name; }
 
     /**
      * @brief Gets read line
      * 
      * @return line string reference
      */
-    inline const std::string &getLine() { return m_line; }
+    inline const std::string &getLine() { return line; }
 
     /**
      * @brief Gets list of chars
      * 
      * @return line as char list pointer
      */ 
-    inline std::list<char> *getList() { return &m_char_list; }
+    inline std::list<Character> *getList() { return &char_list; }
 
     /**
      * @brief Reads the next line and stores chars into list.

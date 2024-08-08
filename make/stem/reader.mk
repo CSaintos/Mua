@@ -10,13 +10,17 @@ TARGET_NAME = reader
 TARGET_PATH = stem/reader
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
-	-Istem/inc/front
+	-Istem/inc/front \
+	-Istem/inc/util \
+	-Istem/inc/util/character
 # Link Directories # -L<path-to-dir>
-LINKDIRS =
+LINKDIRS = \
+	-Lbuild/stem/character
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension>
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension>
-SLINKS =
+SLINKS = \
+	-lcharacter
 DEFINES = 
 SRCDIRS = \
 	stem/src/front

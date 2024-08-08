@@ -21,7 +21,7 @@ void Character::init()
   c = '\0';
 }
 
-string Character::to_string()
+string Character::to_string() const
 {
   string output = "";
 

@@ -1,65 +1,77 @@
 #include "Reader.hpp"
 
-stem::Reader::Reader(const std::string &fileName)
-    : m_file(), m_char_list(), m_file_name(fileName), m_line()
+using namespace std;
+using namespace stem;
+
+Reader::Reader(const string &fileName)
+  : file(), char_list(), pos(), file_name(fileName), line()
 {
   open();
 }
 
-stem::Reader::~Reader()
+Reader::~Reader()
 {
-  m_char_list.clear();
+  char_list.clear();
   // Close file
-  if (m_file.is_open())
+  if (file.is_open())
   {
-    m_file.close();
+    file.close();
   }
 }
 
-void stem::Reader::open()
+void Reader::open()
 {
   try
   {
-    if (m_file.is_open())
+    if (file.is_open())
     { // file is already open
-      m_file.close();
+      file.close();
     }
-
-    m_file.open(m_file_name, std::ios_base::in);
+    
+    file.open(file_name, std::ios_base::in);
+    pos.init();
+    pos.file_name = file_name;
   }
-  catch (std::ifstream::failure e)
+  catch (ifstream::failure e)
   {
-    std::cerr << "IFStream Exception: Could not open file: " << m_file_name << std::endl;
+    cerr << "IFStream Exception: Could not open file: " << file_name << endl;
   }
 }
 
-int stem::Reader::readLine()
+int Reader::readLine()
 {
   // if file is open and not at the end
-  if (m_file.is_open() && !m_file.eof())
+  if (file.is_open() && !file.eof())
   {
     // get the next line in the file
     // uses file and stores into the buffer
-    std::getline(m_file, m_line);
+    std::getline(file, line);
+    pos.line_num ++;
+    pos.column_nums[0] = -1;
 
-    // ~~ std::cout << m_line << std::endl; // ?debugging
+    // ~~ cout << m_line << endl; // ?debugging
 
     // resets char list
-    m_char_list.clear();
+    char_list.clear();
 
     // Iterate through the string m_line and store
     //  each char in m_char_list
-    for (char c : m_line)
+    for (char c : line)
     {
-      m_char_list.push_back(c);
+      pos.column_nums[0]++;
+      Character character;
+      character.c = c;
+      character.pos = pos;
+      character.type = CharacterUtils::cC_map[c];
+      char_list.push_back(Character(character));
     }
   }
   else
   {
-    // ~~ std::cout << "Eof\n";
-    m_char_list.clear();
+    // ~~ cout << "Eof\n";
+    char_list.clear();
     return -1;
   }
 
-  return m_line.length();
+  return line.length();
 }
