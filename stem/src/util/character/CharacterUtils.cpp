@@ -125,5 +125,6 @@ unordered_map<CharacterType, string> CharacterUtils::repr_map =
   {CharacterType::SPACE, "SPACE"},
   {CharacterType::DIGIT, "DIGIT"},
   {CharacterType::ALPHA, "ALPHA"},
-  {CharacterType::EMPTY, "EMPTY"}
+  {CharacterType::EMPTY, "EMPTY"},
+  {CharacterType::UNKNOWN, "UNKNOWN"}
 };

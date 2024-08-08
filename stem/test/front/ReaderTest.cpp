@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
   // create reader with file name
   Reader reader(argv[argc-1]);
   // print file name from reader
-  cout << "Reader fileName: " << reader.getFileName() << endl;
+  //cout << "Reader fileName: " << reader.getFileName() << endl;
 
   int line_length = 0;
   list<Character> *the_list = nullptr;

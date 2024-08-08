@@ -47,7 +47,7 @@ int Reader::readLine()
     // uses file and stores into the buffer
     std::getline(file, line);
     pos.line_num ++;
-    pos.column_nums[0] = -1;
+    pos.column_nums[0] = 0;
 
     // ~~ cout << m_line << endl; // ?debugging
 
@@ -62,8 +62,17 @@ int Reader::readLine()
       Character character;
       character.c = c;
       character.pos = pos;
-      character.type = CharacterUtils::cC_map[c];
-      char_list.push_back(Character(character));
+      if (CharacterUtils::cC_map.count(c))
+      {
+        character.type = CharacterUtils::cC_map[c];
+        char_list.push_back(Character(character));
+      }
+      else
+      {
+        character.type = CharacterType::UNKNOWN;
+        Error err(pos, "IllegalCharError", character.to_string());
+        cout << err.to_string() << endl;
+      }
     }
   }
   else

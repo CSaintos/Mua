@@ -235,6 +235,7 @@ string &getFileName()
 Reader o--> Character
 Reader --> Position
 Reader ..> CharacterUtils
+Reader ..> Error
 enum TokenType
 struct Token {
 TokenType type

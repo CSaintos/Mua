@@ -1,7 +1,5 @@
 /**
- * @brief This file is part of {{ stem.inc.util.error }}
- * 
- * @file Error.hpp
+ * @file stem/inc/util/error/Error.hpp
  * @author Christian Santos
  * @version 1.0.3  
  * @date 2/18/2023
@@ -23,11 +21,11 @@ namespace stem
   class Error
   {
   private:
-    std::stringstream m_ss; ///< string builder for use in to_string()
+    std::stringstream ss; ///< string builder for use in to_string()
   protected:
-    Position m_pos; ///< position of error
-    std::string m_err_name; ///< error name
-    std::string m_details; ///< error details
+    Position pos; ///< position of error
+    std::string err_name; ///< error name
+    std::string details; ///< error details
   public:
     /**
      * @brief Error() constructor
@@ -40,7 +38,7 @@ namespace stem
      * @see Error()
      * @see ~Error()
      */
-    Error(Position &pos, const std::string &err_name, std::string &details);
+    Error(Position &pos, const std::string &err_name, const std::string &details);
     /**
      * @brief ~Error() destructor
      * @see Error()
@@ -51,15 +49,15 @@ namespace stem
     /**
      * @brief Sets error position
      */
-    inline void setPos(Position &pos) { m_pos = pos; }
+    inline void setPos(Position &pos) { this->pos = pos; }
     /**
      * @brief Sets error name
      */
-    inline void setName(const std::string &name) { m_err_name = name; }
+    inline void setName(const std::string &name) { err_name = name; }
     /**
      * @brief Sets error details
      */
-    inline void setDetails(std::string details) { m_details = details; }
+    inline void setDetails(std::string details) { this->details = details; }
 
     /**
      * @brief Returns Error as a string

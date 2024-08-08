@@ -1,10 +1,13 @@
 #include "Error.hpp"
 
-stem::Error::Error()
+using namespace std;
+using namespace stem;
+
+Error::Error()
 {}
 
-stem::Error::Error(Position &pos, const std::string &err_name, std::string &details)
-  : m_pos(pos), m_err_name(err_name), m_details(details)
+Error::Error(Position &pos, const string &err_name, const string &details)
+  : pos(pos), err_name(err_name), details(details)
 {}
 
 /*
@@ -12,14 +15,14 @@ stem::Error::~Error()
 {}
 */
 
-std::string stem::Error::to_string()
+string Error::to_string()
 {
-  m_ss.str(std::string());
+  ss.str(string());
 
-  m_ss << m_err_name << ": " << m_details << std::endl
-    << "File: " << m_pos.file_name << ", line: " << m_pos.line_num
-    << std::endl << "Between columns: " << m_pos.column_nums[0]
-    << ", " << m_pos.column_nums[1] << std::endl;
+  ss << err_name << ": " << details << endl
+    << "File: " << pos.file_name << ", line: " << pos.line_num
+    << endl << "Between columns: " << pos.column_nums[0]
+    << ", " << pos.column_nums[1] << endl;
 
-  return m_ss.str();
+  return ss.str();
 }

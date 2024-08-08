@@ -12,15 +12,18 @@ TARGET_PATH = stem/reader
 INCLUDES = \
 	-Istem/inc/front \
 	-Istem/inc/util \
-	-Istem/inc/util/character
+	-Istem/inc/util/character \
+	-Istem/inc/util/error
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/stem/character
+	-Lbuild/stem/character \
+	-Lbuild/stem/error
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension>
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension>
 SLINKS = \
-	-lcharacter
+	-lcharacter \
+	-lerror
 DEFINES = 
 SRCDIRS = \
 	stem/src/front

@@ -1,7 +1,5 @@
 /**
- * @brief This file is part of {{ stem.inc.util.character }}
- *
- * @file CharacterType.hpp
+ * @file stem/inc/util/character/CharacterType.hpp
  * @author Christian Santos
  * @version 1.0.0
  * @date 8/5/2024
@@ -46,5 +44,6 @@ namespace stem
     DIGIT,
     ALPHA,
     EMPTY,
+    UNKNOWN
   };
 }

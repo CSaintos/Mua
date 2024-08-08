@@ -14,7 +14,9 @@
 
 #include "Character.hpp"
 #include "CharacterUtils.hpp"
+#include "CharacterType.hpp"
 #include "Position.hpp"
+#include "Error.hpp"
 
 namespace stem
 {
@@ -43,7 +45,14 @@ namespace stem
      * 
      * @return fileName string reference
      */
-    inline const std::string &getFileName() { return  file_name; }
+    //inline const std::string &getFileName() { return  file_name; }
+
+    /**
+     * @brief Gets read line
+     * 
+     * @return line string reference
+     */
+    inline const std::string &getLine() { return line; }
 
   public:
     /**
@@ -61,14 +70,6 @@ namespace stem
      * @see Reader(const std::string &file_name)
      */
     ~Reader();
-
-
-    /**
-     * @brief Gets read line
-     * 
-     * @return line string reference
-     */
-    inline const std::string &getLine() { return line; }
 
     /**
      * @brief Gets list of chars

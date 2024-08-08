@@ -10,14 +10,17 @@ TARGET_PATH = stem-test/reader
 INCLUDES = \
 	-Istem/inc/front \
 	-Istem/inc/util \
-	-Istem/inc/util/character
+	-Istem/inc/util/character \
+	-Istem/inc/util/error
 LINKDIRS = \
 	-Lbuild/stem/character \
-	-Lbuild/stem/reader
+	-Lbuild/stem/reader \
+	-Lbuild/stem/error
 DLINKS =
 SLINKS = \
 	-lreader \
-	-lcharacter
+	-lcharacter \
+	-lerror
 DEFINES =
 SRCDIRS = \
 	stem/test/front
