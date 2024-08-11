@@ -30,16 +30,16 @@ namespace stem
   {
   private:
     std::stringstream ss; ///< for constructing lexemes
-    std::list<Token> m_token_stream; ///< list of tokens lexed
-    std::list<char> *m_char_list; ///< list of chars to lex
-    std::list<char>::iterator m_itr; ///< points to current element
-    std::list<char>::iterator m_end; ///< points to last element
-    std::string m_file_name; ///< name of the file current tokens belong to
+    std::list<Token> token_stream; ///< list of tokens lexed
+    std::list<char> *char_list; ///< list of chars to lex
+    std::list<char>::iterator itr; ///< points to current element
+    std::list<char>::iterator end; ///< points to last element
+    std::string file_name; ///< name of the file current tokens belong to
 
-    Token m_token_temp; ///< current token being analyzed/created
-    Position m_pos_temp; ///< current position during lex process
+    Token token_temp; ///< current token being analyzed/created
+    Position pos_temp; ///< current position during lex process
 
-    int m_dot_count; ///< making sure only one dot in decimal
+    int dot_count; ///< making sure only one dot in decimal
 
     /**
      * @brief initializes member variables
@@ -109,7 +109,7 @@ namespace stem
      * 
      * @return file name
      */
-    inline const std::string &getFileName() { return m_file_name; }
+    inline const std::string &getFileName() { return file_name; }
 
     /**
      * @brief lexes the char list.
