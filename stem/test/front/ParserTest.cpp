@@ -1,10 +1,8 @@
 /**
- * @brief This file is part of {{ stem.test.front }}
- * 
- * @file ParserTest.cpp
+ * @file stem/test/front/ParserTest.cpp
  * @author Christian Santos
- * @version 1.0.4 
- * @date 5/29/2022
+ * @version 1.0.5 
+ * @date 8/10/2024
  */
 
 #include <string>
@@ -24,20 +22,18 @@ int main(int argc, char *argv[])
   // create reader with file name
   stem::Reader reader(file_name);
   // create lexer with file name
-  stem::Lexer lexer(file_name);
+  stem::Lexer lexer;
   // create parser
   stem::Parser parser;
 
   // Loop variables
   int line_length = 0;
-  int line_num = 0;
 
   do {
-    ++line_num;
     // Read the next line
     line_length = reader.readLine();
     // lex the char list
-    lexer.lex(reader.getList(), line_num);
+    lexer.lex(reader.getList());
     // parse token stream
     parser.parse(lexer.getList()); //? temp
 

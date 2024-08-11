@@ -1,8 +1,8 @@
 /**
- * @file stem/inc/util/error/Error.hpp
+ * @file stem/inc/util/Error.hpp
  * @author Christian Santos
- * @version 1.0.3  
- * @date 2/18/2023
+ * @version 1.0.4
+ * @date 8/10/2024
  */
 
 #pragma once

@@ -13,15 +13,18 @@ INCLUDES = \
 	-Istem/inc/front \
 	-Istem/inc/util/token \
 	-Istem/inc/util \
-	-Istem/inc/util/error
+	-Istem/inc/util/error \
+	-Istem/inc/util/character
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
 	-Lbuild/stem/error \
+	-Lbuild/stem/character \
 	-Lbuild/stem/token
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension>
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension>
 SLINKS = \
+	-lcharacter \
 	-lerror \
 	-ltoken
 DEFINES = 

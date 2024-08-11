@@ -1,10 +1,8 @@
 /**
- * @brief This file is part of {{ stem.test.back }}
- *
- * @file GeneratorTest.cpp
+ * @file stem/test/back/GeneratorTest.cpp
  * @author Christian Santos
- * @version 1.0.0
- * @date 7/2/2022
+ * @version 1.0.1
+ * @date 8/10/2024
  */
 
 #include <iostream>
@@ -26,7 +24,7 @@ int main(int argc, char *argv[])
   // create reader with file name
   stem::Reader reader(file_name);
   // create lexer with file name
-  stem::Lexer lexer(file_name);
+  stem::Lexer lexer;
   // create parser
   stem::Parser parser;
   // create PluginLoader
@@ -48,7 +46,7 @@ int main(int argc, char *argv[])
     if (line_length != -1)
     {
       // lex the char list
-      lexer.lex(reader.getList(), line_num);
+      lexer.lex(reader.getList());
       // parse token stream
       parser.parse(lexer.getList());
       // generate result from parse tree

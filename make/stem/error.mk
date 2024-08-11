@@ -10,7 +10,6 @@ TARGET_NAME = error
 TARGET_PATH = stem/error
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
-	-Istem/inc/util/error \
 	-Istem/inc/util
 # Link Directories # -L<path-to-dir>
 LINKDIRS =
@@ -20,11 +19,9 @@ DLINKS =
 SLINKS =
 DEFINES = 
 SRCDIRS = \
-	stem/src/util/error
+	stem/src/util
 SRCFILES = \
-	Error.cpp \
-	IllegalCharError.cpp \
-	SyntaxError.cpp
+	Error.cpp
 
 #? Constants
 OBJDIR = bin/$(TARGET_PATH)

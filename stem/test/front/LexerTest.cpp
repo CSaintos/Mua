@@ -1,19 +1,21 @@
 /**
- * @brief This file is part of {{ stem.test.front }}
- * 
- * @file LexerTest.cpp
+ * @file stem/test/front/LexerTest.cpp
  * @author Christian Santos
- * @version 1.0.0 
- * @date 5/17/2022
+ * @version 1.0.1 
+ * @date 8/10/2024
  */
 
 #include <string>
 #include <iostream>
 
+#include "Character.hpp"
 #include "Token.hpp"
 
 #include "Reader.hpp"
 #include "Lexer.hpp"
+
+using namespace std;
+using namespace stem;
 
 int main(int argc, char* argv[])
 {
@@ -23,13 +25,12 @@ int main(int argc, char* argv[])
   // create reader with file name
   stem::Reader reader(file_name);
   // create lexer with file name
-  stem::Lexer lexer(file_name);
+  stem::Lexer lexer;
 
   int line_length = 0;
-  int line_num = 0;
-  std::list<char> *chars_list = nullptr;
-  std::list<stem::Token> *token_stream = nullptr;
-  std::list<stem::Token>::iterator itr;
+  list<Character> *char_list = nullptr;
+  list<Token> *token_stream = nullptr;
+  list<Token>::iterator itr;
   // do ... while line_length isn't -1
   do {
     // Read the next line and get the length
@@ -37,10 +38,9 @@ int main(int argc, char* argv[])
     // Print the length of the line
     //~~std::cout << "Line length: " << line_length << std::endl;
     // Get the character list from the reader as pointer.
-    chars_list = reader.getList();
-    ++line_num;
+    char_list = reader.getList();
     // lex the char list
-    lexer.lex(chars_list, line_num);
+    lexer.lex(char_list);
     // get token stream
     token_stream = lexer.getList();
     // Print the length of the token stream
@@ -48,9 +48,9 @@ int main(int argc, char* argv[])
     // print token stream
     for (itr = token_stream->begin(); itr != token_stream->end(); ++itr)
     {
-      std::cout << itr->to_string() << ", ";
+      cout << itr->to_string() << ", ";
     }
-    std::cout << std::endl;
+    cout << endl;
   } while(line_length != -1);
 
   return 0;

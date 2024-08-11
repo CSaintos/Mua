@@ -13,13 +13,15 @@ INCLUDES = \
 	-Istem/inc/front \
 	-Istem/inc/util/token \
 	-Istem/inc/util \
-	-Istem/inc/util/error
+	-Istem/inc/util/error \
+	-Istem/inc/util/character
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
 	-Lbuild/stem/lexer \
 	-Lbuild/stem/reader \
 	-Lbuild/stem/token \
-	-Lbuild/stem/error
+	-Lbuild/stem/error \
+	-Lbuild/stem/character
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from least dependent (most depending) to most dependent (least depending) 
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from least dependent (most depending) to most dependent (least depending)
@@ -27,7 +29,8 @@ SLINKS = \
 	-llexer \
 	-lreader \
 	-ltoken \
-	-lerror
+	-lerror \
+	-lcharacter
 DEFINES = 
 SRCDIRS = \
 	stem/test/front

@@ -1,18 +1,22 @@
 #include "Parser.hpp"
 
-stem::Parser::Parser()
+using namespace std;
+using namespace stem;
+
+Parser::Parser()
     : m_last_op(TokenType::EMPTY),
       m_last_type(TokenType::EMPTY),
       m_paren_count(0)
 {}
 
-stem::Parser::~Parser()
+Parser::~Parser()
 {}
 
-void stem::Parser::err(int i, Token &tok)
+void Parser::err(int i, Token &tok)
 {
-  stem::SyntaxError serr;
+  Error serr;
   serr.setPos(tok.m_pos);
+  serr.setName("Syntax Error");
   serr.setDetails("Undefined");
 
   switch (i)
@@ -27,12 +31,12 @@ void stem::Parser::err(int i, Token &tok)
     break;
   }
 
-  std::cout << serr.to_string() << std::endl;
+  cout << serr.to_string() << endl;
 
   exit(1);
 }
 
-void stem::Parser::addExclusiveParent(stem::Node *node)
+void Parser::addExclusiveParent(Node *node)
 {
   if (node->isExclusiveParent())
   {
@@ -40,7 +44,7 @@ void stem::Parser::addExclusiveParent(stem::Node *node)
   }
 }
 
-void stem::Parser::buildUnaLOp()
+void Parser::buildUnaLOp()
 {
   // Extract nodes
   if (!m_node_stack.empty() && m_right_node == nullptr)
@@ -66,12 +70,12 @@ void stem::Parser::buildUnaLOp()
   }
 
   // build tree branch
-  m_right_node = std::make_unique<stem::UnaOpNode>(m_op_node, m_right_node);
+  m_right_node = std::make_unique<UnaOpNode>(m_op_node, m_right_node);
   // If node is an exclusive parent, add it
   addExclusiveParent(&(*m_right_node));
 }
 
-void stem::Parser::buildUnaROp()
+void Parser::buildUnaROp()
 {
   // Extract nodes
   if (m_op_node == nullptr)
@@ -102,7 +106,7 @@ void stem::Parser::buildUnaROp()
   addExclusiveParent(&(*m_right_node));
 }
 
-void stem::Parser::buildBinOp()
+void Parser::buildBinOp()
 {
   // Extract nodes
   if (m_right_node == nullptr)
@@ -148,7 +152,7 @@ void stem::Parser::buildBinOp()
   }
 }
 
-void stem::Parser::toParseTree()
+void Parser::toParseTree()
 {
   bool loop = true;
   while (!m_node_stack.empty() && loop)
@@ -211,7 +215,7 @@ void stem::Parser::toParseTree()
       }
       break;
     case TokenType::LPAREN:
-      m_unaop_node = dynamic_cast<stem::UnaOpNode*>(m_node_stack.top().get());
+      m_unaop_node = dynamic_cast<UnaOpNode*>(m_node_stack.top().get());
       if (m_unaop_node->m_node == nullptr)
       {
         if (m_right_node != nullptr)
@@ -240,7 +244,7 @@ void stem::Parser::toParseTree()
   }
 }
 
-void stem::Parser::scanOneToken()
+void Parser::scanOneToken()
 {
   switch (m_itr->m_type)
   {
@@ -450,7 +454,7 @@ void stem::Parser::scanOneToken()
   }
 }
 
-void stem::Parser::parse(std::list<stem::Token> *token_stream)
+void Parser::parse(list<Token> *token_stream)
 {
   // initialize member variables
   m_token_stream = token_stream;
@@ -467,7 +471,7 @@ void stem::Parser::parse(std::list<stem::Token> *token_stream)
   toParseTree();
 }
 
-stem::Node* stem::Parser::getParseTree()
+Node* Parser::getParseTree()
 {
   if (m_curr_node == nullptr)
     return nullptr;

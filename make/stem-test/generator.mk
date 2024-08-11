@@ -18,6 +18,7 @@ INCLUDES = \
 	-Istem/inc/util/node \
 	-Istem/inc/util/node/op_node \
 	-Istem/inc/util/node/value_node \
+	-Istem/inc/util/character \
 	-Istem/inc/plugin \
 	-Istem/api
 # Link Directories # -L<path-to-dir>
@@ -29,7 +30,8 @@ LINKDIRS = \
 	-Lbuild/stem/PL \
 	-Lbuild/stem/reader \
 	-Lbuild/stem/token \
-	-Lbuild/stem/error
+	-Lbuild/stem/error \
+	-Lbuild/stem/character
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
@@ -41,7 +43,8 @@ SLINKS = \
 	-lPL \
 	-lreader \
 	-ltoken \
-	-lerror
+	-lerror \
+	-lcharacter
 DEFINES = 
 SRCDIRS = \
 	stem/test/back

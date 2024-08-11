@@ -25,7 +25,7 @@ string Character::to_string() const
 {
   string output = "";
 
-  if (type == CharacterType::DIGIT || type == CharacterType::ALPHA)
+  if (type == CharacterType::DIGIT || type == CharacterType::ALPHA || type == CharacterType::UNKNOWN)
   {
     output = CharacterUtils::repr_map[type] + ":" + c;
   }

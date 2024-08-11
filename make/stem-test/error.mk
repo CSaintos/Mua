@@ -7,10 +7,9 @@ BUILDTYPE = EXE
 PROCESS = BOTH
 TARGET_NAME = illegalCharError
 # Path to Target # <path-to-dir>
-TARGET_PATH = stem-test/illegalCharError
+TARGET_PATH = stem-test/error
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
-  -Istem/inc/util/error \
   -Istem/inc/util
 # Dynamic Link Directories # -L<path-to-dir>
 LINKDIRS = \
@@ -22,9 +21,9 @@ SLINKS = \
 	-l:error.lib
 DEFINES =
 SRCDIRS = \
-  stem/test/util/error
+  stem/test/util
 SRCFILES = \
-  IllegalCharErrorTest.cpp
+  ErrorTest.cpp
 
 #? Constants
 OBJDIR = bin/$(TARGET_PATH)

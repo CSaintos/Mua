@@ -3,8 +3,8 @@
  * 
  * @file Lexer.hpp
  * @author Christian Santos
- * @version 1.0.2 
- * @date 5/29/2022
+ * @version 1.0.3 
+ * @date 8/10/2024
  */
 
 #pragma once
@@ -14,11 +14,10 @@
 #include <unordered_map>
 
 #include "Error.hpp"
-#include "IllegalCharError.hpp"
+#include "Character.hpp"
 #include "Token.hpp"
 #include "TokenType.hpp"
 #include "TokenUtils.hpp"
-#include "Position.hpp"
 
 namespace stem
 {
@@ -31,13 +30,13 @@ namespace stem
   private:
     std::stringstream ss; ///< for constructing lexemes
     std::list<Token> token_stream; ///< list of tokens lexed
-    std::list<char> *char_list; ///< list of chars to lex
-    std::list<char>::iterator itr; ///< points to current element
-    std::list<char>::iterator end; ///< points to last element
-    std::string file_name; ///< name of the file current tokens belong to
+    std::list<Character> *char_list; ///< list of chars to lex
+    std::list<Character>::iterator itr; ///< points to current element
+    std::list<Character>::iterator end; ///< points to last element
+    //std::string file_name; ///< name of the file current tokens belong to
 
     Token token_temp; ///< current token being analyzed/created
-    Position pos_temp; ///< current position during lex process
+    // Position pos_temp; ///< current position during lex process
 
     int dot_count; ///< making sure only one dot in decimal
 
@@ -46,7 +45,7 @@ namespace stem
      * - prepares to lex a 'new' char list
      * @see lex()
      */
-    void init(std::list<char> *char_list, int line_num);
+    void init(std::list<Character> *char_list);
     /**
      * @brief maps a single char to TokenType and returns type
      * 
@@ -61,7 +60,7 @@ namespace stem
      * 
      * @param ch single char to error 
      */
-    void err(char &ch);
+    void err(Character &c);
     /**
      * @brief Packages the temp token into token stream
      * - Then re-initializes the string stream and temp token.
@@ -76,7 +75,7 @@ namespace stem
      * @param type the token type of the token
      * @param ch the character to store in token
      */
-    void createToken(stem::TokenType &type, char &ch);
+    void createToken(stem::TokenType &type, Character &c);
     /**
      * @brief helps build token stream one char at a time
      * 
@@ -85,7 +84,7 @@ namespace stem
      * 
      * @param ch single char to convert or add to a token
      */
-    void scanOneChar(char &ch);
+    void scanOneChar(Character &c);
   public:
     /**
      * @brief Lexer(file_name) constructor
@@ -94,7 +93,7 @@ namespace stem
      * 
      * @see ~Lexer()
      */
-    Lexer(const std::string &file_name);
+    Lexer();
     /**
      * @brief ~Lexer() destructor
      * 
@@ -105,13 +104,6 @@ namespace stem
     ~Lexer();
 
     /**
-     * @brief returns file name
-     * 
-     * @return file name
-     */
-    inline const std::string &getFileName() { return file_name; }
-
-    /**
      * @brief lexes the char list.
      * 
      * Converts the char list into a list of tokens.
@@ -120,7 +112,7 @@ namespace stem
      * @param line_num line number of char list
      * @return true if chars were lexed, false if no chars were lexed
      */
-    bool lex(std::list<char> *char_list, int line_num);
+    bool lex(std::list<Character> *char_list);
     /**
      * @brief returns pointer to token stream
      * 

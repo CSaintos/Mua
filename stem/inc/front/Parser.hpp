@@ -3,8 +3,8 @@
  * 
  * @file Parser.hpp
  * @author Christian Santos
- * @version 1.1.0
- * @date 7/5/2022
+ * @version 1.1.1
+ * @date 8/10/2024
  */
 
 #pragma once
@@ -16,7 +16,6 @@
 #include <queue>
 
 #include "Error.hpp"
-#include "SyntaxError.hpp"
 #include "Token.hpp"
 #include "TokenType.hpp"
 #include "Node.hpp"
