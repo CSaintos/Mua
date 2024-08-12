@@ -8,6 +8,11 @@ TrieNode* TokenTrie::getTrie()
   if (TokenTrie::isInstanciated) return &root;
   
   list<string> token_strings;
+  for (pair<string, TokenType> kv : TokenUtils::m_RT_map)
+  {
+    token_strings.push_back(kv.first);
+  }
+
   for (string token_string : token_strings)
   {
     TrieNode* curr = &root;
