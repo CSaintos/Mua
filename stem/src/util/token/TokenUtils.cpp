@@ -1,6 +1,9 @@
 #include "TokenUtils.hpp"
 
-std::unordered_map<stem::TokenType, std::string> stem::TokenUtils::m_TS_map = 
+using namespace stem;
+using namespace std;
+
+unordered_map<TokenType, string> TokenUtils::m_TS_map = 
 {
   {TokenType::SPACE, "SPACE"},
   {TokenType::SEMICOLON, "SEMICOLON"},
@@ -39,7 +42,7 @@ std::unordered_map<stem::TokenType, std::string> stem::TokenUtils::m_TS_map =
   {TokenType::UNKNOWN, "UNKNOWN"}
 };
 
-std::unordered_map<std::string, stem::TokenType> stem::TokenUtils::m_RT_map =
+unordered_map<string, TokenType> TokenUtils::m_RT_map =
 {
   {" ", TokenType::SPACE},
   {";", TokenType::SEMICOLON},
@@ -137,3 +140,4 @@ std::unordered_map<std::string, stem::TokenType> stem::TokenUtils::m_RT_map =
   {"<->", TokenType::IFANDONLYIF},
   {"", TokenType::EMPTY}
 };
+

@@ -10,6 +10,7 @@ PROJECTS = \
 	./make/stem/character.mk \
 	./make/stem/reader.mk \
 	./make/stem/token.mk \
+	./make/stem/trie.mk \
 	./make/stem/node.mk \
 	./make/stem/lexer.mk \
 	./make/stem/parser.mk \
@@ -40,6 +41,7 @@ clean: $(CLEANS)
 
 #? Submake dependencies (allows `make -j` to work) ex. # m./make/submake1.mk: m./make/submake2.mk
 #? A submake dependes on another if it uses the target of the other (such as the form of a library) 
+m./make/stem/trie.mk: m./make/stem/token.mk
 m./make/stem/node.mk: m./make/stem/token.mk
 m./make/stem/lexer.mk: m./make/stem/error.mk m./make/stem/token.mk m./make/stem/character.mk
 m./make/stem/parser.mk: m./make/stem/error.mk m./make/stem/node.mk
