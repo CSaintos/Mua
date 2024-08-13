@@ -1,10 +1,8 @@
 /**
- * @brief This file is part of {{ stem.inc.front }}
- * 
- * @file Lexer.hpp
+ * @file stem/inc/front/Lexer.hpp
  * @author Christian Santos
- * @version 1.0.3 
- * @date 8/10/2024
+ * @version 1.0.4 
+ * @date 8/12/2024
  */
 
 #pragma once
@@ -15,9 +13,12 @@
 
 #include "Error.hpp"
 #include "Character.hpp"
+#include "CharacterType.hpp"
 #include "Token.hpp"
 #include "TokenType.hpp"
 #include "TokenUtils.hpp"
+#include "TrieNode.hpp"
+#include "TokenTrie.hpp"
 
 namespace stem
 {
@@ -28,12 +29,15 @@ namespace stem
   class Lexer
   {
   private:
+    std::list<Character> ls; ///< string of list for constructing lexemes
     std::stringstream ss; ///< for constructing lexemes
     std::list<Token> token_stream; ///< list of tokens lexed
     std::list<Character> *char_list; ///< list of chars to lex
     std::list<Character>::iterator itr; ///< points to current element
     std::list<Character>::iterator end; ///< points to last element
     //std::string file_name; ///< name of the file current tokens belong to
+    TokenTrie* token_trie;
+    TrieNode* curr;
 
     Token token_temp; ///< current token being analyzed/created
     // Position pos_temp; ///< current position during lex process
@@ -75,7 +79,7 @@ namespace stem
      * @param type the token type of the token
      * @param ch the character to store in token
      */
-    void createToken(stem::TokenType &type, Character &c);
+    void createToken(const stem::TokenType &type, Character &c);
     /**
      * @brief helps build token stream one char at a time
      * 
@@ -85,6 +89,7 @@ namespace stem
      * @param ch single char to convert or add to a token
      */
     void scanOneChar(Character &c);
+    void scanOneChar_bak(Character &c);
   public:
     /**
      * @brief Lexer(file_name) constructor

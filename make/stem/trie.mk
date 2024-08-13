@@ -11,7 +11,7 @@ TARGET_PATH = stem/trie
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Istem/inc/util/token \
-	-Istem/inc/util/Token/trie
+	-Istem/inc/util/token/trie
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
 	-Lbuild/stem/token

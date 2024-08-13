@@ -18,14 +18,14 @@ int main(int argc, char *argv[])
 {
   // Create tokens
   stem::Token tok_0;
-  tok_0.m_type = stem::TokenType::DIGIT;
-  tok_0.m_lexemes = "0";
+  tok_0.type = stem::TokenType::DIGIT;
+  tok_0.lexemes = "0";
   stem::Token tok_1;
-  tok_1.m_type = stem::TokenType::DIGIT;
-  tok_1.m_lexemes = "1";
+  tok_1.type = stem::TokenType::DIGIT;
+  tok_1.lexemes = "1";
   stem::Token tok_plus;
-  tok_plus.m_type = stem::TokenType::PLUS;
-  tok_plus.m_lexemes = "+";
+  tok_plus.type = stem::TokenType::PLUS;
+  tok_plus.lexemes = "+";
   // Create nodes
   std::unique_ptr<stem::Node> node_0 = std::make_unique<stem::DigitNode>(tok_0);
   std::unique_ptr<stem::Node> node_1 = std::make_unique<stem::DigitNode>(tok_1);

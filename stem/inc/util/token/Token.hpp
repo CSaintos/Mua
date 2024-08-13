@@ -1,12 +1,8 @@
 /**
- * @brief This file is part of {{ stem.inc.util.token }}
- * 
- * @file Token.hpp
+ * @file stem/inc/util/token/Token.hpp
  * @author Christian Santos
- * @version 1.0.3 
- * @date 2/19/2023
- * 
- * @note There might be a way to implement using a hash table
+ * @version 1.0.4
+ * @date 8/11/2024
  */
 
 #pragma once
@@ -28,9 +24,9 @@ namespace stem
    */
   struct Token
   {
-    TokenType m_type; ///< token type
-    std::string m_lexemes; ///< token lexemes or string
-    Position m_pos; ///< token position
+    TokenType type; ///< token type
+    std::string lexemes; ///< token lexemes or string
+    Position pos; ///< token position
 
     /**
      * @brief token() constructor

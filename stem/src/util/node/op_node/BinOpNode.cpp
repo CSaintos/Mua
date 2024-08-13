@@ -34,9 +34,9 @@ std::string stem::BinOpNode::to_repr()
 {
   if (m_node_left == nullptr || m_node_right == nullptr)
   {
-    return m_tok.m_lexemes;
+    return m_tok.lexemes;
   }
-  return m_node_left->to_repr() + m_tok.m_lexemes + m_node_right->to_repr();
+  return m_node_left->to_repr() + m_tok.lexemes + m_node_right->to_repr();
 }
 
 bool stem::BinOpNode::hasGrandchildren()

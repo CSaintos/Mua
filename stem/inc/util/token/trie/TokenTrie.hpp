@@ -20,10 +20,10 @@ namespace stem
   private:
     static TokenTrie instance;
     TrieNode root;
-    inline static bool isInstanciated = false;
+    static bool isInstanciated;
     TokenTrie();
   public:
-    inline static TokenTrie* getInstance() { return &instance; }
+    static TokenTrie* getInstance();
     TrieNode* getTrie();
   };
 }

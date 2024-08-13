@@ -12,6 +12,7 @@ TARGET_PATH = stem-test/lexer
 INCLUDES = \
 	-Istem/inc/front \
 	-Istem/inc/util/token \
+	-Istem/inc/util/token/trie \
 	-Istem/inc/util \
 	-Istem/inc/util/error \
 	-Istem/inc/util/character
@@ -19,6 +20,7 @@ INCLUDES = \
 LINKDIRS = \
 	-Lbuild/stem/lexer \
 	-Lbuild/stem/reader \
+	-Lbuild/stem/trie \
 	-Lbuild/stem/token \
 	-Lbuild/stem/error \
 	-Lbuild/stem/character
@@ -28,6 +30,7 @@ DLINKS =
 SLINKS = \
 	-llexer \
 	-lreader \
+	-ltrie \
 	-ltoken \
 	-lerror \
 	-lcharacter

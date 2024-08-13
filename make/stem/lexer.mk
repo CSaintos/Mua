@@ -12,6 +12,7 @@ TARGET_PATH = stem/lexer
 INCLUDES = \
 	-Istem/inc/front \
 	-Istem/inc/util/token \
+	-Istem/inc/util/token/trie \
 	-Istem/inc/util \
 	-Istem/inc/util/error \
 	-Istem/inc/util/character
@@ -19,14 +20,16 @@ INCLUDES = \
 LINKDIRS = \
 	-Lbuild/stem/error \
 	-Lbuild/stem/character \
-	-Lbuild/stem/token
+	-Lbuild/stem/token \
+	-Lbuild/stem/trie
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension>
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension>
 SLINKS = \
+	-ltrie \
+	-ltoken \
 	-lcharacter \
-	-lerror \
-	-ltoken
+	-lerror
 DEFINES = 
 SRCDIRS = \
 	stem/src/front

@@ -43,7 +43,7 @@ clean: $(CLEANS)
 #? A submake dependes on another if it uses the target of the other (such as the form of a library) 
 m./make/stem/trie.mk: m./make/stem/token.mk
 m./make/stem/node.mk: m./make/stem/token.mk
-m./make/stem/lexer.mk: m./make/stem/error.mk m./make/stem/token.mk m./make/stem/character.mk
+m./make/stem/lexer.mk: m./make/stem/error.mk m./make/stem/trie.mk m./make/stem/character.mk
 m./make/stem/parser.mk: m./make/stem/error.mk m./make/stem/node.mk
 m./make/stem/reader.mk: m./make/stem/character.mk m./make/stem/error.mk
 m./make/stem/generator.mk: m./make/stem/node.mk

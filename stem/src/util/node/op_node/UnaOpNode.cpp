@@ -30,7 +30,7 @@ std::string stem::UnaOpNode::to_repr()
 {
   std::string str = std::string();
 
-  if (m_tok.m_type == stem::TokenType::LPAREN)
+  if (m_tok.type == stem::TokenType::LPAREN)
   {
     str = "(" + m_node->to_repr() + ")";
   }

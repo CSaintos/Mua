@@ -53,7 +53,7 @@ namespace stem
      */
     inline std::string to_repr() override 
     {
-      return m_tok.m_lexemes;
+      return m_tok.lexemes;
     }
   };
 }

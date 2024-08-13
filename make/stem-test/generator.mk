@@ -13,6 +13,7 @@ INCLUDES = \
 	-Istem/inc/back \
 	-Istem/inc/front \
 	-Istem/inc/util/token \
+	-Istem/inc/util/token/trie \
 	-Istem/inc/util \
 	-Istem/inc/util/error \
 	-Istem/inc/util/node \
@@ -29,6 +30,7 @@ LINKDIRS = \
 	-Lbuild/stem/node \
 	-Lbuild/stem/PL \
 	-Lbuild/stem/reader \
+	-Lbuild/stem/trie \
 	-Lbuild/stem/token \
 	-Lbuild/stem/error \
 	-Lbuild/stem/character
@@ -42,6 +44,7 @@ SLINKS = \
 	-lnode \
 	-lPL \
 	-lreader \
+	-ltrie \
 	-ltoken \
 	-lerror \
 	-lcharacter

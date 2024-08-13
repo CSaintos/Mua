@@ -12,6 +12,7 @@ TARGET_PATH = stem-test/parser
 INCLUDES = \
 	-Istem/inc/front \
 	-Istem/inc/util/token \
+	-Istem/inc/util/token/trie \
 	-Istem/inc/util \
 	-Istem/inc/util/error \
 	-Istem/inc/util/node \
@@ -24,6 +25,7 @@ LINKDIRS = \
 	-Lbuild/stem/lexer \
 	-Lbuild/stem/reader \
 	-Lbuild/stem/node \
+	-Lbuild/stem/trie \
 	-Lbuild/stem/token \
 	-Lbuild/stem/error \
 	-Lbuild/stem/character
@@ -35,6 +37,7 @@ SLINKS = \
 	-llexer \
 	-lreader \
 	-lnode \
+	-ltrie \
 	-ltoken \
 	-lerror \
 	-lcharacter

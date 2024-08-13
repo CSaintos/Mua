@@ -3,6 +3,16 @@
 using namespace stem;
 using namespace std;
 
+TokenTrie::TokenTrie() {}
+
+bool TokenTrie::isInstanciated = false;
+TokenTrie TokenTrie::instance;
+
+TokenTrie* TokenTrie::getInstance()
+{
+  return &TokenTrie::instance;
+}
+
 TrieNode* TokenTrie::getTrie()
 {
   if (TokenTrie::isInstanciated) return &root;
@@ -26,6 +36,8 @@ TrieNode* TokenTrie::getTrie()
     }
     curr->type = TokenUtils::m_RT_map[token_string];
   }
+
+  TokenTrie::isInstanciated = true;
 
   return &root; 
 }

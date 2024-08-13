@@ -1,34 +1,37 @@
 #include "Token.hpp"
 
-stem::Token::Token()
+using namespace std;
+using namespace stem;
+
+Token::Token()
 {
   init();
 }
 
-stem::Token::Token(const Token &tok)
-    : m_type(tok.m_type),
-      m_lexemes(tok.m_lexemes),
-      m_pos(tok.m_pos)
+Token::Token(const Token &tok)
+  : type(tok.type),
+    lexemes(tok.lexemes),
+    pos(tok.pos)
 {}
 
-void stem::Token::init()
+void Token::init()
 {
-  m_type = stem::TokenType::EMPTY;
-  m_lexemes = "";
-  m_pos.init();
+  type = TokenType::EMPTY;
+  lexemes = "";
+  pos.init();
 }
 
-std::string stem::Token::to_string()
+string Token::to_string()
 {
-  std::string output = "";
+  string output = "";
 
-  if (m_type == TokenType::DIGIT || m_type == TokenType::IDENTIFIER)
+  if (type == TokenType::DIGIT || type == TokenType::IDENTIFIER)
   {
-    output = TokenUtils::m_TS_map[m_type] + ":" + m_lexemes;
+    output = TokenUtils::m_TS_map[type] + ":" + lexemes;
   }
   else
   {
-    output = TokenUtils::m_TS_map[m_type];
+    output = TokenUtils::m_TS_map[type];
   }
 
   return output;
