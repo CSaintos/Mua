@@ -34,12 +34,10 @@ namespace stem
     std::list<Character> *char_list; ///< list of chars to lex
     std::list<Character>::iterator itr; ///< points to current element
     std::list<Character>::iterator end; ///< points to last element
-    //std::string file_name; ///< name of the file current tokens belong to
     TokenTrie* token_trie;
     TrieNode* curr;
 
     Token token_temp; ///< current token being analyzed/created
-    // Position pos_temp; ///< current position during lex process
 
     int dot_count; ///< making sure only one dot in decimal
 
@@ -49,21 +47,6 @@ namespace stem
      * @see lex()
      */
     void init(std::list<Character> *char_list);
-    /**
-     * @brief maps a single char to TokenType and returns type
-     * 
-     * @param ch single character to map
-     * 
-     * @return TokenType that the char belongs to
-     */
-    stem::TokenType charToTokenType(char &ch);
-    /**
-     * @brief Throws an exception and stops program
-     * @note this method is temporary
-     * 
-     * @param ch single char to error 
-     */
-    void err(Character &c);
     /**
      * @brief Packages the temp token into token stream
      * - Then re-initializes the string stream and temp token.
@@ -97,14 +80,6 @@ namespace stem
      * @see ~Lexer()
      */
     Lexer();
-    /**
-     * @brief ~Lexer() destructor
-     * 
-     * @note clears string stream
-     * 
-     * @see Lexer(const std::string &file_name)
-     */
-    ~Lexer();
 
     /**
      * @brief lexes the char list.

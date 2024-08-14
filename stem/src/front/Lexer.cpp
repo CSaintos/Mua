@@ -4,7 +4,7 @@ using namespace std;
 using namespace stem;
 
 Lexer::Lexer()
-  : char_list(),
+  : char_list(nullptr),
     itr(),
     end(),
     token_trie(nullptr),
@@ -14,12 +14,6 @@ Lexer::Lexer()
   token_trie = TokenTrie::getInstance();
 }
 
-Lexer::~Lexer()
-{
-  token_stream.clear();
-  ss.clear();
-}
-
 void Lexer::init(list<Character> *char_list)
 {
   char_list = char_list;
@@ -27,28 +21,8 @@ void Lexer::init(list<Character> *char_list)
   end = char_list->end();
   token_temp.init();
   token_stream.clear();
-  ss.str(string());
+  ls.clear();
   curr = token_trie->getTrie();
-}
-
-TokenType Lexer::charToTokenType(char &ch)
-{
-  TokenType type = TokenType::UNKNOWN;
-
-  // if char exists in RT map
-  if (TokenUtils::m_RT_map.find(string(1, ch)) != TokenUtils::m_RT_map.end())
-  {
-    type = TokenUtils::m_RT_map[string(1, ch)];
-  }
-
-  return type;
-}
-
-void Lexer::err(Character &c)
-{
-  Error err(c.pos, "IllegalCharError", "'" + c.to_string() + "'");
-  cout << err.to_string() << endl;
-  exit(1);
 }
 
 void Lexer::toTokenStream()
@@ -308,7 +282,7 @@ bool Lexer::lex(list<Character> *char_list)
   //* iterate through char list and convert to token stream
   while (itr != end)
   {
-    //std::cout << "char: " << *m_itr << " ";
+    //cout << "char: " << itr->c << " " << endl;
     scanOneChar(*itr);
 
     ++itr;
@@ -320,11 +294,6 @@ bool Lexer::lex(list<Character> *char_list)
     if (token_temp.type != TokenType::COMMENT)
     {
       toTokenStream();
-    }
-    else 
-    {
-      token_temp.init();
-      ls.clear();
     }
   }
   return true;

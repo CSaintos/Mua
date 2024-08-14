@@ -1,12 +1,20 @@
 # maker.mk
 .PHONY: all compile build dirs clean
 
+#* Compiler flags
+CXXFLAGS += $(CPPFLAGS) -MD -MP -g
+#* Pre-constants
+SLINK_FILES = $(patsubst -l%, %.lib, $(patsubst -l:%, %, $(SLINKS)))
+DLINK_FILES = $(patsubst -l%, %.dll, $(patsubst -l:%, %, $(DLINKS)))
+LINKS = $(SLINK_FILES) $(DLINK_FILES)
+
 #* First class functions
 find_srcs = $(wildcard $(addprefix $(addsuffix /, $(SRCDIR)), $(SRCFILES)))
+find_libs = $(wildcard $(addprefix $(addsuffix /, $(LINKDIR)), $(LINKS)))
 list_rm = $(wordlist 2, $(words $1), $1)
 pairmap = $(and $(strip $2), $(strip $3), $(call $1, $(firstword $2), $(firstword $3)) $(call pairmap, $1, $(call list_rm, $2), $(call list_rm, $3)))
-compile_exe_cmd = $(shell $(CXX) $(INCLUDES) -c$1 -o$2)
-compile_lib_cmd = $(shell $(CXX) -fPIC $(INCLUDES) -c$1 -o$2)
+compile_exe_cmd = $(shell $(CXX) $(INCLUDES) -c$1 -o$2 $(CXXFLAGS) -MF$(2:%.o=%.d))
+compile_lib_cmd = $(shell $(CXX) -fPIC $(INCLUDES) -c$1 -o$2 $(CXXFLAGS) -MF$(2:%.o=%.d))
 
 #* Constants
 ifeq ($(OS),Windows_NT)
@@ -17,6 +25,7 @@ else ifeq ($(shell uname -s),Darwin)
 	SYS = OSX
 endif
 SRCS = $(foreach SRCDIR, $(SRCDIRS), $(find_srcs))
+LIBS = $(foreach LINKDIR, $(patsubst -L%, %, $(LINKDIRS)), $(find_libs))
 OBJECTS = $(addprefix $(OBJDIR)/, $(patsubst %.cpp, %.o, $(SRCFILES)))
 TARGET = $(TARGETDIR)/$(TARGET_NAME)
 ifeq ($(BUILDTYPE), EXE)
@@ -74,9 +83,9 @@ endif
 
 # Build target from objects
 ifeq ($(PROCESS), LINKONLY)
-$(TARGET): | $(TARGETDIR)
+$(TARGET): $(LIBS) | $(TARGETDIR)
 else
-$(TARGET): $(OBJECTS) | $(TARGETDIR)
+$(TARGET): $(OBJECTS) $(LIBS) | $(TARGETDIR)
 endif
 	@echo build
 ifeq ($(BUILDTYPE), EXE)
@@ -92,6 +101,7 @@ compile: $(OBJECTS)
 build: $(TARGET)
 	$(POSTBUILDCMDS)
 dirs: $(OBJDIR) $(TARGETDIR)
+# @echo $(LIBS)
 
 clean: 
 	@echo clean
@@ -110,3 +120,5 @@ else ifneq ($(filter $(SYS), Linux OSX),)
 endif
 endif
 	@echo cleaned
+
+-include $(OBJECTS:%.o=%.d)
