@@ -30,7 +30,6 @@ namespace stem
   {
   private:
     std::list<Character> ls; ///< string of list for constructing lexemes
-    std::stringstream ss; ///< for constructing lexemes
     std::list<Token> token_stream; ///< list of tokens lexed
     std::list<Character> *char_list; ///< list of chars to lex
     std::list<Character>::iterator itr; ///< points to current element
@@ -89,7 +88,6 @@ namespace stem
      * @param ch single char to convert or add to a token
      */
     void scanOneChar(Character &c);
-    void scanOneChar_bak(Character &c);
   public:
     /**
      * @brief Lexer(file_name) constructor

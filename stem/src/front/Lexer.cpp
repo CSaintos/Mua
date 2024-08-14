@@ -53,8 +53,6 @@ void Lexer::err(Character &c)
 
 void Lexer::toTokenStream()
 {
-  //if (TokenUtils::m_RT_map.find(ss.str()) != TokenUtils::m_RT_map.end())
-  //  token_temp.type = TokenUtils::m_RT_map[ss.str()];
   if (curr != token_trie->getTrie())
   {
     if (curr->type != TokenType::EMPTY)
@@ -63,7 +61,7 @@ void Lexer::toTokenStream()
     }
     curr = token_trie->getTrie();
   }
-  //token_temp.lexemes = ss.str();
+
   if (token_temp.type == TokenType::DIGIT ||
   token_temp.type == TokenType::IDENTIFIER)
   {
@@ -73,16 +71,22 @@ void Lexer::toTokenStream()
       ss << it->c;
       if (ls.end() == std::next(it))
       {
-        token_temp.pos.column_nums[1] = it->pos.column_nums[1];
+        if (token_temp.pos.column_nums[0] != it->pos.column_nums[0])
+        {
+          token_temp.pos.column_nums[1] = it->pos.column_nums[0];
+        }
       }
     }
     token_temp.lexemes = ss.str();
+  //if (TokenUtils::m_RT_map.find(ss.str()) != TokenUtils::m_RT_map.end())
+  //  token_temp.type = TokenUtils::m_RT_map[ss.str()];
   }
+  
+  if (token_temp.type == TokenType::COMMENT) return;
   token_stream.push_back(token_temp);
 
   token_temp.init();
   ls.clear();
-  //ss.str(string());
 }
 
 void Lexer::createToken(const TokenType &type, Character &c)
@@ -90,368 +94,6 @@ void Lexer::createToken(const TokenType &type, Character &c)
   token_temp.type = type;
   token_temp.pos = c.pos;
   ls.push_back(c);
-  //ss << c.c;
-}
-
-void Lexer::scanOneChar_bak(Character &c)
-{
-  TokenType type = charToTokenType(c.c);
-
-  // FIXME implement a more clean solution
-  switch (type)
-  {
-//  case TokenType::SPACE:
-//    switch (token_temp.m_type)
-//    {
-//    case TokenType::DIGIT:
-//    case TokenType::IDENTIFIER:
-//    case TokenType::PLUS:
-//    case TokenType::MINUS:
-//    case TokenType::ASTERISK:
-//    case TokenType::FSLASH:
-//    case TokenType::PERCENT:
-//    case TokenType::CARET:
-//    case TokenType::RPAREN:
-//    case TokenType::EQUAL:
-//    case TokenType::EXCLAMATION:
-//    case TokenType::LESSTHAN:
-//    case TokenType::MORETHAN:
-//    case TokenType::COMMA:
-//    case TokenType::VSLASH:
-//      toTokenStream();
-//      token_temp.m_type = type;
-//      break;
-//    case TokenType::SPACE:
-//      break;
-//    default:
-//      err(c);
-//    }
-//    break;
-  case TokenType::SEMICOLON:
-    switch (token_temp.type)
-    {
-    case TokenType::IDENTIFIER:
-    case TokenType::DIGIT:
-    case TokenType::RPAREN:
-//    case TokenType::RBRACE:
-//    case TokenType::RBRACKET:
-      toTokenStream();
-      createToken(type, c);
-      break;
-    default:
-      err(c);
-    }
-    break;
-//  case TokenType::COLON:
-//    err(c);
-//    break;
-  case TokenType::LPAREN:
-    switch (token_temp.type)
-    {
-    case TokenType::EMPTY:
-//    case TokenType::SPACE:
-      createToken(type, c);
-      break;
-    case TokenType::IDENTIFIER:
-    case TokenType::LPAREN:
-//    case TokenType::RBRACKET:
-    case TokenType::PLUS:
-    case TokenType::MINUS:
-    case TokenType::ASTERISK:
-    case TokenType::FSLASH:
-    case TokenType::CARET:
-      toTokenStream();
-      createToken(type, c);
-      break;
-    default:
-      err(c);
-    }
-    break;
-  case TokenType::RPAREN:
-    switch (token_temp.type)
-    {
-//    case TokenType::SPACE:
-//      createToken(type, c);
-//      break;
-    case TokenType::DIGIT:
-    case TokenType::IDENTIFIER:
-    case TokenType::RPAREN:
-      toTokenStream();
-      createToken(type, c);
-      break;
-    default:
-      err(c);
-    }
-    break;
-//  case TokenType::LBRACKET:
-//    switch (token_temp.m_type)
-//    {
-//    case TokenType::SPACE:
-//      createToken(type, c);
-//      break;
-//    default:
-//      err(c);
-//    }
-//    break;
-//  case TokenType::RBRACKET:
-//    switch (token_temp.m_type)
-//    {
-//    case TokenType::IDENTIFIER:
-//      toTokenStream();
-//      createToken(type, c);
-//      break;
-//    default:
-//      err(c);
-//    }
-//    break;
-//  case TokenType::LBRACE:
-//    switch (token_temp.m_type)
-//    {
-//    case TokenType::EMPTY:
-//    case TokenType::SPACE:
-//      createToken(type, c);
-//      break;
-//    default:
-//      err(c);
-//    }
-//    break;
-//  case TokenType::RBRACE:
-//    switch (token_temp.m_type)
-//    {
-//    case TokenType::DIGIT:
-//    case TokenType::IDENTIFIER:
-//      toTokenStream();
-//      createToken(type, c);
-//      break;
-//    default:
-//      err(c);
-//    }
-//    break;
-//  case TokenType::AMPERSAND:
-//    err(c);
-//    break;
-//  case TokenType::VSLASH:
-//    switch(token_temp.m_type)
-//    {
-//    case TokenType::SPACE:
-//      createToken(type, c);
-//      break;
-//    default:
-//      err(c);
-//    }
-//    break;
-//  case TokenType::TILDE:
-//    err(c);
-//    break;
-  case TokenType::EQUAL:
-    switch (token_temp.type)
-    {
-//    case TokenType::SPACE:
-//      createToken(type, c);
-//      break;
-    case TokenType::IDENTIFIER:
-    case TokenType::DIGIT:
-    case TokenType::RPAREN:
-      toTokenStream();
-      createToken(type, c);
-      break;
-    default:
-      err(c);
-    }
-    break;
-//  case TokenType::LESSTHAN:
-//    switch (token_temp.m_type)
-//    {
-//    case TokenType::SPACE:
-//    case TokenType::DIGIT:
-//      createToken(type, c);
-//      break;
-//    default:
-//      err(c);
-//    }
-//    break;
-//  case TokenType::MORETHAN:
-//    switch (token_temp.m_type)
-//    {
-//    case TokenType::SPACE:
-//    case TokenType::DIGIT:
-//      createToken(type, c);
-//      break;
-//    default:
-//      err(c);
-//    }
-//    break;
-//  case TokenType::EXCLAMATION:
-//    switch (token_temp.m_type)
-//    {
-//    case TokenType::DIGIT:
-//      toTokenStream();
-//      createToken(type, c);
-//      break;
-//    default:
-//      err(c);
-//    }
-//    break;
-//  case TokenType::COMMA:
-//    switch (token_temp.m_type)
-//    {
-//    case TokenType::DIGIT:
-//      toTokenStream();
-//      createToken(type, c);
-//      break;
-//    default:
-//      err(c);
-//    }
-//    break;
-//  case TokenType::DOT:
-//    switch (token_temp.m_type)
-//    {
-//    case TokenType::DIGIT:
-//      if (dot_count > 1)
-//      {
-//        Error err(c.pos, "IllegalCharError", "DIGIT already has DOT '.'");
-//        cout << err.to_string() << endl;
-//        exit(1);
-//      }
-//      else
-//      {
-//        ss << c.c;
-//        ++dot_count;
-//      }
-//      break;
-//    default:
-//      err(c);
-//    }
-//    break;
-  case TokenType::PLUS:
-  case TokenType::MINUS:
-    switch (token_temp.type)
-    {
-    case TokenType::EMPTY:
-//    case TokenType::SPACE:
-      createToken(type, c);
-      break;
-    case TokenType::DIGIT:
-    case TokenType::IDENTIFIER:
-    case TokenType::RPAREN:
-      toTokenStream();
-      createToken(type, c);
-      break;
-    default:
-      err(c);
-    }
-    break;
-  case TokenType::ASTERISK:
-  case TokenType::PERCENT:
-  case TokenType::CARET:
-    switch (token_temp.type)
-    {
-//    case TokenType::SPACE:
-//      createToken(type, c);
-//      break;
-    case TokenType::DIGIT:
-    case TokenType::IDENTIFIER:
-    case TokenType::RPAREN:
-      toTokenStream();
-      createToken(type, c);
-      break;
-    default:
-      err(c);
-    }
-    break;
-  case TokenType::FSLASH:
-    switch (token_temp.type)
-    {
-//    case TokenType::SPACE:
-    case TokenType::EMPTY:
-      createToken(type, c);
-      break;
-    case TokenType::DIGIT:
-    case TokenType::IDENTIFIER:
-    case TokenType::RPAREN:
-      toTokenStream();
-      createToken(type, c);
-      break;
-    case TokenType::FSLASH:
-      ss << c.c;
-      if (TokenType::COMMENT == TokenUtils::m_RT_map[ss.str()])
-      {
-        token_temp.type = TokenType::COMMENT;
-      }
-      break;
-    default:
-      err(c);
-    }
-    break;
-//  case TokenType::UNDERSCORE:
-//    switch (token_temp.m_type)
-//    {
-//    case TokenType::IDENTIFIER:
-//      toTokenStream();
-//      createToken(type, c);
-//      break;
-//    default:
-//      err(c);
-//    }
-//    break;
-  case TokenType::DIGIT:
-    switch (token_temp.type)
-    {
-    case TokenType::EMPTY:
-//    case TokenType::SPACE:
-      createToken(type, c);
-      dot_count = 0;
-      break;
-    case TokenType::DIGIT:
-    case TokenType::IDENTIFIER:
-      ss << c.c;
-      break;
-    case TokenType::LPAREN:
-    case TokenType::ASTERISK:
-    case TokenType::PLUS:
-    case TokenType::MINUS:
-    case TokenType::CARET:
-    case TokenType::EQUAL:
-      toTokenStream();
-      createToken(type, c);
-      dot_count = 0;
-      break;
-    default:
-      err(c);
-    }
-    break;
-  case TokenType::IDENTIFIER:
-    switch (token_temp.type)
-    {
-    case TokenType::PERCENT:
-    case TokenType::FSLASH:
-    case TokenType::ASTERISK:
-    case TokenType::PLUS:
-    case TokenType::MINUS:
-    case TokenType::CARET:
-//    case TokenType::UNDERSCORE:
-    case TokenType::LPAREN:
-//    case TokenType::LBRACE:
-//    case TokenType::LBRACKET:
-    case TokenType::EQUAL:
-      toTokenStream();
-      createToken(type, c);
-      break;
-//    case TokenType::SPACE:
-    case TokenType::EMPTY:
-      createToken(type, c);
-      break;
-    case TokenType::IDENTIFIER:
-      ss << c.c;
-      break;
-    default:
-      err(c);
-    }
-    break;
-  default:
-    err(c);
-    break;
-  }
 }
 
 void Lexer::scanOneChar(Character &c)
@@ -508,6 +150,7 @@ void Lexer::scanOneChar(Character &c)
       ++dot_count;
     default:
       toTokenStream();
+      if (token_temp.type == TokenType::COMMENT) break;
       createToken(TokenType::DIGIT, c);
       ++dot_count;
     }
@@ -533,6 +176,7 @@ void Lexer::scanOneChar(Character &c)
       break;
     default:
       toTokenStream();
+      if (token_temp.type == TokenType::COMMENT) break;
       createToken(TokenType::DIGIT, c);
       dot_count = 0;
       break;
@@ -543,6 +187,10 @@ void Lexer::scanOneChar(Character &c)
     {
     case TokenType::EMPTY:
       createToken(TokenType::IDENTIFIER, c);
+      if (curr->nodes.count(c.c) == 1)
+      {
+        curr = &(curr->nodes[c.c]);
+      }
       break;
     case TokenType::IDENTIFIER:
       if (curr->nodes.count(c.c) == 1)
@@ -575,8 +223,10 @@ void Lexer::scanOneChar(Character &c)
       {
         curr = &(curr->nodes[c.c]);
       }
+      break;
     default:
       toTokenStream();
+      if (token_temp.type == TokenType::COMMENT) break;
       createToken(TokenType::IDENTIFIER, c);
       if (curr->nodes.count(c.c) == 1)
       {
@@ -636,10 +286,11 @@ void Lexer::scanOneChar(Character &c)
       if (curr != token_trie->getTrie())
       {
         toTokenStream();
+        if (token_temp.type == TokenType::COMMENT) break;
         if (curr->nodes.count(c.c) == 1)
         {
           curr = (&curr->nodes[c.c]);
-          createToken(curr->nodes[c.c].type, c);
+          createToken(curr->type, c);
         }
       }
     }
@@ -659,14 +310,12 @@ bool Lexer::lex(list<Character> *char_list)
   {
     //std::cout << "char: " << *m_itr << " ";
     scanOneChar(*itr);
-    //std::cout << "ss: " << ((ss.str().length() == 0) ? "(null)" : ss.str()) << std::endl;
 
     ++itr;
   }
 
   //* Add last remaining token to stream
-  if (token_temp.type != TokenType::EMPTY /*&&
-      token_temp.m_type != TokenType::SPACE*/)
+  if (token_temp.type != TokenType::EMPTY)
   {
     if (token_temp.type != TokenType::COMMENT)
     {
@@ -676,7 +325,6 @@ bool Lexer::lex(list<Character> *char_list)
     {
       token_temp.init();
       ls.clear();
-      //ss.str(string());
     }
   }
   return true;
