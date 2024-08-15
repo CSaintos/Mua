@@ -132,20 +132,41 @@ void Lexer::scanOneChar(Character &c)
     {
       if (curr == token_trie->getTrie()) break;
       TokenType type = token_trie->getTrie()->nodes[c.c].type;
-      switch (token_temp.type)
+      if (token_temp.type == TokenType::IDENTIFIER || token_temp.type == TokenType::DIGIT)
       {
-      case TokenType::IDENTIFIER:
-      {
-        switch (type)
+        if (type == token_temp.type)
         {
-        case TokenType::IDENTIFIER:
+          if (c.type == CharacterType::DOT)
+          {
+            if (dot_count > 0)
+            {
+              Error err(c.pos, "IllegalCharError", "DIGIT already has DOT '.'");
+              cout << err.to_string() << endl;
+              break;             
+            }
+            ++dot_count;
+          }
+          else if (dot_count == 1)
+          {
+            ++dot_count;
+          }
           ls.push_back(c);
           if (curr != nullptr) curr = nullptr;
-          break;
-        default:
-          toTokenStream();
-          //if (token_temp.type == TokenType::COMMENT) break;
-          if (curr->nodes.count(c.c) == 1)
+        }
+        else
+        {
+          if (dot_count == 1)
+          {
+            Error err(c.pos, "IllegalCharError", "DIGIT cannot end with DOT '.'");
+            cout << err.to_string() << endl;
+            ls.pop_back();
+            dot_count = 0;
+          }
+          if (ls.size() != 0)
+          {
+            toTokenStream();
+          }
+          if (curr != nullptr && curr->nodes.count(c.c) == 1)
           {
             curr = &(curr->nodes[c.c]);
             createToken(curr->type, c);
@@ -158,43 +179,18 @@ void Lexer::scanOneChar(Character &c)
               }
             }
           }
-          break;
         }
-        break;
       }
-      case TokenType::DIGIT:
+      else 
       {
-        switch (type)
+        switch (token_temp.type)
         {
-        case TokenType::DIGIT:
-          if (c.type == CharacterType::DOT)
-          {
-            if (dot_count > 0)
-            {
-              Error err(c.pos, "IllegalCharError", "DIGIT already has DOT '.'");
-              cout << err.to_string() << endl;
-              break;
-            }
-            ++dot_count;
-          }
-          else if (dot_count == 1) 
-          {
-            ++dot_count;
-          }
-          ls.push_back(c);
+        case TokenType::COMMENT:
+        case TokenType::UNKNOWN:
           break;
         default:
-          if (dot_count == 1)
-          {
-            Error err(c.pos, "IllegalCharError", "DIGIT cannot end with DOT '.'");
-            cout << err.to_string() << endl;
-            ls.pop_back();
-            dot_count = 0;
-          }
-          if (ls.size() != 0)
-          {
-            toTokenStream();
-          }
+          toTokenStream();
+          if (token_temp.type == TokenType::COMMENT) break;
           if (curr->nodes.count(c.c) == 1)
           {
             curr = &(curr->nodes[c.c]);
@@ -202,22 +198,6 @@ void Lexer::scanOneChar(Character &c)
           }
           break;
         }
-        break;
-      }
-      case TokenType::COMMENT:
-      case TokenType::UNKNOWN:
-        break;
-      default:
-      {
-        toTokenStream();
-        if (token_temp.type == TokenType::COMMENT) break;
-        if (curr->nodes.count(c.c) == 1)
-        {
-          curr = &(curr->nodes[c.c]);
-          createToken(curr->type, c);
-        }
-      break;
-      }
       }
     }
     break;
