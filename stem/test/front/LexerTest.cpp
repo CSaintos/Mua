@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
     // Read the next line and get the length
     line_length = reader.readLine();
     // Print the length of the line
-    //~~std::cout << "Line length: " << line_length << std::endl;
+    // cout << "Line length: " << line_length << endl;
     // Get the character list from the reader as pointer.
     char_list = reader.getList();
     // lex the char list

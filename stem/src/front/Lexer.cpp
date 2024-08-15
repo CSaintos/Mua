@@ -29,7 +29,7 @@ void Lexer::toTokenStream()
 {
   if (curr != token_trie->getTrie())
   {
-    if (curr->type != TokenType::EMPTY)
+    if (curr != nullptr && curr->type != TokenType::EMPTY)
     {
       token_temp.type = curr->type;
     }
@@ -101,151 +101,47 @@ void Lexer::scanOneChar(Character &c)
       break;
     }
     break;
-  case CharacterType::DOT:
-    switch (token_temp.type)
-    {
-    case TokenType::DIGIT:
-      if (dot_count > 0)
-      {
-        Error err(c.pos, "IllegalCharError", "DIGIT already has DOT '.'");
-        cout << err.to_string() << endl;
-      }
-      else
-      {
-        ls.push_back(c);
-        ++dot_count;
-      }
-      break;
-    case TokenType::UNKNOWN:
-    case TokenType::COMMENT:
-      break;
-    case TokenType::EMPTY:
-      createToken(TokenType::DIGIT, c);
-      ++dot_count;
-    default:
-      toTokenStream();
-      if (token_temp.type == TokenType::COMMENT) break;
-      createToken(TokenType::DIGIT, c);
-      ++dot_count;
-    }
-    break;
-  case CharacterType::DIGIT:
-    switch (token_temp.type)
-    {
-    case TokenType::DIGIT:
-      if (dot_count == 1)
-      {
-        ++dot_count;
-      }
-      // no break
-    case TokenType::IDENTIFIER:
-      ls.push_back(c);
-      break;
-    case TokenType::EMPTY:
-      createToken(TokenType::DIGIT, c);
-      dot_count = 0;
-      break;
-    case TokenType::COMMENT:
-    case TokenType::UNKNOWN:
-      break;
-    default:
-      toTokenStream();
-      if (token_temp.type == TokenType::COMMENT) break;
-      createToken(TokenType::DIGIT, c);
-      dot_count = 0;
-      break;
-    }
-    break;
-  case CharacterType::ALPHA:
-    switch (token_temp.type)
-    {
-    case TokenType::EMPTY:
-      createToken(TokenType::IDENTIFIER, c);
-      if (curr->nodes.count(c.c) == 1)
-      {
-        curr = &(curr->nodes[c.c]);
-      }
-      break;
-    case TokenType::IDENTIFIER:
-      if (curr->nodes.count(c.c) == 1)
-      {
-        curr = &(curr->nodes[c.c]);
-      }
-      else if (curr != token_trie->getTrie()) 
-      {
-        curr = token_trie->getTrie();
-      }
-      ls.push_back(c);
-      break;
-    case TokenType::COMMENT:
-    case TokenType::UNKNOWN:
-      break;
-    case TokenType::DIGIT:
-      if (dot_count == 1)
-      {
-        Error err(c.pos, "IllegalCharError", "DIGIT cannot end with DOT '.'");
-        cout << err.to_string() << endl;
-        ls.pop_back();
-        dot_count = 0;
-      }
-      if (ls.size() != 0)
-      {
-        toTokenStream();
-      }
-      createToken(TokenType::IDENTIFIER, c);
-      if (curr->nodes.count(c.c) == 1)
-      {
-        curr = &(curr->nodes[c.c]);
-      }
-      break;
-    default:
-      toTokenStream();
-      if (token_temp.type == TokenType::COMMENT) break;
-      createToken(TokenType::IDENTIFIER, c);
-      if (curr->nodes.count(c.c) == 1)
-      {
-        curr = &(curr->nodes[c.c]);
-      }
-      break;
-    }
   case CharacterType::UNKNOWN:
   case CharacterType::EMPTY:
     break;
   default:
-    if (curr->nodes.count(c.c) == 1)
+    if (curr != nullptr && curr->nodes.count(c.c) == 1)
     {
       if (curr == token_trie->getTrie())
       {
-        switch (token_temp.type)
-        {
-        case TokenType::DIGIT:
-          if (dot_count == 1)
-          {
-            Error err(c.pos, "IllegalCharError", "DIGIT cannot end with DOT '.'");
-            cout << err.to_string() << endl;
-            ls.pop_back();
-            dot_count = 0;
-          }
-          if (ls.size() != 0)
-          {
-            toTokenStream();
-          }
-          break;
-        case TokenType::EMPTY:
-        case TokenType::COMMENT:
-        case TokenType::UNKNOWN:
-          break;
-        default:
-          toTokenStream();
-          break;
-        }
-
+//        switch (token_temp.type)
+//        {
+//        case TokenType::DIGIT:
+//          if (dot_count == 1)
+//          {
+//            Error err(c.pos, "IllegalCharError", "DIGIT cannot end with DOT '.'");
+//            cout << err.to_string() << endl;
+//            ls.pop_back();
+//            dot_count = 0;
+//          }
+//          if (ls.size() != 0)
+//          {
+//            toTokenStream();
+//          }
+//          break;
+//        case TokenType::EMPTY:
+//        case TokenType::COMMENT:
+//        case TokenType::UNKNOWN:
+//          break;
+//        default:
+//          toTokenStream();
+//          break;
+//        }
         switch (token_temp.type)
         {
         case TokenType::COMMENT:
           break;
         default:
           createToken(curr->nodes[c.c].type, c);  
+          if (token_temp.type == TokenType::DIGIT)
+          {
+            dot_count = 0;
+          }
           break;
         }
       }
@@ -253,18 +149,105 @@ void Lexer::scanOneChar(Character &c)
       {
         ls.push_back(c);
       }
-      curr = (&curr->nodes[c.c]);
+      curr = &(curr->nodes[c.c]);
     }
     else
     {
       if (curr != token_trie->getTrie())
       {
-        toTokenStream();
-        if (token_temp.type == TokenType::COMMENT) break;
-        if (curr->nodes.count(c.c) == 1)
+        TokenType type = token_trie->getTrie()->nodes[c.c].type;
+        switch (token_temp.type)
         {
-          curr = (&curr->nodes[c.c]);
-          createToken(curr->type, c);
+        case TokenType::IDENTIFIER:
+        {
+          switch (type)
+          {
+          case TokenType::IDENTIFIER:
+            ls.push_back(c);
+            if (curr != nullptr) curr = nullptr;
+            break;
+          default:
+            toTokenStream();
+            //if (token_temp.type == TokenType::COMMENT) break;
+            if (curr->nodes.count(c.c) == 1)
+            {
+              curr = &(curr->nodes[c.c]);
+              createToken(curr->type, c);
+              if (token_temp.type == TokenType::DIGIT)
+              {
+                dot_count = 0;
+                if (c.type == CharacterType::DOT)
+                {
+                  ++dot_count;
+                }
+              }
+            }
+            break;
+          }
+          break;
+        }
+        case TokenType::DIGIT:
+        {
+          switch (type)
+          {
+          case TokenType::DIGIT:
+            if (c.type == CharacterType::DOT)
+            {
+              if (dot_count > 0)
+              {
+                Error err(c.pos, "IllegalCharError", "DIGIT already has DOT '.'");
+                cout << err.to_string() << endl;
+              }
+              else
+              {
+                ls.push_back(c);
+                ++dot_count;
+              }
+            }
+            else 
+            {
+              if (dot_count == 1)
+              {
+                ++dot_count;
+              }
+              ls.push_back(c);
+            }
+            break;
+          default:
+            if (dot_count == 1)
+            {
+              Error err(c.pos, "IllegalCharError", "DIGIT cannot end with DOT '.'");
+              cout << err.to_string() << endl;
+              ls.pop_back();
+              dot_count = 0;
+            }
+            if (ls.size() != 0)
+            {
+              toTokenStream();
+            }
+            if (curr->nodes.count(c.c) == 1)
+            {
+              curr = &(curr->nodes[c.c]);
+              createToken(curr->type, c);
+            }
+            break;
+          }
+          break;
+        }
+        case TokenType::COMMENT:
+        case TokenType::UNKNOWN:
+          break;
+        default:
+        {
+          toTokenStream();
+          if (token_temp.type == TokenType::COMMENT) break;
+          if (curr->nodes.count(c.c) == 1)
+          {
+            curr = &(curr->nodes[c.c]);
+            createToken(curr->type, c);
+          }
+        break;
+        }
         }
       }
     }
