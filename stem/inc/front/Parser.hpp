@@ -35,26 +35,26 @@ namespace stem
   {
   private:
     /// stack of nodes
-    std::stack<std::unique_ptr<stem::Node>> m_node_stack;
+    std::stack<std::unique_ptr<stem::Node>> node_stack;
     /// queue of node pointers
-    std::queue<stem::Node*> m_node_queue;
+    std::queue<stem::Node*> node_queue;
     //^ Do not do stack<Node> as that causes "object slicing"
     /// pointer to token stream
-    std::list<stem::Token> *m_token_stream;
+    std::list<stem::Token> *token_stream;
     /// iterator to current element in token stream
-    std::list<stem::Token>::iterator m_itr;
+    std::list<stem::Token>::iterator itr;
     
-    std::unique_ptr<stem::Node> m_curr_node; ///< holds pointer to current/root node of tree
-    std::unique_ptr<stem::Node> m_left_node; ///< holds left node for binary operators
-    std::unique_ptr<stem::Node> m_right_node; ///< holds right node for operators
-    std::unique_ptr<stem::Node> m_op_node; ///< holds op node for operators
+    std::unique_ptr<stem::Node> curr_node; ///< holds pointer to current/root node of tree
+    std::unique_ptr<stem::Node> left_node; ///< holds left node for binary operators
+    std::unique_ptr<stem::Node> right_node; ///< holds right node for operators
+    std::unique_ptr<stem::Node> op_node; ///< holds op node for operators
 
-    stem::TokenType m_last_type; ///< last token type iterated
-    stem::TokenType m_last_op; ///< last operator token type iterated
+    stem::TokenType last_type; ///< last token type iterated
+    stem::TokenType last_op; ///< last operator token type iterated
 
-    stem::UnaOpNode *m_unaop_node; ///< for building parantheses nodes
+    stem::UnaOpNode *unaop_node; ///< for building parantheses nodes
 
-    int m_paren_count; ///< number of Lparens not closed
+    int paren_count; ///< number of Lparens not closed
 
     /**
      * @brief prints error to console
