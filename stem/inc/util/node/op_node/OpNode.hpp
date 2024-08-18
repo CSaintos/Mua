@@ -10,7 +10,6 @@
 #pragma once
 
 #include "Node.hpp"
-#include "Token.hpp"
 
 namespace stem
 {

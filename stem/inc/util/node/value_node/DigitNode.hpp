@@ -11,6 +11,7 @@
 
 #include "ValueNode.hpp"
 #include "Token.hpp"
+#include "NodeType.hpp"
 
 namespace stem
 {
