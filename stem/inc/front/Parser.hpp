@@ -1,10 +1,8 @@
 /**
- * @brief This file is part of {{ stem.inc.front }}
- * 
- * @file Parser.hpp
+ * @file stem/inc/front/Parser.hpp
  * @author Christian Santos
- * @version 1.1.1
- * @date 8/10/2024
+ * @version 1.1.2
+ * @date 8/31/2024
  */
 
 #pragma once
@@ -29,7 +27,8 @@ namespace stem
   /**
    * @class Parser
    * 
-   * @brief Handles converting token stream to parse tree
+   * @brief Handles converting token stream to parse tree.
+   * Implemented as an LR parser
    */ 
   class Parser
   {

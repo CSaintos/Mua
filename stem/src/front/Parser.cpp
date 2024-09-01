@@ -122,7 +122,7 @@ void Parser::buildBinOp()
   }
   else
   {
-    op_node.release();
+    op_node.reset();
   }
 
   if (!node_stack.empty())
@@ -458,7 +458,7 @@ void Parser::parse(list<Token> *token_stream)
 {
   // initialize member variables
   token_stream = token_stream;
-  curr_node.release(); //? is this a good idea?
+  curr_node.reset(); //? is this a good idea?
   
   for (itr = token_stream->begin(); itr != token_stream->end(); ++itr)
   {
