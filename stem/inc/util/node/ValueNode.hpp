@@ -1,30 +1,26 @@
 /**
- * @brief This file is part of {{ stem.inc.util.node.value_node }}
- * 
- * @file ValueNode.hpp
+ * @file stem/inc/util/node/ValueNode.hpp
  * @author Christian Santos
- * @version 1.0.0 
- * @date 02/20/2023
+ * @version 1.0.1 
+ * @date 9/1/2024
 */
 
 #pragma once
 
 #include "Node.hpp"
 #include "Token.hpp"
+#include "NodeType.hpp"
 
 namespace stem
 {
   /**
-   * @pure @struct ValueNode
+   * @struct ValueNode
    * @brief Specifies generic value node
    * - Used for Digits and Identifiers
    */
   struct ValueNode : virtual public Node
   {
-    /**
-     * @brief virtual ValueNode destructor
-    */
-    inline virtual ~ValueNode(){};
+    ValueNode(Token &tok_value);
 
     /**
      * @return true because a value node is a leaf
@@ -55,5 +51,10 @@ namespace stem
     {
       return m_tok.lexemes;
     }
+
+    /**
+     * @return Value node type
+     */
+    inline NodeType getType() override { return NodeType::VALUE; }
   };
 }

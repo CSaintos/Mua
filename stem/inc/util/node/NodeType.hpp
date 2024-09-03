@@ -19,6 +19,7 @@ namespace stem
   {
     DIGIT,
     IDENTIFIER,
+    VALUE,
     BINARY_OPERATOR,
     UNARY_OPERATOR
   };

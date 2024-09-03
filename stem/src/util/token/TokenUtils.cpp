@@ -12,6 +12,7 @@ unordered_map<TokenType, string> TokenUtils::m_TS_map =
   {TokenType::PLUS, "PLUS"},
   {TokenType::MINUS, "MINUS"},
   {TokenType::ASTERISK, "ASTERISK"},
+  {TokenType::ADJACENT, "ADJACENT"},
   {TokenType::FSLASH, "FSLASH"},
   {TokenType::PERCENT, "PERCENT"},
   {TokenType::CARET, "CARET"},

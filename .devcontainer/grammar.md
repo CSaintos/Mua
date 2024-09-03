@@ -23,6 +23,32 @@ Stmt = ["let"], Equa, ";";
 ```
 
 ## Proof of CFGs
+- 4+a*b^(c+d)
+### Bottomup Rightmost derivation (in reverse)
+1. Dec+Id*Id^(Id+Id)
+2. Fact+Id*Id^(Id+Id)
+3. Pow+Id*Id^(Id+Id)
+4. Term+Id*Id^(Id+Id)
+5. Term+Fact*Id^(Id+Id)
+6. Term+Pow*Id^(Id+Id)
+7. Term+Pow*Fact^(Id+Id)
+8. Term+Pow*Fact^(Fact+Id)
+9. Term+Pow*Fact^(Pow+Id)
+10. Term+Pow*Fact^(Term+Id)
+11. Term+Pow*Fact^(Term+Fact)
+12. Term+Pow*Fact^(Term+Pow)
+13. Term+Pow*Fact^(Term+Term)
+14. Term+Pow*Fact^(Term+Expr)
+15. Term+Pow*Fact^(Expr)
+16. Term+Pow*Fact^Fact
+17. Term+Pow*Fact^Pow
+18. Term+Pow*Pow
+19. Term+Pow*Term
+20. Term+Term
+21. Term+Expr
+22. Expr
+
+## Proof of CFGs
 - a^3b*4
 ### Topdown Leftmost derivation
 - The CFGs rules are examined from greatest to least.

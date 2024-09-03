@@ -20,6 +20,7 @@ namespace stem
     PERCENT,
     CARET,
     ASTERISK,
+    ADJACENT,
     LPAREN,
     RPAREN,
     MINUS,

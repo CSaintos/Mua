@@ -1,9 +1,8 @@
 #include "IdentifierNode.hpp"
 
 stem::IdentifierNode::IdentifierNode(Token &tok_identifier)
-{
-  m_tok = tok_identifier;
-}
+  : ValueNode(tok_identifier)
+{}
 
 stem::IdentifierNode::~IdentifierNode()
 {}

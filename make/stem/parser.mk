@@ -13,7 +13,6 @@ INCLUDES = \
 	-Istem/inc/front \
 	-Istem/inc/util/node \
 	-Istem/inc/util/node/op_node \
-	-Istem/inc/util/node/value_node \
 	-Istem/inc/util/token \
 	-Istem/inc/util/error \
 	-Istem/inc/util

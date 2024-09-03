@@ -19,8 +19,9 @@
 #include "Node.hpp"
 #include "UnaOpNode.hpp"
 #include "BinOpNode.hpp"
-#include "DigitNode.hpp"
-#include "IdentifierNode.hpp"
+#include "ValueNode.hpp"
+//#include "DigitNode.hpp"
+//#include "IdentifierNode.hpp"
 
 namespace stem
 {

@@ -7,27 +7,34 @@
 
 #include <string>
 #include <iostream>
+#include <algorithm>
+#include <list>
 
 #include "Token.hpp"
+#include "Character.hpp"
 
 #include "Reader.hpp"
 #include "Lexer.hpp"
 #include "Parser.hpp"
 
+using namespace stem;
+using namespace std;
+
 int main(int argc, char *argv[])
 {
   // file name
-  std::string file_name = argv[argc-1];
+  string file_name = argv[argc-1];
 
   // create reader with file name
-  stem::Reader reader(file_name);
+  Reader reader(file_name);
   // create lexer with file name
-  stem::Lexer lexer;
+  Lexer lexer;
   // create parser
-  stem::Parser parser;
+  Parser parser;
 
   // Loop variables
   int line_length = 0;
+  list<Character> *the_list = nullptr;
 
   do {
     // Read the next line
@@ -38,10 +45,10 @@ int main(int argc, char *argv[])
     parser.parse(lexer.getList()); //? temp
 
     // print parse tree
-    stem::Node *root_node = parser.getParseTree();
+    Node *root_node = parser.getParseTree();
     if (root_node != nullptr)
     {
-      std::cout << root_node->to_string() << std::endl;
+      cout << root_node->to_string() << endl;
     }
 
   } while (line_length != -1);

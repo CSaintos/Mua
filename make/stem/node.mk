@@ -30,6 +30,7 @@ SRCDIRS = \
 	stem/src/util/node/value_node
 SRCFILES = \
 	Node.cpp \
+	ValueNode.cpp \
 	DigitNode.cpp \
 	IdentifierNode.cpp \
 	BinOpNode.cpp \

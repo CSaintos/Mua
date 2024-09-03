@@ -31,6 +31,7 @@ void Reader::open()
     file.open(file_name, std::ios_base::in);
     pos.init();
     pos.file_name = file_name;
+    pos.line_num = 0;
   }
   catch (ifstream::failure e)
   {

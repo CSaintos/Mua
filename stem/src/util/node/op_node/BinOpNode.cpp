@@ -9,7 +9,7 @@ stem::BinOpNode::BinOpNode(std::unique_ptr<Node> &node_left, std::unique_ptr<Nod
     : m_node_left(std::move(node_left)), m_node_right(std::move(node_right))
 {
   m_tok = node_op->m_tok;
-  node_op.release();
+  node_op.reset();
 }
 
 stem::BinOpNode::BinOpNode(std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right)
@@ -26,6 +26,10 @@ std::string stem::BinOpNode::to_string()
   if (m_node_left == nullptr || m_node_right == nullptr)
   {
     return ("(" + m_tok.to_string() + ")");
+  }
+  if (m_tok.type == TokenType::ADJACENT)
+  {
+    return ("(" + m_node_left->to_string() + ", " + m_node_right->to_string() + ")");
   }
   return ("(" + m_node_left->to_string() + ", " + m_tok.to_string() + ", " + m_node_right->to_string() + ")");
 }

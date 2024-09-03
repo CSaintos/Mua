@@ -109,18 +109,26 @@ void Lexer::scanOneChar(Character &c)
     {
       if (curr == token_trie->getTrie())
       {
-        switch (token_temp.type)
+        if (token_temp.type != TokenType::COMMENT)
         {
-        case TokenType::COMMENT:
-          break;
-        default:
-          createToken(curr->nodes[c.c].type, c);  
+          createToken(curr->nodes[c.c].type, c);
           if (token_temp.type == TokenType::DIGIT)
           {
             dot_count = 0;
           }
-          break;
         }
+//        switch (token_temp.type)
+//        {
+//        case TokenType::COMMENT:
+//          break;
+//        default:
+//          createToken(curr->nodes[c.c].type, c);  
+//          if (token_temp.type == TokenType::DIGIT)
+//          {
+//            dot_count = 0;
+//          }
+//          break;
+//        }
       }
       else
       {

@@ -1,9 +1,8 @@
 #include "DigitNode.hpp"
 
 stem::DigitNode::DigitNode(Token &tok_digit)
-{
-  m_tok = tok_digit;
-}
+  : ValueNode(tok_digit)
+{}
 
 stem::DigitNode::~DigitNode()
 {}
