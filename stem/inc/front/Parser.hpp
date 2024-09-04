@@ -12,6 +12,7 @@
 #include <list>
 #include <stack>
 #include <queue>
+#include <typeinfo>
 
 #include "Error.hpp"
 #include "Token.hpp"
@@ -55,6 +56,8 @@ namespace stem
     stem::UnaOpNode *unaop_node; ///< for building parantheses nodes
 
     int paren_count; ///< number of Lparens not closed
+    
+    bool right_paren; ///< flag that right parenthesis was found
 
     /**
      * @brief prints error to console
@@ -68,18 +71,6 @@ namespace stem
      * @brief adds exclusive parent node to m_node_queue
      */
     void addExclusiveParent(stem::Node *node);
-    /**
-     * @brief builds a unary op node where operator is on the left side
-     */
-    void buildUnaLOp();
-    /**
-     * @brief builds a unary op node where operator is on the right side
-     */
-    void buildUnaROp();
-    /**
-     * @brief builds a binary op node
-     */
-    void buildBinOp();
     /**
      * @brief builds parse tree by emptying out m_node_stack or until stopped
      */

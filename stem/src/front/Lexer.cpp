@@ -91,10 +91,10 @@ void Lexer::scanOneChar(Character &c)
         ls.pop_back();
         dot_count = 0;
       }
-      if (ls.size() != 0)
-      {
-        toTokenStream();
-      }
+//      if (ls.size() != 0)
+//      {
+//        toTokenStream();
+//      }
       break;
     default:
       toTokenStream();
@@ -139,10 +139,10 @@ void Lexer::scanOneChar(Character &c)
     else
     {
       if (curr == token_trie->getTrie()) break;
-      TokenType type = token_trie->getTrie()->nodes[c.c].type;
+      TokenType token_type = token_trie->getTrie()->nodes[c.c].type;
       if (token_temp.type == TokenType::IDENTIFIER || token_temp.type == TokenType::DIGIT)
       {
-        if (type == token_temp.type)
+        if (token_type == token_temp.type)
         {
           if (c.type == CharacterType::DOT)
           {

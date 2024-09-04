@@ -9,7 +9,7 @@ stem::UnaOpNode::UnaOpNode(std::unique_ptr<Node> &node_op, std::unique_ptr<Node>
     : m_node(std::move(node))
 {
   m_tok = node_op->m_tok;
-  node_op.release();
+  node_op.reset();
 }
 
 stem::UnaOpNode::UnaOpNode(Token &tok_op, std::unique_ptr<Node> &node)
@@ -23,7 +23,7 @@ stem::UnaOpNode::~UnaOpNode()
 
 std::string stem::UnaOpNode::to_string()
 {
-  return ("(" + m_node->to_string() + ", " + m_tok.to_string() + ")");
+  return ("(" + m_tok.to_string() + ", " + m_node->to_string() + ")");
 }
 
 std::string stem::UnaOpNode::to_repr()
