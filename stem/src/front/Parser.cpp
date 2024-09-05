@@ -8,6 +8,7 @@ Parser::Parser()
     last_type(TokenType::EMPTY),
     open_parens(),
     right_paren(false),
+    end_of_expr(false),
     end_of_stmt(false)
 {}
 
@@ -27,7 +28,11 @@ void Parser::err(int i, Token &tok)
     serr.setDetails("Expected a DIGIT or IDENTIFIER");
     break;
   case 2:
-    serr.setDetails("Unclosed LPAREN, expected an RPAREN after LPAREN");
+    serr.setDetails("Unclosed LPAREN, expected an RPAREN after LPAREN but before " + tok.to_string());
+    break;
+  case 3:
+    serr.setDetails("Can't enclose EQUAL between parenthesis (LPAREN, RPAREN)");
+    break;
   default:
     break;
   }
@@ -37,14 +42,6 @@ void Parser::err(int i, Token &tok)
   exit(1);
 }
 
-void Parser::addExclusiveParent(Node *node)
-{
-  if (node->isExclusiveParent())
-  {
-//    node_queue.push(node);
-  }
-}
-
 void Parser::propagateTree()
 {
   parse_trees.push_back(std::move(curr_node));
@@ -52,6 +49,7 @@ void Parser::propagateTree()
   last_op = TokenType::EMPTY;
   open_parens = stack<Node*>();
   right_paren = false;
+  end_of_expr = false;
   end_of_stmt = false;
 }
 
@@ -150,10 +148,57 @@ void Parser::toParseTree()
           loop = false;
         }
       }
+      else 
+      {
+        if (right_node == nullptr)
+        {
+          right_node = std::move(node_stack.top());
+          node_stack.pop();
+        }
+        else
+        {
+          err(0, node_stack.top()->m_tok);
+        }
+      }
       break;
     case TokenType::RPAREN:
       right_paren = true;
       node_stack.pop();
+      break;
+    case TokenType::EQUAL:
+      if (right_node == nullptr)
+      {
+        err(1, *itr);
+        break;
+      }
+      if (!end_of_expr)
+      {
+        node_stack.push(std::move(right_node));
+        loop = false;
+        break;  
+      }
+      if (open_parens.size() != 0)
+      {
+        err(3, open_parens.top()->m_tok);
+        break;
+      }
+      op_node = std::move(node_stack.top());
+      node_stack.pop();
+      if (node_stack.size() != 0)
+      {
+        left_node = std::move(node_stack.top());
+        node_stack.pop();
+        right_node = std::make_unique<BinOpNode>(left_node, op_node, right_node);
+      }
+      else if (curr_node != nullptr)
+      {
+        right_node = std::make_unique<BinOpNode>(curr_node, op_node, right_node);
+      }
+      else 
+      {
+        err(0, op_node->m_tok);
+        break;
+      }
       break;
     case TokenType::SEMICOLON:
       if (node_stack.size() == 1)
@@ -258,6 +303,7 @@ void Parser::scanOneToken()
     case TokenType::PERCENT:
     case TokenType::PLUS:
     case TokenType::MINUS:
+    case TokenType::EQUAL:
       last_type = itr->type;
       last_op = last_type;
       node_stack.push(std::make_unique<UnaOpNode>(*itr));
@@ -268,6 +314,7 @@ void Parser::scanOneToken()
       case TokenType::EMPTY:
       case TokenType::LPAREN:
       case TokenType::RPAREN:
+      case TokenType::EQUAL:
         last_type = itr->type;
         last_op = last_type;
         node_stack.push(std::make_unique<BinOpNode>(*itr));
@@ -304,6 +351,7 @@ void Parser::scanOneToken()
     case TokenType::FSLASH:
     case TokenType::ASTERISK:
     case TokenType::PERCENT:
+    case TokenType::EQUAL:
       //! Error
       err(1, *itr); // expected d or i
       break;
@@ -315,6 +363,7 @@ void Parser::scanOneToken()
       case TokenType::RPAREN:
       case TokenType::PLUS:
       case TokenType::MINUS:
+      case TokenType::EQUAL:
         last_type = itr->type;
         last_op = last_type;
         node_stack.push(std::make_unique<BinOpNode>(*itr));
@@ -347,6 +396,7 @@ void Parser::scanOneToken()
     case TokenType::MINUS:
     case TokenType::PLUS:
     case TokenType::LPAREN:
+    case TokenType::EQUAL:
       //! Error
       err(1, *itr); // expected d or i
       break;
@@ -362,6 +412,7 @@ void Parser::scanOneToken()
       case TokenType::FSLASH:
       case TokenType::PERCENT:
       case TokenType::CARET:
+      case TokenType::EQUAL:
         last_type = itr->type;
         last_op = last_type;
         node_stack.push(std::make_unique<BinOpNode>(*itr));
@@ -384,6 +435,7 @@ void Parser::scanOneToken()
     case TokenType::PERCENT:
     case TokenType::CARET:
     case TokenType::RPAREN:
+    case TokenType::EQUAL:
       last_type = itr->type;
       last_op = last_type;
       node_stack.push(std::make_unique<UnaOpNode>(*itr));
@@ -416,11 +468,31 @@ void Parser::scanOneToken()
         last_op = last_type;
         open_parens.pop();
         break;
+      case TokenType::EQUAL:
+        cout << "Why is this running?" << endl;
+        err(3, *itr);
+        break;
       default:
         //? Error
         err(0, *itr); // unknown
         break;
       }
+      break;
+    }
+    break;
+  case TokenType::EQUAL:
+    switch (last_type)
+    {
+    case TokenType::RPAREN:
+    case TokenType::DIGIT:
+    case TokenType::IDENTIFIER:
+      toParseTree();
+      node_stack.push(std::make_unique<BinOpNode>(*itr));
+      last_type = itr->type;
+      last_op = last_type;
+      break;
+    default:
+      err(1, *itr);
       break;
     }
     break;
@@ -433,9 +505,11 @@ void Parser::scanOneToken()
     case TokenType::FSLASH:
     case TokenType::PERCENT:
     case TokenType::CARET:
+    case TokenType::EQUAL:
       err(1, *itr);
       break;
     default:
+      end_of_expr = true;
       toParseTree();
       node_stack.push(std::make_unique<UnaOpNode>(*itr));
       toParseTree();
@@ -444,7 +518,6 @@ void Parser::scanOneToken()
     }
     break;
   default:
-    // TODO throw unknown syntax error
     err(0, *itr);
     break;
   }
@@ -460,6 +533,4 @@ void Parser::parse(list<Token> *token_stream)
     //std::cout << (*m_itr).to_string() << std::endl;
     scanOneToken();
   }
-
-  //toParseTree();
 }

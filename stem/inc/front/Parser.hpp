@@ -58,6 +58,7 @@ namespace stem
     stem::UnaOpNode *unaop_node; ///< for building parantheses nodes
     
     bool right_paren; ///< flag that right parenthesis was found
+    bool end_of_expr; ///< flag that end of expression was found
     bool end_of_stmt; ///< flag that end of statement was found (semicolon)
 
     /**
