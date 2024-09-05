@@ -12,7 +12,7 @@ Dec = {digit}, ["."], {digit}-;
 Id = {alpha}-;
 
 (* Stem CFGs*)
-Fact = ("(", Expr, ")") | Dec | Id;
+Fact = ("(", Expr, ")") | Dec | Id | ε;
 Pow = Fact, "^", Pow | Fact;
 Term = Pow, ["*" | "/"], Term | Pow;
 Expr = Term, ("+" | "-"), Expr | Term;

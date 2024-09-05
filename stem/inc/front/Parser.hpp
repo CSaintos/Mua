@@ -11,8 +11,9 @@
 #include <memory>
 #include <list>
 #include <stack>
-#include <queue>
-#include <typeinfo>
+#include <vector>
+//#include <queue>
+//#include <typeinfo>
 
 #include "Error.hpp"
 #include "Token.hpp"
@@ -35,11 +36,12 @@ namespace stem
   class Parser
   {
   private:
+    /// vector of parse trees
+    std::vector<std::unique_ptr<stem::Node>> parse_trees;
     /// stack of nodes
     std::stack<std::unique_ptr<stem::Node>> node_stack;
-    /// queue of node pointers
-    std::queue<stem::Node*> node_queue;
-    //^ Do not do stack<Node> as that causes "object slicing"
+    /// stack of nodes of unclosed parenthesis
+    std::stack<stem::Node*> open_parens;
     /// pointer to token stream
     std::list<stem::Token> *token_stream;
     /// iterator to current element in token stream
@@ -54,10 +56,9 @@ namespace stem
     stem::TokenType last_op; ///< last operator token type iterated
 
     stem::UnaOpNode *unaop_node; ///< for building parantheses nodes
-
-    int paren_count; ///< number of Lparens not closed
     
     bool right_paren; ///< flag that right parenthesis was found
+    bool end_of_stmt; ///< flag that end of statement was found (semicolon)
 
     /**
      * @brief prints error to console
@@ -80,6 +81,10 @@ namespace stem
      * @note it uses m_last_type and m_last_op to decide whether to parse the tree at that location or not
      */
     void scanOneToken();
+    /**
+     * @brief propagates parse tree into vector of parse trees
+     */
+    void propagateTree();
   public:
     /**
      * @brief Parser() constructor
@@ -99,10 +104,10 @@ namespace stem
      */
     void parse(std::list<stem::Token> *token_stream);
     /**
-     * @brief returns a pointer to the root node of the parse tree
+     * @brief returns a pointer to vector of completed parse trees
      * 
-     * @return root node of type Node pointer
+     * @return pointer to vector of completed parse trees
      */
-    Node* getParseTree();
+    inline std::vector<std::unique_ptr<stem::Node>>* getParseTrees() { return &parse_trees; }
   };
 }

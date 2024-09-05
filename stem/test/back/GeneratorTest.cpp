@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
       // parse token stream
       parser.parse(lexer.getList());
       // generate result from parse tree
-      generator.generate(parser.getParseTree());
+      //generator.generate(parser.getParseTree());
     }
 
   } while (line_length != -1);

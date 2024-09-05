@@ -4,10 +4,11 @@ using namespace std;
 using namespace stem;
 
 Parser::Parser()
-    : last_op(TokenType::EMPTY),
-      last_type(TokenType::EMPTY),
-      paren_count(0),
-      right_paren(false)
+  : last_op(TokenType::EMPTY),
+    last_type(TokenType::EMPTY),
+    open_parens(),
+    right_paren(false),
+    end_of_stmt(false)
 {}
 
 Parser::~Parser()
@@ -25,6 +26,8 @@ void Parser::err(int i, Token &tok)
   case 1:
     serr.setDetails("Expected a DIGIT or IDENTIFIER");
     break;
+  case 2:
+    serr.setDetails("Unclosed LPAREN, expected an RPAREN after LPAREN");
   default:
     break;
   }
@@ -38,8 +41,18 @@ void Parser::addExclusiveParent(Node *node)
 {
   if (node->isExclusiveParent())
   {
-    node_queue.push(node);
+//    node_queue.push(node);
   }
+}
+
+void Parser::propagateTree()
+{
+  parse_trees.push_back(std::move(curr_node));
+  last_type = TokenType::EMPTY;
+  last_op = TokenType::EMPTY;
+  open_parens = stack<Node*>();
+  right_paren = false;
+  end_of_stmt = false;
 }
 
 void Parser::toParseTree()
@@ -69,7 +82,6 @@ void Parser::toParseTree()
         op_node = std::make_unique<BinOpNode>(place_holder);  
       }
       right_node = std::make_unique<BinOpNode>(left_node, op_node, right_node);
-      addExclusiveParent(&(*right_node));
       break;
     case TokenType::PLUS:
     case TokenType::MINUS:
@@ -85,28 +97,16 @@ void Parser::toParseTree()
         if (op_node->getType() == NodeType::UNARY_OPERATOR)
         {
           right_node = std::make_unique<UnaOpNode>(op_node, right_node);
-          addExclusiveParent(&(*right_node));
         }
         break;
       }
       left_node = std::move(node_stack.top());
       node_stack.pop();
       right_node = std::make_unique<BinOpNode>(left_node, op_node, right_node);
-      addExclusiveParent(&(*right_node));
-//      switch (op_node->m_tok.type)
-//      {
-//      case TokenType::PLUS:
-//      case TokenType::MINUS:
-//        right_node = std::make_unique<UnaOpNode>(op_node, right_node);
-//        addExclusiveParent(&(*right_node));
-//        break;
-//      default:
-//        err(0, *itr);
-//        break;
-//      }
       break;
     case TokenType::ASTERISK:
     case TokenType::FSLASH:
+    case TokenType::PERCENT:
     case TokenType::CARET:
       if (right_node == nullptr)
       {
@@ -134,18 +134,12 @@ void Parser::toParseTree()
           op_node = std::move(node_stack.top());
           node_stack.pop();
           right_paren = false;
-          if (right_node != nullptr)
-          {
-            right_node = std::make_unique<UnaOpNode>(op_node, right_node);
-            addExclusiveParent(&(*right_node));
-          }
-          else 
+          if (right_node == nullptr)
           {
             Token place_holder;
-            unique_ptr<Node> temp = std::make_unique<ValueNode>(place_holder);
-            right_node = std::make_unique<UnaOpNode>(op_node, temp);
-            addExclusiveParent(&(*right_node));
+            right_node = std::make_unique<ValueNode>(place_holder);
           }
+          right_node = std::make_unique<UnaOpNode>(op_node, right_node);
         }
         else
         {
@@ -161,9 +155,29 @@ void Parser::toParseTree()
       right_paren = true;
       node_stack.pop();
       break;
+    case TokenType::SEMICOLON:
+      if (node_stack.size() == 1)
+      {
+        end_of_stmt = true;
+        op_node = std::move(node_stack.top());
+        node_stack.pop();
+      }
+      else
+      {
+        if (open_parens.size() != 0)
+        {
+          err(2, open_parens.top()->m_tok);
+        }
+        else
+        {
+          err(0, *itr);
+        }
+      }
+      break;
     default:
       //! Error
       err(1, *itr); // expected d or i
+      break;
     }
   }
 
@@ -180,7 +194,15 @@ void Parser::toParseTree()
       op_node = std::make_unique<BinOpNode>(place_holder);
     }
     curr_node = std::make_unique<BinOpNode>(curr_node, op_node, right_node);
-    addExclusiveParent(&(*curr_node));
+  }
+  if (end_of_stmt && op_node != nullptr)
+  {
+    if (curr_node == nullptr) 
+    {
+      Token place_holder;
+      curr_node = std::make_unique<ValueNode>(place_holder);
+    }
+    curr_node = std::make_unique<UnaOpNode>(op_node, curr_node);
   }
 }
 
@@ -198,6 +220,7 @@ void Parser::scanOneToken()
       {
       case TokenType::ASTERISK:
       case TokenType::FSLASH:
+      case TokenType::PERCENT:
       case TokenType::CARET:
         toParseTree();
         last_type = itr->type;
@@ -231,6 +254,8 @@ void Parser::scanOneToken()
     case TokenType::EMPTY:
     case TokenType::LPAREN:
     case TokenType::ASTERISK:
+    case TokenType::FSLASH:
+    case TokenType::PERCENT:
     case TokenType::PLUS:
     case TokenType::MINUS:
       last_type = itr->type;
@@ -251,6 +276,7 @@ void Parser::scanOneToken()
       case TokenType::MINUS:
       case TokenType::ASTERISK:
       case TokenType::FSLASH:
+      case TokenType::PERCENT:
       case TokenType::CARET:
         // empty stack and build tree
         toParseTree();
@@ -269,6 +295,7 @@ void Parser::scanOneToken()
     break;
   case TokenType::FSLASH:
   case TokenType::ASTERISK:
+  case TokenType::PERCENT:
     switch (last_type)
     {
     case TokenType::EMPTY:
@@ -276,6 +303,7 @@ void Parser::scanOneToken()
     case TokenType::MINUS:
     case TokenType::FSLASH:
     case TokenType::ASTERISK:
+    case TokenType::PERCENT:
       //! Error
       err(1, *itr); // expected d or i
       break;
@@ -294,6 +322,7 @@ void Parser::scanOneToken()
       case TokenType::ASTERISK:
       case TokenType::FSLASH:
       case TokenType::CARET:
+      case TokenType::PERCENT:
         toParseTree();
         last_type = itr->type;
         last_op = last_type;
@@ -314,6 +343,7 @@ void Parser::scanOneToken()
     case TokenType::CARET:
     case TokenType::ASTERISK:
     case TokenType::FSLASH:
+    case TokenType::PERCENT:
     case TokenType::MINUS:
     case TokenType::PLUS:
     case TokenType::LPAREN:
@@ -330,6 +360,7 @@ void Parser::scanOneToken()
       case TokenType::MINUS:
       case TokenType::ASTERISK:
       case TokenType::FSLASH:
+      case TokenType::PERCENT:
       case TokenType::CARET:
         last_type = itr->type;
         last_op = last_type;
@@ -350,12 +381,13 @@ void Parser::scanOneToken()
     case TokenType::MINUS:
     case TokenType::ASTERISK:
     case TokenType::FSLASH:
+    case TokenType::PERCENT:
     case TokenType::CARET:
     case TokenType::RPAREN:
       last_type = itr->type;
       last_op = last_type;
       node_stack.push(std::make_unique<UnaOpNode>(*itr));
-      paren_count++;
+      open_parens.push(node_stack.top().get());
       break;
     default:
       err(0, *itr); // unknown
@@ -366,7 +398,7 @@ void Parser::scanOneToken()
     switch (last_type)
     {
     case TokenType::EMPTY:
-      err(0, *itr); // not a valid stmt
+      err(1, *itr); // not a valid stmt
       break;
     default:
       switch (last_op)
@@ -375,19 +407,39 @@ void Parser::scanOneToken()
       case TokenType::MINUS:
       case TokenType::ASTERISK:
       case TokenType::FSLASH:
+      case TokenType::PERCENT:
       case TokenType::CARET:
       case TokenType::LPAREN:
         node_stack.push(std::make_unique<UnaOpNode>(*itr));
         toParseTree();
         last_type = itr->type;
         last_op = last_type;
-        paren_count--;
+        open_parens.pop();
         break;
       default:
         //? Error
         err(0, *itr); // unknown
         break;
       }
+      break;
+    }
+    break;
+  case TokenType::SEMICOLON:
+    switch (last_type)
+    {
+    case TokenType::PLUS:
+    case TokenType::MINUS:
+    case TokenType::ASTERISK:
+    case TokenType::FSLASH:
+    case TokenType::PERCENT:
+    case TokenType::CARET:
+      err(1, *itr);
+      break;
+    default:
+      toParseTree();
+      node_stack.push(std::make_unique<UnaOpNode>(*itr));
+      toParseTree();
+      propagateTree();
       break;
     }
     break;
@@ -402,11 +454,6 @@ void Parser::parse(list<Token> *token_stream)
 {
   // initialize member variables
   token_stream = token_stream;
-  curr_node.reset(); //? is this a good idea?
-  last_type = TokenType::EMPTY;
-  last_op = TokenType::EMPTY;
-  paren_count = 0;
-  right_paren = false;
   
   for (itr = token_stream->begin(); itr != token_stream->end(); ++itr)
   {
@@ -414,12 +461,5 @@ void Parser::parse(list<Token> *token_stream)
     scanOneToken();
   }
 
-  toParseTree();
-}
-
-Node* Parser::getParseTree()
-{
-  if (curr_node == nullptr)
-    return nullptr;
-  return &(*curr_node);
+  //toParseTree();
 }

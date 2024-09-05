@@ -9,9 +9,12 @@
 #include <iostream>
 #include <algorithm>
 #include <list>
+#include <vector>
+#include <memory>
 
 #include "Token.hpp"
 #include "Character.hpp"
+#include "Node.hpp"
 
 #include "Reader.hpp"
 #include "Lexer.hpp"
@@ -43,15 +46,13 @@ int main(int argc, char *argv[])
     lexer.lex(reader.getList());
     // parse token stream
     parser.parse(lexer.getList()); //? temp
-
-    // print parse tree
-    Node *root_node = parser.getParseTree();
-    if (root_node != nullptr)
-    {
-      cout << root_node->to_string() << endl;
-    }
-
   } while (line_length != -1);
+
+  vector<unique_ptr<Node>>* parse_trees = parser.getParseTrees();
+  for (int i = 0; i < parse_trees->size(); ++i)
+  {
+    cout << (*parse_trees)[i]->to_string() << endl;
+  }
 
   return 0;
 }

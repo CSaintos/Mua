@@ -1,5 +1,4 @@
 # Compiler Phases
-- Left off at Parser.cpp:280
 ## The Front End
 ### 1. Lexical Analyzer (Lexer)
 ### 2. Syntax Analyzer (Parser)
