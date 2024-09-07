@@ -10,8 +10,8 @@
 #include <memory>
 
 #include "Node.hpp"
-#include "DigitNode.hpp"
 #include "BinOpNode.hpp"
+#include "ValueNode.hpp"
 #include "Token.hpp"
 
 int main(int argc, char *argv[])
@@ -27,8 +27,8 @@ int main(int argc, char *argv[])
   tok_plus.type = stem::TokenType::PLUS;
   tok_plus.lexemes = "+";
   // Create nodes
-  std::unique_ptr<stem::Node> node_0 = std::make_unique<stem::DigitNode>(tok_0);
-  std::unique_ptr<stem::Node> node_1 = std::make_unique<stem::DigitNode>(tok_1);
+  std::unique_ptr<stem::Node> node_0 = std::make_unique<stem::ValueNode>(tok_0);
+  std::unique_ptr<stem::Node> node_1 = std::make_unique<stem::ValueNode>(tok_1);
   // std::unique_ptr<stem::Node> node_plus = std::make_unique<stem::BinOpNode>(tok_plus);
   // node_plus = std::make_unique<stem::BinOpNode>(node_0, node_plus, node_1);
   std::unique_ptr<stem::Node> node_plus = std::make_unique<stem::BinOpNode>(node_0, tok_plus, node_1);

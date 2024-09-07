@@ -12,7 +12,6 @@ TARGET_PATH = stem/node
 INCLUDES = \
 	-Istem/inc/util/node \
 	-Istem/inc/util/node/op_node \
-	-Istem/inc/util/node/value_node \
 	-Istem/inc/util/token \
 	-Istem/inc/util
 # Link Directories # -L<path-to-dir>
@@ -27,12 +26,9 @@ DEFINES =
 SRCDIRS = \
 	stem/src/util/node \
 	stem/src/util/node/op_node \
-	stem/src/util/node/value_node
 SRCFILES = \
 	Node.cpp \
 	ValueNode.cpp \
-	DigitNode.cpp \
-	IdentifierNode.cpp \
 	BinOpNode.cpp \
 	UnaOpNode.cpp
 

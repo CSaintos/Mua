@@ -17,7 +17,8 @@ Pow = Fact, "^", Pow | Fact;
 Term = Pow, ["*" | "/"], Term | Pow;
 Expr = Term, ("+" | "-"), Expr | Term;
 Equa = Expr, "=", Equa | Expr;
-Stmt = ["let"], Equa, ";";
+Stmt = Equa, ";";
+LetStmt = "let", Id, ["=", Expr], {",", Id, ["=", Expr]}, ";";
 
 @endebnf
 ```

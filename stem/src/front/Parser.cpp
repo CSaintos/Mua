@@ -7,12 +7,11 @@ Parser::Parser()
   : last_op(TokenType::EMPTY),
     last_type(TokenType::EMPTY),
     open_parens(),
+    equal_count(0),
+    let_stmt(false),
     right_paren(false),
     end_of_expr(false),
     end_of_stmt(false)
-{}
-
-Parser::~Parser()
 {}
 
 void Parser::err(int i, Token &tok)
@@ -33,6 +32,15 @@ void Parser::err(int i, Token &tok)
   case 3:
     serr.setDetails("Can't enclose EQUAL between parenthesis (LPAREN, RPAREN)");
     break;
+  case 4:
+    serr.setDetails("LET keyword must be first in a statement. Syntax: LET IDENTIFIER = <expr>;");
+    break;
+  case 5:
+    serr.setDetails("LetStmt can only have one '='");
+    break;
+  case 6:
+    serr.setDetails("LET keyword must be followed by a single IDENTIFIER. Syntax: LET IDENTIFIER = <expr>;");
+    break;
   default:
     break;
   }
@@ -48,6 +56,8 @@ void Parser::propagateTree()
   last_type = TokenType::EMPTY;
   last_op = TokenType::EMPTY;
   open_parens = stack<Node*>();
+  equal_count = 0;
+  let_stmt = false;
   right_paren = false;
   end_of_expr = false;
   end_of_stmt = false;
@@ -200,6 +210,22 @@ void Parser::toParseTree()
         break;
       }
       break;
+    case TokenType::LET:
+      if (right_node == nullptr)
+      {
+        err(6, *itr);
+        break;
+      }
+      if (!end_of_expr)
+      {
+        node_stack.push(std::move(right_node));
+        loop = false;
+        break;
+      }
+      op_node = std::move(node_stack.top());
+      node_stack.pop();
+      right_node = std::make_unique<UnaOpNode>(op_node, right_node);
+      break;
     case TokenType::SEMICOLON:
       if (node_stack.size() == 1)
       {
@@ -255,8 +281,14 @@ void Parser::scanOneToken()
 {
   switch (itr->type)
   {
-  case TokenType::DIGIT:
   case TokenType::IDENTIFIER:
+    if (last_type == TokenType::LET)
+    {
+      last_type = itr->type;
+      node_stack.push(std::make_unique<ValueNode>(*itr));
+      break;
+    }
+  case TokenType::DIGIT:
     switch (last_type)
     {
     case TokenType::DIGIT:
@@ -281,10 +313,15 @@ void Parser::scanOneToken()
         last_op = TokenType::ASTERISK;
         node_stack.push(std::make_unique<ValueNode>(*itr));
         break;
+      case TokenType::LET:
+        err(6, *itr);
       default:
         err(0, *itr); // unknown error
         break;
       }
+      break;
+    case TokenType::LET:
+      err(6, *itr);
       break;
     default:
       last_type = itr->type;
@@ -332,6 +369,9 @@ void Parser::scanOneToken()
         last_op = last_type;
         node_stack.push(std::make_unique<BinOpNode>(*itr));
         break;
+      case TokenType::LET:
+        err(6, *itr);
+        break;
       default:
         // error
         err(0, *itr); // unknown
@@ -377,6 +417,9 @@ void Parser::scanOneToken()
         last_op = last_type;
         node_stack.push(std::make_unique<BinOpNode>(*itr));
         break;
+      case TokenType::LET:
+        err(6, *itr);
+        break;
       default:
         // error unknown
         err(0, *itr);
@@ -417,6 +460,9 @@ void Parser::scanOneToken()
         last_op = last_type;
         node_stack.push(std::make_unique<BinOpNode>(*itr));
         break;
+      case TokenType::LET:
+        err(6, *itr);
+        break;
       default:
         err(0, *itr);
         break;
@@ -440,6 +486,9 @@ void Parser::scanOneToken()
       last_op = last_type;
       node_stack.push(std::make_unique<UnaOpNode>(*itr));
       open_parens.push(node_stack.top().get());
+      break;
+    case TokenType::LET:
+      err(6, *itr);
       break;
     default:
       err(0, *itr); // unknown
@@ -469,7 +518,6 @@ void Parser::scanOneToken()
         open_parens.pop();
         break;
       case TokenType::EQUAL:
-        cout << "Why is this running?" << endl;
         err(3, *itr);
         break;
       default:
@@ -486,13 +534,33 @@ void Parser::scanOneToken()
     case TokenType::RPAREN:
     case TokenType::DIGIT:
     case TokenType::IDENTIFIER:
+      if (let_stmt && equal_count > 0)
+      {
+        err(5, *itr);
+        break;
+      }
       toParseTree();
       node_stack.push(std::make_unique<BinOpNode>(*itr));
       last_type = itr->type;
       last_op = last_type;
+      equal_count++;
       break;
     default:
       err(1, *itr);
+      break;
+    }
+    break;
+  case TokenType::LET:
+    switch (last_type)
+    {
+    case TokenType::EMPTY:
+      node_stack.push(std::make_unique<UnaOpNode>(*itr));
+      last_type = itr->type;
+      last_op = last_type;
+      let_stmt = true;
+      break;
+    default:
+      err(4, *itr);
       break;
     }
     break;
@@ -507,6 +575,9 @@ void Parser::scanOneToken()
     case TokenType::CARET:
     case TokenType::EQUAL:
       err(1, *itr);
+      break;
+    case TokenType::LET:
+      err(6, *itr);
       break;
     default:
       end_of_expr = true;

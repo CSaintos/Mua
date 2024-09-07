@@ -48,10 +48,14 @@ int main(int argc, char *argv[])
     parser.parse(lexer.getList()); //? temp
   } while (line_length != -1);
 
-  vector<unique_ptr<Node>>* parse_trees = parser.getParseTrees();
-  for (int i = 0; i < parse_trees->size(); ++i)
+  vector<unique_ptr<Node>>& parse_trees = parser.getParseTrees();
+//  for (int i = 0; i < parse_trees.size(); ++i)
+//  {
+//    cout << parse_trees[i]->to_string() << endl;
+//  }
+  for (unique_ptr<Node>& parse_tree : parse_trees)
   {
-    cout << (*parse_trees)[i]->to_string() << endl;
+    cout << parse_tree->to_string() << endl;
   }
 
   return 0;

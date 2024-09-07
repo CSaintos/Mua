@@ -1,8 +1,8 @@
 /**
  * @file stem/inc/front/Parser.hpp
  * @author Christian Santos
- * @version 1.1.2
- * @date 8/31/2024
+ * @version 1.2.0
+ * @date 9/7/2024
  */
 
 #pragma once
@@ -12,8 +12,6 @@
 #include <list>
 #include <stack>
 #include <vector>
-//#include <queue>
-//#include <typeinfo>
 
 #include "Error.hpp"
 #include "Token.hpp"
@@ -22,8 +20,6 @@
 #include "UnaOpNode.hpp"
 #include "BinOpNode.hpp"
 #include "ValueNode.hpp"
-//#include "DigitNode.hpp"
-//#include "IdentifierNode.hpp"
 
 namespace stem
 {
@@ -56,7 +52,10 @@ namespace stem
     stem::TokenType last_op; ///< last operator token type iterated
 
     stem::UnaOpNode *unaop_node; ///< for building parantheses nodes
+
+    int equal_count;
     
+    bool let_stmt; ///< flag that current stmt is a let_stmt
     bool right_paren; ///< flag that right parenthesis was found
     bool end_of_expr; ///< flag that end of expression was found
     bool end_of_stmt; ///< flag that end of statement was found (semicolon)
@@ -92,11 +91,6 @@ namespace stem
      * @see ~Parser()
      */
     Parser();
-    /**
-     * @brief ~Parser() destructor
-     * @see Parser()
-     */
-    ~Parser();
 
     /**
      * @brief parses the token stream and converts it into a parse tree
@@ -109,6 +103,6 @@ namespace stem
      * 
      * @return pointer to vector of completed parse trees
      */
-    inline std::vector<std::unique_ptr<stem::Node>>* getParseTrees() { return &parse_trees; }
+    inline std::vector<std::unique_ptr<stem::Node>>& getParseTrees() { return parse_trees; }
   };
 }
