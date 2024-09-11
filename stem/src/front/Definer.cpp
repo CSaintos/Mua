@@ -75,6 +75,7 @@ void Definer::define(vector<unique_ptr<Node>>* parse_trees)
   {
     analyzeTree((*parse_trees)[i].get());
   }
+  cout << name_table.size() << endl;
 }
 
 void Definer::getSymbolTable()

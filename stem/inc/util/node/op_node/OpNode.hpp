@@ -21,11 +21,6 @@ namespace stem
   struct OpNode : virtual public Node
   {
     /**
-     * @brief virtual OpNode destructor
-    */
-    inline virtual ~OpNode(){};
-
-    /**
      * @return false because an operator node is not a leaf
      * ? Is it though?
      */

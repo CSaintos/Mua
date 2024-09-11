@@ -41,10 +41,6 @@ namespace stem
      * @brief BinOpNode(node_left, tok_op, node_right) 
     */
     BinOpNode(std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
-    /**
-     * @brief ~BinOpNode() destructor
-     */
-    ~BinOpNode();
 
     /**
      * @brief Returns node as string representation

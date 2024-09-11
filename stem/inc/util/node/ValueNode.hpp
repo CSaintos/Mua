@@ -21,6 +21,7 @@ namespace stem
   struct ValueNode : virtual public Node
   {
     ValueNode(Token &tok_value);
+    inline ~ValueNode(){}
 
     /**
      * @return true because a value node is a leaf

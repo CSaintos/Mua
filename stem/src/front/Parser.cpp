@@ -601,7 +601,7 @@ void Parser::parse(list<Token> *token_stream)
   
   for (itr = token_stream->begin(); itr != token_stream->end(); ++itr)
   {
-    //std::cout << (*m_itr).to_string() << std::endl;
+    //cout << (*itr).to_string() << endl;
     scanOneToken();
   }
 }

@@ -9,7 +9,7 @@ stem::UnaOpNode::UnaOpNode(std::unique_ptr<Node> &node_op, std::unique_ptr<Node>
     : m_node(std::move(node))
 {
   m_tok = node_op->m_tok;
-  node_op.reset();
+  void* trash = node_op.release();
 }
 
 stem::UnaOpNode::UnaOpNode(Token &tok_op, std::unique_ptr<Node> &node)

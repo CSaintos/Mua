@@ -26,9 +26,7 @@ int main(int argc, char *argv[])
   do {
     line_length = reader.readLine();
     lexer.lex(reader.getList());
-    cout << "yes?" << endl;
     parser.parse(lexer.getList());
-    cout << "parsed?" << endl;
   } while (line_length != -1);
 
   definer.define(parser.getParseTrees());
