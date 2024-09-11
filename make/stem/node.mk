@@ -25,7 +25,7 @@ SLINKS = \
 DEFINES = 
 SRCDIRS = \
 	stem/src/util/node \
-	stem/src/util/node/op_node \
+	stem/src/util/node/op_node
 SRCFILES = \
 	Node.cpp \
 	ValueNode.cpp \

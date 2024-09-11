@@ -10,6 +10,7 @@ TARGET_NAME = trie
 TARGET_PATH = stem/trie
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
+	-Istem/inc/util \
 	-Istem/inc/util/token \
 	-Istem/inc/util/token/trie
 # Link Directories # -L<path-to-dir>
@@ -22,9 +23,11 @@ SLINKS = \
 	-ltoken
 DEFINES = 
 SRCDIRS = \
-	stem/src/util/token/trie
+	stem/src/util/token/trie \
+	stem/src/util
 SRCFILES = \
-	TokenTrie.cpp
+	TokenTrie.cpp \
+	NameTrie.cpp
 
 #? Constants
 OBJDIR = bin/$(TARGET_PATH)

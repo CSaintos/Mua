@@ -1,8 +1,8 @@
 /**
  * @file stem/test/front/ParserTest.cpp
  * @author Christian Santos
- * @version 1.0.5 
- * @date 8/10/2024
+ * @version 1.0.6 
+ * @date 9/9/2024
  */
 
 #include <string>
@@ -48,15 +48,15 @@ int main(int argc, char *argv[])
     parser.parse(lexer.getList()); //? temp
   } while (line_length != -1);
 
-  vector<unique_ptr<Node>>& parse_trees = parser.getParseTrees();
-//  for (int i = 0; i < parse_trees.size(); ++i)
-//  {
-//    cout << parse_trees[i]->to_string() << endl;
-//  }
-  for (unique_ptr<Node>& parse_tree : parse_trees)
+  vector<unique_ptr<Node>>* parse_trees = parser.getParseTrees();
+  for (int i = 0; i < parse_trees->size(); ++i)
   {
-    cout << parse_tree->to_string() << endl;
+    cout << (*parse_trees)[i]->to_string() << endl;
   }
+//  for (unique_ptr<Node>* parse_tree : parse_trees)
+//  {
+//    cout << parse_tree->to_string() << endl;
+//  }
 
   return 0;
 }

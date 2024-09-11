@@ -5,7 +5,7 @@ using namespace std;
 
 TokenTrie::TokenTrie() {}
 
-bool TokenTrie::isInstanciated = false;
+bool TokenTrie::is_instanciated = false;
 TokenTrie TokenTrie::instance;
 
 TokenTrie* TokenTrie::getInstance()
@@ -15,7 +15,7 @@ TokenTrie* TokenTrie::getInstance()
 
 TrieNode* TokenTrie::getTrie()
 {
-  if (TokenTrie::isInstanciated) return &root;
+  if (TokenTrie::is_instanciated) return &root;
   
   list<string> token_strings;
   for (pair<string, TokenType> kv : TokenUtils::m_RT_map)
@@ -37,7 +37,7 @@ TrieNode* TokenTrie::getTrie()
     curr->type = TokenUtils::m_RT_map[token_string];
   }
 
-  TokenTrie::isInstanciated = true;
+  TokenTrie::is_instanciated = true;
 
   return &root; 
 }

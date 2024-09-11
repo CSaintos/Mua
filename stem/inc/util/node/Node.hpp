@@ -26,11 +26,6 @@ namespace stem
     Token m_tok; ///< Default represented token
 
     /**
-     * @brief Virtual Node destructor
-    */
-    inline virtual ~Node(){}
-
-    /**
      * @brief Returns node as string representation
      * 
      * @return string node representation

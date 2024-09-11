@@ -1,8 +1,8 @@
 /**
  * @file stem/inc/util/token/trie/TokenTrie.hpp
  * @author Christian Santos
- * @version 1.0.0
- * @date 8/11/2024
+ * @version 1.0.1
+ * @date 9/10/2024
  */
 
 #pragma once
@@ -20,7 +20,7 @@ namespace stem
   private:
     static TokenTrie instance;
     TrieNode root;
-    static bool isInstanciated;
+    static bool is_instanciated;
     TokenTrie();
   public:
     static TokenTrie* getInstance();

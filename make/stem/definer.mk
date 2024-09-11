@@ -1,34 +1,38 @@
-# stem-test/node.mk 
+# stem/definer.mk
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
-BUILDTYPE = EXE
+BUILDTYPE = STATICLIB
 # COMPILEONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
-TARGET_NAME = node
+TARGET_NAME = definer
 # <path-to-dir>
-TARGET_PATH = stem-test/node
+TARGET_PATH = stem/definer
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
-	-Istem/inc/util/node \
-	-Istem/inc/util/node/op_node \
+	-Istem/inc/front \
+	-Istem/inc/util/token/trie \
 	-Istem/inc/util/token \
+	-Istem/inc/util/node/op_node \
+	-Istem/inc/util/node \
 	-Istem/inc/util
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
+	-Lbuild/stem/trie \
 	-Lbuild/stem/node \
 	-Lbuild/stem/token
-# Dynamic link files # -l<file-no-extension> or -l:<file-w-extension>
-DLINKS =
-# Static link files # -l<file-no-extension> or -l:<file-w-extension>
+# Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
+DLINKS = \
+# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 SLINKS = \
+	-ltrie \
 	-lnode \
 	-ltoken
 DEFINES = 
 SRCDIRS = \
-	stem/test/util/node
+	stem/src/front
 SRCFILES = \
-	NodeTest.cpp
+	Definer.cpp
 
 #? Constants
 OBJDIR = bin/$(TARGET_PATH)

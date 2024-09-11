@@ -1,10 +1,8 @@
 /**
- * @brief This file is part of {{ stem.inc.util.node }}
- * 
- * @file NodeType.hpp
+ * @file stem/inc/util/node/NodeType.hpp
  * @author Christian
- * @version 1.0.0 
- * @date 2/20/2023
+ * @version 1.0.1 
+ * @date 9/9/2024
 */
 
 #pragma once
@@ -17,8 +15,6 @@ namespace stem
    */
   enum class NodeType 
   {
-    DIGIT,
-    IDENTIFIER,
     VALUE,
     BINARY_OPERATOR,
     UNARY_OPERATOR

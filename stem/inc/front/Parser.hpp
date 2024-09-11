@@ -103,6 +103,7 @@ namespace stem
      * 
      * @return pointer to vector of completed parse trees
      */
-    inline std::vector<std::unique_ptr<stem::Node>>& getParseTrees() { return parse_trees; }
+    //std::vector<stem::Node*> getParseTrees();
+    inline std::vector<std::unique_ptr<stem::Node>>* getParseTrees() { return &parse_trees; }
   };
 }

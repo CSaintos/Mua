@@ -16,7 +16,6 @@ INCLUDES = \
 	-Istem/inc/util/token \
 	-Istem/inc/util/node \
 	-Istem/inc/util/node/op_node \
-	-Istem/inc/util/node/value_node \
 	-Istem/api
 # Link Directories # -L<path-to-dir>
 LINKDIRS =

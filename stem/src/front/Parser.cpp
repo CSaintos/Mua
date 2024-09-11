@@ -605,3 +605,12 @@ void Parser::parse(list<Token> *token_stream)
     scanOneToken();
   }
 }
+
+//vector<Node*> Parser::getParseTrees()
+//{
+//  vector<Node*> parse_tree_pointers;
+//  for (int i = 0; i < parse_trees.size(); i++)
+//  {
+//    parse_trees[i].get();
+//  }
+//}

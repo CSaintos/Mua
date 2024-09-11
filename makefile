@@ -14,6 +14,7 @@ PROJECTS = \
 	./make/stem/node.mk \
 	./make/stem/lexer.mk \
 	./make/stem/parser.mk \
+	./make/stem/definer.mk \
 	./make/stem/PL.mk \
 	./make/plugin/plus.mk \
 	./make/stem/generator.mk \
@@ -24,6 +25,7 @@ PROJECTS = \
 	./make/stem-test/node.mk \
 	./make/stem-test/lexer.mk \
 	./make/stem-test/parser.mk \
+	./make/stem-test/definer.mk \
 	./make/stem-test/PL.mk \
 	./make/stem-test/generator.mk
 
@@ -46,6 +48,7 @@ m./make/stem/trie.mk: m./make/stem/token.mk
 m./make/stem/node.mk: m./make/stem/token.mk
 m./make/stem/lexer.mk: m./make/stem/error.mk m./make/stem/trie.mk m./make/stem/character.mk
 m./make/stem/parser.mk: m./make/stem/error.mk m./make/stem/node.mk
+m./make/stem/definer.mk: m./make/stem/node.mk m./make/stem/trie.mk
 m./make/stem/reader.mk: m./make/stem/character.mk m./make/stem/error.mk
 m./make/stem/generator.mk: m./make/stem/node.mk
 m./make/plugin/plus.mk: m./make/stem/node.mk
@@ -56,6 +59,7 @@ m./make/stem-test/reader.mk: m./make/stem/reader.mk
 m./make/stem-test/lexer.mk: m./make/stem/lexer.mk m./make/stem/reader.mk
 m./make/stem-test/node.mk: m./make/stem/node.mk
 m./make/stem-test/parser.mk: m./make/stem/parser.mk m./make/stem/lexer.mk m./make/stem/reader.mk
+m./make/stem-test/definer.mk: m./make/stem/definer.mk m./make/stem/parser.mk m./make/stem/lexer.mk m./make/stem/reader.mk
 m./make/stem-test/PL.mk: m./make/stem/PL.mk m./make/plugin/plus.mk
 m./make/stem-test/generator.mk: m./make/stem/generator.mk m./make/stem/PL.mk m./make/stem/parser.mk m./make/stem/lexer.mk m./make/stem/reader.mk m./make/plugin/plus.mk
 
