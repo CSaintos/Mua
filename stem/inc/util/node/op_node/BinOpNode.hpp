@@ -26,8 +26,8 @@ namespace stem
   struct BinOpNode final : virtual public OpNode
   {
   public:
-    std::unique_ptr<Node> m_node_left; ///< left operand
-    std::unique_ptr<Node> m_node_right; ///< right operand
+    std::unique_ptr<Node> node_left; ///< left operand
+    std::unique_ptr<Node> node_right; ///< right operand
     
     /**
      * @brief BinOpNode(tok_op)

@@ -26,7 +26,7 @@ namespace stem
    */
   struct UnaOpNode final : virtual public OpNode
   {
-    std::unique_ptr<Node> m_node; ///< left operand
+    std::unique_ptr<Node> node; ///< left operand
 
     /**
      * @brief UnaOpNode(tok_op)

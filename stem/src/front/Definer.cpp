@@ -23,16 +23,16 @@ void Definer::searchOneNode(Node* node)
   case NodeType::BINARY_OPERATOR:
   {
     BinOpNode* bin_op_node = dynamic_cast<BinOpNode*>(node);
-    analyze_nodes.push(bin_op_node->m_node_left.get());
-    analyze_nodes.push(bin_op_node->m_node_right.get());
-    if (bin_op_node->m_tok.type == TokenType::EQUAL &&
+    analyze_nodes.push(bin_op_node->node_left.get());
+    analyze_nodes.push(bin_op_node->node_right.get());
+    if (bin_op_node->tok.type == TokenType::EQUAL &&
       let_stmt)
     {
-      Token left_token = bin_op_node->m_node_left->m_tok;
+      Token left_token = bin_op_node->node_left->tok;
       if (left_token.type == TokenType::IDENTIFIER)
       {
         name_trie.pushName(left_token.lexemes);
-        name_table.insert({left_token.lexemes, bin_op_node->m_node_right.get()});
+        name_table.insert({left_token.lexemes, bin_op_node->node_right.get()});
       }
     }
     break;
@@ -40,10 +40,20 @@ void Definer::searchOneNode(Node* node)
   case NodeType::UNARY_OPERATOR:
   {
     UnaOpNode* una_op_node = dynamic_cast<UnaOpNode*>(node);
-    analyze_nodes.push(una_op_node->m_node.get());
-    if (una_op_node->m_tok.type == TokenType::LET)
+    analyze_nodes.push(una_op_node->node.get());
+    if (una_op_node->tok.type == TokenType::LET)
     {
       let_stmt = true;
+    }
+    break;
+  }
+  case NodeType::VALUE:
+  {
+    if (node->parent->tok.type == TokenType::LET &&
+      let_stmt)
+    {
+      name_trie.pushName(node->tok.lexemes);
+      name_table.insert({node->tok.lexemes, nullptr});
     }
     break;
   }

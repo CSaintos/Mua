@@ -68,7 +68,7 @@ void Parser::toParseTree()
   bool loop = true;
   while (!node_stack.empty() && loop)
   {
-    TokenType type_top = node_stack.top()->m_tok.type;
+    TokenType type_top = node_stack.top()->tok.type;
 
     switch (type_top)
     {
@@ -135,7 +135,7 @@ void Parser::toParseTree()
       break;
     case TokenType::LPAREN:
       unaop_node = dynamic_cast<UnaOpNode*>(node_stack.top().get());
-      if (unaop_node->m_node == nullptr)
+      if (unaop_node->node == nullptr)
       {
         if (right_paren)
         {
@@ -167,7 +167,7 @@ void Parser::toParseTree()
         }
         else
         {
-          err(0, node_stack.top()->m_tok);
+          err(0, node_stack.top()->tok);
         }
       }
       break;
@@ -189,7 +189,7 @@ void Parser::toParseTree()
       }
       if (open_parens.size() != 0)
       {
-        err(3, open_parens.top()->m_tok);
+        err(3, open_parens.top()->tok);
         break;
       }
       op_node = std::move(node_stack.top());
@@ -206,7 +206,7 @@ void Parser::toParseTree()
       }
       else 
       {
-        err(0, op_node->m_tok);
+        err(0, op_node->tok);
         break;
       }
       break;
@@ -237,7 +237,7 @@ void Parser::toParseTree()
       {
         if (open_parens.size() != 0)
         {
-          err(2, open_parens.top()->m_tok);
+          err(2, open_parens.top()->tok);
         }
         else
         {

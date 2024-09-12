@@ -23,7 +23,8 @@ namespace stem
    */
   struct Node
   {
-    Token m_tok; ///< Default represented token
+    Node* parent; ///< pointer to parent Node
+    Token tok; ///< Default represented token
 
     /**
      * @brief Returns node as string representation

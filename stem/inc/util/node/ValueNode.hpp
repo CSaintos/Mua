@@ -21,7 +21,6 @@ namespace stem
   struct ValueNode : virtual public Node
   {
     ValueNode(Token &tok_value);
-    inline ~ValueNode(){}
 
     /**
      * @return true because a value node is a leaf
@@ -40,7 +39,7 @@ namespace stem
      */
     inline std::string to_string() override 
     {
-      return m_tok.to_string();
+      return tok.to_string();
     }
     /**
      * @brief Returns combined lexemes of each token within each node
@@ -50,7 +49,7 @@ namespace stem
      */
     inline std::string to_repr() override 
     {
-      return m_tok.lexemes;
+      return tok.lexemes;
     }
 
     /**
