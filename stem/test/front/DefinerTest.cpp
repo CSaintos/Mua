@@ -31,5 +31,11 @@ int main(int argc, char *argv[])
 
   definer.define(parser.getParseTrees());
 
+  vector<unique_ptr<Node>>* parse_trees = parser.getParseTrees();
+  for (int i = 0; i < parse_trees->size(); ++i)
+  {
+    cout << (*parse_trees)[i]->to_string() << endl;
+  }
+
   return 0;
 }

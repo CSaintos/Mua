@@ -11,9 +11,9 @@
 
 #include <memory>
 #include <string>
+#include <iostream>
 
 #include "Node.hpp"
-#include "OpNode.hpp"
 #include "Token.hpp"
 #include "NodeType.hpp"
 #include "TokenType.hpp"
@@ -24,7 +24,7 @@ namespace stem
    * @struct UnaOpNode
    * @brief node specifying unary operators
    */
-  struct UnaOpNode final : virtual public OpNode
+  struct UnaOpNode : public Node
   {
     std::unique_ptr<Node> node; ///< left operand
 
@@ -69,5 +69,10 @@ namespace stem
      * @return Unary Node Type
      */
     inline NodeType getType() override { return NodeType::UNARY_OPERATOR; }
+    
+    /**
+     * @return false, an operator node is not a leaf
+     **/
+    inline bool isLeaf() override { return false; }
   };
 }

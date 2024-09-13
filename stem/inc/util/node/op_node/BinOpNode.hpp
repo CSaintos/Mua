@@ -3,8 +3,8 @@
  * 
  * @file BinOpNode.hpp
  * @author Christian Santos
- * @version 1.0.0 
- * @date 02/20/2023
+ * @version 1.0.1 
+ * @date 9/12/2024
 */
 
 #pragma once
@@ -14,7 +14,6 @@
 
 #include "NodeType.hpp"
 #include "Node.hpp"
-#include "OpNode.hpp"
 #include "Token.hpp"
 
 namespace stem
@@ -23,7 +22,7 @@ namespace stem
    * @struct BinOpNode
    * @brief node specifying binary operators
    */
-  struct BinOpNode final : virtual public OpNode
+  struct BinOpNode : public Node
   {
   public:
     std::unique_ptr<Node> node_left; ///< left operand
@@ -66,5 +65,10 @@ namespace stem
      * @return Binary Node Type
      */
     inline NodeType getType() override { return NodeType::BINARY_OPERATOR; }
+
+    /**
+     * @return false, an operator node is not a leaf
+     **/
+    inline bool isLeaf() override { return false; } 
   };
 }

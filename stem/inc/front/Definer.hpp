@@ -20,6 +20,7 @@
 #include "TokenType.hpp"
 #include "NameTrie.hpp"
 #include "TrieNode.hpp"
+#include "Position.hpp"
 
 namespace stem
 {
@@ -27,10 +28,12 @@ namespace stem
   {
   private:
     std::vector<std::unique_ptr<stem::Node>>* parse_trees;
-    std::stack<stem::Node*> analyze_nodes;
-    std::unordered_map<std::string, stem::Node*> name_table;
+    std::stack<stem::Node*> analyze_nodes; // for parsing using dfs
+    std::unordered_map<std::string, stem::Node*> name_table; // symbol table
+    std::stack<std::unique_ptr<stem::Node>> adjacent_nodes; // for building adjacent nodes
     NameTrie name_trie;
-    //TrieNode* curr;
+    TrieNode* curr;
+    Position pos;
 
     bool let_stmt;
 

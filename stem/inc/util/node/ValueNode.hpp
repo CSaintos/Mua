@@ -18,7 +18,7 @@ namespace stem
    * @brief Specifies generic value node
    * - Used for Digits and Identifiers
    */
-  struct ValueNode : virtual public Node
+  struct ValueNode : public Node
   {
     ValueNode(Token &tok_value);
 

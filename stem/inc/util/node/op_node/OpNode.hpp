@@ -1,10 +1,8 @@
 /**
- * @brief This file is part of {{ stem.inc.util.node }}
- * 
- * @file OpNode.hpp
+ * @file stem/inc/util/node/OpNode.hpp
  * @author Christian Santos
- * @version 1.0.0 
- * @date 02/20/2023
+ * @version 1.0.1 
+ * @date 9/12/2024
 */
 
 #pragma once
@@ -18,7 +16,7 @@ namespace stem
    * @brief Specifies generic operator node
    * - Used for Operators
    */
-  struct OpNode : virtual public Node
+  struct OpNode : public Node
   {
     /**
      * @return false because an operator node is not a leaf

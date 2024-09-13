@@ -3,7 +3,7 @@
  * 
  * @file NodeTest.cpp
  * @author Christian Santos
- * @version 1.0.2 9/11/2024
+ * @version 1.0.3 9/12/2024
  */
 
 #include <iostream>
@@ -11,6 +11,7 @@
 
 #include "Node.hpp"
 #include "BinOpNode.hpp"
+#include "UnaOpNode.hpp"
 #include "ValueNode.hpp"
 #include "Token.hpp"
 #include "TokenType.hpp"
@@ -18,26 +19,37 @@
 using namespace std;
 using namespace stem;
 
+// Something I learned about casting... you can't cast to pure virtual classes (classes that don't have their virtual functions and members defined.)
+// For the future, casting is code smell (yes i know)
 int main(int argc, char *argv[])
 {
   // Create tokens
-  Token tok_0;
-  tok_0.type = TokenType::DIGIT;
-  tok_0.lexemes = "0";
-  Token tok_1;
-  tok_1.type = TokenType::DIGIT;
-  tok_1.lexemes = "1";
-  Token tok_plus;
-  tok_plus.type = TokenType::PLUS;
-  tok_plus.lexemes = "+";
-  // Create nodes
-  unique_ptr<Node> node_0 = std::make_unique<ValueNode>(tok_0);
-  unique_ptr<Node> node_1 = std::make_unique<ValueNode>(tok_1);
-  // std::unique_ptr<stem::Node> node_plus = std::make_unique<stem::BinOpNode>(tok_plus);
-  // node_plus = std::make_unique<stem::BinOpNode>(node_0, node_plus, node_1);
-  unique_ptr<Node> node_plus = std::make_unique<BinOpNode>(node_0, tok_plus, node_1);
-  // Print single node
-  cout << node_plus->to_string() << endl;
+  Token digit;
+  digit.type = TokenType::DIGIT;
+  digit.lexemes = "0";
+  unique_ptr<Node> node_digit = std::make_unique<ValueNode>(digit);
+  Token semicolon;
+  semicolon.type = TokenType::SEMICOLON;
+  unique_ptr<Node> node_semi = std::make_unique<UnaOpNode>(semicolon, node_digit);
+
+  Node* temp = node_semi.get();
+  UnaOpNode* temp_una = static_cast<UnaOpNode*>(temp);
+  cout << (temp == nullptr) << endl; // Yes this is necessary, make sure to check your pointers b4 using them, otherwise you get a no-error error.
+  {
+    Token a;
+    a.type = TokenType::IDENTIFIER;
+    a.lexemes = "a";
+    Token b;
+    b.type = TokenType::IDENTIFIER;
+    b.lexemes = "b";
+    Token adj;
+    adj.type = TokenType::ADJACENT;
+    unique_ptr<Node> node_a = std::make_unique<ValueNode>(a);
+    unique_ptr<Node> node_b = std::make_unique<ValueNode>(b);
+    temp_una->node = std::make_unique<BinOpNode>(node_a, adj, node_b);
+  }
+
+  cout << temp->to_string() << endl;
 
   return 0;
 }

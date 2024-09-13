@@ -23,7 +23,7 @@ namespace stem
    */
   struct Node
   {
-    Node* parent; ///< pointer to parent Node
+    Node* parent = nullptr; ///< pointer to parent Node
     Token tok; ///< Default represented token
 
     /**

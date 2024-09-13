@@ -1,38 +1,41 @@
 #include "UnaOpNode.hpp"
 
-stem::UnaOpNode::UnaOpNode(Token &tok_op)
+using namespace stem;
+using namespace std;
+
+UnaOpNode::UnaOpNode(Token &tok_op)
 {
   tok = tok_op;
 }
 
-stem::UnaOpNode::UnaOpNode(std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node)
-    : node(std::move(node))
+UnaOpNode::UnaOpNode(unique_ptr<Node> &node_op, unique_ptr<Node> &node)
+  : node(std::move(node))
 {
   tok = node_op->tok;
   void* trash = node_op.release();
   this->node->parent = this;
 }
 
-stem::UnaOpNode::UnaOpNode(Token &tok_op, std::unique_ptr<Node> &node)
+UnaOpNode::UnaOpNode(Token &tok_op, unique_ptr<Node> &node)
   : node(std::move(node))
 {
   tok = tok_op;
   this->node->parent = this;
 }
 
-stem::UnaOpNode::~UnaOpNode()
+UnaOpNode::~UnaOpNode()
 {}
 
-std::string stem::UnaOpNode::to_string()
+string UnaOpNode::to_string()
 {
   return ("(" + tok.to_string() + ", " + node->to_string() + ")");
 }
 
-std::string stem::UnaOpNode::to_repr()
+string UnaOpNode::to_repr()
 {
-  std::string str = std::string();
+  string str = std::string();
 
-  if (tok.type == stem::TokenType::LPAREN)
+  if (tok.type == TokenType::LPAREN)
   {
     str = "(" + node->to_repr() + ")";
   }
@@ -40,7 +43,7 @@ std::string stem::UnaOpNode::to_repr()
   return str;
 }
 
-bool stem::UnaOpNode::hasGrandchildren()
+bool UnaOpNode::hasGrandchildren()
 {
   return (!node->isLeaf());
 }

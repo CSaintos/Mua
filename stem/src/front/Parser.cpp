@@ -373,7 +373,6 @@ void Parser::scanOneToken()
         err(6, *itr);
         break;
       default:
-        // error
         err(0, *itr); // unknown
         break;
       }
@@ -392,7 +391,6 @@ void Parser::scanOneToken()
     case TokenType::ASTERISK:
     case TokenType::PERCENT:
     case TokenType::EQUAL:
-      //! Error
       err(1, *itr); // expected d or i
       break;
     default:
@@ -440,7 +438,6 @@ void Parser::scanOneToken()
     case TokenType::PLUS:
     case TokenType::LPAREN:
     case TokenType::EQUAL:
-      //! Error
       err(1, *itr); // expected d or i
       break;
     default:
