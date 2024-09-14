@@ -22,7 +22,7 @@ void Definer::searchOneNode(Node* node)
   {
   case NodeType::BINARY_OPERATOR:
   {
-    BinOpNode* bin_op_node = dynamic_cast<BinOpNode*>(node);
+    BinOpNode* bin_op_node = static_cast<BinOpNode*>(node);
     analyze_nodes.push(bin_op_node->node_left.get());
     analyze_nodes.push(bin_op_node->node_right.get());
     if (bin_op_node->tok.type == TokenType::EQUAL &&
@@ -39,7 +39,7 @@ void Definer::searchOneNode(Node* node)
   }
   case NodeType::UNARY_OPERATOR:
   {
-    UnaOpNode* una_op_node = dynamic_cast<UnaOpNode*>(node);
+    UnaOpNode* una_op_node = static_cast<UnaOpNode*>(node);
     analyze_nodes.push(una_op_node->node.get());
     if (una_op_node->tok.type == TokenType::LET)
     {
@@ -49,14 +49,13 @@ void Definer::searchOneNode(Node* node)
   }
   case NodeType::VALUE:
   {
-    if (node->parent->tok.type == TokenType::LET &&
-      let_stmt)
+    if (let_stmt && node->parent != nullptr &&
+      node->parent->tok.type == TokenType::LET)
     {
       name_trie.pushName(node->tok.lexemes);
       name_table.insert({node->tok.lexemes, nullptr});
     }
-    else if (node->tok.type == TokenType::IDENTIFIER &&
-      !let_stmt)
+    else if (node->tok.type == TokenType::IDENTIFIER)
     {
       curr = name_trie.getTrie();
       pos = node->tok.pos;
@@ -85,12 +84,16 @@ void Definer::searchOneNode(Node* node)
           }
           else
           {
-            cout << "Error" << endl;
+            cout << "Undeclared variable '" << c << "'" 
+              << endl << "line: " << pos.line_num 
+              << endl << "column: " << pos.column_nums[0] <<endl;
           }
         }
         else 
         {
-          cout << "Error" << endl;
+          cout << "Undeclared variable '" << c << "'" 
+            << endl << "line: " << pos.line_num 
+            << endl << "column: " << pos.column_nums[0] <<endl;
         }
       }
       if (curr != name_trie.getTrie())
@@ -102,6 +105,7 @@ void Definer::searchOneNode(Node* node)
         adjacent_nodes.push(std::make_unique<ValueNode>(tok));
       }
       Node* temp = node->parent;
+      Node* node_to_replace = node;
       unique_ptr<Node> left_node;
       unique_ptr<Node> right_node;
       while (!adjacent_nodes.empty())
@@ -122,6 +126,7 @@ void Definer::searchOneNode(Node* node)
           temp = temp_una->node.get();
           if (!adjacent_nodes.empty())
           {
+            node_to_replace = static_cast<BinOpNode*>(temp)->node_left.get();
             right_node = std::move(static_cast<BinOpNode*>(temp)->node_left);
           }
         }
@@ -132,16 +137,45 @@ void Definer::searchOneNode(Node* node)
           adjacent_nodes.pop();
           Token place_holder;
           place_holder.type = TokenType::ADJACENT;
-          temp_bin->node_left = std::make_unique<BinOpNode>(left_node, place_holder, right_node);
-          temp = temp_bin->node_left.get();
+          if (node_to_replace == temp_bin->node_left.get())
+          {
+            temp_bin->node_left = std::make_unique<BinOpNode>(left_node, place_holder, right_node);
+            temp = temp_bin->node_left.get();
+          }
+          else
+          {
+            temp_bin->node_right = std::make_unique<BinOpNode>(left_node, place_holder, right_node);
+            temp = temp_bin->node_right.get();
+          }
           if (!adjacent_nodes.empty())
           {
+            node_to_replace = static_cast<BinOpNode*>(temp)->node_left.get();
             right_node = std::move(static_cast<BinOpNode*>(temp)->node_left);
           }
         }
         else 
         {
-          cout << "Error" << endl;
+          cout << "Semantic Error: parent type is not listed." << endl;
+        }
+      }
+      if (right_node != nullptr)
+      {
+        if (temp->getType() == NodeType::UNARY_OPERATOR)
+        {
+          UnaOpNode* temp_una = static_cast<UnaOpNode*>(temp);
+          temp_una->node = std::move(right_node);
+        } 
+        else if (temp->getType() == NodeType::BINARY_OPERATOR)
+        {
+          BinOpNode* temp_bin = static_cast<BinOpNode*>(temp);
+          if (node_to_replace == temp_bin->node_left.get())
+          {
+            temp_bin->node_left = std::move(right_node);
+          }
+          else
+          {
+            temp_bin->node_right = std::move(right_node);
+          }
         }
       }
     }
