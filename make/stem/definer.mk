@@ -20,14 +20,16 @@ INCLUDES = \
 LINKDIRS = \
 	-Lbuild/stem/trie \
 	-Lbuild/stem/node \
-	-Lbuild/stem/token
+	-Lbuild/stem/token \
+	-Lbuild/stem/error
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS = \
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 SLINKS = \
 	-ltrie \
 	-lnode \
-	-ltoken
+	-ltoken \
+	-lerror
 DEFINES = 
 SRCDIRS = \
 	stem/src/front
