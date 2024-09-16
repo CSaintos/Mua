@@ -10,9 +10,27 @@ Definer::Definer()
     curr(nullptr)
 {}
 
-void Definer::init()
+void Definer::err(int i, Token tok)
 {
-  
+  Error derr(
+    pos,
+    "SemanticError",
+    "Undefined"
+  );
+
+  switch (i)
+  {
+  case 1:
+    derr.setDetails("Undeclared variable " + tok.to_string() + ".");
+    break;
+  case 2:
+    derr.setDetails("Parent type is not listed.");
+    break;
+  default:
+    break;
+  }
+
+  cout << derr.to_string() << endl;
 }
 
 void Definer::searchOneNode(Node* node)
@@ -60,12 +78,13 @@ void Definer::searchOneNode(Node* node)
       curr = name_trie.getTrie();
       pos = node->tok.pos;
       pos.column_nums[1] = pos.column_nums[0];
+      pos.column_nums[1]--;
       for (char c : node->tok.lexemes)
       {
+        pos.column_nums[1]++;
         if (curr->nodes.count(c) == 1)
         {
           curr = &curr->nodes[c];
-          pos.column_nums[1]++;
         }
         else if (curr != name_trie.getTrie())
         {
@@ -80,20 +99,23 @@ void Definer::searchOneNode(Node* node)
           if (curr->nodes.count(c) == 1)
           {
             curr = &curr->nodes[c];
-            pos.column_nums[1]++;
           }
           else
           {
-            cout << "Undeclared variable '" << c << "'" 
-              << endl << "line: " << pos.line_num 
-              << endl << "column: " << pos.column_nums[0] <<endl;
+            Token err_tok;
+            err_tok.type = TokenType::IDENTIFIER;
+            err_tok.pos = pos;
+            err_tok.lexemes = c;
+            err(1, err_tok);
           }
         }
         else 
         {
-          cout << "Undeclared variable '" << c << "'" 
-            << endl << "line: " << pos.line_num 
-            << endl << "column: " << pos.column_nums[0] <<endl;
+          Token err_tok;
+          err_tok.type = TokenType::IDENTIFIER;
+          err_tok.pos = pos;
+          err_tok.lexemes = c;
+          err(1, err_tok);
         }
       }
       if (curr != name_trie.getTrie())
@@ -155,7 +177,7 @@ void Definer::searchOneNode(Node* node)
         }
         else 
         {
-          cout << "Semantic Error: parent type is not listed." << endl;
+          err(2, Token());
         }
       }
       if (right_node != nullptr)

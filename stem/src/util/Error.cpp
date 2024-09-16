@@ -10,11 +10,6 @@ Error::Error(Position &pos, const string &err_name, const string &details)
   : pos(pos), err_name(err_name), details(details)
 {}
 
-/*
-stem::Error::~Error()
-{}
-*/
-
 string Error::to_string()
 {
   ss.str(string());

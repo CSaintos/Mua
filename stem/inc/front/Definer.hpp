@@ -21,6 +21,7 @@
 #include "NameTrie.hpp"
 #include "TrieNode.hpp"
 #include "Position.hpp"
+#include "Error.hpp"
 
 namespace stem
 {
@@ -37,7 +38,7 @@ namespace stem
 
     bool let_stmt;
 
-    void init();
+    void err(int i, Token tok);
     void searchOneNode(stem::Node* node);
     void analyzeTree(stem::Node* root);
   public:

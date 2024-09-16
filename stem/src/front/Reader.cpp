@@ -50,7 +50,7 @@ int Reader::readLine()
     pos.line_num ++;
     pos.column_nums[0] = 0;
 
-    // ~~ cout << m_line << endl; // ?debugging
+    // cout << m_line << endl; // DEBUG
 
     // resets char list
     char_list.clear();
@@ -78,7 +78,7 @@ int Reader::readLine()
   }
   else
   {
-    // ~~ cout << "Eof\n";
+    // cout << "Eof\n" // DEBUG
     char_list.clear();
     return -1;
   }

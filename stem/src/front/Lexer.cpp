@@ -91,10 +91,6 @@ void Lexer::scanOneChar(Character &c)
         ls.pop_back();
         dot_count = 0;
       }
-//      if (ls.size() != 0)
-//      {
-//        toTokenStream();
-//      }
       break;
     default:
       toTokenStream();
@@ -117,18 +113,6 @@ void Lexer::scanOneChar(Character &c)
             dot_count = 0;
           }
         }
-//        switch (token_temp.type)
-//        {
-//        case TokenType::COMMENT:
-//          break;
-//        default:
-//          createToken(curr->nodes[c.c].type, c);  
-//          if (token_temp.type == TokenType::DIGIT)
-//          {
-//            dot_count = 0;
-//          }
-//          break;
-//        }
       }
       else
       {

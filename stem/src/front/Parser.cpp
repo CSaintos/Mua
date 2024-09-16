@@ -16,10 +16,11 @@ Parser::Parser()
 
 void Parser::err(int i, Token &tok)
 {
-  Error serr;
-  serr.setPos(tok.pos);
-  serr.setName("Syntax Error");
-  serr.setDetails("Undefined");
+  Error serr(
+    tok.pos, 
+    "SyntaxError",
+    "Undefined"
+  );
 
   switch (i)
   {
