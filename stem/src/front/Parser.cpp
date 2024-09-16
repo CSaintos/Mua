@@ -42,6 +42,8 @@ void Parser::err(int i, Token &tok)
   case 6:
     serr.setDetails("LET keyword must be followed by a single IDENTIFIER. Syntax: LET IDENTIFIER = <expr>;");
     break;
+  case 7:
+    serr.setDetails(tok.to_string() + " cannot be rhs ADJACENT to RPAREN. Either explicitly use multiplication operator (ASTERISK) or (implicit multiplication) make it lhs ADJACENT.");
   default:
     break;
   }
@@ -135,7 +137,7 @@ void Parser::toParseTree()
       }
       break;
     case TokenType::LPAREN:
-      unaop_node = dynamic_cast<UnaOpNode*>(node_stack.top().get());
+      unaop_node = static_cast<UnaOpNode*>(node_stack.top().get());
       if (unaop_node->node == nullptr)
       {
         if (right_paren)
@@ -168,7 +170,16 @@ void Parser::toParseTree()
         }
         else
         {
-          err(0, node_stack.top()->tok);
+          if (op_node != nullptr)
+          {
+            left_node = std::move(node_stack.top());
+            node_stack.pop();
+            right_node = std::make_unique<BinOpNode>(left_node, op_node, right_node);
+          } 
+          else
+          {
+            err(7, right_node->tok);
+          }
         }
       }
       break;
@@ -420,6 +431,7 @@ void Parser::scanOneToken()
         err(6, *itr);
         break;
       default:
+        cout << "yes?" << endl;
         // error unknown
         err(0, *itr);
         break;
@@ -462,6 +474,7 @@ void Parser::scanOneToken()
         err(6, *itr);
         break;
       default:
+        cout << "this?" << endl;
         err(0, *itr);
         break;
       }
@@ -519,6 +532,7 @@ void Parser::scanOneToken()
         err(3, *itr);
         break;
       default:
+        cout << "maybe" << endl;
         //? Error
         err(0, *itr); // unknown
         break;

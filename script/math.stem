@@ -1,4 +1,3 @@
 let a; let b = aa; 
-ab;
-let a = bcd;
-
+let c = (a+b^a)2;
+//(a+b)(a+b);
