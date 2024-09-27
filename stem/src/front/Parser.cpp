@@ -44,6 +44,8 @@ void Parser::err(int i, Token &tok)
     break;
   case 7:
     serr.setDetails(tok.to_string() + " cannot be rhs ADJACENT to RPAREN. Either explicitly use multiplication operator (ASTERISK) or (implicit multiplication) make it lhs ADJACENT.");
+  case 8:
+    serr.setDetails("Expected SEMICOLON after " + tok.to_string());
   default:
     break;
   }
@@ -366,7 +368,7 @@ void Parser::scanOneToken()
       case TokenType::EQUAL:
         last_type = itr->type;
         last_op = last_type;
-        node_stack.push(std::make_unique<BinOpNode>(*itr));
+        node_stack.push(std::make_unique<BinPlus>(*itr));
         break;
       case TokenType::PLUS:
       case TokenType::MINUS:
@@ -379,7 +381,7 @@ void Parser::scanOneToken()
         // add token to stack
         last_type = itr->type;
         last_op = last_type;
-        node_stack.push(std::make_unique<BinOpNode>(*itr));
+        node_stack.push(std::make_unique<BinPlus>(*itr));
         break;
       case TokenType::LET:
         err(6, *itr);
@@ -431,7 +433,6 @@ void Parser::scanOneToken()
         err(6, *itr);
         break;
       default:
-        cout << "yes?" << endl;
         // error unknown
         err(0, *itr);
         break;
@@ -474,7 +475,6 @@ void Parser::scanOneToken()
         err(6, *itr);
         break;
       default:
-        cout << "this?" << endl;
         err(0, *itr);
         break;
       }
@@ -615,6 +615,14 @@ void Parser::parse(list<Token> *token_stream)
   {
     //cout << (*itr).to_string() << endl;
     scanOneToken();
+  }
+}
+
+void Parser::checkSemicolonError()
+{
+  if (!node_stack.empty())
+  {
+    err(8, node_stack.top()->tok);
   }
 }
 

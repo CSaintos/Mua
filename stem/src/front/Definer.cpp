@@ -225,8 +225,7 @@ void Definer::analyzeTree(Node* root)
 
 void Definer::define(vector<unique_ptr<Node>>* parse_trees)
 {
-  this->parse_trees = parse_trees;
-  
+  //this->parse_trees = parse_trees;
   for (int i = 0; i < parse_trees->size(); i++)
   {
     analyzeTree((*parse_trees)[i].get());

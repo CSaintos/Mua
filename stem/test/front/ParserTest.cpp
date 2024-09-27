@@ -47,6 +47,7 @@ int main(int argc, char *argv[])
     // parse token stream
     parser.parse(lexer.getList()); //? temp
   } while (line_length != -1);
+  parser.checkSemicolonError();
 
   vector<unique_ptr<Node>>* parse_trees = parser.getParseTrees();
   for (int i = 0; i < parse_trees->size(); ++i)

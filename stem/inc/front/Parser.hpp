@@ -12,6 +12,7 @@
 #include <list>
 #include <stack>
 #include <vector>
+#include <optional>
 
 #include "Error.hpp"
 #include "Token.hpp"
@@ -19,6 +20,7 @@
 #include "Node.hpp"
 #include "UnaOpNode.hpp"
 #include "BinOpNode.hpp"
+#include "BinPlus.hpp"
 #include "ValueNode.hpp"
 
 namespace stem
@@ -98,6 +100,9 @@ namespace stem
      * @param token_stream the list of tokens to be parsed
      */
     void parse(std::list<stem::Token> *token_stream);
+    
+    void checkSemicolonError();
+    //inline bool isNodeStackEmpty() { return node_stack.empty(); }
     /**
      * @brief returns a pointer to vector of completed parse trees
      * 

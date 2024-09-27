@@ -1,33 +1,55 @@
-# stem/PL.mk
+# stem-test/interpreter
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
-BUILDTYPE = STATICLIB
+BUILDTYPE = EXE
 # COMPILEONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
-TARGET_NAME = PL
+TARGET_NAME = interpreter
 # <path-to-dir>
-TARGET_PATH = stem/PL
+TARGET_PATH = stem-test/interpreter
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
-	-Istem/inc/plugin \
-	-Istem/api \
+	-Istem/inc/back \
+	-Istem/inc/front \
+	-Istem/inc/util/node/op_node/bin_node \
+	-Istem/inc/util/node/op_node/una_node \
 	-Istem/inc/util/node \
-	-Istem/inc/util/node/op_node \
-	-Istem/inc/util/node/value_node \
+	-Istem/inc/util/token/trie \
 	-Istem/inc/util/token \
+	-Istem/inc/util/character \
 	-Istem/inc/util
 # Link Directories # -L<path-to-dir>
-LINKDIRS =
+LINKDIRS = \
+	-Lbuild/stem/interpreter \
+	-Lbuild/stem/definer \
+	-Lbuild/stem/parser \
+	-Lbuild/stem/lexer \
+	-Lbuild/stem/reader \
+	-Lbuild/stem/node \
+	-Lbuild/stem/trie \
+	-Lbuild/stem/token \
+	-Lbuild/stem/character \
+	-Lbuild/stem/error
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
-SLINKS =
+SLINKS = \
+	-linterpreter \
+	-ldefiner \
+	-lparser \
+	-llexer \
+	-lreader \
+	-lnode \
+	-ltrie \
+	-ltoken \
+	-lcharacter \
+	-lerror
 DEFINES = 
 SRCDIRS = \
-	stem/src/plugin
+	stem/test/back
 SRCFILES = \
-	PluginLoader.cpp
+	InterpreterTest.cpp
 
 #? Constants
 OBJDIR = bin/$(TARGET_PATH)

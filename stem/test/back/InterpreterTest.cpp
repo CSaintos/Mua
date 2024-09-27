@@ -1,14 +1,15 @@
 /**
- * @file stem/test/front/DefinerTest.cpp
+ * @file stem/test/back/InterpreterTest.cpp
  * @author Christian Santos
  * @version 1.0.0
- * @date 9/9/2024
+ * @date 9/25/2024
  */
 
 #include "Reader.hpp"
 #include "Lexer.hpp"
 #include "Parser.hpp"
 #include "Definer.hpp"
+#include "Interpreter.hpp"
 
 using namespace stem;
 using namespace std;
@@ -20,9 +21,10 @@ int main(int argc, char *argv[])
   Lexer lexer;
   Parser parser;
   Definer definer;
+  Interpreter interpreter;
 
   int line_length = 0;
-
+  
   do {
     line_length = reader.readLine();
     lexer.lex(reader.getList());
@@ -37,6 +39,5 @@ int main(int argc, char *argv[])
   {
     cout << (*parse_trees)[i]->to_string() << endl;
   }
-
-  return 0;
+  interpreter.interpret(parse_trees);
 }

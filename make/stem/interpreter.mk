@@ -1,35 +1,37 @@
-# stem-test/PL.mk
+# stem/interpreter.mk
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
-BUILDTYPE = EXE
+BUILDTYPE = STATICLIB
 # COMPILEONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
-TARGET_NAME = PL
+TARGET_NAME = interpreter
 # <path-to-dir>
-TARGET_PATH = stem-test/PL
+TARGET_PATH = stem/interpreter
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
-	-Istem/inc/plugin \
-	-Istem/api \
-	-Istem/inc/util/node/op_node \
-	-Istem/inc/util/node/value_node \
+	-Istem/inc/front \
+	-Istem/inc/back \
+	-Istem/inc/util/node/op_node/bin_node \
+	-Istem/inc/util/node/op_node/una_node \
 	-Istem/inc/util/node \
 	-Istem/inc/util/token \
 	-Istem/inc/util
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/stem/PL
+	-Lbuild/stem/node \
+	-Lbuild/stem/token
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
-DLINKS =
+DLINKS = \
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 SLINKS = \
-	-lPL
+	-lnode \
+	-ltoken
 DEFINES = 
 SRCDIRS = \
-	stem/test/plugin
+	stem/src/back
 SRCFILES = \
-	PLTest.cpp
+	Interpreter.cpp
 
 #? Constants
 OBJDIR = bin/$(TARGET_PATH)
@@ -39,8 +41,6 @@ TARGETCLEANDIR = $(TARGETDIR)
 
 #? Custom build cmds
 define POSTBUILDCMDS
-	@echo copying build/plugin into build/stem-test/PL/plugin
-	@xcopy build\\plugin build\\stem-test\\PL\\plugin /E /I /Y /Q
 endef
 
 include ./make/maker.mk

@@ -17,11 +17,9 @@ INCLUDES = \
 	-Istem/inc/util \
 	-Istem/inc/util/error \
 	-Istem/inc/util/node \
-	-Istem/inc/util/node/op_node \
-	-Istem/inc/util/node/value_node \
-	-Istem/inc/util/character \
-	-Istem/inc/plugin \
-	-Istem/api
+	-Istem/inc/util/node/op_node/bin_node \
+	-Istem/inc/util/node/op_node/una_node \
+	-Istem/inc/util/character
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
 	-Lbuild/stem/parser \

@@ -1,10 +1,8 @@
 /**
- * @brief This file is part of {{ stem.inc.util.node }}
- * 
- * @file Node.hpp
+ * @file stem/inc/util/node/Node.hpp
  * @author Christian Santos
- * @version 1.0.6 
- * @date 2/20/2023
+ * @version 1.0.7 
+ * @date 9/22/2024
  */
 
 #pragma once
@@ -53,7 +51,6 @@ namespace stem
      * @return node type
      */
     virtual NodeType getType() = 0;
-
     /**
      * @return true if node is an exclusive parent,
      * false otherwise.
@@ -61,5 +58,7 @@ namespace stem
      * that has no grandchildren.
      */
     bool isExclusiveParent();
+    
+    virtual void interpret() = 0;
   };
 }

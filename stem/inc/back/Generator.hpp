@@ -14,8 +14,8 @@
 #include <memory>
 
 #include "Node.hpp"
-#include "OpNode.hpp"
-#include "EntryPoint.hpp"
+//#include "OpNode.hpp"
+//#include "EntryPoint.hpp"
 
 namespace stem
 {
@@ -31,7 +31,7 @@ namespace stem
     /**
      * @brief Generator(&plugin_manager) constructor
      */
-    Generator(std::vector<std::unique_ptr<stem::EntryPoint>> &entry_points);
+    //Generator(std::vector<std::unique_ptr<stem::EntryPoint>> &entry_points);
 
     /**
      * @brief generates a result
@@ -41,9 +41,9 @@ namespace stem
     void generate(stem::Node *root_node);
   private:
     /// plugin vector used for evaluation
-    std::vector<std::unique_ptr<stem::EntryPoint>> &m_entry_points;
+    //std::vector<std::unique_ptr<stem::EntryPoint>> &m_entry_points;
     /// plugin vector iterator
-    std::vector<std::unique_ptr<stem::EntryPoint>>::iterator m_itr;
+    //std::vector<std::unique_ptr<stem::EntryPoint>>::iterator m_itr;
     /// pointer to root node of parse tree
     stem::Node *m_root_node;
   };

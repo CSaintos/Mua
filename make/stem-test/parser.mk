@@ -15,7 +15,8 @@ INCLUDES = \
 	-Istem/inc/util/token/trie \
 	-Istem/inc/util \
 	-Istem/inc/util/node \
-	-Istem/inc/util/node/op_node \
+	-Istem/inc/util/node/op_node/bin_node \
+	-Istem/inc/util/node/op_node/una_node \
 	-Istem/inc/util/character
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \

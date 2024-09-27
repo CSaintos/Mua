@@ -12,8 +12,8 @@ TARGET_PATH = stem/generator
 INCLUDES = \
 	-Istem/inc/back \
 	-Istem/inc/util/node \
-	-Istem/inc/util/node/op_node \
-	-Istem/inc/util/node/value_node \
+	-Istem/inc/util/node/op_node/bin_node \
+	-Istem/inc/util/node/op_node/una_node \
 	-Istem/inc/util/token \
 	-Istem/inc/util \
 	-Istem/api

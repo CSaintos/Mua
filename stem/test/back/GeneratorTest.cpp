@@ -9,7 +9,7 @@
 #include <string>
 
 #include "Token.hpp"
-#include "PluginLoader.hpp"
+//#include "PluginLoader.hpp"
 
 #include "Reader.hpp"
 #include "Lexer.hpp"
@@ -28,10 +28,10 @@ int main(int argc, char *argv[])
   // create parser
   stem::Parser parser;
   // create PluginLoader
-  stem::PluginLoader plugin_manager;
-  plugin_manager.loadPlugins();
+  //stem::PluginLoader plugin_manager;
+  //plugin_manager.loadPlugins();
   // create generator
-  stem::Generator generator(plugin_manager.m_entryPoints);
+  //stem::Generator generator(plugin_manager.m_entryPoints);
 
   // Loop variables
   int line_length = 0;
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 
   } while (line_length != -1);
 
-  plugin_manager.unloadPlugins();
+  //plugin_manager.unloadPlugins();
 
   return 0;
 }

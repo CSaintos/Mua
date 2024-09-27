@@ -56,5 +56,7 @@ namespace stem
      * @return Value node type
      */
     inline NodeType getType() override { return NodeType::VALUE; }
+
+    inline void interpret() override {}
   };
 }

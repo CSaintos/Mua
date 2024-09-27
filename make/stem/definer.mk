@@ -13,7 +13,8 @@ INCLUDES = \
 	-Istem/inc/front \
 	-Istem/inc/util/token/trie \
 	-Istem/inc/util/token \
-	-Istem/inc/util/node/op_node \
+	-Istem/inc/util/node/op_node/bin_node \
+	-Istem/inc/util/node/op_node/una_node \
 	-Istem/inc/util/node \
 	-Istem/inc/util
 # Link Directories # -L<path-to-dir>

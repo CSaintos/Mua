@@ -62,6 +62,7 @@ Error --> Position
 class TrieNode {
 unordered_map<char, TrieNode> nodes
 TokenType type
+string lexemes
 }
 TrieNode o--> TrieNode
 TrieNode --> TokenType
@@ -101,33 +102,23 @@ Node ..> NodeType
 struct ValueNode
 ValueNode --|> Node
 ValueNode ..> Token
-struct IdentifierNode
-IdentifierNode --|> ValueNode
-IdentifierNode ..> Token
-IdentifierNode ..> NodeType
-struct DigitNode
-DigitNode --|> ValueNode
-DigitNode ..> Token
-DigitNode ..> NodeType
-struct OpNode
-OpNode --|> Node
+ValueNode ..> NodeType
 struct BinOpNode {
 unique_ptr<Node> node_left
 unique_ptr<Node> node_right
 }
-BinOpNode --|> OpNode
-BinOpNode o--> Node
+BinOpNode --|> Node
 BinOpNode ..> NodeType
 BinOpNode ..> Token
 struct UnaOpNode {
 unique_ptr<Node> node
 }
-UnaOpNode --|> OpNode
-UnaOpNode o--> Node
+UnaOpNode --|> Node
 UnaOpNode ..> NodeType
 UnaOpNode ..> Token
 UnaOpNode ..> TokenType
 class Parser {
+vector<unique_ptr<Node>> parse_trees
 stack<unique_ptr<Node>> node_stack
 queue<Node*> node_queue
 list<Token>* token_stream
@@ -140,14 +131,72 @@ TokenType last_type
 TokenType last_op
 UnaOpNode* unaop_node
 int paren_count
+bool let_stmt
+bool right_paren
+bool end_of_expr
+bool end_of_stmt
 }
-Parser o--> Node
-Parser o--> Token
-Parser --> "2" TokenType
-Parser --> UnaOpNode
-Parser ..> Error
-Parser ..> BinOpNode
-Parser ..> DigitNode
-Parser ..> IdentifierNode
+Parser o---> Node
+Parser o---> Token
+Parser ---> "2" TokenType
+Parser ---> UnaOpNode
+Parser ...> Error
+Parser ...> BinOpNode
+Parser ...> ValueNode
+class NameTrie {
+TrieNode root
+}
+NameTrie --> TrieNode
+class Definer {
+vector<unique_ptr<Node>>* parse_trees
+stack<Node*> analyze_nodes
+unordered_map<string, Node*> name_table
+stack<unique_ptr<Node>> adjacent_nodes
+NameTrie name_trie
+TrieNode* curr
+Position pos
+bool let_stmt
+}
+Definer o---> Node
+Definer ---> NameTrie
+Definer ---> TrieNode
+Definer ---> Position
+Definer ...> NodeType
+Definer ...> BinOpNode
+Definer ...> UnaOpNode
+Definer ...> ValueNode
+Definer ...> TokenType
+Definer ...> Error
+class Interpreter {
+vector<unique_ptr<Node>>* parse_trees
+}
+Interpreter o---> Node
+struct UnaPlus
+UnaPlus --|> UnaOpNode
+struct UnaMinus
+UnaMinus --|> UnaOpNode
+struct LParen
+LParen --|> UnaOpNode
+struct Semicolon
+Semicolon --|> UnaOpNode
+struct Let
+Let --|> UnaOpNode
+struct BinPlus
+BinPlus --|> BinOpNode
+struct BinMinus
+BinMinus --|> BinOpNode
+struct Asterisk
+Asterisk --|> BinOpNode
+struct Adjacent
+Adjacent --|> BinOpNode
+struct FSlash
+FSlash --|> BinOpNode
+struct Percent
+Percent --|> BinOpNode
+struct Caret
+Caret --|> BinOpNode
+struct Equal
+Equal --|> BinOpNode
 
+@enduml
 ```

@@ -1,10 +1,8 @@
 /**
- * @brief This file is part of {{ stem.inc.util.node.op_node }}
- * 
- * @file UnaOpNode.hpp
+ * @file stem/inc/util/node/op_node/UnaOpNode.hpp
  * @author Christian Santos
- * @version 1.0.0 
- * @date 02/20/2023
+ * @version 1.0.1 
+ * @date 9/21/2024
 */
 
 #pragma once
@@ -74,5 +72,7 @@ namespace stem
      * @return false, an operator node is not a leaf
      **/
     inline bool isLeaf() override { return false; }
+
+    inline void interpret() override {}
   };
 }

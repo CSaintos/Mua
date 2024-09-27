@@ -11,7 +11,8 @@ TARGET_PATH = stem/node
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Istem/inc/util/node \
-	-Istem/inc/util/node/op_node \
+	-Istem/inc/util/node/op_node/bin_node \
+	-Istem/inc/util/node/op_node/una_node \
 	-Istem/inc/util/token \
 	-Istem/inc/util
 # Link Directories # -L<path-to-dir>
@@ -25,12 +26,14 @@ SLINKS = \
 DEFINES = 
 SRCDIRS = \
 	stem/src/util/node \
-	stem/src/util/node/op_node
+	stem/src/util/node/op_node/bin_node \
+	stem/src/util/node/op_node/una_node
 SRCFILES = \
 	Node.cpp \
 	ValueNode.cpp \
 	BinOpNode.cpp \
-	UnaOpNode.cpp
+	UnaOpNode.cpp \
+	BinPlus.cpp
 
 #? Constants
 OBJDIR = bin/$(TARGET_PATH)

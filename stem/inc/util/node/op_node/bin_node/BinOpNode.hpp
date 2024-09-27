@@ -70,5 +70,7 @@ namespace stem
      * @return false, an operator node is not a leaf
      **/
     inline bool isLeaf() override { return false; } 
+
+    inline void interpret() override { std::cout << "BinOpNode is the overridden class" << std::endl; }
   };
 }
