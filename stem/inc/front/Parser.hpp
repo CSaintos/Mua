@@ -19,6 +19,7 @@
 #include "TokenType.hpp"
 #include "Node.hpp"
 #include "UnaOpNode.hpp"
+#include "Semicolon.hpp"
 #include "BinOpNode.hpp"
 #include "BinPlus.hpp"
 #include "ValueNode.hpp"
@@ -49,6 +50,8 @@ namespace stem
     std::unique_ptr<stem::Node> left_node; ///< holds left node for binary operators
     std::unique_ptr<stem::Node> right_node; ///< holds right node for operators
     std::unique_ptr<stem::Node> op_node; ///< holds op node for operators
+    std::unique_ptr<stem::BinOpNode> bin_op;
+    std::unique_ptr<stem::UnaOpNode> una_op;
 
     stem::TokenType last_type; ///< last token type iterated
     stem::TokenType last_op; ///< last operator token type iterated

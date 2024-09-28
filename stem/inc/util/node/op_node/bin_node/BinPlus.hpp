@@ -1,5 +1,5 @@
 /**
- * @file stem/inc/util/node/op_node/PlusNode.hpp
+ * @file stem/inc/util/node/op_node/bin_node/PlusNode.hpp
  * @author Christian Santos
  * @version 1.0.0
  * @date 09/21/2024

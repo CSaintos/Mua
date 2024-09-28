@@ -47,3 +47,8 @@ bool UnaOpNode::hasGrandchildren()
 {
   return (!node->isLeaf());
 }
+
+void UnaOpNode::interpret()
+{
+  cout << "UnaOpNode interpret" << endl;
+}

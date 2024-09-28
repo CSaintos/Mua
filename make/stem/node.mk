@@ -33,7 +33,8 @@ SRCFILES = \
 	ValueNode.cpp \
 	BinOpNode.cpp \
 	UnaOpNode.cpp \
-	BinPlus.cpp
+	BinPlus.cpp \
+	Semicolon.cpp
 
 #? Constants
 OBJDIR = bin/$(TARGET_PATH)

@@ -1,7 +1,5 @@
 /**
- * @brief This file is part of {{ stem.inc.util.node.op_node }}
- * 
- * @file BinOpNode.hpp
+ * @file stem/inc/util/node/op_node/bin_node/BinOpNode.hpp
  * @author Christian Santos
  * @version 1.0.1 
  * @date 9/12/2024
@@ -71,6 +69,6 @@ namespace stem
      **/
     inline bool isLeaf() override { return false; } 
 
-    inline void interpret() override { std::cout << "BinOpNode is the overridden class" << std::endl; }
+    inline void interpret() override { std::cout << "BinOpNode interpret" << std::endl; }
   };
 }

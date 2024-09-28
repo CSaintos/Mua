@@ -13,9 +13,7 @@ void Interpreter::interpret(vector<unique_ptr<Node>>* parse_trees)
 
   for (int i = 0; i < parse_trees->size(); i++)
   {
-    cout << "Interpret" << endl;
     (*parse_trees)[i]->interpret();
-    cout << "Interpreted" << endl;
   }
 }
 

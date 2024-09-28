@@ -40,4 +40,8 @@ int main(int argc, char *argv[])
     cout << (*parse_trees)[i]->to_string() << endl;
   }
   interpreter.interpret(parse_trees);
+  for (int i = 0; i < parse_trees->size(); ++i)
+  {
+    cout << (*parse_trees)[i]->to_string() << endl;
+  }
 }
