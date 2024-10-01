@@ -1,8 +1,8 @@
 /**
  * @file stem/inc/front/Parser.hpp
  * @author Christian Santos
- * @version 1.2.0
- * @date 9/7/2024
+ * @version 1.2.1
+ * @date 10/1/2024
  */
 
 #pragma once
@@ -22,6 +22,7 @@
 #include "Semicolon.hpp"
 #include "BinOpNode.hpp"
 #include "BinPlus.hpp"
+#include "BinMinus.hpp"
 #include "ValueNode.hpp"
 
 namespace stem

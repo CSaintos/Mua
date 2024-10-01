@@ -1,6 +1,9 @@
 #include "Node.hpp"
 
-bool stem::Node::isExclusiveParent()
+using namespace std;
+using namespace stem;
+
+bool Node::isExclusiveParent()
 {
   return (!isLeaf() && !hasGrandchildren());
 }

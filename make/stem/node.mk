@@ -38,7 +38,9 @@ SRCFILES = \
 	BinOpNode.cpp \
 	UnaOpNode.cpp \
 	BinPlus.cpp \
+	BinMinus.cpp \
 	Semicolon.cpp \
+	NodeUtils.cpp \
 	NumberUtils.cpp
 
 #? Constants

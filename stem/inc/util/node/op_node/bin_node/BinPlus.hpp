@@ -1,8 +1,8 @@
 /**
- * @file stem/inc/util/node/op_node/bin_node/PlusNode.hpp
+ * @file stem/inc/util/node/op_node/bin_node/BinPlus.hpp
  * @author Christian Santos
- * @version 1.0.0
- * @date 09/21/2024
+ * @version 1.0.1
+ * @date 10/1/2024
  */
 
 #pragma once
@@ -15,6 +15,7 @@
 #include "ValueNode.hpp"
 #include "BinOpNode.hpp"
 #include "UnaOpNode.hpp"
+#include "NodeUtils.hpp"
 #include "NumberUtils.hpp"
 
 namespace stem
@@ -25,7 +26,5 @@ namespace stem
     BinPlus(std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node_right);
     BinPlus(std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
     void interpret() override;
-  private:
-    void replaceNode(Node* to_replace, std::unique_ptr<Node> &replace_with);
   };
 }

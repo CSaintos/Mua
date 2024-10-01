@@ -1,22 +1,21 @@
-#include "BinPlus.hpp"
-#include "NodeUtils.hpp"
+#include "BinMinus.hpp"
 
 using namespace std;
 using namespace stem;
 
-BinPlus::BinPlus(Token &tok_op)
-  : BinOpNode(tok_op) 
+BinMinus::BinMinus(Token &tok_op)
+  : BinOpNode(tok_op)
 {}
 
-BinPlus::BinPlus(unique_ptr<Node> &node_left, unique_ptr<Node> &node_op, unique_ptr<Node> &node_right)
+BinMinus::BinMinus(unique_ptr<Node> &node_left, unique_ptr<Node> &node_op, unique_ptr<Node> &node_right)
   : BinOpNode(node_left, node_op, node_right)
 {}
 
-BinPlus::BinPlus(unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &node_right)
+BinMinus::BinMinus(unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &node_right)
   : BinOpNode(node_left, tok_op, node_right)
 {}
 
-void BinPlus::interpret() 
+void BinMinus::interpret()
 {
   if (node_left->isLeaf() && node_right->isLeaf())
   {
@@ -25,7 +24,7 @@ void BinPlus::interpret()
     {
       double lhs = std::stod(node_left->tok.lexemes);
       double rhs = std::stod(node_right->tok.lexemes);
-      double result = lhs + rhs;
+      double result = lhs - rhs;
 
       string result_str = NumberUtils::stripTrailingZeros(std::to_string(result));
 

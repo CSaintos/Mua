@@ -428,7 +428,14 @@ void Parser::scanOneToken()
       case TokenType::EQUAL:
         last_type = itr->type;
         last_op = last_type;
-        node_stack.push(std::make_unique<BinPlus>(*itr));
+        if (itr->type == TokenType::PLUS)
+        {
+          node_stack.push(std::make_unique<BinPlus>(*itr));
+        }
+        else if (itr->type == TokenType::MINUS)
+        {
+          node_stack.push(std::make_unique<BinMinus>(*itr));
+        }
         break;
       case TokenType::PLUS:
       case TokenType::MINUS:
@@ -441,7 +448,14 @@ void Parser::scanOneToken()
         // add token to stack
         last_type = itr->type;
         last_op = last_type;
-        node_stack.push(std::make_unique<BinPlus>(*itr));
+        if (itr->type == TokenType::PLUS)
+        {
+          node_stack.push(std::make_unique<BinPlus>(*itr));
+        }
+        else if (itr->type == TokenType::MINUS)
+        {
+          node_stack.push(std::make_unique<BinMinus>(*itr));
+        }
         break;
       case TokenType::LET:
         err(6, *itr);

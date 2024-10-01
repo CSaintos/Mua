@@ -1,8 +1,8 @@
 /**
  * @file stem/inc/util/node/Node.hpp
  * @author Christian Santos
- * @version 1.0.7 
- * @date 9/22/2024
+ * @version 1.0.8
+ * @date 10/1/2024
  */
 
 #pragma once
