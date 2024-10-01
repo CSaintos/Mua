@@ -16,17 +16,20 @@ INCLUDES = \
 	-Istem/inc/util/node/op_node/una_node \
 	-Istem/inc/util/node \
 	-Istem/inc/util/token \
-	-Istem/inc/util
+	-Istem/inc/util \
+	-Istem/inc/util/character
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
 	-Lbuild/stem/node \
-	-Lbuild/stem/token
+	-Lbuild/stem/token \
+	-Lbuild/stem/character
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS = \
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 SLINKS = \
 	-lnode \
-	-ltoken
+	-ltoken \
+	-lcharacter
 DEFINES = 
 SRCDIRS = \
 	stem/src/back

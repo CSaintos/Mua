@@ -17,7 +17,6 @@ BinPlus::BinPlus(unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &n
 
 void BinPlus::interpret() 
 {
-  cout << "This ran" << endl;
   if (node_left->isLeaf() && node_right->isLeaf())
   {
     if (node_left->tok.type == TokenType::DIGIT &&
@@ -27,37 +26,40 @@ void BinPlus::interpret()
       double rhs = std::stod(node_right->tok.lexemes);
       double result = lhs + rhs;
 
+      string result_str = NumberUtils::stripTrailingZeros(std::to_string(result));
+
       Token res_tok;
-      res_tok.lexemes = std::to_string(result);
+      res_tok.lexemes = result_str;
       res_tok.type = TokenType::DIGIT;
 
-      unique_ptr<ValueNode> res_node = std::make_unique<ValueNode>(res_tok);
+      unique_ptr<Node> res_node = std::make_unique<ValueNode>(res_tok);
 
-      if (this->parent->getType() == NodeType::BINARY_OPERATOR)
-      {
-        BinOpNode* parent = static_cast<BinOpNode*>(this->parent);
-        cout << "this is risque" << endl;
-        if (parent->node_left.get() == this)
-        {
-          parent->node_left = std::move(res_node);
-        }
-        else if (parent->node_right.get() == this)
-        {
-          parent->node_right = std::move(res_node);
-        }
-        else 
-        {
-          cout << "Node pointers don't match" << endl;
-        }
-        cout << "It worked" << endl;
-      }
-      else if (this->parent->getType() == NodeType::UNARY_OPERATOR)
-      {
-        UnaOpNode* parent = static_cast<UnaOpNode*>(this->parent);
-        cout << "this is risque" << endl;
-        parent->node = std::move(res_node);
-        cout << "It worked" << endl;
-      }
+      replaceNode(this, res_node);
     }
+  }
+}
+
+void BinPlus::replaceNode(Node* to_replace, unique_ptr<Node> &replace_with)
+{
+  if (to_replace->parent->getType() == NodeType::BINARY_OPERATOR)
+  {
+    BinOpNode* parent = static_cast<BinOpNode*>(to_replace->parent);
+    if (parent->node_left.get() == to_replace)
+    {
+      parent->node_left = std::move(replace_with);
+    }
+    else if (parent->node_right.get() == to_replace)
+    {
+      parent->node_right = std::move(replace_with);
+    }
+    else
+    {
+      cout << "Node pointers don't match the node to be replaced" << endl;
+    }
+  }
+  else if (to_replace->parent->getType() == NodeType::UNARY_OPERATOR)
+  {
+    UnaOpNode* parent = static_cast<UnaOpNode*>(to_replace->parent);
+    parent->node = std::move(replace_with);
   }
 }

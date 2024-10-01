@@ -10,6 +10,7 @@ TARGET_NAME = node
 TARGET_PATH = stem/node
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
+	-Istem/inc/util/character \
 	-Istem/inc/util/node \
 	-Istem/inc/util/node/op_node/bin_node \
 	-Istem/inc/util/node/op_node/una_node \
@@ -17,24 +18,28 @@ INCLUDES = \
 	-Istem/inc/util
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/stem/token
+	-Lbuild/stem/token \
+	-Lbuild/stem/character
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension>
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension>
 SLINKS = \
-	-ltoken
+	-ltoken \
+	-lcharacter
 DEFINES = 
 SRCDIRS = \
 	stem/src/util/node \
 	stem/src/util/node/op_node/bin_node \
-	stem/src/util/node/op_node/una_node
+	stem/src/util/node/op_node/una_node \
+	stem/src/util
 SRCFILES = \
 	Node.cpp \
 	ValueNode.cpp \
 	BinOpNode.cpp \
 	UnaOpNode.cpp \
 	BinPlus.cpp \
-	Semicolon.cpp
+	Semicolon.cpp \
+	NumberUtils.cpp
 
 #? Constants
 OBJDIR = bin/$(TARGET_PATH)

@@ -10,6 +10,7 @@ TARGET_NAME = parser
 TARGET_PATH = stem/parser
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
+	-Istem/inc/util/character \
 	-Istem/inc/front \
 	-Istem/inc/util/node \
 	-Istem/inc/util/node/op_node/bin_node \
@@ -21,14 +22,16 @@ INCLUDES = \
 LINKDIRS = \
 	-Lbuild/stem/node \
 	-Lbuild/stem/token \
-	-Lbuild/stem/error
+	-Lbuild/stem/error \
+	-Lbuild/stem/character
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 SLINKS = \
 	-lnode \
 	-ltoken \
-	-lerror
+	-lerror \
+	-lcharacter
 DEFINES = 
 SRCDIRS = \
 	stem/src/front

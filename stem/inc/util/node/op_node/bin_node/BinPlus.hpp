@@ -15,6 +15,7 @@
 #include "ValueNode.hpp"
 #include "BinOpNode.hpp"
 #include "UnaOpNode.hpp"
+#include "NumberUtils.hpp"
 
 namespace stem
 {
@@ -24,5 +25,7 @@ namespace stem
     BinPlus(std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node_right);
     BinPlus(std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
     void interpret() override;
+  private:
+    void replaceNode(Node* to_replace, std::unique_ptr<Node> &replace_with);
   };
 }

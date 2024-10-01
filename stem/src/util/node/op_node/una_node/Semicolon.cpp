@@ -17,6 +17,5 @@ Semicolon::Semicolon(Token &tok_op, unique_ptr<Node> &node)
 
 void Semicolon::interpret()
 {
-  cout << "Semicolon interpret" << endl;
   node->interpret();
 }
