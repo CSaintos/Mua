@@ -51,3 +51,9 @@ bool BinOpNode::hasGrandchildren()
 {
   return (!node_left->isLeaf() || !node_right->isLeaf());
 }
+
+bool BinOpNode::interpret()
+{
+  cout << "BinOpNode interpret" << endl;
+  return false;
+}

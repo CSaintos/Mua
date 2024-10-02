@@ -15,7 +15,7 @@ Semicolon::Semicolon(Token &tok_op, unique_ptr<Node> &node)
   : UnaOpNode(tok_op, node)
 {}
 
-void Semicolon::interpret()
+bool Semicolon::interpret()
 {
-  node->interpret();
+  return node->interpret();
 }

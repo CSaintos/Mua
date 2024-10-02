@@ -1,7 +1,7 @@
 /**
  * @file stem/inc/util/node/op_node/bin_node/BinMinus.hpp
  * @author Christian Santos
- * @version 1.0.0
+ * @version 1.0.1
  * @date 10/1/2024
  */
 #pragma once
@@ -21,6 +21,6 @@ namespace stem
     BinMinus(Token &tok_op);
     BinMinus(std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node_right);
     BinMinus(std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
-    void interpret() override;
+    bool interpret() override;
   };
 }

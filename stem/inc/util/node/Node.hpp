@@ -1,7 +1,7 @@
 /**
  * @file stem/inc/util/node/Node.hpp
  * @author Christian Santos
- * @version 1.0.8
+ * @version 1.0.9
  * @date 10/1/2024
  */
 
@@ -58,7 +58,11 @@ namespace stem
      * that has no grandchildren.
      */
     bool isExclusiveParent();
-    
-    virtual void interpret() = 0;
+    /**
+     * @return true if a change was made, false otherwise
+     * @note a change is represented by any modification of the parse_tree including modifications of any nodes by modifying their contents.
+     * @note an exception: modification of Node.tok.pos is ignored at this stage until further notice.
+     */
+    virtual bool interpret() = 0;
   };
 }

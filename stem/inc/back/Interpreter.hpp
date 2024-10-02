@@ -1,8 +1,8 @@
 /**
  * @file Interpreter.hpp 
  * @author Christian Santos
- * @version 1.1.0
- * @date 9/16/2024
+ * @version 1.1.1
+ * @date 10/1/2024
  */
 
 #pragma once

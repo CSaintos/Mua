@@ -1,8 +1,8 @@
 /**
  * @file stem/inc/util/node/op_node/una_node/UnaOpNode.hpp
  * @author Christian Santos
- * @version 1.0.1 
- * @date 9/21/2024
+ * @version 1.0.2 
+ * @date 10/1/2024
 */
 
 #pragma once
@@ -73,6 +73,6 @@ namespace stem
      **/
     inline bool isLeaf() override { return false; }
 
-    void interpret() override;   
+    bool interpret() override;   
   };
 }

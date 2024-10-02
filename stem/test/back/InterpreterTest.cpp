@@ -1,8 +1,8 @@
 /**
  * @file stem/test/back/InterpreterTest.cpp
  * @author Christian Santos
- * @version 1.0.0
- * @date 9/25/2024
+ * @version 1.0.1
+ * @date 10/1/2024
  */
 
 #include "Reader.hpp"
@@ -35,13 +35,5 @@ int main(int argc, char *argv[])
   definer.define(parser.getParseTrees());
 
   vector<unique_ptr<Node>>* parse_trees = parser.getParseTrees();
-  for (int i = 0; i < parse_trees->size(); ++i)
-  {
-    cout << (*parse_trees)[i]->to_string() << endl;
-  }
   interpreter.interpret(parse_trees);
-  for (int i = 0; i < parse_trees->size(); ++i)
-  {
-    cout << (*parse_trees)[i]->to_string() << endl;
-  }
 }

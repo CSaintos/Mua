@@ -1,8 +1,8 @@
 /**
  * @file stem/inc/util/node/op_node/bin_node/BinOpNode.hpp
  * @author Christian Santos
- * @version 1.0.1 
- * @date 9/12/2024
+ * @version 1.0.2 
+ * @date 10/1/2024
 */
 
 #pragma once
@@ -69,6 +69,6 @@ namespace stem
      **/
     inline bool isLeaf() override { return false; } 
 
-    inline void interpret() override { std::cout << "BinOpNode interpret" << std::endl; }
+    bool interpret() override;
   };
 }

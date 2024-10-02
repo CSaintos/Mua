@@ -15,7 +15,7 @@ BinMinus::BinMinus(unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> 
   : BinOpNode(node_left, tok_op, node_right)
 {}
 
-void BinMinus::interpret()
+bool BinMinus::interpret()
 {
   if (node_left->isLeaf() && node_right->isLeaf())
   {
@@ -50,6 +50,16 @@ void BinMinus::interpret()
       }
 
       NodeUtils::replaceNode(this, res_node);
+      return true;
     }
   }
+  else if (!node_left->isLeaf())
+  {
+    return node_left->interpret();
+  }
+  else if (!node_right->isLeaf())
+  {
+    return node_right->interpret();
+  }
+  return false;
 }

@@ -16,7 +16,7 @@ BinPlus::BinPlus(unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &n
   : BinOpNode(node_left, tok_op, node_right)
 {}
 
-void BinPlus::interpret() 
+bool BinPlus::interpret() 
 {
   if (node_left->isLeaf() && node_right->isLeaf())
   {
@@ -36,6 +36,16 @@ void BinPlus::interpret()
       unique_ptr<Node> res_node = std::make_unique<ValueNode>(res_tok);
 
       NodeUtils::replaceNode(this, res_node);
+      return true;
     }
   }
+  else if (!node_left->isLeaf())
+  {
+    return node_left->interpret();
+  }
+  else if (!node_right->isLeaf())
+  {
+    return node_right->interpret();
+  }
+  return false;
 }
