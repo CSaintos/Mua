@@ -28,7 +28,6 @@ namespace stem
   class Definer
   {
   private:
-    //std::vector<std::unique_ptr<stem::Node>>* parse_trees;
     std::stack<stem::Node*> analyze_nodes; // for parsing using dfs
     std::unordered_map<std::string, stem::Node*> name_table; // symbol table
     std::stack<std::unique_ptr<stem::Node>> adjacent_nodes; // for building adjacent nodes

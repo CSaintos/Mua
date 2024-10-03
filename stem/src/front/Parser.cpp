@@ -492,7 +492,14 @@ void Parser::scanOneToken()
       case TokenType::EQUAL:
         last_type = itr->type;
         last_op = last_type;
-        node_stack.push(std::make_unique<BinOpNode>(*itr));
+        if (itr->type == TokenType::ASTERISK)
+        {
+          node_stack.push(std::make_unique<Asterisk>(*itr));
+        }
+        else
+        {
+          node_stack.push(std::make_unique<BinOpNode>(*itr));
+        }
         break;
       case TokenType::ASTERISK:
       case TokenType::FSLASH:
@@ -501,7 +508,14 @@ void Parser::scanOneToken()
         toParseTree();
         last_type = itr->type;
         last_op = last_type;
-        node_stack.push(std::make_unique<BinOpNode>(*itr));
+        if (itr->type == TokenType::ASTERISK)
+        {
+          node_stack.push(std::make_unique<Asterisk>(*itr));
+        }
+        else
+        {
+          node_stack.push(std::make_unique<BinOpNode>(*itr));
+        }
         break;
       case TokenType::LET:
         err(6, *itr);

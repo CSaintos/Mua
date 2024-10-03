@@ -39,6 +39,7 @@ SRCFILES = \
 	UnaOpNode.cpp \
 	BinPlus.cpp \
 	BinMinus.cpp \
+	Asterisk.cpp \
 	Semicolon.cpp \
 	NodeUtils.cpp \
 	NumberUtils.cpp

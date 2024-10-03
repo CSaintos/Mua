@@ -23,6 +23,7 @@
 #include "BinOpNode.hpp"
 #include "BinPlus.hpp"
 #include "BinMinus.hpp"
+#include "Asterisk.hpp"
 #include "ValueNode.hpp"
 
 namespace stem

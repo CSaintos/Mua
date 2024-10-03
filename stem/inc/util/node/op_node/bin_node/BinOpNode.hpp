@@ -1,7 +1,7 @@
 /**
  * @file stem/inc/util/node/op_node/bin_node/BinOpNode.hpp
  * @author Christian Santos
- * @version 1.0.2 
+ * @version 1.0.3 
  * @date 10/1/2024
 */
 
@@ -10,9 +10,10 @@
 #include <memory>
 #include <string>
 
+#include "Token.hpp"
+#include "TokenType.hpp"
 #include "NodeType.hpp"
 #include "Node.hpp"
-#include "Token.hpp"
 
 namespace stem
 {

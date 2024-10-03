@@ -9,6 +9,7 @@
 
 #include <vector>
 #include <memory>
+
 #include "Node.hpp"
 
 namespace stem

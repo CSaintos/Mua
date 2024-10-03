@@ -11,10 +11,10 @@
 #include <iostream>
 
 #include "TokenType.hpp"
+#include "Token.hpp"
 #include "Node.hpp"
 #include "ValueNode.hpp"
 #include "BinOpNode.hpp"
-#include "UnaOpNode.hpp"
 #include "NodeUtils.hpp"
 #include "NumberUtils.hpp"
 

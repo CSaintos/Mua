@@ -5,6 +5,7 @@
 'https://plantuml.com/class-diagram
 title newstem class diagram
 
+!pragma ratio 0.7
 hide methods
 
 struct Position {
@@ -95,6 +96,7 @@ Lexer --> TrieNode
 Lexer --> TokenTrie
 enum NodeType
 struct Node {
+Node* parent
 Token token
 }
 Node --> Token
@@ -108,6 +110,7 @@ unique_ptr<Node> node_left
 unique_ptr<Node> node_right
 }
 BinOpNode --|> Node
+BinOpNode ..> TokenType
 BinOpNode ..> NodeType
 BinOpNode ..> Token
 struct UnaOpNode {
@@ -148,7 +151,6 @@ TrieNode root
 }
 NameTrie --> TrieNode
 class Definer {
-vector<unique_ptr<Node>>* parse_trees
 stack<Node*> analyze_nodes
 unordered_map<string, Node*> name_table
 stack<unique_ptr<Node>> adjacent_nodes
@@ -179,14 +181,30 @@ struct LParen
 LParen --|> UnaOpNode
 struct Semicolon
 Semicolon --|> UnaOpNode
+Semicolon ..> Token
+Semicolon ..> Node
 struct Let
 Let --|> UnaOpNode
 struct BinPlus
 BinPlus --|> BinOpNode
+BinPlus ..> Token
+BinPlus ..> TokenType
+BinPlus ..> Node
+BinPlus ..> ValueNode
+BinPlus ..> NodeUtils
+BinPlus ..> NumberUtils
 struct BinMinus
 BinMinus --|> BinOpNode
+BinMinus ..> Token
+BinMinus ..> TokenType
+BinMinus ..> Node
+BinMinus ..> ValueNode
+BinMinus ..> NodeUtils
+BinMinus ..> NumberUtils
 struct Asterisk
 Asterisk --|> BinOpNode
+Asterisk ..> Token
+Asterisk ..> Node
 struct Adjacent
 Adjacent --|> BinOpNode
 struct FSlash
@@ -197,6 +215,15 @@ struct Caret
 Caret --|> BinOpNode
 struct Equal
 Equal --|> BinOpNode
+class NodeUtils
+NodeUtils ..> Node
+NodeUtils ..> NodeType
+NodeUtils ..> BinOpNode
+NodeUtils ..> UnaOpNode
+class NumberUtils
+NumberUtils ..> Character
+NumberUtils ..> CharacterType
+NumberUtils ..> CharacterUtils
 
 @enduml
 ```
