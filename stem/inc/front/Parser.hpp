@@ -24,6 +24,7 @@
 #include "BinPlus.hpp"
 #include "BinMinus.hpp"
 #include "Asterisk.hpp"
+#include "Caret.hpp"
 #include "ValueNode.hpp"
 
 namespace stem

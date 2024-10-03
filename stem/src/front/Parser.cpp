@@ -557,7 +557,7 @@ void Parser::scanOneToken()
       case TokenType::EQUAL:
         last_type = itr->type;
         last_op = last_type;
-        node_stack.push(std::make_unique<BinOpNode>(*itr));
+        node_stack.push(std::make_unique<Caret>(*itr));
         break;
       case TokenType::LET:
         err(6, *itr);

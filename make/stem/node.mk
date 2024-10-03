@@ -40,6 +40,7 @@ SRCFILES = \
 	BinPlus.cpp \
 	BinMinus.cpp \
 	Asterisk.cpp \
+	Caret.cpp \
 	Semicolon.cpp \
 	NodeUtils.cpp \
 	NumberUtils.cpp
