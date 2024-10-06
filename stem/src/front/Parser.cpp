@@ -517,9 +517,9 @@ void Parser::scanOneToken()
         {
           node_stack.push(std::make_unique<FSlash>(*itr));
         }
-        else
+        else if (itr->type == TokenType::PERCENT)
         {
-          node_stack.push(std::make_unique<BinOpNode>(*itr));
+          node_stack.push(std::make_unique<Percent>(*itr));
         }
         break;
       case TokenType::ASTERISK:
@@ -537,9 +537,9 @@ void Parser::scanOneToken()
         {
           node_stack.push(std::make_unique<FSlash>(*itr));
         }
-        else
+        else if (itr->type == TokenType::PERCENT)
         {
-          node_stack.push(std::make_unique<BinOpNode>(*itr));
+          node_stack.push(std::make_unique<Percent>(*itr));
         }
         break;
       case TokenType::LET:

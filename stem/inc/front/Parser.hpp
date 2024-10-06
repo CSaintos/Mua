@@ -25,6 +25,7 @@
 #include "BinMinus.hpp"
 #include "Asterisk.hpp"
 #include "FSlash.hpp"
+#include "Percent.hpp"
 #include "Caret.hpp"
 #include "ValueNode.hpp"
 

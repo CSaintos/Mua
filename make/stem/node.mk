@@ -41,6 +41,7 @@ SRCFILES = \
 	BinMinus.cpp \
 	Asterisk.cpp \
 	FSlash.cpp \
+	Percent.cpp \
 	Caret.cpp \
 	Semicolon.cpp \
 	NodeUtils.cpp \
