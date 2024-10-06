@@ -1,8 +1,8 @@
 /**
  * @file stem/inc/front/Parser.hpp
  * @author Christian Santos
- * @version 1.2.1
- * @date 10/1/2024
+ * @version 1.2.2
+ * @date 10/5/2024
  */
 
 #pragma once
@@ -24,6 +24,7 @@
 #include "BinPlus.hpp"
 #include "BinMinus.hpp"
 #include "Asterisk.hpp"
+#include "FSlash.hpp"
 #include "Caret.hpp"
 #include "ValueNode.hpp"
 
@@ -83,7 +84,7 @@ namespace stem
     /**
      * @brief builds parse tree by emptying out m_node_stack or until stopped
      */
-    void toParseTree();
+    void toParseTree(TokenType precedence_type);
     /**
      * @brief scans a single token, converts into a node and adds it to m_node_stack
      * @note it uses m_last_type and m_last_op to decide whether to parse the tree at that location or not

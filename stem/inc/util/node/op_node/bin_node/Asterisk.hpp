@@ -2,7 +2,7 @@
  * @file stem/inc/util/node/op_node/bin_node/Asterisk.hpp
  * @author Christian Santos
  * @version 1.0.0
- * @date 10/1/2024
+ * @date 10/2/2024
  */
 #pragma once
 

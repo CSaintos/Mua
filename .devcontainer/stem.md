@@ -146,6 +146,8 @@ Parser ---> UnaOpNode
 Parser ...> Error
 Parser ...> BinOpNode
 Parser ...> ValueNode
+Parser ...> Error
+
 class NameTrie {
 TrieNode root
 }
@@ -204,7 +206,11 @@ BinMinus ..> NumberUtils
 struct Asterisk
 Asterisk --|> BinOpNode
 Asterisk ..> Token
+Asterisk ..> TokenType
 Asterisk ..> Node
+Asterisk ..> ValueNode
+Asterisk ..> NodeUtils
+Asterisk ..> NumberUtils
 struct Adjacent
 Adjacent --|> BinOpNode
 struct FSlash
@@ -213,6 +219,12 @@ struct Percent
 Percent --|> BinOpNode
 struct Caret
 Caret --|> BinOpNode
+Caret ..> Token
+Caret ..> TokenType
+Caret ..> Node
+Caret ..> ValueNode
+Caret ..> NodeUtils
+Caret ..> NumberUtils
 struct Equal
 Equal --|> BinOpNode
 class NodeUtils
@@ -224,6 +236,11 @@ class NumberUtils
 NumberUtils ..> Character
 NumberUtils ..> CharacterType
 NumberUtils ..> CharacterUtils
+Parser ...> Semicolon
+Parser ...> BinPlus
+Parser ...> BinMinus
+Parser ...> Asterisk
+Parser ...> Caret
 
 @enduml
 ```
