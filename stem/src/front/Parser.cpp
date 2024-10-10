@@ -101,7 +101,6 @@ void Parser::toParseTree(TokenType precedence_type)
       bin_raw->node_right = std::move(right_node);
       bin_raw->node_right->parent = bin_raw;
       right_node = std::move(op_node);
-      //right_node = std::make_unique<BinOpNode>(left_node, op_node, right_node);
       break;
     }
     case TokenType::PLUS:
@@ -130,7 +129,6 @@ void Parser::toParseTree(TokenType precedence_type)
             una_raw->node = std::move(right_node);
             una_raw->node->parent = una_raw;
             right_node = std::move(op_node);
-            node_stack.pop();
           }
           break;
         }
@@ -434,7 +432,14 @@ void Parser::scanOneToken()
     case TokenType::EQUAL:
       last_type = itr->type;
       last_op = last_type;
-      node_stack.push(std::make_unique<UnaOpNode>(*itr));
+      if (itr->type == TokenType::PLUS)
+      {
+        node_stack.push(std::make_unique<UnaPlus>(*itr));
+      }
+      else if (itr->type == TokenType::MINUS)
+      {
+        node_stack.push(std::make_unique<UnaMinus>(*itr));
+      }
       break;
     default:
       switch (last_op)

@@ -46,7 +46,7 @@ bool BinMinus::interpret()
       {
         Token minus_tok;
         minus_tok.type = TokenType::MINUS;
-        res_node = std::make_unique<UnaOpNode>(minus_tok, res_node);
+        res_node = std::make_unique<UnaMinus>(minus_tok, res_node);
       }
 
       NodeUtils::replaceNode(this, res_node);

@@ -1,8 +1,8 @@
 /**
  * @file stem/inc/front/Parser.hpp
  * @author Christian Santos
- * @version 1.2.2
- * @date 10/5/2024
+ * @version 1.2.3
+ * @date 10/7/2024
  */
 
 #pragma once
@@ -19,6 +19,8 @@
 #include "TokenType.hpp"
 #include "Node.hpp"
 #include "UnaOpNode.hpp"
+#include "UnaPlus.hpp"
+#include "UnaMinus.hpp"
 #include "Semicolon.hpp"
 #include "BinOpNode.hpp"
 #include "BinPlus.hpp"

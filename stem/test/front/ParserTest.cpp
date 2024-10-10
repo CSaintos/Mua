@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 
   // Loop variables
   int line_length = 0;
-  list<Character> *the_list = nullptr;
+  list<Token> *token_stream = nullptr;
 
   do {
     // Read the next line
@@ -54,10 +54,6 @@ int main(int argc, char *argv[])
   {
     cout << (*parse_trees)[i]->to_string() << endl;
   }
-//  for (unique_ptr<Node>* parse_tree : parse_trees)
-//  {
-//    cout << parse_tree->to_string() << endl;
-//  }
 
   return 0;
 }

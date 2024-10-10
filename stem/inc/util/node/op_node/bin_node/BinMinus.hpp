@@ -13,6 +13,7 @@
 #include "Node.hpp"
 #include "ValueNode.hpp"
 #include "BinOpNode.hpp"
+#include "UnaMinus.hpp"
 #include "NodeUtils.hpp"
 #include "NumberUtils.hpp"
 
