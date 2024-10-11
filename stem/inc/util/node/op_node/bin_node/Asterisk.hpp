@@ -14,6 +14,7 @@
 #include "Node.hpp"
 #include "BinOpNode.hpp"
 #include "ValueNode.hpp"
+#include "UnaMinus.hpp"
 #include "NodeUtils.hpp"
 #include "NumberUtils.hpp"
 

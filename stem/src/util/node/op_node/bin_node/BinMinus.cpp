@@ -31,14 +31,13 @@ bool BinMinus::interpret()
   {
     right_change = node_right->interpret();
   }
-  if (!left_change)
+  if (left_change || right_change)
   {
-    left_str = node_left->to_repr();
+    return true;
   }
-  if (!right_change)
-  {
-    right_str = node_right->to_repr();
-  }
+
+  left_str = node_left->to_repr();
+  right_str = node_right->to_repr();
 
   double lhs = std::stod(left_str);
   double rhs = std::stod(right_str);

@@ -111,14 +111,14 @@ void Parser::toParseTree(TokenType precedence_type)
         err(0, *itr);
         break;
       }
-      switch (precedence_type)
-      {
-      case TokenType::PLUS:
-      case TokenType::MINUS:
-      case TokenType::RPAREN:
-      case TokenType::SEMICOLON:
-      case TokenType::EQUAL:
-      {
+//      switch (precedence_type)
+//      {
+//      case TokenType::PLUS:
+//      case TokenType::MINUS:
+//      case TokenType::RPAREN:
+//      case TokenType::SEMICOLON:
+//      case TokenType::EQUAL:
+//      {
         if (op_node == nullptr)
         {
           op_node = std::move(node_stack.top());
@@ -141,12 +141,12 @@ void Parser::toParseTree(TokenType precedence_type)
         bin_raw->node_right->parent = bin_raw;
         right_node = std::move(op_node);
         break;
-      }
-      default:
-        loop = false;
-        node_stack.push(std::move(right_node));
-      }
-      break;
+//      }
+//      default:
+//        loop = false;
+//        node_stack.push(std::move(right_node));
+//      }
+//      break;
     }
     case TokenType::ASTERISK:
     case TokenType::FSLASH:
@@ -431,7 +431,7 @@ void Parser::scanOneToken()
     case TokenType::MINUS:
     case TokenType::EQUAL:
       last_type = itr->type;
-      last_op = last_type;
+      last_op = TokenType::ASTERISK;
       if (itr->type == TokenType::PLUS)
       {
         node_stack.push(std::make_unique<UnaPlus>(*itr));
