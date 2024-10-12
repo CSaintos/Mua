@@ -1,8 +1,8 @@
 /**
  * @file stem/inc/front/Parser.hpp
  * @author Christian Santos
- * @version 1.2.3
- * @date 10/7/2024
+ * @version 1.2.4
+ * @date 10/11/2024
  */
 
 #pragma once
@@ -53,7 +53,9 @@ namespace stem
     /// iterator to current element in token stream
     std::list<stem::Token>::iterator itr;
     
-    std::unique_ptr<stem::Node> curr_node; ///< holds pointer to current/root node of tree
+    /// Holds pointer to current/root node of tree
+    /// Keeps node_stack empty when needed
+    std::unique_ptr<stem::Node> curr_node;
     std::unique_ptr<stem::Node> left_node; ///< holds left node for binary operators
     std::unique_ptr<stem::Node> right_node; ///< holds right node for operators
     std::unique_ptr<stem::Node> op_node; ///< holds op node for operators

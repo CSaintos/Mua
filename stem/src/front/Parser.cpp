@@ -266,7 +266,6 @@ void Parser::toParseTree(TokenType precedence_type)
         bin_raw->node_right = std::move(right_node);
         bin_raw->node_right->parent = bin_raw;
         right_node = std::move(op_node);
-        //right_node = std::make_unique<BinOpNode>(left_node, op_node, right_node);
       }
       else if (curr_node != nullptr)
       {
@@ -276,7 +275,6 @@ void Parser::toParseTree(TokenType precedence_type)
         bin_raw->node_right = std::move(right_node);
         bin_raw->node_right->parent = bin_raw;
         right_node = std::move(op_node);
-        //right_node = std::make_unique<BinOpNode>(curr_node, op_node, right_node);
       }
       else 
       {
@@ -303,7 +301,6 @@ void Parser::toParseTree(TokenType precedence_type)
       una_raw->node = std::move(right_node);
       una_raw->node->parent = una_raw;
       right_node = std::move(op_node);
-      //right_node = std::make_unique<UnaOpNode>(op_node, right_node);
       break;
     }
     case TokenType::SEMICOLON:
@@ -350,7 +347,6 @@ void Parser::toParseTree(TokenType precedence_type)
     bin_raw->node_right = std::move(right_node);
     bin_raw->node_right->parent = bin_raw;
     curr_node = std::move(op_node);
-    //curr_node = std::make_unique<BinOpNode>(curr_node, op_node, right_node);
   }
   if (end_of_stmt && op_node != nullptr)
   {
