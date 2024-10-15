@@ -13,17 +13,24 @@ void Interpreter::interpret(vector<unique_ptr<Node>>* parse_trees)
 
   for (int i = 0; i < parse_trees->size(); i++)
   {
+    unique_ptr<Node>& parse_tree = (*parse_trees)[i];
     // DEBUG
-    cout << (*parse_trees)[i]->to_string() << endl;
+    cout << parse_tree->to_string() << endl;
     bool change = false;
     do {
-      change = (*parse_trees)[i]->interpret();
+      change = parse_tree->interpret();
       if (change)
       {
         // DEBUG
-        cout << (*parse_trees)[i]->to_string() << endl;
+        cout << parse_tree->to_string() << endl;
       }
     } while (change);
+    change = parse_tree->interpret({InterpretType::DECIMALIZE});
+    if (change)
+    {
+      // DEBUG
+      cout << parse_tree->to_string() << endl;
+    }
     // DEBUG
     cout << endl;
   }

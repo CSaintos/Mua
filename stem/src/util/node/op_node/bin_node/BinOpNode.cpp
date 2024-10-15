@@ -52,7 +52,7 @@ bool BinOpNode::hasGrandchildren()
   return (!node_left->isLeaf() || !node_right->isLeaf());
 }
 
-bool BinOpNode::interpret()
+bool BinOpNode::interpret(const unordered_set<InterpretType> &flags)
 {
   cout << "BinOpNode interpret" << endl;
   return false;

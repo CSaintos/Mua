@@ -1,15 +1,18 @@
 /**
  * @file stem/inc/util/node/ValueNode.hpp
  * @author Christian Santos
- * @version 1.0.1 
- * @date 9/1/2024
+ * @version 1.0.2 
+ * @date 10/12/2024
 */
 
 #pragma once
 
-#include "Node.hpp"
+#include <unordered_set>
+
 #include "Token.hpp"
+#include "Node.hpp"
 #include "NodeType.hpp"
+#include "InterpretType.hpp"
 
 namespace stem
 {
@@ -57,6 +60,6 @@ namespace stem
      */
     inline NodeType getType() override { return NodeType::VALUE; }
 
-    inline bool interpret() override { return false; }
+    inline bool interpret(const std::unordered_set<InterpretType> &flags = {}) override { return false; }
   };
 }

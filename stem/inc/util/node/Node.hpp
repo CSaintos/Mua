@@ -1,17 +1,19 @@
 /**
  * @file stem/inc/util/node/Node.hpp
  * @author Christian Santos
- * @version 1.0.9
- * @date 10/1/2024
+ * @version 1.1.0
+ * @date 10/12/2024
  */
 
 #pragma once
 
 #include <iostream>
 #include <memory>
+#include <unordered_set>
 
 #include "Token.hpp"
 #include "NodeType.hpp"
+#include "InterpretType.hpp"
 
 namespace stem
 {
@@ -63,6 +65,6 @@ namespace stem
      * @note a change is represented by any modification of the parse_tree including modifications of any nodes by modifying their contents.
      * @note an exception: modification of Node.tok.pos is ignored at this stage until further notice.
      */
-    virtual bool interpret() = 0;
+    virtual bool interpret(const std::unordered_set<InterpretType> &flags = {}) = 0;
   };
 }

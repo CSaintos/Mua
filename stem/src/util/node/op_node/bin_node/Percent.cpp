@@ -15,7 +15,7 @@ Percent::Percent(unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &n
   : BinOpNode(node_left, tok_op, node_right)
 {}
 
-bool Percent::interpret()
+bool Percent::interpret(const unordered_set<InterpretType> &flags)
 {
   if (node_left->isLeaf() && node_right->isLeaf())
   {

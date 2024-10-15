@@ -20,7 +20,7 @@ string UnaMinus::to_repr()
   return "-" + node->to_repr();
 }
 
-bool UnaMinus::interpret()
+bool UnaMinus::interpret(const unordered_set<InterpretType> &flags)
 {
   unique_ptr<Node> res_node;
   string str_repr;

@@ -9,8 +9,10 @@
 
 #include <vector>
 #include <memory>
+#include <unordered_set>
 
 #include "Node.hpp"
+#include "InterpretType.hpp"
 
 namespace stem
 {

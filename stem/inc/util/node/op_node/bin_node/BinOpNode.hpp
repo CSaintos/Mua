@@ -1,19 +1,21 @@
 /**
  * @file stem/inc/util/node/op_node/bin_node/BinOpNode.hpp
  * @author Christian Santos
- * @version 1.0.3 
- * @date 10/1/2024
+ * @version 1.0.4 
+ * @date 10/12/2024
 */
 
 #pragma once
 
 #include <memory>
 #include <string>
+#include <unordered_set>
 
 #include "Token.hpp"
 #include "TokenType.hpp"
 #include "NodeType.hpp"
 #include "Node.hpp"
+#include "InterpretType.hpp"
 
 namespace stem
 {
@@ -70,6 +72,6 @@ namespace stem
      **/
     inline bool isLeaf() override { return false; } 
 
-    bool interpret() override;
+    bool interpret(const std::unordered_set<InterpretType> &flags = {}) override;
   };
 }

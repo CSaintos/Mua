@@ -48,7 +48,7 @@ bool UnaOpNode::hasGrandchildren()
   return (!node->isLeaf());
 }
 
-bool UnaOpNode::interpret()
+bool UnaOpNode::interpret(const unordered_set<InterpretType> &flags)
 {
   cout << "UnaOpNode interpret" << endl;
   return false;

@@ -15,7 +15,7 @@ BinMinus::BinMinus(unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> 
   : BinOpNode(node_left, tok_op, node_right)
 {}
 
-bool BinMinus::interpret()
+bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
 {
   unique_ptr<Node> res_node;
   string left_str;

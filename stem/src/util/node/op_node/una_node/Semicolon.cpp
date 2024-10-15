@@ -20,7 +20,7 @@ string Semicolon::to_repr()
   return node->to_repr() + ";";
 }
 
-bool Semicolon::interpret()
+bool Semicolon::interpret(const unordered_set<InterpretType> &flags)
 {
-  return node->interpret();
+  return node->interpret(flags);
 }

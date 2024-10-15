@@ -7,6 +7,7 @@
 #pragma once
 
 #include <memory>
+#include <unordered_set>
 
 #include "Token.hpp"
 #include "TokenType.hpp"
@@ -16,6 +17,7 @@
 #include "UnaMinus.hpp"
 #include "NodeUtils.hpp"
 #include "NumberUtils.hpp"
+#include "InterpretType.hpp"
 
 namespace stem
 {
@@ -24,6 +26,6 @@ namespace stem
     BinMinus(Token &tok_op);
     BinMinus(std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node_right);
     BinMinus(std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
-    bool interpret() override;
+    bool interpret(const std::unordered_set<InterpretType> &flags = {}) override;
   };
 }

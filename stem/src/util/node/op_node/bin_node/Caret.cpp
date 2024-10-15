@@ -15,7 +15,7 @@ Caret::Caret(unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &node_
   : BinOpNode(node_left, tok_op, node_right)
 {}
 
-bool Caret::interpret()
+bool Caret::interpret(const unordered_set<InterpretType> &flags)
 {
   if (node_left->isLeaf() && node_right->isLeaf())
   {

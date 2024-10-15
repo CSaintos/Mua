@@ -20,7 +20,7 @@ string UnaPlus::to_repr()
   return "+" + node->to_repr();
 }
 
-bool UnaPlus::interpret()
+bool UnaPlus::interpret(const unordered_set<InterpretType> &flags)
 {
   unique_ptr<Node> res_node;
   string str_repr;
