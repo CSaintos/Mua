@@ -45,6 +45,7 @@ SRCFILES = \
 	Caret.cpp \
 	UnaPlus.cpp \
 	UnaMinus.cpp \
+	Paren.cpp \
 	Semicolon.cpp \
 	NodeUtils.cpp \
 	NumberUtils.cpp

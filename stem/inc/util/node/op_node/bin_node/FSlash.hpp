@@ -1,8 +1,8 @@
 /*
  * @file stem/inc/util/node/op_node/bin_node/FSlash.hpp
  * @author Christian Santos
- * @version 1.0.2
- * @date 10/12/2024
+ * @version 1.0.3
+ * @date 10/16/2024
  */
 
 #pragma once

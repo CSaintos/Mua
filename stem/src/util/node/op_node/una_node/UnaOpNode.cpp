@@ -33,14 +33,7 @@ string UnaOpNode::to_string()
 
 string UnaOpNode::to_repr()
 {
-  string str = std::string();
-
-  if (tok.type == TokenType::LPAREN)
-  {
-    str = "(" + node->to_repr() + ")";
-  }
-
-  return str;
+  return "";
 }
 
 bool UnaOpNode::hasGrandchildren()
