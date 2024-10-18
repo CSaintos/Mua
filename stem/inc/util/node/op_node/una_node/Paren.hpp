@@ -14,6 +14,7 @@
 #include "Node.hpp"
 #include "UnaOpNode.hpp"
 #include "InterpretType.hpp"
+#include "NodeUtils.hpp"
 
 namespace stem
 {

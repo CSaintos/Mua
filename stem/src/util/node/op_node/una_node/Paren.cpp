@@ -27,5 +27,10 @@ bool Paren::interpret(const unordered_set<InterpretType> &flags)
   {
     change = node->interpret(flags);
   }
-  return false;
+  else
+  {
+    NodeUtils::replaceNode(this, node);
+    change = true;
+  }
+  return change;
 }

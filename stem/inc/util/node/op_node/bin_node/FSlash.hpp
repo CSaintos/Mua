@@ -17,6 +17,8 @@
 #include "Node.hpp"
 #include "BinOpNode.hpp"
 #include "Asterisk.hpp"
+#include "UnaOpNode.hpp"
+#include "Paren.hpp"
 #include "ValueNode.hpp"
 #include "NodeUtils.hpp"
 #include "NumberUtils.hpp"
