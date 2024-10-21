@@ -21,6 +21,7 @@
 #include "UnaOpNode.hpp"
 #include "UnaPlus.hpp"
 #include "UnaMinus.hpp"
+#include "Paren.hpp"
 #include "Semicolon.hpp"
 #include "BinOpNode.hpp"
 #include "BinPlus.hpp"
