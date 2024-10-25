@@ -112,6 +112,31 @@ bool FSlash::interpret(const unordered_set<InterpretType> &flags)
         removable_right_paren = true;
         rhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
       }
+      if (una_op_node->node->tok.type == TokenType::FSLASH)
+      {
+        BinOpNode* bin_op_node = static_cast<BinOpNode*>(una_op_node->node.get());
+
+        if (bin_op_node->node_left->tok.type == TokenType::MINUS)
+        {
+          is_right_minus = !is_right_minus;
+          una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_left.get());
+          right_numerator = std::move(una_op_node->node);
+        }
+        else if (bin_op_node->node_left->tok.type == TokenType::DIGIT)
+        {
+          right_numerator = std::move(bin_op_node->node_left);
+        }
+        if (bin_op_node->node_right->tok.type == TokenType::MINUS)
+        {
+          is_right_minus = !is_right_minus;
+          una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_right.get());
+          right_denominator = std::move(una_op_node->node);
+        }
+        else if (bin_op_node->node_right->tok.type == TokenType::DIGIT)
+        {
+          right_denominator = std::move(bin_op_node->node_right);
+        }
+      }
     }
     else
     {
@@ -261,6 +286,25 @@ bool FSlash::interpret(const unordered_set<InterpretType> &flags)
     unique_ptr<Node> paren = std::make_unique<Paren>(tok_paren, denominator);
     NodeUtils::replaceNode(node_left.get(), left_numerator);
     NodeUtils::replaceNode(node_right.get(), paren);
+    change = true;
+  }
+  else if (right_numerator != nullptr && right_denominator != nullptr && lhs_node != nullptr)
+  {
+    Token tok_op;
+    tok_op.type = TokenType::ASTERISK;
+    unique_ptr<Node> numerator = std::make_unique<Asterisk>(lhs_node, tok_op, right_denominator);
+    if (is_minus)
+    {
+      Token tok_paren;
+      tok_paren.type = TokenType::LPAREN;
+      numerator = std::make_unique<Paren>(tok_paren, numerator);
+      Token tok_minus;
+      tok_minus.type = TokenType::MINUS;
+      numerator = std::make_unique<UnaMinus>(tok_minus, numerator);
+    }
+
+    NodeUtils::replaceNode(node_left.get(), numerator);
+    NodeUtils::replaceNode(node_right.get(), right_numerator);
     change = true;
   }
 
