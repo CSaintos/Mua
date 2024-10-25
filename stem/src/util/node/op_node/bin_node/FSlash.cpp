@@ -39,6 +39,7 @@ bool FSlash::interpret(const unordered_set<InterpretType> &flags)
   {
     return change;
   }
+
   unique_ptr<Node> lhs_node;
   unique_ptr<Node> rhs_node;
   unique_ptr<Node> left_numerator;
@@ -209,10 +210,42 @@ bool FSlash::interpret(const unordered_set<InterpretType> &flags)
     {
       if (!lhs_node->isLeaf())
       {
+        if (is_left_minus)
+        {
+          Token minus_tok;
+          minus_tok.type = TokenType::MINUS;
+          if (lhs_node->getType() == NodeType::BINARY_OPERATOR)
+          {
+            BinOpNode* bin_op_node = static_cast<BinOpNode*>(lhs_node.get());
+            unique_ptr<Node> left_numerator = std::move(bin_op_node->node_left);
+            left_numerator = std::make_unique<UnaMinus>(minus_tok, left_numerator);
+            bin_op_node->node_left = std::move(left_numerator);
+            bin_op_node->node_left->parent = bin_op_node;
+          }
+        }
         NodeUtils::replaceNode(node_left.get(), lhs_node);
       }
       if (!rhs_node->isLeaf())
       {
+        if (is_right_minus)
+        {
+          Token minus_tok;
+          minus_tok.type = TokenType::MINUS;
+          if (rhs_node->getType() == NodeType::BINARY_OPERATOR)
+          {
+            BinOpNode* bin_op_node = static_cast<BinOpNode*>(rhs_node.get());
+            unique_ptr<Node> right_numerator = std::move(bin_op_node->node_left);
+            right_numerator = std::make_unique<UnaMinus>(minus_tok, right_numerator);
+            bin_op_node->node_left = std::move(right_numerator);
+            bin_op_node->node_left->parent = bin_op_node;
+          }
+        }
+        if (rhs_node->tok.type == TokenType::FSLASH)
+        {
+          Token paren_tok;
+          paren_tok.type = TokenType::LPAREN;
+          rhs_node = std::make_unique<Paren>(paren_tok, rhs_node);
+        }
         NodeUtils::replaceNode(node_right.get(), rhs_node);
       }
       change = true;
