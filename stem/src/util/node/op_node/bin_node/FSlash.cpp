@@ -66,8 +66,36 @@ bool FSlash::interpret(const unordered_set<InterpretType> &flags)
     else if (node_left->tok.type == TokenType::FSLASH)
     {
       BinOpNode* bin_op_node = static_cast<BinOpNode*>(node_left.get());
-      left_numerator = std::move(bin_op_node->node_left);
-      left_denominator = std::move(bin_op_node->node_right);
+      UnaOpNode* una_op_node;
+
+      if (bin_op_node->node_left->tok.type == TokenType::MINUS)
+      {
+        is_left_minus = !is_left_minus;
+        una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_left.get());
+        left_numerator = std::move(una_op_node->node);
+      }
+      else if (bin_op_node->node_left->tok.type == TokenType::DIGIT)
+      {
+        left_numerator = std::move(bin_op_node->node_left);
+      }
+      else
+      {
+        cout << "Not implemented yet (3)" << endl;
+      }
+      if (bin_op_node->node_right->tok.type == TokenType::MINUS)
+      {
+        is_left_minus = !is_left_minus;
+        una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_right.get());
+        left_denominator = std::move(una_op_node->node);
+      }
+      else if (bin_op_node->node_right->tok.type == TokenType::DIGIT)
+      {
+        left_denominator = std::move(bin_op_node->node_right);
+      }
+      else
+      {
+        cout << "Not implemented yet (3)" << endl;
+      }
     }
     else
     {
@@ -126,6 +154,10 @@ bool FSlash::interpret(const unordered_set<InterpretType> &flags)
         {
           right_numerator = std::move(bin_op_node->node_left);
         }
+        else
+        {
+          cout << "Not implemented yet (3)" << endl;
+        }
         if (bin_op_node->node_right->tok.type == TokenType::MINUS)
         {
           is_right_minus = !is_right_minus;
@@ -135,6 +167,10 @@ bool FSlash::interpret(const unordered_set<InterpretType> &flags)
         else if (bin_op_node->node_right->tok.type == TokenType::DIGIT)
         {
           right_denominator = std::move(bin_op_node->node_right);
+        }
+        else
+        {
+          cout << "Not implemented yet (3)" << endl;
         }
       }
     }
@@ -284,6 +320,12 @@ bool FSlash::interpret(const unordered_set<InterpretType> &flags)
     Token tok_paren;
     tok_paren.type = TokenType::LPAREN;
     unique_ptr<Node> paren = std::make_unique<Paren>(tok_paren, denominator);
+    if (is_minus)
+    {
+      Token tok_minus;
+      tok_minus.type = TokenType::MINUS;
+      left_numerator = std::make_unique<UnaMinus>(tok_minus, left_numerator);
+    }
     NodeUtils::replaceNode(node_left.get(), left_numerator);
     NodeUtils::replaceNode(node_right.get(), paren);
     change = true;
@@ -305,6 +347,27 @@ bool FSlash::interpret(const unordered_set<InterpretType> &flags)
 
     NodeUtils::replaceNode(node_left.get(), numerator);
     NodeUtils::replaceNode(node_right.get(), right_numerator);
+    change = true;
+  }
+  else if (left_numerator != nullptr && left_denominator != nullptr && right_numerator != nullptr && right_denominator != nullptr)
+  {
+    Token tok_asterisk;
+    tok_asterisk.type = TokenType::ASTERISK;
+    Token tok_paren;
+    tok_paren.type = TokenType::LPAREN;
+    unique_ptr<Node> numerator = std::make_unique<Asterisk>(left_numerator, tok_asterisk, right_denominator);
+    numerator = std::make_unique<Paren>(tok_paren, numerator);
+    if (is_minus)
+    {
+      Token tok_minus;
+      tok_minus.type = TokenType::MINUS;
+      numerator = std::make_unique<UnaMinus>(tok_minus, numerator);
+    }
+    unique_ptr<Node> denominator = std::make_unique<Asterisk>(left_denominator, tok_asterisk, right_numerator);
+    denominator = std::make_unique<Paren>(tok_paren, denominator);
+    
+    NodeUtils::replaceNode(node_left.get(), numerator);
+    NodeUtils::replaceNode(node_right.get(), denominator);
     change = true;
   }
 

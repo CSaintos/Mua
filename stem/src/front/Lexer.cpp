@@ -164,11 +164,16 @@ void Lexer::scanOneChar(Character &c)
             createToken(curr->type, c);
             if (token_temp.type == TokenType::DIGIT)
             {
+              cout << "When is this true. Output in lexer btw" << endl;
               dot_count = 0;
               if (c.type == CharacterType::DOT)
               {
                 ++dot_count;
               }
+            }
+            else if (dot_count != 0)
+            {
+              dot_count = 0;
             }
           }
         }
