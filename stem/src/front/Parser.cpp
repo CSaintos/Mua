@@ -582,8 +582,43 @@ void Parser::scanOneToken()
     }
     break;
   case TokenType::LPAREN:
-    switch (last_op)
+    switch (last_type)
     {
+    case TokenType::DIGIT:
+    case TokenType::IDENTIFIER:
+      switch (last_op)
+      {
+      case TokenType::ASTERISK:
+      case TokenType::FSLASH:
+      case TokenType::PERCENT:
+      case TokenType::CARET:
+        toParseTree(TokenType::ADJACENT);
+        node_stack.push(std::make_unique<Paren>(*itr));
+        open_parens.push(node_stack.top().get());
+        last_type = itr->type;
+        last_op = last_type;
+        break;
+      case TokenType::EMPTY:
+      case TokenType::PLUS:
+      case TokenType::MINUS:
+//      case TokenType::RPAREN:
+      case TokenType::EQUAL:
+        node_stack.push(std::make_unique<Paren>(*itr));
+        open_parens.push(node_stack.top().get());
+        last_type = itr->type;
+        last_op = last_type;
+        break;
+      case TokenType::LET:
+        err(6, *itr);
+        break;
+      default:
+        err(0, *itr);
+        break;
+      }
+      break;
+    case TokenType::LET:
+      err(6, *itr);
+      break;
     case TokenType::EMPTY:
     case TokenType::PLUS:
     case TokenType::MINUS:
@@ -592,17 +627,15 @@ void Parser::scanOneToken()
     case TokenType::PERCENT:
     case TokenType::CARET:
     case TokenType::RPAREN:
+    case TokenType::LPAREN:
     case TokenType::EQUAL:
-      last_type = itr->type;
-      last_op = last_type;
       node_stack.push(std::make_unique<Paren>(*itr));
       open_parens.push(node_stack.top().get());
-      break;
-    case TokenType::LET:
-      err(6, *itr);
+      last_type = itr->type;
+      last_op = last_type;
       break;
     default:
-      err(0, *itr); // unknown
+      err(0, *itr);
       break;
     }
     break;

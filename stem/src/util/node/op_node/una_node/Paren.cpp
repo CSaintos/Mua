@@ -27,7 +27,7 @@ bool Paren::interpret(const unordered_set<InterpretType> &flags)
   {
     change = node->interpret(flags);
   }
-  else
+  else if (parent->tok.type != TokenType::ADJACENT)
   {
     NodeUtils::replaceNode(this, node);
     change = true;

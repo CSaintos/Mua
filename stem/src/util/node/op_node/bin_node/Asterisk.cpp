@@ -17,54 +17,135 @@ Asterisk::Asterisk(unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> 
 
 bool Asterisk::interpret(const unordered_set<InterpretType> &flags)
 {
-  unique_ptr<Node> res_node;
-  string left_str;
-  string right_str;
+  bool change = false;
   bool left_change = false;
   bool right_change = false;
+  bool is_left_leaf = true;
+  bool is_right_leaf = true;
 
   if (!node_left->isLeaf())
   {
     left_change = node_left->interpret();
+    change = left_change || change;
+    is_left_leaf = false;
   }
   if (!node_right->isLeaf())
   {
     right_change = node_right->interpret();
+    change = right_change || change;
+    is_right_leaf = false;
   }
-  if (left_change || right_change)
+  if (change)
   {
-    return true;
+    return change;
   }
 
-  left_str = node_left->to_repr();
-  right_str = node_right->to_repr();
+  unique_ptr<Node> res_node;
+  unique_ptr<Node> rhs_node;
+  unique_ptr<Node> lhs_node;
+  bool is_minus = false;
+  bool removable_right_paren = false;
 
-  double lhs = std::stod(left_str);
-  double rhs = std::stod(right_str);
-  double result = lhs * rhs;
-  bool is_negative = false;
-  
-  if (result < 0)
+  if (!is_left_leaf)
   {
-    result = result * -1;
-    is_negative = true;
+    if (node_left->tok.type == TokenType::MINUS)
+    {
+      UnaOpNode* una_op_node = static_cast<UnaOpNode*>(node_left.get());
+      is_minus = !is_minus;
+      
+      if (una_op_node->node->tok.type == TokenType::DIGIT)
+      {
+        lhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
+      }
+    }
+    else if (node_left->tok.type == TokenType::LPAREN)
+    {
+      UnaOpNode* una_op_node = static_cast<UnaOpNode*>(node_left.get());
+
+      if (una_op_node->node->tok.type == TokenType::MINUS)
+      {
+        is_minus = !is_minus;
+        una_op_node = static_cast<UnaOpNode*>(una_op_node->node.get());
+      }
+      if (una_op_node->node->tok.type == TokenType::DIGIT)
+      {
+        lhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
+      }
+    }
   }
-
-  string result_str = NumberUtils::stripTrailingZeros(std::to_string(result));
-
-  Token res_tok;
-  res_tok.lexemes = result_str;
-  res_tok.type = TokenType::DIGIT;
-
-  res_node = std::make_unique<ValueNode>(res_tok);
-
-  if (is_negative)
+  else
   {
-    Token minus_tok;
-    minus_tok.type = TokenType::MINUS;
-    res_node = std::make_unique<UnaMinus>(minus_tok, res_node);
+    if (node_left->tok.type == TokenType::DIGIT)
+    {
+      lhs_node = NumberUtils::fractionalize(node_left->to_repr());
+    }
   }
 
-  NodeUtils::replaceNode(this, res_node);
-  return true;
+  if (!is_right_leaf)
+  {
+    if (node_right->tok.type == TokenType::MINUS)
+    {
+      UnaOpNode* una_op_node = static_cast<UnaOpNode*>(node_right.get());
+      is_minus = !is_minus;
+      
+      if (una_op_node->node->tok.type == TokenType::DIGIT)
+      {
+        rhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
+      }
+    }
+    else if (node_right->tok.type == TokenType::LPAREN)
+    {
+      UnaOpNode* una_op_node = static_cast<UnaOpNode*>(node_right.get());
+
+      if (una_op_node->node->tok.type == TokenType::MINUS)
+      {
+        is_minus = !is_minus;
+        una_op_node = static_cast<UnaOpNode*>(una_op_node->node.get());
+      }
+      if (una_op_node->node->tok.type == TokenType::DIGIT)
+      {
+        if (tok.type == TokenType::ASTERISK)
+        {
+          removable_right_paren = true;
+        }
+        rhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
+      }
+    }
+  }
+  else
+  {
+    if (node_right->tok.type == TokenType::DIGIT)
+    {
+      rhs_node = NumberUtils::fractionalize(node_right->to_repr());
+    }
+  }
+
+  if (lhs_node->isLeaf() && rhs_node->isLeaf())
+  {
+    int lhs = std::stod(lhs_node->to_repr());
+    int rhs = std::stod(rhs_node->to_repr());
+    int result = lhs * rhs;
+
+    Token res_tok;
+    res_tok.lexemes = std::to_string(result);
+    res_tok.type = TokenType::DIGIT;
+
+    res_node = std::make_unique<ValueNode>(res_tok);
+
+    if (is_minus)
+    {
+      Token tok_minus;
+      tok_minus.type = TokenType::MINUS;
+      res_node = std::make_unique<UnaMinus>(tok_minus, res_node);
+    }
+
+    NodeUtils::replaceNode(this, res_node);
+    change = true;
+  }
+  else
+  {
+    cout << "Not implemented yet (4)" << endl;
+  }
+
+  return change;
 }
