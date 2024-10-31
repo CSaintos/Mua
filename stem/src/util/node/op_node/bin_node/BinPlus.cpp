@@ -44,8 +44,6 @@ bool BinPlus::interpret(const unordered_set<InterpretType> &flags)
   unique_ptr<Node> res_node;
   unique_ptr<Node> lhs_node;
   unique_ptr<Node> rhs_node;
-  string left_str;
-  string right_str;
   bool is_left_minus = false;
   bool is_right_minus = false;
 
