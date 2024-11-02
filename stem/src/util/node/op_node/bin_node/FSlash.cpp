@@ -97,6 +97,54 @@ bool FSlash::interpret(const unordered_set<InterpretType> &flags)
         cout << "Not implemented yet (3)" << endl;
       }
     }
+    else if (node_left->tok.type == TokenType::LPAREN)
+    {
+      UnaOpNode* una_op_node = static_cast<UnaOpNode*>(node_left.get());
+
+      if (una_op_node->node->tok.type == TokenType::MINUS)
+      {
+        is_left_minus = true;
+        una_op_node = static_cast<UnaOpNode*>(una_op_node->node.get());
+      }
+      if (una_op_node->node->tok.type == TokenType::DIGIT)
+      {
+//        removable_left_paren = true;
+        lhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
+      }
+      if (una_op_node->node->tok.type == TokenType::FSLASH)
+      {
+        BinOpNode* bin_op_node = static_cast<BinOpNode*>(una_op_node->node.get());
+
+        if (bin_op_node->node_left->tok.type == TokenType::MINUS)
+        {
+          is_left_minus = !is_left_minus;
+          una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_left.get());
+          left_numerator = std::move(una_op_node->node);
+        }
+        else if (bin_op_node->node_left->tok.type == TokenType::DIGIT)
+        {
+          left_numerator = std::move(bin_op_node->node_left);
+        }
+        else
+        {
+          cout << "Not implemented yet (3)" << endl;
+        }
+        if (bin_op_node->node_right->tok.type == TokenType::MINUS)
+        {
+          is_left_minus = !is_left_minus;
+          una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_right.get());
+          left_denominator = std::move(una_op_node->node);
+        }
+        else if (bin_op_node->node_right->tok.type == TokenType::DIGIT)
+        {
+          left_denominator = std::move(bin_op_node->node_right);
+        }
+        else
+        {
+          cout << "Not implemented yet (3)" << endl;
+        }
+      }
+    }
     else
     {
       cout << "Not implemented yet (2)";

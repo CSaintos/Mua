@@ -1,8 +1,9 @@
 # makefile
-.PHONY: all clean $(MAKES) $(CLEANS) $(DIRS)
+.PHONY: all clean dirs $(MAKES) $(CLEANS) $(DIRS)
 
 export CXX = g++
 export AR = ar
+export CXXFLAGS = -std=c++23
 
 #? List of submakes ex. # ./make/submake1.mk
 PROJECTS = \
@@ -39,7 +40,7 @@ CLEANS = $(foreach PROJECT, $(PROJECTS), c$(PROJECT))
 
 all: $(MAKES)
 clean: $(CLEANS)
-#dirs: $(DIRS)
+dirs: $(DIRS)
 
 #? Submake dependencies (allows `make -j` to work) ex. # m./make/submake1.mk: m./make/submake2.mk
 #? A submake dependes on another if it uses the target of the other (such as the form of a library) 

@@ -13,6 +13,7 @@
 #include <stack>
 #include <vector>
 #include <optional>
+#include <unordered_set>
 
 #include "Error.hpp"
 #include "Token.hpp"
@@ -53,6 +54,8 @@ namespace stem
     std::list<stem::Token> *token_stream;
     /// iterator to current element in token stream
     std::list<stem::Token>::iterator itr;
+    std::unordered_set<TokenType> pemd;
+    std::unordered_set<TokenType> pe;
     
     /// Holds pointer to current/root node of tree
     /// Keeps node_stack empty when needed

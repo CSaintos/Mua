@@ -212,36 +212,5 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
     change = true;
   }
   
-//        if (node_left->tok.type == TokenType::LPAREN)
-//        {
-//          unique_ptr<Node> paren_items;
-//          UnaOpNode* una_op_node = static_cast<UnaOpNode*>(node_left.get());
-//          paren_items = std::move(una_op_node->node);
-//          NodeUtils::replaceNode(node_left.get(), paren_items);
-//          change = true;
-//        }
-//        if (node_right->tok.type == TokenType::LPAREN)
-//        {
-//          unique_ptr<Node> paren_items;
-//          UnaOpNode* una_op_node = static_cast<UnaOpNode*>(node_right.get());
-//          paren_items = std::move(una_op_node->node);
-//          if (paren_items->tok.type == TokenType::MINUS)
-//          {
-//            unique_ptr<Node> rhs;
-//            unique_ptr<Node> lhs = std::move(node_left);
-//            una_op_node = static_cast<UnaOpNode*>(paren_items.get());
-//            rhs = std::move(una_op_node->node);
-//            Token plus_tok;
-//            plus_tok.type = TokenType::PLUS;
-//            unique_ptr<Node> result = std::make_unique<BinPlus>(lhs, plus_tok, rhs);
-//            NodeUtils::replaceNode(this, result);
-//            change = true;
-//          }
-//          if (!change)
-//          {
-//            una_op_node->node = std::move(paren_items);
-//          }
-//        }
-  
   return change;
 }

@@ -2,7 +2,7 @@
 .PHONY: all compile build dirs clean
 
 #* Compiler flags
-CXXFLAGS += $(CPPFLAGS) -MD -MP -g
+CXXFLAGS += -MD -MP -g
 #* Pre-constants
 SLINK_FILES = $(patsubst -l%, %.lib, $(patsubst -l:%, %, $(SLINKS)))
 DLINK_FILES = $(patsubst -l%, %.dll, $(patsubst -l:%, %, $(DLINKS)))
@@ -101,7 +101,7 @@ compile: $(OBJECTS)
 build: $(TARGET)
 	$(POSTBUILDCMDS)
 dirs: $(OBJDIR) $(TARGETDIR)
-# @echo $(LIBS)
+#	@echo $(CXXFLAGS)
 
 clean: 
 	@echo clean

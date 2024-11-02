@@ -4,7 +4,9 @@ using namespace std;
 using namespace stem;
 
 Parser::Parser()
-  : last_op(TokenType::EMPTY),
+  : pemd({TokenType::ASTERISK, TokenType::ADJACENT, TokenType::FSLASH, TokenType::PERCENT, TokenType::CARET, TokenType::RPAREN}),
+    pe({TokenType::CARET, TokenType::RPAREN}),
+    last_op(TokenType::EMPTY),
     last_type(TokenType::EMPTY),
     open_parens(),
     equal_count(0),
@@ -57,7 +59,8 @@ void Parser::err(int i, Token &tok)
 
 void Parser::propagateTree()
 {
-  parse_trees.push_back(std::move(curr_node));
+  parse_trees.push_back(std::move(node_stack.top()));
+  node_stack.pop();
   last_type = TokenType::EMPTY;
   last_op = TokenType::EMPTY;
   open_parens = stack<Node*>();
@@ -108,6 +111,7 @@ void Parser::toParseTree(TokenType precedence_type)
     {
       if (right_node == nullptr)
       {
+        cout << "This is err 1" << endl;
         err(0, *itr);
         break;
       }
@@ -121,6 +125,11 @@ void Parser::toParseTree(TokenType precedence_type)
           una_raw->node = std::move(right_node);
           una_raw->node->parent = una_raw;
           right_node = std::move(op_node);
+        }
+        else if (pemd.count(precedence_type) == 1)
+        {
+          loop = false;
+          node_stack.push(std::move(op_node));
         }
         break;
       }
@@ -140,6 +149,7 @@ void Parser::toParseTree(TokenType precedence_type)
     case TokenType::CARET:
       if (right_node == nullptr)
       {
+        cout << "This is err 2" << endl;
         err(0, *itr);
         break;
       }
@@ -147,6 +157,11 @@ void Parser::toParseTree(TokenType precedence_type)
       {
         op_node = std::move(node_stack.top());
         node_stack.pop();
+        if (pe.count(precedence_type) == 1 && !right_paren)
+        {
+          loop = false;
+          node_stack.push(std::move(op_node));
+        }
         break;
       }
       else 
@@ -220,6 +235,7 @@ void Parser::toParseTree(TokenType precedence_type)
       break;
     }
     case TokenType::RPAREN:
+      // TODO might need a revision for something like (1(2));
       right_paren = true;
       node_stack.pop();
       break;
@@ -253,15 +269,15 @@ void Parser::toParseTree(TokenType precedence_type)
         bin_raw->node_right->parent = bin_raw;
         right_node = std::move(op_node);
       }
-      else if (curr_node != nullptr)
-      {
-        BinOpNode* bin_raw = static_cast<BinOpNode*>(op_node.get());
-        bin_raw->node_left = std::move(curr_node);
-        bin_raw->node_left->parent = bin_raw;
-        bin_raw->node_right = std::move(right_node);
-        bin_raw->node_right->parent = bin_raw;
-        right_node = std::move(op_node);
-      }
+//      else if (curr_node != nullptr)
+//      {
+//        BinOpNode* bin_raw = static_cast<BinOpNode*>(op_node.get());
+//        bin_raw->node_left = std::move(curr_node);
+//        bin_raw->node_left->parent = bin_raw;
+//        bin_raw->node_right = std::move(right_node);
+//        bin_raw->node_right->parent = bin_raw;
+//        right_node = std::move(op_node);
+//      }
       else 
       {
         err(0, op_node->tok);
@@ -290,11 +306,17 @@ void Parser::toParseTree(TokenType precedence_type)
       break;
     }
     case TokenType::SEMICOLON:
-      if (node_stack.size() == 1)
+      if (node_stack.size() == 2)
       {
         end_of_stmt = true;
         op_node = std::move(node_stack.top());
         node_stack.pop();
+        right_node = std::move(node_stack.top());
+        node_stack.pop();
+        UnaOpNode* una_op_node = static_cast<UnaOpNode*>(op_node.get());
+        una_op_node->node = std::move(right_node);
+        una_op_node->node->parent = una_op_node;
+        right_node = std::move(op_node);
       }
       else
       {
@@ -304,6 +326,8 @@ void Parser::toParseTree(TokenType precedence_type)
         }
         else
         {
+          cout << node_stack.size() << endl;
+          cout << "This is err 3" << endl;
           err(0, *itr);
         }
       }
@@ -315,37 +339,54 @@ void Parser::toParseTree(TokenType precedence_type)
     }
   }
 
-  if (curr_node == nullptr && right_node != nullptr)
+  if (op_node != nullptr)
   {
-    curr_node = std::move(right_node);
+    if (right_node == nullptr)
+    {
+      Token place_holder;
+      right_node = std::make_unique<ValueNode>(place_holder);
+    }
+    UnaOpNode* una_op_node = static_cast<UnaOpNode*>(op_node.get());
+    una_op_node->node = std::move(right_node);
+    una_op_node->node->parent = una_op_node;
+    node_stack.push(std::move(op_node));
   }
   if (right_node != nullptr)
   {
-    if (op_node == nullptr)
-    {
-      Token place_holder;
-      place_holder.type = TokenType::ADJACENT;
-      op_node = std::make_unique<Asterisk>(place_holder);
-    }
-    BinOpNode* bin_raw = static_cast<BinOpNode*>(op_node.get());
-    bin_raw->node_left = std::move(curr_node);
-    bin_raw->node_left->parent = bin_raw;
-    bin_raw->node_right = std::move(right_node);
-    bin_raw->node_right->parent = bin_raw;
-    curr_node = std::move(op_node);
+    node_stack.push(std::move(right_node));
   }
-  if (end_of_stmt && op_node != nullptr)
-  {
-    if (curr_node == nullptr) 
-    {
-      Token place_holder;
-      curr_node = std::make_unique<ValueNode>(place_holder);
-    }
-    UnaOpNode* una_raw = static_cast<UnaOpNode*>(op_node.get());
-    una_raw->node = std::move(curr_node);
-    una_raw->node->parent = una_raw;
-    curr_node = std::move(op_node);
-  }
+
+//  if (curr_node == nullptr && right_node != nullptr)
+//  {
+//    curr_node = std::move(right_node);
+//  }
+//  if (right_node != nullptr)
+//  {
+//    if (op_node == nullptr)
+//    {
+//      Token place_holder;
+//      place_holder.type = TokenType::ADJACENT;
+//      op_node = std::make_unique<Asterisk>(place_holder);
+//    }
+//    BinOpNode* bin_raw = static_cast<BinOpNode*>(op_node.get());
+//    bin_raw->node_left = std::move(curr_node);
+//    bin_raw->node_left->parent = bin_raw;
+//    bin_raw->node_right = std::move(right_node);
+//    bin_raw->node_right->parent = bin_raw;
+//    curr_node = std::move(op_node);
+//  }
+//  if (end_of_stmt && op_node != nullptr)
+//  {
+//    if (curr_node == nullptr) 
+//    {
+//      Token place_holder;
+//      curr_node = std::make_unique<ValueNode>(place_holder);
+//    }
+//    UnaOpNode* una_raw = static_cast<UnaOpNode*>(op_node.get());
+//    una_raw->node = std::move(curr_node);
+//    una_raw->node->parent = una_raw;
+//    curr_node = std::move(op_node);
+//  }
 }
 
 void Parser::scanOneToken()
@@ -413,7 +454,7 @@ void Parser::scanOneToken()
     case TokenType::MINUS:
     case TokenType::EQUAL:
       last_type = itr->type;
-      last_op = TokenType::ASTERISK;
+      last_op = TokenType::ADJACENT;
       if (itr->type == TokenType::PLUS)
       {
         node_stack.push(std::make_unique<UnaPlus>(*itr));
@@ -510,6 +551,7 @@ void Parser::scanOneToken()
         }
         break;
       case TokenType::ASTERISK:
+      case TokenType::ADJACENT:
       case TokenType::FSLASH:
       case TokenType::CARET:
       case TokenType::PERCENT:
