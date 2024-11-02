@@ -111,7 +111,6 @@ void Parser::toParseTree(TokenType precedence_type)
     {
       if (right_node == nullptr)
       {
-        cout << "This is err 1" << endl;
         err(0, *itr);
         break;
       }
@@ -149,7 +148,6 @@ void Parser::toParseTree(TokenType precedence_type)
     case TokenType::CARET:
       if (right_node == nullptr)
       {
-        cout << "This is err 2" << endl;
         err(0, *itr);
         break;
       }
@@ -196,6 +194,10 @@ void Parser::toParseTree(TokenType precedence_type)
           una_raw->node = std::move(right_node);
           una_raw->node->parent = una_raw;
           right_node = std::move(op_node);
+          if (!end_of_expr || !end_of_stmt)
+          {
+            loop = false;
+          }
         }
         else
         {
@@ -269,15 +271,6 @@ void Parser::toParseTree(TokenType precedence_type)
         bin_raw->node_right->parent = bin_raw;
         right_node = std::move(op_node);
       }
-//      else if (curr_node != nullptr)
-//      {
-//        BinOpNode* bin_raw = static_cast<BinOpNode*>(op_node.get());
-//        bin_raw->node_left = std::move(curr_node);
-//        bin_raw->node_left->parent = bin_raw;
-//        bin_raw->node_right = std::move(right_node);
-//        bin_raw->node_right->parent = bin_raw;
-//        right_node = std::move(op_node);
-//      }
       else 
       {
         err(0, op_node->tok);
@@ -355,38 +348,6 @@ void Parser::toParseTree(TokenType precedence_type)
   {
     node_stack.push(std::move(right_node));
   }
-
-//  if (curr_node == nullptr && right_node != nullptr)
-//  {
-//    curr_node = std::move(right_node);
-//  }
-//  if (right_node != nullptr)
-//  {
-//    if (op_node == nullptr)
-//    {
-//      Token place_holder;
-//      place_holder.type = TokenType::ADJACENT;
-//      op_node = std::make_unique<Asterisk>(place_holder);
-//    }
-//    BinOpNode* bin_raw = static_cast<BinOpNode*>(op_node.get());
-//    bin_raw->node_left = std::move(curr_node);
-//    bin_raw->node_left->parent = bin_raw;
-//    bin_raw->node_right = std::move(right_node);
-//    bin_raw->node_right->parent = bin_raw;
-//    curr_node = std::move(op_node);
-//  }
-//  if (end_of_stmt && op_node != nullptr)
-//  {
-//    if (curr_node == nullptr) 
-//    {
-//      Token place_holder;
-//      curr_node = std::make_unique<ValueNode>(place_holder);
-//    }
-//    UnaOpNode* una_raw = static_cast<UnaOpNode*>(op_node.get());
-//    una_raw->node = std::move(curr_node);
-//    una_raw->node->parent = una_raw;
-//    curr_node = std::move(op_node);
-//  }
 }
 
 void Parser::scanOneToken()
@@ -467,9 +428,13 @@ void Parser::scanOneToken()
     default:
       switch (last_op)
       {
+      case TokenType::RPAREN:
+        if (pemd.contains(op_ere_paren.top()->tok.type))
+        {
+          toParseTree(itr->type);
+        }
       case TokenType::EMPTY:
       case TokenType::LPAREN:
-      case TokenType::RPAREN:
       case TokenType::EQUAL:
         last_type = itr->type;
         last_op = last_type;
@@ -645,6 +610,7 @@ void Parser::scanOneToken()
       case TokenType::MINUS:
 //      case TokenType::RPAREN:
       case TokenType::EQUAL:
+      case TokenType::LPAREN:
         node_stack.push(std::make_unique<Paren>(*itr));
         open_parens.push(node_stack.top().get());
         last_type = itr->type;
@@ -661,7 +627,6 @@ void Parser::scanOneToken()
     case TokenType::LET:
       err(6, *itr);
       break;
-    case TokenType::EMPTY:
     case TokenType::PLUS:
     case TokenType::MINUS:
     case TokenType::ASTERISK:
@@ -671,6 +636,8 @@ void Parser::scanOneToken()
     case TokenType::RPAREN:
     case TokenType::LPAREN:
     case TokenType::EQUAL:
+      op_ere_paren.push(node_stack.top().get());
+    case TokenType::EMPTY:
       node_stack.push(std::make_unique<Paren>(*itr));
       open_parens.push(node_stack.top().get());
       last_type = itr->type;
@@ -697,6 +664,7 @@ void Parser::scanOneToken()
       case TokenType::PERCENT:
       case TokenType::CARET:
       case TokenType::LPAREN:
+      case TokenType::RPAREN:
         node_stack.push(std::make_unique<Paren>(*itr));
         toParseTree(itr->type);
         last_type = itr->type;

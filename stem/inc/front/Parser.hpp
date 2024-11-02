@@ -50,6 +50,8 @@ namespace stem
     std::stack<std::unique_ptr<stem::Node>> node_stack;
     /// stack of nodes of unclosed parenthesis
     std::stack<stem::Node*> open_parens;
+    /// stack of operators before lparens
+    std::stack<stem::Node*> op_ere_paren;
     /// pointer to token stream
     std::list<stem::Token> *token_stream;
     /// iterator to current element in token stream
@@ -59,7 +61,6 @@ namespace stem
     
     /// Holds pointer to current/root node of tree
     /// Keeps node_stack empty when needed
-    std::unique_ptr<stem::Node> curr_node;
     std::unique_ptr<stem::Node> left_node; ///< holds left node for binary operators
     std::unique_ptr<stem::Node> right_node; ///< holds right node for operators
     std::unique_ptr<stem::Node> op_node; ///< holds op node for operators
