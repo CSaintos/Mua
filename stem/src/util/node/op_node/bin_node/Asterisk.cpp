@@ -269,10 +269,27 @@ bool Asterisk::interpret(const unordered_set<InterpretType> &flags)
     NodeUtils::replaceNode(this, fraction);
     change = true;
   }
-  else
+  else if (left_numerator != nullptr && left_denominator != nullptr && right_numerator != nullptr && right_denominator != nullptr)
   {
-    
-    cout << "Not implemented Asterisk where rhs_node == nullptr || lhs_node == nullptr" << endl;
+    Token tok_mult;
+    tok_mult.type = TokenType::ASTERISK;
+    Token tok_paren;
+    tok_paren.type = TokenType::LPAREN;
+    if (is_minus)
+    {
+      Token tok_minus;
+      tok_minus.type = TokenType::MINUS;
+      left_numerator = std::make_unique<UnaMinus>(tok_minus, left_numerator);
+    }
+    unique_ptr<Node> numerator = std::make_unique<Asterisk>(left_numerator, tok_mult, right_numerator);
+    unique_ptr<Node> denominator = std::make_unique<Asterisk>(left_denominator, tok_mult, right_denominator);
+    denominator = std::make_unique<Paren>(tok_paren, denominator);
+
+    Token tok_fslash;
+    tok_fslash.type = TokenType::FSLASH;
+    unique_ptr<Node> fraction = std::make_unique<FSlash>(numerator, tok_fslash, denominator);
+    NodeUtils::replaceNode(this, fraction);
+    change = true;
   }
 
   return change;
