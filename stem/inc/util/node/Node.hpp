@@ -26,6 +26,7 @@ namespace stem
     Node* parent = nullptr; ///< pointer to parent Node
     Token tok; ///< Default represented token
 
+    virtual ~Node() = default;
     /**
      * @brief Returns node as string representation
      * 

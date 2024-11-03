@@ -40,9 +40,12 @@ bool Asterisk::interpret(const unordered_set<InterpretType> &flags)
     return change;
   }
 
-  unique_ptr<Node> res_node;
   unique_ptr<Node> rhs_node;
   unique_ptr<Node> lhs_node;
+  unique_ptr<Node> left_numerator;
+  unique_ptr<Node> left_denominator;
+  unique_ptr<Node> right_numerator;
+  unique_ptr<Node> right_denominator;
   bool is_minus = false;
   bool removable_right_paren = false;
 
@@ -71,6 +74,43 @@ bool Asterisk::interpret(const unordered_set<InterpretType> &flags)
       {
         lhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
       }
+      if (una_op_node->node->tok.type == TokenType::FSLASH)
+      {
+        BinOpNode* bin_op_node = static_cast<BinOpNode*>(una_op_node->node.get());
+
+        if (bin_op_node->node_left->tok.type == TokenType::MINUS)
+        {
+          is_minus = !is_minus;
+          una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_left.get());
+          left_numerator = std::move(una_op_node->node);
+        }
+        else if (bin_op_node->node_left->tok.type == TokenType::DIGIT)
+        {
+          left_numerator = std::move(bin_op_node->node_left);
+        }
+        else
+        {
+          cout << "Not implemented yet (3)" << endl;
+        }
+        if (bin_op_node->node_right->tok.type == TokenType::MINUS)
+        {
+          is_minus = !is_minus;
+          una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_right.get());
+          left_denominator = std::move(una_op_node->node);
+        }
+        else if (bin_op_node->node_right->tok.type == TokenType::DIGIT)
+        {
+          left_denominator = std::move(bin_op_node->node_right);
+        }
+        else
+        {
+          cout << "Not implemented yet (3)" << endl;
+        }
+      }
+    }
+    else
+    {
+      cout << "Not implemented yet (2)" << endl;
     }
   }
   else
@@ -106,10 +146,48 @@ bool Asterisk::interpret(const unordered_set<InterpretType> &flags)
       {
         if (tok.type == TokenType::ASTERISK)
         {
+          // What's this for?
           removable_right_paren = true;
         }
         rhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
       }
+      if (una_op_node->node->tok.type == TokenType::FSLASH)
+      {
+        BinOpNode* bin_op_node = static_cast<BinOpNode*>(una_op_node->node.get());
+
+        if (bin_op_node->node_left->tok.type == TokenType::MINUS)
+        {
+          is_minus = !is_minus;
+          una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_left.get());
+          right_numerator = std::move(una_op_node->node);
+        }
+        else if (bin_op_node->node_left->tok.type == TokenType::DIGIT)
+        {
+          right_numerator = std::move(bin_op_node->node_left);
+        }
+        else
+        {
+          cout << "Not implemented yet (3)" << endl;
+        }
+        if (bin_op_node->node_right->tok.type == TokenType::MINUS)
+        {
+          is_minus = !is_minus;
+          una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_right.get());
+          right_denominator = std::move(una_op_node->node);
+        }
+        else if (bin_op_node->node_right->tok.type == TokenType::DIGIT)
+        {
+          right_denominator = std::move(bin_op_node->node_right);
+        }
+        else 
+        {
+          cout << "Not implemented yet (3)" << endl;
+        }
+      }
+    }
+    else
+    {
+      cout << "Not implemented yet (2)" << endl;
     }
   }
   else
@@ -120,31 +198,81 @@ bool Asterisk::interpret(const unordered_set<InterpretType> &flags)
     }
   }
 
-  if (lhs_node->isLeaf() && rhs_node->isLeaf())
+  if (lhs_node != nullptr && rhs_node != nullptr)
   {
-    int lhs = std::stod(lhs_node->to_repr());
-    int rhs = std::stod(rhs_node->to_repr());
-    int result = lhs * rhs;
+    if (lhs_node->isLeaf() && rhs_node->isLeaf())
+    {
+      int lhs = std::stod(lhs_node->to_repr());
+      int rhs = std::stod(rhs_node->to_repr());
+      int result = lhs * rhs;
 
-    Token res_tok;
-    res_tok.lexemes = std::to_string(result);
-    res_tok.type = TokenType::DIGIT;
+      Token res_tok;
+      res_tok.lexemes = std::to_string(result);
+      res_tok.type = TokenType::DIGIT;
 
-    res_node = std::make_unique<ValueNode>(res_tok);
+      lhs_node = std::make_unique<ValueNode>(res_tok);
 
+      if (is_minus)
+      {
+        Token tok_minus;
+        tok_minus.type = TokenType::MINUS;
+        lhs_node = std::make_unique<UnaMinus>(tok_minus, lhs_node);
+      }
+
+      NodeUtils::replaceNode(this, lhs_node);
+      change = true;
+    }
+    else
+    {
+      cout << "Not implemented Asterisk where !lhs_node->isLeaf() || !rhs_node->isLeaf()" << endl;
+    }
+  }
+  else if (left_numerator != nullptr && left_denominator != nullptr && rhs_node != nullptr)
+  {
+    Token tok_mult;
+    tok_mult.type = TokenType::ASTERISK;
+    unique_ptr<Node> numerator = std::make_unique<Asterisk>(left_numerator, tok_mult, rhs_node);
     if (is_minus)
     {
+      Token tok_paren;
+      tok_paren.type = TokenType::LPAREN;
+      numerator = std::make_unique<Paren>(tok_paren, numerator);
       Token tok_minus;
       tok_minus.type = TokenType::MINUS;
-      res_node = std::make_unique<UnaMinus>(tok_minus, res_node);
+      numerator = std::make_unique<UnaMinus>(tok_minus, numerator);
     }
+    Token tok_fslash;
+    tok_fslash.type = TokenType::FSLASH;
+    unique_ptr<Node> fraction = std::make_unique<FSlash>(numerator, tok_fslash, left_denominator);
 
-    NodeUtils::replaceNode(this, res_node);
+    NodeUtils::replaceNode(this, fraction);
+    change = true;
+  }
+  else if (right_numerator != nullptr && right_denominator != nullptr && lhs_node != nullptr)
+  {
+    Token tok_mult;
+    tok_mult.type = TokenType::ASTERISK;
+    unique_ptr<Node> numerator = std::make_unique<Asterisk>(lhs_node, tok_mult, right_numerator);
+    if (is_minus)
+    {
+      Token tok_paren;
+      tok_paren.type = TokenType::LPAREN;
+      numerator = std::make_unique<Paren>(tok_paren, numerator);
+      Token tok_minus;
+      tok_minus.type = TokenType::MINUS;
+      numerator = std::make_unique<UnaMinus>(tok_minus, numerator);
+    }
+    Token tok_fslash;
+    tok_fslash.type = TokenType::FSLASH;
+    unique_ptr<Node> fraction = std::make_unique<FSlash>(numerator, tok_fslash, right_denominator);
+
+    NodeUtils::replaceNode(this, fraction);
     change = true;
   }
   else
   {
-    cout << "Not implemented yet (4)" << endl;
+    
+    cout << "Not implemented Asterisk where rhs_node == nullptr || lhs_node == nullptr" << endl;
   }
 
   return change;
