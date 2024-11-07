@@ -28,6 +28,7 @@ namespace stem
 {
   struct FSlash : public BinOpNode
   {
+    bool is_const_fraction = false;
     FSlash(Token &tok_op);
     FSlash(std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node_right);
     FSlash(std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
