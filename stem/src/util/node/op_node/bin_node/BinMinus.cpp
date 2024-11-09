@@ -508,7 +508,48 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
         }
         else
         {
+          int gcd = std::gcd(lhs_denominator, rhs_denominator);
+          int denominator = (lhs_denominator / gcd) * rhs_denominator;
+          int lhs_numerator = std::stod(left_numerator->to_repr());
+          int rhs_numerator = std::stod(right_numerator->to_repr());
+          lhs_numerator = lhs_numerator * (rhs_denominator / gcd);
+          rhs_numerator = rhs_numerator * (lhs_denominator / gcd);
 
+          left_numerator->tok.lexemes = std::to_string(lhs_numerator);
+          right_numerator->tok.lexemes = std::to_string(rhs_numerator);
+          left_denominator->tok.lexemes = std::to_string(denominator);
+          right_denominator->tok.lexemes = std::to_string(denominator);
+
+          if (is_left_minus)
+          {
+            Token tok_minus;
+            tok_minus.type = TokenType::MINUS;
+            left_numerator = std::make_unique<UnaMinus>(tok_minus, left_numerator);
+          }
+          Token tok_fslash;
+          tok_fslash.type = TokenType::FSLASH;
+          lhs_node = std::make_unique<FSlash>(left_numerator, tok_fslash, left_denominator);
+          rhs_node = std::make_unique<FSlash>(right_numerator, tok_fslash, right_denominator);
+          FSlash* fslash;
+          fslash = static_cast<FSlash*>(lhs_node.get());
+          fslash->is_const_fraction = true;
+          fslash = static_cast<FSlash*>(rhs_node.get());
+          fslash->is_const_fraction = true;
+          if (!is_right_minus)
+          {
+            node_left = std::move(lhs_node);
+            node_left->parent = this;
+            node_right = std::move(rhs_node);
+            node_right->parent = this;
+          }
+          else
+          {
+            Token tok_minus;
+            tok_minus.type = TokenType::MINUS;
+            lhs_node = std::make_unique<BinMinus>(lhs_node, tok_minus, rhs_node);
+            NodeUtils::replaceNode(this, lhs_node);
+          }
+          change = true;
         }
       }
     }
