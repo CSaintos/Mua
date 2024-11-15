@@ -67,5 +67,7 @@ namespace stem
      * @note an exception: modification of Node.tok.pos is ignored at this stage until further notice.
      */
     virtual bool interpret(const std::unordered_set<InterpretType> &flags = {}) = 0;
+
+    virtual std::unique_ptr<Node> copy() = 0;
   };
 }

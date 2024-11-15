@@ -34,3 +34,9 @@ bool Paren::interpret(const unordered_set<InterpretType> &flags)
   }
   return change;
 }
+
+unique_ptr<Node> Paren::copy()
+{
+  unique_ptr<Node> node_copy = node->copy();
+  return std::make_unique<Paren>(tok, node_copy);
+}

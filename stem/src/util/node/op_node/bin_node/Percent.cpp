@@ -48,3 +48,10 @@ bool Percent::interpret(const unordered_set<InterpretType> &flags)
   }
   return false;
 }
+
+unique_ptr<Node> Percent::copy()
+{
+  unique_ptr<Node> lhs_node = node_left->copy();
+  unique_ptr<Node> rhs_node = node_right->copy();
+  return std::make_unique<Percent>(lhs_node, tok, rhs_node);
+}

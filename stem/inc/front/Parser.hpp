@@ -23,6 +23,7 @@
 #include "UnaPlus.hpp"
 #include "UnaMinus.hpp"
 #include "Paren.hpp"
+#include "Let.hpp"
 #include "Semicolon.hpp"
 #include "BinOpNode.hpp"
 #include "BinPlus.hpp"
@@ -31,6 +32,7 @@
 #include "FSlash.hpp"
 #include "Percent.hpp"
 #include "Caret.hpp"
+#include "Equal.hpp"
 #include "ValueNode.hpp"
 
 namespace stem

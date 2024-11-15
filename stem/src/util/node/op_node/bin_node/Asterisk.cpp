@@ -294,3 +294,10 @@ bool Asterisk::interpret(const unordered_set<InterpretType> &flags)
 
   return change;
 }
+
+unique_ptr<Node> Asterisk::copy()
+{
+  unique_ptr<Node> lhs_node = node_left->copy();
+  unique_ptr<Node> rhs_node = node_right->copy();
+  return std::make_unique<Asterisk>(lhs_node, tok, rhs_node);
+}

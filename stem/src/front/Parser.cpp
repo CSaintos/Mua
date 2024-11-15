@@ -695,7 +695,7 @@ void Parser::scanOneToken()
         break;
       }
       toParseTree(itr->type);
-      node_stack.push(std::make_unique<BinOpNode>(*itr));
+      node_stack.push(std::make_unique<Equal>(*itr));
       last_type = itr->type;
       last_op = last_type;
       equal_count++;
@@ -709,7 +709,7 @@ void Parser::scanOneToken()
     switch (last_type)
     {
     case TokenType::EMPTY:
-      node_stack.push(std::make_unique<UnaOpNode>(*itr));
+      node_stack.push(std::make_unique<Let>(*itr));
       last_type = itr->type;
       last_op = last_type;
       let_stmt = true;

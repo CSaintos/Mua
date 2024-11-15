@@ -24,3 +24,9 @@ bool Semicolon::interpret(const unordered_set<InterpretType> &flags)
 {
   return node->interpret(flags);
 }
+
+unique_ptr<Node> Semicolon::copy()
+{
+  unique_ptr<Node> node_copy = node->copy();
+  return std::make_unique<Semicolon>(tok, node_copy);
+}

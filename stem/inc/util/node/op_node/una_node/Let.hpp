@@ -1,28 +1,25 @@
 /**
- * @file stem/inc/util/node/op_node/una_node/Paren.hpp
+ * @file stem/inc/util/node/op_node/una_node/Let.hpp
  * @author Christian Santos
  * @version 1.0.0
- * @date 10/16/2024
+ * @date 11/14/2024
  */
-
 #pragma once
 
 #include <memory>
-#include <unordered_set>
 
-#include "Token.hpp"
 #include "Node.hpp"
 #include "UnaOpNode.hpp"
+#include "Token.hpp"
 #include "InterpretType.hpp"
-#include "NodeUtils.hpp"
 
 namespace stem
 {
-  struct Paren : public UnaOpNode
+  struct Let : public UnaOpNode
   {
-    Paren(Token &tok_op);
-    Paren(std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node);
-    Paren(Token &tok_op, std::unique_ptr<Node> &node);
+    Let(Token &tok_op);
+    Let(std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node);
+    Let(Token &tok_op, std::unique_ptr<Node> &node);
     std::string to_repr() override;
     bool interpret(const std::unordered_set<InterpretType> &flags = {}) override;
     std::unique_ptr<Node> copy() override;

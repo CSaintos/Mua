@@ -13,6 +13,8 @@
 #include "BinOpNode.hpp"
 #include "UnaOpNode.hpp"
 #include "ValueNode.hpp"
+#include "Semicolon.hpp"
+#include "Asterisk.hpp"
 #include "Token.hpp"
 #include "TokenType.hpp"
 
@@ -30,7 +32,7 @@ int main(int argc, char *argv[])
   unique_ptr<Node> node_digit = std::make_unique<ValueNode>(digit);
   Token semicolon;
   semicolon.type = TokenType::SEMICOLON;
-  unique_ptr<Node> node_semi = std::make_unique<UnaOpNode>(semicolon, node_digit);
+  unique_ptr<Node> node_semi = std::make_unique<Semicolon>(semicolon, node_digit);
 
   Node* temp = node_semi.get();
   UnaOpNode* temp_una = static_cast<UnaOpNode*>(temp);
@@ -46,7 +48,7 @@ int main(int argc, char *argv[])
     adj.type = TokenType::ADJACENT;
     unique_ptr<Node> node_a = std::make_unique<ValueNode>(a);
     unique_ptr<Node> node_b = std::make_unique<ValueNode>(b);
-    temp_una->node = std::make_unique<BinOpNode>(node_a, adj, node_b);
+    temp_una->node = std::make_unique<Asterisk>(node_a, adj, node_b);
   }
 
   cout << temp->to_string() << endl;

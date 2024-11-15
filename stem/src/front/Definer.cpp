@@ -144,7 +144,7 @@ void Definer::searchOneNode(Node* node)
           adjacent_nodes.pop();
           Token place_holder;
           place_holder.type = TokenType::ADJACENT;
-          temp_una->node = std::make_unique<BinOpNode>(left_node, place_holder, right_node);
+          temp_una->node = std::make_unique<Asterisk>(left_node, place_holder, right_node);
           temp = temp_una->node.get();
           if (!adjacent_nodes.empty())
           {
@@ -161,12 +161,12 @@ void Definer::searchOneNode(Node* node)
           place_holder.type = TokenType::ADJACENT;
           if (node_to_replace == temp_bin->node_left.get())
           {
-            temp_bin->node_left = std::make_unique<BinOpNode>(left_node, place_holder, right_node);
+            temp_bin->node_left = std::make_unique<Asterisk>(left_node, place_holder, right_node);
             temp = temp_bin->node_left.get();
           }
           else
           {
-            temp_bin->node_right = std::make_unique<BinOpNode>(left_node, place_holder, right_node);
+            temp_bin->node_right = std::make_unique<Asterisk>(left_node, place_holder, right_node);
             temp = temp_bin->node_right.get();
           }
           if (!adjacent_nodes.empty())

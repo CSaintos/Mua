@@ -9,6 +9,7 @@
 #include <memory>
 #include <iostream>
 #include <cmath>
+#include <unordered_set>
 
 #include "Token.hpp"
 #include "TokenType.hpp"
@@ -27,5 +28,6 @@ namespace stem
     Caret(std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node_right);
     Caret(std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
     bool interpret(const std::unordered_set<InterpretType> &flags = {}) override;
+    std::unique_ptr<Node> copy() override;
   };
 }

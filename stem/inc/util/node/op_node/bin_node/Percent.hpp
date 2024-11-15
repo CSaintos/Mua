@@ -28,5 +28,6 @@ namespace stem
     Percent(std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node_right);
     Percent(std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
     bool interpret(const std::unordered_set<InterpretType> &flags = {}) override;
+    std::unique_ptr<Node> copy() override;
   };
 }

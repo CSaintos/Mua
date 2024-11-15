@@ -61,5 +61,7 @@ namespace stem
     inline NodeType getType() override { return NodeType::VALUE; }
 
     inline bool interpret(const std::unordered_set<InterpretType> &flags = {}) override { return false; }
+
+    std::unique_ptr<Node> copy() override;
   };
 }

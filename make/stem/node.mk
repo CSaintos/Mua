@@ -43,9 +43,11 @@ SRCFILES = \
 	FSlash.cpp \
 	Percent.cpp \
 	Caret.cpp \
+	Equal.cpp \
 	UnaPlus.cpp \
 	UnaMinus.cpp \
 	Paren.cpp \
+	Let.cpp \
 	Semicolon.cpp \
 	NodeUtils.cpp \
 	NumberUtils.cpp
