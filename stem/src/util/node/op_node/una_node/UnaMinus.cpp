@@ -27,7 +27,7 @@ bool UnaMinus::interpret(const unordered_set<InterpretType> &flags)
 
   if (!node->isLeaf())
   {
-    change = node->interpret();
+    change = node->interpret(flags);
     is_node_leaf = false;
   }
   if (change) return true;

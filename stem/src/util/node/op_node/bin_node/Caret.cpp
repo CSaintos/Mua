@@ -25,13 +25,13 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
 
   if (!node_left->isLeaf())
   {
-    left_change = node_left->interpret();
+    left_change = node_left->interpret(flags);
     change = left_change || change;
     is_left_leaf = false;
   }
   if (!node_right->isLeaf())
   {
-    right_change = node_right->interpret();
+    right_change = node_right->interpret(flags);
     change = right_change || change;
     is_right_leaf = false;
   }
@@ -46,6 +46,9 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
   unique_ptr<Node> left_denominator;
   unique_ptr<Node> right_numerator;
   unique_ptr<Node> right_denominator;
+  bool is_left_minus = false;
+  bool is_right_minus = false;
+  bool is_lhs_paren = false;
 
   if (!is_left_leaf)
   {
@@ -88,10 +91,12 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
     else if (node_left->tok.type == TokenType::LPAREN)
     {
       UnaOpNode* una_op_node = static_cast<UnaOpNode*>(node_left.get());
+      is_lhs_paren = true;
 
       if (una_op_node->node->tok.type == TokenType::MINUS)
       {
         una_op_node = static_cast<UnaOpNode*>(una_op_node->node.get());
+        is_left_minus = !is_left_minus;
       }
       if (una_op_node->node->tok.type == TokenType::DIGIT)
       {
@@ -105,6 +110,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
         {
           una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_left.get());
           left_numerator = std::move(una_op_node->node);
+          is_left_minus = !is_left_minus;
         }
         else if (bin_op_node->node_left->tok.type == TokenType::DIGIT)
         {
@@ -118,6 +124,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
         {
           una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_right.get());
           left_denominator = std::move(una_op_node->node);
+          is_left_minus = !is_left_minus;
         }
         else if (bin_op_node->node_right->tok.type == TokenType::DIGIT)
         {
@@ -147,6 +154,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
     if (node_right->tok.type == TokenType::MINUS)
     {
       UnaOpNode* una_op_node = static_cast<UnaOpNode*>(node_right.get());
+      is_right_minus = !is_right_minus;
 
       if (una_op_node->node->tok.type == TokenType::DIGIT)
       {
@@ -162,6 +170,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
       {
         una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_left.get());
         right_numerator = std::move(una_op_node->node);
+        is_right_minus = !is_right_minus;
       }
       else if (bin_op_node->node_left->tok.type == TokenType::DIGIT)
       {
@@ -175,6 +184,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
       {
         una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_right.get());
         right_denominator = std::move(una_op_node->node);
+        is_right_minus = !is_right_minus;
       }
       else if (bin_op_node->node_right->tok.type == TokenType::DIGIT)
       {
@@ -192,6 +202,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
       if (una_op_node->node->tok.type == TokenType::MINUS)
       {
         una_op_node = static_cast<UnaOpNode*>(una_op_node->node.get());
+        is_right_minus = !is_right_minus;
       }
       if (una_op_node->node->tok.type == TokenType::DIGIT)
       {
@@ -205,6 +216,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
         {
           una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_left.get());
           right_numerator = std::move(una_op_node->node);
+          is_right_minus = !is_right_minus;
         }
         else if (bin_op_node->node_left->tok.type == TokenType::DIGIT)
         {
@@ -218,6 +230,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
         {
           una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_right.get());
           right_denominator = std::move(una_op_node->node);
+          is_right_minus = !is_right_minus;
         }
         else if (bin_op_node->node_right->tok.type == TokenType::DIGIT)
         {
@@ -249,9 +262,20 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
       if (lhs_node->tok.type == TokenType::DIGIT &&
       rhs_node->tok.type == TokenType::DIGIT)
       {
-        int lhs = std::stod(node_left->tok.lexemes);
-        int rhs = std::stod(node_right->tok.lexemes);
+        int lhs = std::stod(lhs_node->tok.lexemes);
+        if (is_left_minus)
+        {
+          lhs = lhs * -1;
+        }
+        int rhs = std::stod(rhs_node->tok.lexemes);
         int result = std::pow(lhs, rhs);
+        bool is_minus = false;
+        
+        if (result < 0)
+        {
+          result = result * -1;
+          is_minus = true;
+        }
 
         string result_str = NumberUtils::stripTrailingZeros(std::to_string(result));
 
@@ -260,6 +284,13 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
         res_tok.type = TokenType::DIGIT;
 
         lhs_node = std::make_unique<ValueNode>(res_tok);
+
+        if (is_minus)
+        {
+          Token tok_minus;
+          tok_minus.type = TokenType::MINUS;
+          lhs_node = std::make_unique<UnaMinus>(tok_minus, lhs_node);
+        }
 
         NodeUtils::replaceNode(this, lhs_node);
         change = true;
@@ -287,6 +318,15 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
   else if (left_numerator != nullptr && left_denominator != nullptr && rhs_node != nullptr)
   {
     unique_ptr<Node> rhs_node_copy = rhs_node->copy();
+    if (is_left_minus)
+    {
+      Token tok_minus;
+      tok_minus.type = TokenType::MINUS;
+      left_numerator = std::make_unique<UnaMinus>(tok_minus, left_numerator);
+      Token tok_paren;
+      tok_paren.type = TokenType::LPAREN;
+      left_numerator = std::make_unique<Paren>(tok_paren, left_numerator);
+    }
     Token tok_caret;
     tok_caret.type = TokenType::CARET;
     left_numerator = std::make_unique<Caret>(left_numerator, tok_caret, rhs_node_copy);
@@ -294,6 +334,12 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
     Token tok_fslash;
     tok_fslash.type = TokenType::FSLASH;
     lhs_node = std::make_unique<FSlash>(left_numerator, tok_fslash, left_denominator);
+    if (is_lhs_paren)
+    {
+      Token tok_paren;
+      tok_paren.type = TokenType::LPAREN;
+      lhs_node = std::make_unique<Paren>(tok_paren, lhs_node);
+    }
     NodeUtils::replaceNode(this, lhs_node);
     change = true;
   }

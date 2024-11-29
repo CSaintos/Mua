@@ -571,6 +571,7 @@ void Parser::scanOneToken()
       case TokenType::PLUS:
       case TokenType::MINUS:
       case TokenType::ASTERISK:
+      case TokenType::ADJACENT:
       case TokenType::FSLASH:
       case TokenType::PERCENT:
       case TokenType::CARET:
@@ -661,6 +662,7 @@ void Parser::scanOneToken()
       case TokenType::PLUS:
       case TokenType::MINUS:
       case TokenType::ASTERISK:
+      case TokenType::ADJACENT:
       case TokenType::FSLASH:
       case TokenType::PERCENT:
       case TokenType::CARET:

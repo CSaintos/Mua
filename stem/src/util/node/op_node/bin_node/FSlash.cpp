@@ -147,7 +147,7 @@ bool FSlash::interpret(const unordered_set<InterpretType> &flags)
     }
     else
     {
-      cout << "Not implemented yet (2)";
+      cout << "Not implemented yet (2)" << endl;
     }
   }
   else

@@ -28,7 +28,7 @@ bool UnaPlus::interpret(const unordered_set<InterpretType> &flags)
 
   if (!node->isLeaf())
   {
-    change = node->interpret();
+    change = node->interpret(flags);
   }
   if (change) return true;
 
