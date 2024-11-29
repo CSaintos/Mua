@@ -25,12 +25,16 @@ void Interpreter::interpret(vector<unique_ptr<Node>>* parse_trees)
         cout << parse_tree->to_string() << endl;
       }
     } while (change);
-    change = parse_tree->interpret({InterpretType::DECIMALIZE});
-    if (change)
+    do
     {
-      // DEBUG
-      cout << parse_tree->to_string() << endl;
-    }
+      change = parse_tree->interpret({InterpretType::DECIMALIZE});
+      if (change)
+      {
+        // DEBUG
+        cout << parse_tree->to_string() << endl;
+      }
+    } while (change);
+    
     // DEBUG
     cout << endl;
   }
