@@ -408,6 +408,7 @@ void Parser::scanOneToken()
     {
     case TokenType::EMPTY:
     case TokenType::LPAREN:
+    case TokenType::CARET:
     case TokenType::ASTERISK:
     case TokenType::FSLASH:
     case TokenType::PERCENT:

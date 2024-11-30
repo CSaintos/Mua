@@ -23,17 +23,17 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
   bool is_left_leaf = true;
   bool is_right_leaf = true;
 
-  if (!node_left->isLeaf())
-  {
-    left_change = node_left->interpret(flags);
-    change = left_change || change;
-    is_left_leaf = false;
-  }
   if (!node_right->isLeaf())
   {
     right_change = node_right->interpret(flags);
     change = right_change || change;
     is_right_leaf = false;
+  }
+  if (!node_left->isLeaf())
+  {
+    left_change = node_left->interpret(flags);
+    change = left_change || change;
+    is_left_leaf = false;
   }
   if (change)
   {
@@ -259,7 +259,30 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
   {
     if (lhs_node->isLeaf() && rhs_node->isLeaf())
     {
-      if (lhs_node->tok.type == TokenType::DIGIT &&
+      if (is_right_minus)
+      {
+        Token tok_value;
+        tok_value.type = TokenType::DIGIT;
+        tok_value.lexemes = "1";
+        left_numerator = std::make_unique<ValueNode>(tok_value);
+        if (is_left_minus)
+        {
+          Token tok_minus;
+          tok_minus.type = TokenType::MINUS;
+          lhs_node = std::make_unique<UnaMinus>(tok_minus, lhs_node);
+        }
+        Token tok_fslash;
+        tok_fslash.type = TokenType::FSLASH;
+        lhs_node = std::make_unique<FSlash>(left_numerator, tok_fslash, lhs_node);
+        Token tok_paren;
+        tok_paren.type = TokenType::LPAREN;
+        lhs_node = std::make_unique<Paren>(tok_paren, lhs_node);
+
+        NodeUtils::replaceNode(node_left.get(), lhs_node);
+        NodeUtils::replaceNode(node_right.get(), rhs_node);
+        change = true;
+      }
+      else if (lhs_node->tok.type == TokenType::DIGIT &&
       rhs_node->tok.type == TokenType::DIGIT)
       {
         int lhs = std::stod(lhs_node->tok.lexemes);
@@ -317,31 +340,53 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
   }
   else if (left_numerator != nullptr && left_denominator != nullptr && rhs_node != nullptr)
   {
-    unique_ptr<Node> rhs_node_copy = rhs_node->copy();
-    if (is_left_minus)
+    if (is_right_minus)
     {
-      Token tok_minus;
-      tok_minus.type = TokenType::MINUS;
-      left_numerator = std::make_unique<UnaMinus>(tok_minus, left_numerator);
-      Token tok_paren;
-      tok_paren.type = TokenType::LPAREN;
-      left_numerator = std::make_unique<Paren>(tok_paren, left_numerator);
-    }
-    Token tok_caret;
-    tok_caret.type = TokenType::CARET;
-    left_numerator = std::make_unique<Caret>(left_numerator, tok_caret, rhs_node_copy);
-    left_denominator = std::make_unique<Caret>(left_denominator, tok_caret, rhs_node);
-    Token tok_fslash;
-    tok_fslash.type = TokenType::FSLASH;
-    lhs_node = std::make_unique<FSlash>(left_numerator, tok_fslash, left_denominator);
-    if (is_lhs_paren)
-    {
+      if (is_left_minus)
+      {
+        Token tok_minus;
+        tok_minus.type = TokenType::MINUS;
+        left_numerator = std::make_unique<UnaMinus>(tok_minus, left_numerator);
+      }
+      Token tok_fslash;
+      tok_fslash.type = TokenType::FSLASH;
+      lhs_node = std::make_unique<FSlash>(left_denominator, tok_fslash, left_numerator);
       Token tok_paren;
       tok_paren.type = TokenType::LPAREN;
       lhs_node = std::make_unique<Paren>(tok_paren, lhs_node);
+
+      NodeUtils::replaceNode(node_left.get(), lhs_node);
+      NodeUtils::replaceNode(node_right.get(), rhs_node);
+      change = true;
     }
-    NodeUtils::replaceNode(this, lhs_node);
-    change = true;
+    else
+    {
+      unique_ptr<Node> rhs_node_copy = rhs_node->copy();
+      if (is_left_minus)
+      {
+        Token tok_minus;
+        tok_minus.type = TokenType::MINUS;
+        left_numerator = std::make_unique<UnaMinus>(tok_minus, left_numerator);
+        Token tok_paren;
+        tok_paren.type = TokenType::LPAREN;
+        left_numerator = std::make_unique<Paren>(tok_paren, left_numerator);
+      }
+      Token tok_caret;
+      tok_caret.type = TokenType::CARET;
+      left_numerator = std::make_unique<Caret>(left_numerator, tok_caret, rhs_node_copy);
+      left_denominator = std::make_unique<Caret>(left_denominator, tok_caret, rhs_node);
+      Token tok_fslash;
+      tok_fslash.type = TokenType::FSLASH;
+      lhs_node = std::make_unique<FSlash>(left_numerator, tok_fslash, left_denominator);
+      if (is_lhs_paren)
+      {
+        Token tok_paren;
+        tok_paren.type = TokenType::LPAREN;
+        lhs_node = std::make_unique<Paren>(tok_paren, lhs_node);
+      }
+      NodeUtils::replaceNode(this, lhs_node);
+      change = true;
+    }
   }
   
 
