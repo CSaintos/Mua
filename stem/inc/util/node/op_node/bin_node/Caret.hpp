@@ -10,9 +10,12 @@
 #include <iostream>
 #include <cmath>
 #include <unordered_set>
+#include <list>
+#include <map>
 
 #include "Token.hpp"
 #include "TokenType.hpp"
+#include "TokenUtils.hpp"
 #include "Node.hpp"
 #include "BinOpNode.hpp"
 #include "ValueNode.hpp"

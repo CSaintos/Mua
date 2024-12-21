@@ -32,8 +32,11 @@ namespace stem
     // Not OOP bc modifies parameter
     static void strToNumber(std::string number, std::list<Character> &whole_number, std::list<Character> &less_than_zero);
     static std::string listCharToStr(std::list<Character> &c_list);
+    static int g(int x, int n); // factorize helper function
+    static bool isPrime(int x);
   public:
     static std::string stripTrailingZeros(std::string number);
     static std::unique_ptr<Node> fractionalize(std::string number);
+    static std::list<int> factorize(const int n);
   };
 }
