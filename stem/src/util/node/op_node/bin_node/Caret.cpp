@@ -473,9 +473,9 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
           {
             int root = std::stod(right_denominator->tok.lexemes);
             int radicand = std::stod(lhs_node->tok.lexemes);
-            cout << "Looking for primes" << endl;
+            //cout << "Looking for primes" << endl;
             std::list<int> primes = NumberUtils::factorize(radicand);
-            cout << "Primes were found" << endl;
+            //cout << "Primes were found" << endl;
             std::list<int> groups;
             std::map<int, int> sorted_primes;
 

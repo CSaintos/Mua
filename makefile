@@ -23,6 +23,7 @@ PROJECTS = \
 	./make/stem-test/token.mk \
 	./make/stem-test/reader.mk \
 	./make/stem-test/node.mk \
+	./make/stem-test/number.mk \
 	./make/stem-test/lexer.mk \
 	./make/stem-test/parser.mk \
 	./make/stem-test/definer.mk \
@@ -59,6 +60,7 @@ m./make/stem-test/token.mk: m./make/stem/token.mk
 m./make/stem-test/reader.mk: m./make/stem/reader.mk
 m./make/stem-test/lexer.mk: m./make/stem/lexer.mk m./make/stem/reader.mk
 m./make/stem-test/node.mk: m./make/stem/node.mk
+m./make/stem-test/number.mk: m./make/stem/node.mk m./make/stem/character.mk
 m./make/stem-test/parser.mk: m./make/stem/parser.mk m./make/stem/lexer.mk m./make/stem/reader.mk
 m./make/stem-test/definer.mk: m./make/stem/definer.mk m./make/stem/parser.mk m./make/stem/lexer.mk m./make/stem/reader.mk
 m./make/stem-test/interpreter.mk: m./make/stem/interpreter.mk m./make/stem/definer.mk m./make/stem/parser.mk m./make/stem/lexer.mk m./make/stem/reader.mk

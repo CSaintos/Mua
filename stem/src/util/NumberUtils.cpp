@@ -146,6 +146,41 @@ unique_ptr<Node> NumberUtils::fractionalize(string number)
   return nullptr;
 }
 
+// if a = 7, then d < 23
+// if a = 6, then d < 25
+// if a = 5, then d < 28
+// if a = 4, then d < 32
+// if a = 3, then d < 40
+// in other words, if b^e > 2^64, then bpow returns an incorrect result
+unsigned long long NumberUtils::bpow(unsigned long long b, unsigned long long e)
+{
+  unsigned long long res = 1;
+  unsigned long long i = e;
+  unsigned long long a = b;
+  while (i > 0)
+  {
+    if (i & 1) res *= a;
+    a *= a;
+    i>>=1;
+  }
+  return res;
+}
+
+unsigned long long NumberUtils::mpow(unsigned long long b, unsigned long long e, unsigned long long m)
+{
+  unsigned long long res = 1;
+  unsigned long long base = b % m; 
+  unsigned long long i = e;
+  while (i > 0)
+  {
+    if (i & 1) res = res * base % m;
+    base = base * base % m;
+    i >>= 1;
+  }
+
+  return res;
+}
+
 bool NumberUtils::isPrime(const int x)
 {
   int n = x;
@@ -153,49 +188,59 @@ bool NumberUtils::isPrime(const int x)
   {
     n *= -1;
   }
-  if (n == 0 || n == 1)
+  if (n < 3) return n == 2; 
+  if ((n & 1) == 0) return false;
+
+  // the real miller-rabin test
+  int k = n - 1;
+  int d = k;
+  int s = 0;
+  int a = 2;
+  while ((d & 1) == 0)
   {
-    return false;
+    d >>= 1;
+    s++;
   }
-  else if (n == 2)
+  k = 5; // number of repeats for accuracy
+  int upper_a = a + k;
+  int z = 0;
+  int y = 0;
+  bool is_prime = true;
+  //cout << endl << "s = " << s << endl;
+
+  while (is_prime &&
+  a <= upper_a &&
+  a <= n - 2)
   {
-    return true;
+    //cout << "a = " << a << endl;
+    //cout << "d = " << d << endl;
+    //cout << "n = " << n << endl;
+    //cout << "a^d = " << NumberUtils::bpow(a, d) << endl;
+    //cout << "a^d % n = " << (NumberUtils::bpow(a, d) % (unsigned long long) n) << endl;
+    int z = NumberUtils::mpow(a, d, n);
+    //cout << "z = " << z << endl;
+    for (int i = 0; i < s && is_prime; i++)
+    {
+      y = ((int)std::pow(z, 2)) % n;
+      if (y == 1 &&
+      z != 1 &&
+      z != n - 1)
+      {
+        is_prime = false;
+      }
+      z = y;
+    }
+    if (y != 1) is_prime = false;
+    a++;
   }
 
-  int upper_a = 7;
-  int a = 2;
-  int b = 0;
-  int k = 0;
-  bool is_prime = true;
-  bool is_b_odd = false;
-  
-  // miller rabin test
-  while (is_prime && 
-  (a <= upper_a) && 
-  (a <= n - 2))
-  {
-    k = 0;
-    is_b_odd = false;
-    is_prime = false;
-    while (!is_b_odd && !is_prime)
-    {
-      b = (n - 1) / std::pow(2, k);
-      is_b_odd = ((int)b) % 2 == 1;
-      if (((int)std::pow(a, b) - 1) % n == 0)
-      {
-        is_prime = true;
-      }
-      k += 1;
-    }
-    a += 1;
-  }
-  
   return is_prime;
 }
 
-int NumberUtils::g(int x, int i)
+int NumberUtils::g(int x, int i, int b)
 {
-  return ((int)(std::pow(x, 2) + 1) % i);
+  if (i == 0) return x;
+  return ((int)(std::pow(x, 2) + b) % i);
 }
 
 list<int> NumberUtils::factorize(int n)
@@ -206,51 +251,91 @@ list<int> NumberUtils::factorize(int n)
   
   while (i != primes.end())
   {
-    cout << *i << endl;
     if (isPrime(*i))
     {
-      cout << "Prime number: " << *i << endl;
       ++i;
     }
     else
     {
-      // pollard rho algorithm
-      int start_val = 0;
+      // 0 and 1 is neither prime nor composite
+      if (*i == 0 || *i == 1) return std::list<int>();
       int p = 1;
-      int x = start_val;
-      int y = x;
-      bool is_fail = true;
-
-      while (is_fail)
+      // if i is even, then factor out 2
+      if (*i % 2 == 0)
       {
-        cout << "At i: " << *i << ". start_val: " << start_val << endl; 
-        x = start_val;
-        y = x;
-        p = 1;
-
-        while (p == 1)
-        {
-          x = g(x, *i);
-          y = g(g(y, *i), *i);
-          p = std::gcd(std::abs(x - y), *i);
-        }
-
-        if (p != *i)
-        {
-          cout << "a factor " << p << " was found" << endl;
-          is_fail = false;
-        }
-        start_val++;
+        p = 2;
       }
-      // end of pollard rho algorithm
+      else
+      {
+        // pollard rho algorithm
+        std::unordered_map<int, int> seq_val; 
+        int max_cycles = 3;
+        int cycles = 0;
+        // todo instead of making start_val a random value, make it = sqrt(n) using a root-finding algorithm (gtab) (precision of int)
+        int start_val = 0;
+        int x = start_val;
+        int y = x;
+        int b = 1;
+        int diff = 0;
+        bool is_fail = true;
+        bool is_cyclical = false;
+
+        while (is_fail && !is_cyclical)
+        {
+          x = start_val;
+          y = x;
+          p = 1;
+
+          while (p == 1 && !is_cyclical)
+          {
+            x = g(x, *i, b);
+            //cout << "x: " << x << endl;
+            y = g(g(y, *i, b), *i, b);
+            //cout << "y: " << y << endl;
+            //cout << "i: " << *i << endl;
+            diff = x - y == 0 ? x : x - y;
+            p = std::gcd(std::abs(diff), *i);
+            is_cyclical = x == y;
+          }
+
+          if (p != *i && p != 1)
+          {
+            is_fail = false;
+          }
+          //else if (p == *i)
+          //{
+          //  seq_val[x] = (seq_val.contains(x) ? seq_val[x] + 1 : 1);
+          //  cycles = (seq_val[x] > cycles ? seq_val[x] : cycles);
+          //}
+          //is_cyclical = cycles >= max_cycles;
+        
+          is_cyclical = false;
+          b++;
+          start_val++;
+          if (start_val > *i || b > *i - 2) is_cyclical = true;
+        }
+        // end of pollard rho algorithm
+        if (is_fail)
+        {
+          primes = primes.size() < 2 ? std::list<int>() : primes;
+          return primes;
+        }
+      }
 
       int q = (int)(*i / p);
-      cout << "cofactor of " << p << " is " << q << endl;
       if (i == primes.begin())
       {
-        primes.pop_back();
-        primes.push_back(p);
-        primes.push_back(q);
+        primes.pop_front();
+        if (p < q)
+        {
+          primes.push_back(p);
+          primes.push_back(q);
+        }
+        else
+        {
+          primes.push_back(q);
+          primes.push_back(p);
+        }
         i = primes.begin();
       }
       else
@@ -259,14 +344,31 @@ list<int> NumberUtils::factorize(int n)
         --backup;
         primes.erase(i);
         ++backup;
-        primes.insert(backup, q);
-        --backup;
-        primes.insert(backup, p);
+        if (p < q)
+        {
+          primes.insert(backup, q);
+          --backup;
+          primes.insert(backup, p);
+        }
+        else
+        {
+          primes.insert(backup, p);
+          --backup;
+          primes.insert(backup, q);
+        }
         --backup;
         i = backup;
       }
     }
   }
 
+  if (primes.size() < 2)
+  {
+    primes = std::list<int>();
+  }
+  else
+  {
+    primes.sort();
+  }
   return primes;
 }
