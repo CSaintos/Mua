@@ -17,6 +17,15 @@ BinMinus::BinMinus(unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> 
   : BinOpNode(node_left, tok_op, node_right)
 {}
 
+string BinMinus::to_repr()
+{
+  if (node_left == nullptr || node_right == nullptr)
+  {
+    return "-";
+  }
+  return node_left->to_repr() + "-" + node_right->to_repr();
+}
+
 bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
 {
   bool left_change = false;

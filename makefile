@@ -18,6 +18,8 @@ PROJECTS = \
 	./make/stem/definer.mk \
 	./make/stem/interpreter.mk \
 	./make/stem/generator.mk \
+	./make/stem/writer.mk \
+	./make/stem/main.mk \
 	./make/stem-test/error.mk \
 	./make/stem-test/character.mk \
 	./make/stem-test/token.mk \
@@ -28,7 +30,8 @@ PROJECTS = \
 	./make/stem-test/parser.mk \
 	./make/stem-test/definer.mk \
 	./make/stem-test/interpreter.mk \
-	./make/stem-test/generator.mk
+	./make/stem-test/generator.mk \
+	./make/stem-test/writer.mk
 
 #? List of TARGET_PATHs to be created first. (Only useful if running `make -j` and there are shared TARGET_PATHs) # ./make/submake1.mk 
 PROJECTDIRS = \
@@ -65,6 +68,8 @@ m./make/stem-test/parser.mk: m./make/stem/parser.mk m./make/stem/lexer.mk m./mak
 m./make/stem-test/definer.mk: m./make/stem/definer.mk m./make/stem/parser.mk m./make/stem/lexer.mk m./make/stem/reader.mk
 m./make/stem-test/interpreter.mk: m./make/stem/interpreter.mk m./make/stem/definer.mk m./make/stem/parser.mk m./make/stem/lexer.mk m./make/stem/reader.mk
 m./make/stem-test/generator.mk: m./make/stem/generator.mk m./make/stem/parser.mk m./make/stem/lexer.mk m./make/stem/reader.mk
+m./make/stem-test/writer.mk: m./make/stem/writer.mk
+m./make/stem/main.mk: m./make/stem/writer.mk m./make/stem/interpreter.mk m./make/stem/definer.mk m./make/stem/parser.mk m./make/stem/lexer.mk m./make/stem/reader.mk
 
 # Static pattern rules for running sub-makes
 $(DIRS): d%: %

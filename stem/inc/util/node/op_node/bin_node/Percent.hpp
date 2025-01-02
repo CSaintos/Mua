@@ -1,8 +1,8 @@
 /*
  * @file stem/inc/util/node/op_node/bin_node/Percent.hpp
  * @author Christian Santos
- * @version 1.0.1
- * @date 10/12/2024
+ * @version 1.0.2
+ * @date 1/2/2025
  */
 #pragma once
 
@@ -27,6 +27,7 @@ namespace stem
     Percent(Token &tok_op);
     Percent(std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node_right);
     Percent(std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
+    std::string to_repr() override;
     bool interpret(const std::unordered_set<InterpretType> &flags = {}) override;
     std::unique_ptr<Node> copy() override;
   };

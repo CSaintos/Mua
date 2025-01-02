@@ -1,12 +1,16 @@
 /**
  * @file stem/test/back/InterpreterTest.cpp
  * @author Christian Santos
- * @version 1.0.1
- * @date 10/1/2024
+ * @version 1.0.2
+ * @date 1/1/2025
  */
+
+#include <vector>
+#include <memory>
 
 #include "Reader.hpp"
 #include "Lexer.hpp"
+#include "Node.hpp"
 #include "Parser.hpp"
 #include "Definer.hpp"
 #include "Interpreter.hpp"
@@ -21,7 +25,7 @@ int main(int argc, char *argv[])
   Lexer lexer;
   Parser parser;
   Definer definer;
-  Interpreter interpreter;
+  //Interpreter interpreter;
 
   int line_length = 0;
   
@@ -35,5 +39,9 @@ int main(int argc, char *argv[])
   definer.define(parser.getParseTrees());
 
   vector<unique_ptr<Node>>* parse_trees = parser.getParseTrees();
-  interpreter.interpret(parse_trees);
+  for (int i = 0; i < parse_trees->size(); i++)
+  {
+    unique_ptr<Node>& parse_tree = (*parse_trees)[i];
+    Interpreter::interpret(parse_tree, true);
+  }
 }
