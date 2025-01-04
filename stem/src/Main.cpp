@@ -1,8 +1,8 @@
 /**
  * @file stem/src/Main.cpp
  * @author Christian Santos
- * @version 1.0.1
- * @date 1/1/2025
+ * @version 1.0.2
+ * @date 1/3/2025
  */
 
 #include <iostream>
@@ -10,8 +10,11 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <list>
 
 #include "Reader.hpp"
+#include "Character.hpp"
+#include "CharacterStream.hpp"
 #include "Lexer.hpp"
 #include "Node.hpp"
 #include "Parser.hpp"
@@ -34,7 +37,39 @@ int main(int argc, char *argv[])
   // repl mode
   if (argc == 1)
   {
-
+    CharacterStream c_stream;
+    c_stream.pos.line_num = 0;
+    c_stream.pos.column_nums[0] = 0;
+    Lexer lexer;
+    Parser parser;
+    Definer definer;
+    list<Character> character_list;
+    list<unique_ptr<Node>>* parse_trees;
+    string line;
+    cout << "Type \"exit[];\" on an empty line to exit mua repl mode" << endl;
+    do {
+      cout << "mua>";
+      std::getline(cin, line);
+      if (line == "exit[];") continue;
+      character_list = c_stream.strToCharacterList(line); 
+      lexer.lex(&character_list);
+      parser.parse(lexer.getList());
+      // notice that we're skipping the parser.checkSemicolonError()
+      definer.define(parser.getParseTrees());
+      parse_trees = parser.getParseTrees();
+      while (!(*parse_trees).empty())
+      {
+        unique_ptr<Node>& parse_tree = (*parse_trees).front();
+        vector<string> parsed_strs = Interpreter::interpret(parse_tree, false);
+        for (string parsed_str : parsed_strs)
+        {
+          cout << parsed_str << endl;
+        }
+        (*parse_trees).pop_front();
+      }
+      c_stream.pos.column_nums[0] = 0;
+      c_stream.pos.line_num++;
+    } while (line != "exit[];");
   }
   else // src -> dest mode
   {
@@ -90,8 +125,8 @@ int main(int argc, char *argv[])
       }
       left_ss << ".muar";
       dest_file_path = left_ss.str();
-      cout << src_file_path << endl;
-      cout << dest_file_path << endl;
+      //cout << src_file_path << endl;
+      //cout << dest_file_path << endl;
     }
 
     Reader reader(src_file_path);
@@ -111,11 +146,15 @@ int main(int argc, char *argv[])
 
     definer.define(parser.getParseTrees());
 
-    vector<unique_ptr<Node>>* parse_trees = parser.getParseTrees();
+    list<unique_ptr<Node>>* parse_trees = parser.getParseTrees();
 
-    for (int i = 0; i < parse_trees->size(); i++)
+    for (
+    list<unique_ptr<Node>>::iterator itr = (*parse_trees).begin();
+    itr != (*parse_trees).end();
+    itr++
+    )
     {
-      unique_ptr<Node>& parse_tree = (*parse_trees)[i];
+      unique_ptr<Node>& parse_tree = *itr;
       vector<string> parsed_strs = Interpreter::interpret(parse_tree, false);
       for (string parsed_str : parsed_strs)
       {

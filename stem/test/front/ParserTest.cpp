@@ -9,7 +9,6 @@
 #include <iostream>
 #include <algorithm>
 #include <list>
-#include <vector>
 #include <memory>
 
 #include "Token.hpp"
@@ -49,10 +48,15 @@ int main(int argc, char *argv[])
   } while (line_length != -1);
   parser.checkSemicolonError();
 
-  vector<unique_ptr<Node>>* parse_trees = parser.getParseTrees();
-  for (int i = 0; i < parse_trees->size(); ++i)
+  list<unique_ptr<Node>>& parse_trees = *parser.getParseTrees();
+
+  for (
+  list<unique_ptr<Node>>::iterator itr = parse_trees.begin();
+  itr != parse_trees.end();
+  itr++
+  )
   {
-    cout << (*parse_trees)[i]->to_string() << endl;
+    cout << (*itr)->to_string() << endl;
   }
 
   return 0;

@@ -5,7 +5,7 @@
  * @date 1/1/2025
  */
 
-#include <vector>
+#include <list>
 #include <memory>
 
 #include "Reader.hpp"
@@ -38,10 +38,14 @@ int main(int argc, char *argv[])
 
   definer.define(parser.getParseTrees());
 
-  vector<unique_ptr<Node>>* parse_trees = parser.getParseTrees();
-  for (int i = 0; i < parse_trees->size(); i++)
+  list<unique_ptr<Node>>* parse_trees = parser.getParseTrees();
+  for (
+  list<unique_ptr<Node>>::iterator itr = (*parse_trees).begin();
+  itr != (*parse_trees).end();
+  itr++
+  )
   {
-    unique_ptr<Node>& parse_tree = (*parse_trees)[i];
+    unique_ptr<Node>& parse_tree = (*itr);
     Interpreter::interpret(parse_tree, true);
   }
 }

@@ -8,7 +8,7 @@
 #pragma once
 
 #include <memory>
-#include <vector>
+#include <list>
 #include <stack>
 #include <unordered_map>
 
@@ -48,7 +48,7 @@ namespace stem
      *
      * @param root node of parse tree to analyze
      */
-    void define(std::vector<std::unique_ptr<stem::Node>>* parse_trees);
+    void define(std::list<std::unique_ptr<stem::Node>>* parse_trees);
     void getSymbolTable();
   };
 }

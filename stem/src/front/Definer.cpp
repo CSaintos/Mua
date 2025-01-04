@@ -223,12 +223,15 @@ void Definer::analyzeTree(Node* root)
   }
 }
 
-void Definer::define(vector<unique_ptr<Node>>* parse_trees)
+void Definer::define(list<unique_ptr<Node>>* parse_trees)
 {
-  //this->parse_trees = parse_trees;
-  for (int i = 0; i < parse_trees->size(); i++)
+  for (
+  list<unique_ptr<Node>>::iterator itr = (*parse_trees).begin();
+  itr != (*parse_trees).end();
+  itr++
+  )
   {
-    analyzeTree((*parse_trees)[i].get());
+    analyzeTree((*itr).get());
   }
 }
 

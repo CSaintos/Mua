@@ -15,6 +15,7 @@
 #include "Character.hpp"
 #include "CharacterUtils.hpp"
 #include "CharacterType.hpp"
+#include "CharacterStream.hpp"
 #include "Position.hpp"
 #include "Error.hpp"
 
@@ -29,6 +30,7 @@ namespace stem
   private:
     std::fstream file; ///< file object
     std::list<Character> char_list; ///< char list of line
+    CharacterStream char_stream;
     stem::Position pos; ///< current position
     std::string file_name; ///< file name
     std::string line; ///< the string line

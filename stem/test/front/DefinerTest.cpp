@@ -5,6 +5,8 @@
  * @date 9/9/2024
  */
 
+#include <list>
+
 #include "Reader.hpp"
 #include "Lexer.hpp"
 #include "Parser.hpp"
@@ -32,10 +34,14 @@ int main(int argc, char *argv[])
 
   definer.define(parser.getParseTrees());
 
-  vector<unique_ptr<Node>>* parse_trees = parser.getParseTrees();
-  for (int i = 0; i < parse_trees->size(); ++i)
+  list<unique_ptr<Node>>* parse_trees = parser.getParseTrees();
+  for (
+  list<unique_ptr<Node>>::iterator itr = (*parse_trees).begin();
+  itr != (*parse_trees).end();
+  itr++
+  )
   {
-    cout << (*parse_trees)[i]->to_string() << endl;
+    cout << (*itr)->to_string() << endl;
   }
 
   return 0;

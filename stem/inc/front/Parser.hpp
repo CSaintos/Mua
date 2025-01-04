@@ -1,8 +1,8 @@
 /**
  * @file stem/inc/front/Parser.hpp
  * @author Christian Santos
- * @version 1.2.4
- * @date 10/11/2024
+ * @version 1.2.5
+ * @date 1/3/2025
  */
 
 #pragma once
@@ -11,7 +11,6 @@
 #include <memory>
 #include <list>
 #include <stack>
-#include <vector>
 #include <optional>
 #include <unordered_set>
 
@@ -46,8 +45,8 @@ namespace stem
   class Parser
   {
   private:
-    /// vector of parse trees
-    std::vector<std::unique_ptr<stem::Node>> parse_trees;
+    /// list of parse trees
+    std::list<std::unique_ptr<stem::Node>> parse_trees;
     /// stack of nodes
     std::stack<std::unique_ptr<stem::Node>> node_stack;
     /// stack of nodes of unclosed parenthesis
@@ -103,7 +102,7 @@ namespace stem
      */
     void scanOneToken();
     /**
-     * @brief propagates parse tree into vector of parse trees
+     * @brief propagates parse tree into list of parse trees
      */
     void propagateTree();
   public:
@@ -123,11 +122,11 @@ namespace stem
     void checkSemicolonError();
     //inline bool isNodeStackEmpty() { return node_stack.empty(); }
     /**
-     * @brief returns a pointer to vector of completed parse trees
+     * @brief returns a pointer to list of completed parse trees
      * 
-     * @return pointer to vector of completed parse trees
+     * @return pointer to list of completed parse trees
      */
     //std::vector<stem::Node*> getParseTrees();
-    inline std::vector<std::unique_ptr<stem::Node>>* getParseTrees() { return &parse_trees; }
+    inline std::list<std::unique_ptr<stem::Node>>* getParseTrees() { return &parse_trees; }
   };
 }

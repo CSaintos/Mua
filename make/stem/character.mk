@@ -23,6 +23,7 @@ DEFINES =
 SRCDIRS = \
 	stem/src/util/character
 SRCFILES = \
+	CharacterStream.cpp \
 	CharacterUtils.cpp \
 	Character.cpp
 
