@@ -1,9 +1,9 @@
-# Stem Context Free Grammars
+# Mua Context Free Grammars
 
 ```plantuml
-@startebnf stem EBNF
+@startebnf mua EBNF
 'https://plantuml.com/ebnf
-title stem BNF
+title mua BNF
 
 (* Optional Token Definitions *)
 digit = ? 0-9 ?;
@@ -11,7 +11,7 @@ alpha = ? A-z ?;
 Dec = {digit}, ["."], {digit}-;
 Id = {alpha}-;
 
-(* Stem CFGs*)
+(* Mua CFGs*)
 Fact = ("(", Expr, ")") | Dec | Id | ε;
 Pow = Fact, "^", Pow | Fact;
 Term = Pow, ["*" | "/"], Term | Pow;
@@ -99,7 +99,7 @@ title parsetree
 9. Fact^FactFact*Fact
 
 ```plantuml
-@startmindmap stem Topdown parsetrees
+@startmindmap mua Topdown parsetrees
 'https://plantuml.com/uml
 top to bottom direction
 title parsetree

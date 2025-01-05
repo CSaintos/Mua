@@ -1,14 +1,38 @@
-# Compiler Phases
-##### The Front End
-0. Reader
-1. Lexical Analyzer (Lexer)
-2. Syntax Analyzer (Parser)
-3. Semantic Analyzer (Definer)
-##### The Back End
-4. Code Generator
+# &#956;&#965;&#945;
 
-[//]: # (In the case that I forget why I'm making this, just remember:)
-[//]: #  (- spreadsheets are not really for learning bc UI doesn't help, and same reason as calculators.)
-[//]: #  (- general purpose programming languages are limited in syntax, and same reason as calculators.)
-[//]: #  (- calculators are semi-impractical for exact values and proofs.)
-[//]: #  (- wolframalpha/mathway isn't free and not multi-line.)
+Mua is an open source rudimentary (step-by-step) arithmetic calculator.
+
+## Table of Contents
+- [Getting Started](#getting-started)
+- [Documentation](#documentation)
+- [Building Mua](#building-mua)
+
+## Getting Started
+- *repl demo*
+- To download Mua, go to [Releases](https://github.com/CSaintos/STEM/releases)
+- Install/Place Mua anywhere you'd like on your machine, and to make it easily accessible, add it to your system's or shell's environment path.
+## Documentation
+- Addition:
+`mua>1 + 1;`
+`2;`
+- Subtraction:
+`mua>1-1;`
+`0;`
+- Multiplication:
+`mua>1*1;`
+`1;`
+- Division:
+`mua>-1/(-1);`
+`1;`
+- Modulation:
+`mua>3%4;`
+`1;`
+- Exponentiation:
+`mua>2^3;`
+`8;`
+- Radical:
+`mua>4^(1/2);`
+`2;`
+## Building Mua
+### Requirements
+
