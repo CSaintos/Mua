@@ -25,7 +25,7 @@ Mua is an open source rudimentary (step-by-step) arithmetic calculator.
 `mua>-1/(-1);`
 `1;`
 - Modulation:
-`mua>3%4;`
+`mua>4%3;`
 `1;`
 - Exponentiation:
 `mua>2^3;`

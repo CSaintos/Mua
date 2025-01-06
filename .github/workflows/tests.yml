@@ -1,6 +1,6 @@
 # tests.yml
 
-name: STEM Tests
+name: Mua Tests
 
 on:
   push:
@@ -31,9 +31,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: test make token.lib
+    - name: test make
       working-directory: .
-      run: make -f ./make/stem/token.mk
+      run: make -j #-f ./make/mua/token.mk
 
   # token_test:
   #   runs-on: ubuntu-latest
