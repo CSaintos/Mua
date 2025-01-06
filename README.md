@@ -35,4 +35,11 @@ Mua is an open source rudimentary (step-by-step) arithmetic calculator.
 `2;`
 ## Building Mua
 ### Requirements
-
+- You will need GCC v11+ or Clang v12+.
+- You will need GNU-make 4.4.1+
+- If you are on Windows, you can download these packages through [MSYS2](https://www.msys2.org/)
+- Make sure to add the installed packages to your system/shell environment path
+### Clone, Build, Execute
+- clone this repo `git clone https://github.com/CSaintos/STEM.git`
+- cd into mua then run `make -j`
+- Once completed, the executable is stored in `mua/build/mua/main/muac.exe`
