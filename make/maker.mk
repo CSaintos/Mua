@@ -18,8 +18,10 @@ else ifneq ($(filter $(SYS), Linux OSX),)
 SLINK_TYPE = a
 DLINK_TYPE = so
 endif
-SLINK_FILES = $(patsubst -l%, %.$(SLINK_TYPE), $(patsubst -l:%, %, $(SLINKS)))
-DLINK_FILES = $(patsubst -l%, %.$(DLINK_TYPE), $(patsubst -l:%, %, $(DLINKS)))
+SLINK_FILES := $(patsubst -l%, %.$(SLINK_TYPE), $(patsubst -l:%, %, $(SLINKS)))
+DLINK_FILES := $(patsubst -l%, %.$(DLINK_TYPE), $(patsubst -l:%, %, $(DLINKS)))
+SLINKS = $(patsubst %, -l:%, $(SLINK_FILES))
+DLINKS = $(patsubst %, -l:%, $(DLINK_FILES))
 LINKS = $(SLINK_FILES) $(DLINK_FILES)
 
 #* First class functions

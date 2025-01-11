@@ -14,9 +14,10 @@ INCLUDES = \
 # Dynamic Link Directories # -L<path-to-dir>
 LINKDIRS = \
 	-Lbuild/mua/error
-# Dynamic link files # -l<file-no-extension> or -l:<file-w-extension>
+# for linking libraries `-l<file>` do not prepend `lib` (unless its in the name) as each `-l` is converted into `-l:` in maker.mk
+# Dynamic link files # (for internal libs) `-l<file-no-extension>` or (for external libs) `-l:<file-w-extension>`)
 DLINKS =
-# Static link files # -l<file-no-extension> or -l:<file-w-extension>
+# Static link files # (for internal libs) `-l<file-no-extension>` or (for external libs) `-l:<file-w-extension>`
 SLINKS = \
 	-lerror
 DEFINES =
