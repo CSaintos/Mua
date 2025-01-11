@@ -4,8 +4,22 @@
 #* Compiler flags
 CXXFLAGS += -MD -MP -g
 #* Pre-constants
-SLINK_FILES = $(patsubst -l%, %.lib, $(patsubst -l:%, %, $(SLINKS)))
-DLINK_FILES = $(patsubst -l%, %.dll, $(patsubst -l:%, %, $(DLINKS)))
+ifeq ($(OS),Windows_NT)
+SYS = Windows
+else ifeq ($(shell uname -s),Linux)
+SYS = Linux
+else ifeq ($(shell uname -s),Darwin)
+SYS = OSX
+endif
+ifeq ($(SYS), Windows)
+SLINK_TYPE = lib
+DLINK_TYPE = dll
+else ifneq ($(filter $(SYS), Linux OSX),)
+SLINK_TYPE = a
+DLINK_TYPE = so
+endif
+SLINK_FILES = $(patsubst -l%, %.$(SLINK_TYPE), $(patsubst -l:%, %, $(SLINKS)))
+DLINK_FILES = $(patsubst -l%, %.$(DLINK_TYPE), $(patsubst -l:%, %, $(DLINKS)))
 LINKS = $(SLINK_FILES) $(DLINK_FILES)
 
 #* First class functions
@@ -17,13 +31,6 @@ compile_exe_cmd = $(shell $(CXX) $(INCLUDES) -c$1 -o$2 $(CXXFLAGS) -MF$(2:%.o=%.
 compile_lib_cmd = $(shell $(CXX) -fPIC $(INCLUDES) -c$1 -o$2 $(CXXFLAGS) -MF$(2:%.o=%.d))
 
 #* Constants
-ifeq ($(OS),Windows_NT)
-	SYS = Windows
-else ifeq ($(shell uname -s),Linux)
-	SYS = Linux
-else ifeq ($(shell uname -s),Darwin)
-	SYS = OSX
-endif
 SRCS = $(foreach SRCDIR, $(SRCDIRS), $(find_srcs))
 LIBS = $(foreach LINKDIR, $(patsubst -L%, %, $(LINKDIRS)), $(find_libs))
 OBJECTS = $(addprefix $(OBJDIR)/, $(patsubst %.cpp, %.o, $(SRCFILES)))
@@ -31,9 +38,9 @@ TARGET = $(TARGETDIR)/$(TARGET_NAME)
 ifeq ($(BUILDTYPE), EXE)
 TARGET := $(TARGET).exe
 else ifeq ($(BUILDTYPE), STATICLIB)
-TARGET := $(TARGET).lib
+TARGET := $(TARGET).$(SLINK_TYPE)
 else ifeq ($(BUILDTYPE), DYNAMICLIB)
-TARGET := $(TARGET).dll
+TARGET := $(TARGET).$(DLINK_TYPE)
 endif
 
 #* Process execution

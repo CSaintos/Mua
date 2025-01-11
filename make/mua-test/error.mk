@@ -18,7 +18,7 @@ LINKDIRS = \
 DLINKS =
 # Static link files # -l<file-no-extension> or -l:<file-w-extension>
 SLINKS = \
-	-l:error.lib
+	-lerror
 DEFINES =
 SRCDIRS = \
   mua/test/util
