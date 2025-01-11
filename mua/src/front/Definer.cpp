@@ -84,7 +84,7 @@ void Definer::searchOneNode(Node* node)
         pos.column_nums[1]++;
         if (curr->nodes.count(c) == 1)
         {
-          curr = &curr->nodes[c];
+          curr = curr->nodes[c].get();
         }
         else if (curr != name_trie.getTrie())
         {
@@ -98,7 +98,7 @@ void Definer::searchOneNode(Node* node)
           pos.column_nums[0] = pos.column_nums[1];
           if (curr->nodes.count(c) == 1)
           {
-            curr = &curr->nodes[c];
+            curr = curr->nodes[c].get();
           }
           else
           {

@@ -107,7 +107,7 @@ void Lexer::scanOneChar(Character &c)
       {
         if (token_temp.type != TokenType::COMMENT)
         {
-          createToken(curr->nodes[c.c].type, c);
+          createToken(curr->nodes[c.c]->type, c);
           if (token_temp.type == TokenType::DIGIT)
           {
             dot_count = 0;
@@ -118,12 +118,12 @@ void Lexer::scanOneChar(Character &c)
       {
         ls.push_back(c);
       }
-      curr = &(curr->nodes[c.c]);
+      curr = curr->nodes[c.c].get();
     }
     else
     {
       if (curr == token_trie->getTrie()) break;
-      TokenType token_type = token_trie->getTrie()->nodes[c.c].type;
+      TokenType token_type = token_trie->getTrie()->nodes[c.c]->type;
       if (token_temp.type == TokenType::IDENTIFIER || token_temp.type == TokenType::DIGIT)
       {
         if (token_type == token_temp.type)
@@ -160,7 +160,7 @@ void Lexer::scanOneChar(Character &c)
           }
           if (curr != nullptr && curr->nodes.count(c.c) == 1)
           {
-            curr = &(curr->nodes[c.c]);
+            curr = curr->nodes[c.c].get();
             createToken(curr->type, c);
             if (token_temp.type == TokenType::DIGIT)
             {
@@ -190,7 +190,7 @@ void Lexer::scanOneChar(Character &c)
           if (token_temp.type == TokenType::COMMENT) break;
           if (curr->nodes.count(c.c) == 1)
           {
-            curr = &(curr->nodes[c.c]);
+            curr = curr->nodes[c.c].get();
             createToken(curr->type, c);
           }
           break;

@@ -1,12 +1,13 @@
 /**
  * @file mua/inc/util/token/trie/TokenTrie.hpp
  * @author Christian Santos
- * @version 1.0.1
- * @date 9/10/2024
+ * @version 1.0.2
+ * @date 1/10/2025
  */
 
 #pragma once
 
+#include <memory>
 #include <string>
 #include <list>
 

@@ -1,4 +1,5 @@
 #include "NameTrie.hpp"
+#include <memory>
 
 using namespace mua;
 using namespace std;
@@ -15,9 +16,9 @@ void NameTrie::pushName(string name)
   {
     if (curr->nodes.count(c) == 0)
     {
-      curr->nodes.insert({c, TrieNode()});
+      curr->nodes.insert({c, std::make_unique<TrieNode>()});
     }
-    curr = &(curr->nodes[c]);
+    curr = curr->nodes[c].get();
   }
   curr->lexemes = name;
 }

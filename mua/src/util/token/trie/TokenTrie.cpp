@@ -30,9 +30,9 @@ TrieNode* TokenTrie::getTrie()
     {
       if (curr->nodes.count(c) == 0)
       {
-        curr->nodes.insert({{c, TrieNode()}});
+        curr->nodes.insert({c, std::make_unique<TrieNode>()});
       }
-      curr = &(curr->nodes[c]);
+      curr = curr->nodes[c].get();
     }
     curr->type = TokenUtils::m_RT_map[token_string];
   }
