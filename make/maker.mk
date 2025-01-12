@@ -84,6 +84,7 @@ $(TARGETDIR):
 ifeq ($(wildcard $(TARGETDIR)),)
 ifeq ($(SYS),Windows)
 	@mkdir $(subst /,\\,$(TARGETDIR))
+#	@mkdir $(TARGETDIR)
 else ifneq ($(filter $(SYS), Linux OSX),)
 	@mkdir -p $(TARGETDIR)
 endif
@@ -117,6 +118,7 @@ clean:
 ifneq ($(wildcard $(OBJCLEANDIR)),)
 ifeq ($(SYS),Windows)
 	rmdir /s /q $(subst /,\\,$(OBJCLEANDIR))
+#	rmdir /s /q $(OBJCLEANDIR)
 else ifneq ($(filter $(SYS), Linux OSX),)
 	rmdir /s /q $(OBJCLEANDIR)
 endif
@@ -124,6 +126,7 @@ endif
 ifneq ($(wildcard $(TARGETCLEANDIR)),)
 ifeq ($(SYS),Windows)
 	rmdir /s /q $(subst /,\\,$(TARGETCLEANDIR))
+#	rmdir /s /q $(TARGETCLEANDIR)
 else ifneq ($(filter $(SYS), Linux OSX),)
 	rmdir /s /q $(TARGETCLEANDIR)
 endif

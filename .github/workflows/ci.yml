@@ -4,9 +4,11 @@ name: Mua Tests
 
 on:
   push:
-    branches: main
+    branches:
+      - main
   pull_request:
-    branches: main
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       debug_enabled:
@@ -20,29 +22,29 @@ on:
 
 jobs:
   tmate:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
       if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
-      with:
-        limit-access-to-actor: true
-      timeout-minutes: 15
+      - uses: actions/checkout@v4
+      - name: Setup tmate session
+      - uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true
+        timeout-minutes: 15
   make-linux:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: build make on linux
+      - uses: actions/checkout@v4
+      - name: build make on linux
       working-directory: .
       run: make -j #-f ./make/mua/token.mk
-  make-windows:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: build make on windows
-      working-directory: .
-      run: make -j
+#  make-windows:
+#    runs-on: windows-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: build make on windows
+#      working-directory: .
+#      run: make -j
   #make-macos:
     #runs-on: macos-latest
     #- uses: actions/checkout@v4
