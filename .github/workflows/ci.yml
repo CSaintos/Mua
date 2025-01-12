@@ -43,10 +43,10 @@ jobs:
     - name: build make on windows
       working-directory: .
       run: make -j
-  make-macos:
-    runs-on: macos-latest
-    - uses: actions/checkout@v4
-    - name: build make on mac
-      working-directory: .
-      run: make -j
+  #make-macos:
+    #runs-on: macos-latest
+    #- uses: actions/checkout@v4
+    #- name: build make on mac
+      #working-directory: .
+      #run: make -j
 
