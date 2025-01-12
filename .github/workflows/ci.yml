@@ -1,10 +1,12 @@
-# tests.yml
+# ci.yml
 
 name: Mua Tests
 
 on:
   push:
+    branches: main
   pull_request:
+    branches: main
   workflow_dispatch:
     inputs:
       debug_enabled:
@@ -27,25 +29,24 @@ jobs:
       with:
         limit-access-to-actor: true
       timeout-minutes: 15
-  make:
+  make-linux:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: test make
+    - name: build make on linux
       working-directory: .
       run: make -j #-f ./make/mua/token.mk
+  make-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: build make on windows
+      working-directory: .
+      run: make -j
+  make-macos:
+    runs-on: macos-latest
+    - uses: actions/checkout@v4
+    - name: build make on mac
+      working-directory: .
+      run: make -j
 
-  # token_test:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v3
-  #   - name: print premake path
-  #     working-directory: ./premake
-  #     run : |
-  #       chmod a+x ./premake5
-  #       ./premake5 gmake2
-  #       ./premake5 build --stem=token
-  #       ./premake5 build --stemT=TokenUtils
-  #       cd ../build/stem-test/TokenUtilsTest
-  #       export LD_LIBRARY_PATH=.
-  #       ./TokenUtilsTest
