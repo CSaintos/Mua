@@ -4,6 +4,9 @@
 export CXX = g++
 export AR = ar
 export CXXFLAGS = -std=c++23
+ifeq ($(SYS),)
+export SYS = Linux
+endif
 
 #? List of submakes ex. # ./make/submake1.mk
 PROJECTS = \

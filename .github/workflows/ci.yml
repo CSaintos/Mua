@@ -22,7 +22,7 @@ on:
 
 jobs:
   tmate:
-    runs-on: windows-latest
+    runs-on: macos-latest
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
     steps:
     - uses: actions/checkout@v4
@@ -33,6 +33,7 @@ jobs:
       timeout-minutes: 15
   make-linux:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'workflow_dispatch'}}
     steps:
     - uses: actions/checkout@v4
     - name: build make on linux
@@ -40,6 +41,7 @@ jobs:
       run: make -j #-f ./make/mua/token.mk
   make-windows:
     runs-on: windows-latest
+    if: ${{ github.event_name != 'workflow_dispatch'}}
     steps:
     - uses: actions/checkout@v4
     - name: build make on windows

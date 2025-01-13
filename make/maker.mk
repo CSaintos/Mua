@@ -4,19 +4,21 @@
 #* Compiler flags
 CXXFLAGS += -MD -MP -g
 #* Pre-constants
-ifeq ($(OS),Windows_NT)
-SYS = Windows
-else ifeq ($(shell uname -s),Linux)
-SYS = Linux
-else ifeq ($(shell uname -s),Darwin)
-SYS = OSX
-endif
+#ifeq ($(OS),Windows_NT)
+#SYS = Windows
+#else ifeq ($(shell uname -s),Linux)
+#SYS = Linux
+#else ifeq ($(shell uname -s),Darwin)
+#SYS = OSX
+#endif
 ifeq ($(SYS), Windows)
 SLINK_TYPE = lib
 DLINK_TYPE = dll
+EXE_TYPE = .exe
 else ifneq ($(filter $(SYS), Linux OSX),)
 SLINK_TYPE = a
 DLINK_TYPE = so
+EXE_TYPE =
 endif
 SLINK_FILES := $(patsubst -l%, %.$(SLINK_TYPE), $(patsubst -l:%, %, $(SLINKS)))
 DLINK_FILES := $(patsubst -l%, %.$(DLINK_TYPE), $(patsubst -l:%, %, $(DLINKS)))
@@ -38,7 +40,7 @@ LIBS = $(foreach LINKDIR, $(patsubst -L%, %, $(LINKDIRS)), $(find_libs))
 OBJECTS = $(addprefix $(OBJDIR)/, $(patsubst %.cpp, %.o, $(SRCFILES)))
 TARGET = $(TARGETDIR)/$(TARGET_NAME)
 ifeq ($(BUILDTYPE), EXE)
-TARGET := $(TARGET).exe
+TARGET := $(TARGET)$(EXE_TYPE)
 else ifeq ($(BUILDTYPE), STATICLIB)
 TARGET := $(TARGET).$(SLINK_TYPE)
 else ifeq ($(BUILDTYPE), DYNAMICLIB)
@@ -84,7 +86,6 @@ $(TARGETDIR):
 ifeq ($(wildcard $(TARGETDIR)),)
 ifeq ($(SYS),Windows)
 	@mkdir $(subst /,\\,$(TARGETDIR))
-#	@mkdir $(TARGETDIR)
 else ifneq ($(filter $(SYS), Linux OSX),)
 	@mkdir -p $(TARGETDIR)
 endif
@@ -118,7 +119,6 @@ clean:
 ifneq ($(wildcard $(OBJCLEANDIR)),)
 ifeq ($(SYS),Windows)
 	rmdir /s /q $(subst /,\\,$(OBJCLEANDIR))
-#	rmdir /s /q $(OBJCLEANDIR)
 else ifneq ($(filter $(SYS), Linux OSX),)
 	rmdir /s /q $(OBJCLEANDIR)
 endif
@@ -126,7 +126,6 @@ endif
 ifneq ($(wildcard $(TARGETCLEANDIR)),)
 ifeq ($(SYS),Windows)
 	rmdir /s /q $(subst /,\\,$(TARGETCLEANDIR))
-#	rmdir /s /q $(TARGETCLEANDIR)
 else ifneq ($(filter $(SYS), Linux OSX),)
 	rmdir /s /q $(TARGETCLEANDIR)
 endif
