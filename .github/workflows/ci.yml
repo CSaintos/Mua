@@ -31,9 +31,6 @@ jobs:
       with:
         limit-access-to-actor: true
       timeout-minutes: 15
-    - name: Change shell
-      shell: pwsh
-      run: shell uname -s
   make-linux:
     runs-on: ubuntu-latest
     steps:
@@ -48,7 +45,9 @@ jobs:
     - name: build make on windows
       shell: pwsh
       working-directory: .
-      run: make -j
+      run: |
+        pwsh
+        make -j
   #make-macos:
     #runs-on: macos-latest
     #- uses: actions/checkout@v4
