@@ -27,11 +27,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Setup tmate session
-      shell: pwsh
       uses: mxschmitt/action-tmate@v3
       with:
         limit-access-to-actor: true
       timeout-minutes: 15
+    - name: Change shell
+      shell: pwsh
   make-linux:
     runs-on: ubuntu-latest
     steps:
