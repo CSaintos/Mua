@@ -1,6 +1,7 @@
 # &#956;&#965;&#945;
 
-Mua is an open source rudimentary (step-by-step) arithmetic calculator.
+Mua is an open source, rudimentary, step-by-step, cli-based, arithmetic calculator.
+- *repl demo*
 
 ## Table of Contents
 - [Getting Started](#getting-started)
@@ -8,7 +9,6 @@ Mua is an open source rudimentary (step-by-step) arithmetic calculator.
 - [Building Mua](#building-mua)
 
 ## Getting Started
-- *repl demo*
 - To download Mua, go to [Releases](https://github.com/CSaintos/STEM/releases)
 - Install/Place Mua anywhere you'd like on your machine, and to make it easily accessible, add it to your system's or shell's environment path.
 ## Documentation

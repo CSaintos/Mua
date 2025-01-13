@@ -1,6 +1,11 @@
 # maker.mk
 .PHONY: all compile build dirs clean
 
+#* Make functions
+define eq
+$(if $(1:$(2)=),,$(if $(2:$(1)=),,T))
+endef
+
 #* Compiler flags
 CXXFLAGS += -MD -MP -g
 #* Pre-constants
@@ -29,10 +34,18 @@ STATIC_LINK_FLAG=-Wl,-Bstatic
 DYNAMIC_LINK_FLAG=-Wl,-Bdynamic
 AS_NEED_LINK_FLAG=-Wl,--as-needed
 endif
+ifneq ($(SYS),OSX)
 SLINK_FILES := $(patsubst -l%, %.$(SLINK_TYPE), $(patsubst -l:%, %, $(SLINKS)))
 DLINK_FILES := $(patsubst -l%, %.$(DLINK_TYPE), $(patsubst -l:%, %, $(DLINKS)))
 SLINKS = $(patsubst %, -l:%, $(SLINK_FILES))
 DLINKS = $(patsubst %, -l:%, $(DLINK_FILES))
+else
+SLINK_FILES := $(patsubst -l%, %, $(patsubst -l:%.*, %, $(SLINKS)))
+DLINK_FILES := $(patsubst -l%, %, $(patsubst -l:%.*, %, $(DLINKS)))
+SLINKS = $(SLINK_FILES)
+DLINKS = $(DLINK_FILES)
+endif
+
 LINKS = $(SLINK_FILES) $(DLINK_FILES)
 
 #* First class functions
@@ -47,7 +60,11 @@ compile_lib_cmd = $(shell $(CXX) -fPIC $(INCLUDES) -c$1 -o$2 $(CXXFLAGS) -MF$(2:
 SRCS = $(foreach SRCDIR, $(SRCDIRS), $(find_srcs))
 LIBS = $(foreach LINKDIR, $(patsubst -L%, %, $(LINKDIRS)), $(find_libs))
 OBJECTS = $(addprefix $(OBJDIR)/, $(patsubst %.cpp, %.o, $(SRCFILES)))
+ifneq ($(and $(call eq,$(SYS),OSX), $(call eq,$(filter $(BUILDTYPE), STATICLIB DYNAMICLIB),)),)
+TARGET = $(TARGETDIR)/lib$(TARGET_NAME)
+else
 TARGET = $(TARGETDIR)/$(TARGET_NAME)
+endif
 ifeq ($(BUILDTYPE), EXE)
 TARGET := $(TARGET)$(EXE_TYPE)
 else ifeq ($(BUILDTYPE), STATICLIB)
@@ -128,15 +145,19 @@ clean:
 ifneq ($(wildcard $(OBJCLEANDIR)),)
 ifeq ($(SYS),Windows)
 	rmdir /s /q $(subst /,\\,$(OBJCLEANDIR))
-else ifneq ($(filter $(SYS), Linux OSX),)
+else ifeq ($(SYS),Linux)
 	rmdir /s /q $(OBJCLEANDIR)
+else ifeq ($(SYS),OSX)
+	rm -r $(OBJCLEANDIR)
 endif
 endif
 ifneq ($(wildcard $(TARGETCLEANDIR)),)
 ifeq ($(SYS),Windows)
 	rmdir /s /q $(subst /,\\,$(TARGETCLEANDIR))
-else ifneq ($(filter $(SYS), Linux OSX),)
+else ifeq ($(SYS),Linux)
 	rmdir /s /q $(TARGETCLEANDIR)
+else ifeq ($(SYS),OSX)
+	rm -r $(TARGETCLEANDIR)
 endif
 endif
 	@echo cleaned
