@@ -28,8 +28,8 @@ jobs:
       uses: actions/checkout@v4
       name: Setup tmate session
       uses: mxschmitt/action-tmate@v3
-        with:
-          limit-access-to-actor: true
+      with:
+        limit-access-to-actor: true
       timeout-minutes: 15
   make-linux:
     runs-on: ubuntu-latest
