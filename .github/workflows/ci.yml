@@ -25,8 +25,8 @@ jobs:
     runs-on: windows-latest
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
     steps:
-      uses: actions/checkout@v4
-      name: Setup tmate session
+    - uses: actions/checkout@v4
+    - name: Setup tmate session
       uses: mxschmitt/action-tmate@v3
       with:
         limit-access-to-actor: true
@@ -34,8 +34,8 @@ jobs:
   make-linux:
     runs-on: ubuntu-latest
     steps:
-      uses: actions/checkout@v4
-      name: build make on linux
+    - uses: actions/checkout@v4
+    - name: build make on linux
       working-directory: .
       run: make -j #-f ./make/mua/token.mk
 #  make-windows:
