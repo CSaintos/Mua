@@ -33,6 +33,7 @@ jobs:
       timeout-minutes: 15
     - name: Change shell
       shell: pwsh
+      run: shell uname -s
   make-linux:
     runs-on: ubuntu-latest
     steps:
