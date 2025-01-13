@@ -2,6 +2,7 @@
 .PHONY: all compile build dirs clean
 
 #* Make functions
+# eq uses makefile substitution reference
 define eq
 $(if $(1:$(2)=),,$(if $(2:$(1)=),,T))
 endef
@@ -20,7 +21,7 @@ ifeq ($(SYS), Windows)
 SLINK_TYPE = lib
 DLINK_TYPE = dll
 EXE_TYPE = .exe
-else ifneq ($(filter $(SYS), Linux OSX),)
+else ifeq ($(filter-out Linux OSX, $(SYS)),)
 SLINK_TYPE = a
 DLINK_TYPE = so
 EXE_TYPE =
@@ -29,7 +30,7 @@ ifeq ($(SYS),OSX)
 STATIC_LINK_FLAG=
 DYNAMIC_LINK_FLAG=
 AS_NEED_LINK_FLAG=
-else ifneq ($(filter $(SYS), Linux Windows),)
+else ifeq ($(filter-out Linux Windows, $(SYS)),)
 STATIC_LINK_FLAG=-Wl,-Bstatic
 DYNAMIC_LINK_FLAG=-Wl,-Bdynamic
 AS_NEED_LINK_FLAG=-Wl,--as-needed
@@ -42,8 +43,8 @@ DLINKS = $(patsubst %, -l:%, $(DLINK_FILES))
 else
 SLINK_FILES := $(patsubst -l%, %, $(patsubst -l:%.*, %, $(SLINKS)))
 DLINK_FILES := $(patsubst -l%, %, $(patsubst -l:%.*, %, $(DLINKS)))
-SLINKS = $(SLINK_FILES)
-DLINKS = $(DLINK_FILES)
+SLINKS = $(patsubst %, -l%, $(SLINK_FILES))
+DLINKS = $(patsubst %, -l%, $(DLINK_FILES))
 endif
 
 LINKS = $(SLINK_FILES) $(DLINK_FILES)
@@ -60,7 +61,8 @@ compile_lib_cmd = $(shell $(CXX) -fPIC $(INCLUDES) -c$1 -o$2 $(CXXFLAGS) -MF$(2:
 SRCS = $(foreach SRCDIR, $(SRCDIRS), $(find_srcs))
 LIBS = $(foreach LINKDIR, $(patsubst -L%, %, $(LINKDIRS)), $(find_libs))
 OBJECTS = $(addprefix $(OBJDIR)/, $(patsubst %.cpp, %.o, $(SRCFILES)))
-ifneq ($(and $(call eq,$(SYS),OSX), $(call eq,$(filter $(BUILDTYPE), STATICLIB DYNAMICLIB),)),)
+# FIXME
+ifneq ($(and $(call eq,$(SYS),OSX), $(call eq,$(filter-out STATICLIB DYNAMICLIB, $(BUILDTYPE)),)),)
 TARGET = $(TARGETDIR)/lib$(TARGET_NAME)
 else
 TARGET = $(TARGETDIR)/$(TARGET_NAME)
@@ -74,7 +76,7 @@ TARGET := $(TARGET).$(DLINK_TYPE)
 endif
 
 #* Process execution
-ifneq ($(filter $(PROCESS), BOTH LINKONLY),)
+ifeq ($(filter-out BOTH LINKONLY, $(PROCESS)),)
 all: $(TARGET)
 	$(POSTBUILDCMDS)
 else ifeq ($(PROCESS), COMPILEONLY)
@@ -89,7 +91,7 @@ $(OBJDIR):
 ifeq ($(wildcard $(OBJDIR)),)
 ifeq ($(SYS),Windows)
 	@mkdir $(subst /,\\,$(OBJDIR))
-else ifneq ($(filter $(SYS), Linux OSX),)
+else ifeq ($(filter-out Linux OSX, $(SYS)),)
 	@mkdir -p $(OBJDIR)
 endif
 	@echo create bin directory
@@ -100,7 +102,7 @@ $(OBJECTS): $(SRCS) | $(OBJDIR)
 	@echo compile
 ifeq ($(BUILDTYPE), EXE)
 	$(call pairmap, compile_exe_cmd, $(SRCS), $(OBJECTS))
-else ifneq ($(filter $(BUILDTYPE), STATICLIB DYNAMICLIB),)
+else ifeq ($(filter-out STATICLIB DYNAMICLIB, $(BUILDTYPE)),)
 	$(call pairmap, compile_lib_cmd, $(SRCS), $(OBJECTS))
 else
 	@echo invalid buildtype
@@ -112,7 +114,7 @@ $(TARGETDIR):
 ifeq ($(wildcard $(TARGETDIR)),)
 ifeq ($(SYS),Windows)
 	@mkdir $(subst /,\\,$(TARGETDIR))
-else ifneq ($(filter $(SYS), Linux OSX),)
+else ifeq ($(filter-out Linux OSX, $(SYS)),)
 	@mkdir -p $(TARGETDIR)
 endif
 	@echo create build directory
