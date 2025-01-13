@@ -20,6 +20,15 @@ SLINK_TYPE = a
 DLINK_TYPE = so
 EXE_TYPE =
 endif
+ifeq ($(SYS),OSX)
+STATIC_LINK_FLAG=
+DYNAMIC_LINK_FLAG=
+AS_NEED_LINK_FLAG=
+else ifneq ($(filter $(SYS), Linux Windows),)
+STATIC_LINK_FLAG=-Wl,-Bstatic
+DYNAMIC_LINK_FLAG=-Wl,-Bdynamic
+AS_NEED_LINK_FLAG=-Wl,--as-needed
+endif
 SLINK_FILES := $(patsubst -l%, %.$(SLINK_TYPE), $(patsubst -l:%, %, $(SLINKS)))
 DLINK_FILES := $(patsubst -l%, %.$(DLINK_TYPE), $(patsubst -l:%, %, $(DLINKS)))
 SLINKS = $(patsubst %, -l:%, $(SLINK_FILES))
@@ -100,11 +109,11 @@ $(TARGET): $(OBJECTS) $(LIBS) | $(TARGETDIR)
 endif
 	@echo build
 ifeq ($(BUILDTYPE), EXE)
-	$(CXX) $(OBJECTS) $(LINKDIRS) -Wl,-Bstatic $(SLINKS) -Wl,-Bdynamic $(DLINKS) -Wl,--as-needed -o $(TARGET)
+	$(CXX) $(OBJECTS) $(LINKDIRS) $(STATIC_LINK_FLAG) $(SLINKS) $(DYNAMIC_LINK_FLAG) $(DLINKS) $(AS_NEED_LINK_FLAG) -o $(TARGET)
 else ifeq ($(BUILDTYPE), STATICLIB)
 	$(AR) -rcs $(TARGET) $(OBJECTS)
 else ifeq ($(BUILDTYPE), DYNAMICLIB)
-	$(CXX) -shared -o $(TARGET) $(OBJECTS) $(LINKDIRS) -Wl,-Bstatic $(SLINKS) -Wl,-Bdynamic $(DLINKS) -Wl,--as-needed
+	$(CXX) -shared -o $(TARGET) $(OBJECTS) $(LINKDIRS) $(STATIC_LINK_FLAG) $(SLINKS) $(DYNAMIC_LINK_FLAG) $(DLINKS) $(AS_NEED_LINK_FLAG)
 endif
 	@echo built
 
