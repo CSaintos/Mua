@@ -1,6 +1,6 @@
 # ci.yml
 
-name: Mua Tests
+name: Release Mua
 
 on:
   push:
@@ -22,38 +22,72 @@ on:
 
 jobs:
   tmate:
+    name: Action tmate session
     runs-on: macos-latest
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
     - name: Setup tmate session
       uses: mxschmitt/action-tmate@v3
       with:
         limit-access-to-actor: true
       timeout-minutes: 15
   make-linux:
+    name: Build Mua - Linux
     runs-on: ubuntu-latest
     if: ${{ github.event_name != 'workflow_dispatch'}}
     steps:
-    - uses: actions/checkout@v4
-    - name: build make on linux
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: make muac
       working-directory: .
       run: make -j SYS=Linux #-f ./make/mua/token.mk
+    - name: Upload muac-linux
+      uses: actions/upload-artifact@v4
+      with:
+        name: muac-linux
+        path: build/mua/main/muac
   make-windows:
+    name: Build Mua - Windows
     runs-on: windows-latest
     if: ${{ github.event_name != 'workflow_dispatch'}}
     steps:
-    - uses: actions/checkout@v4
-    - name: build make on windows
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: make muac
       shell: pwsh
       working-directory: .
+      run: make -j SYS=Linux
+    - name: Upload muac-windows
+      uses: actions/upload-artifact@v4
+      with:
+        name: muac-windows
+        path: build/mua/main/muac.exe
+  make-macos:
+    name: Build Mua - MacOS
+    runs-on: macos-latest
+    if: ${{ github.event_name != 'workflow_dispatch'}}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: make muac
+      working-directory: .
       run: |
-        pwsh
-        make -j SYS=Linux
-  #make-macos:
-    #runs-on: macos-latest
-    #- uses: actions/checkout@v4
-    #- name: build make on mac
-      #working-directory: .
-      #run: make -j
+        make -j SYS=OSX CXX_VERSION=c++20
+    - name: Upload muac-macos
+      uses: actions/upload-artifact@v4
+      with:
+        name: muac-macos
+        path: build/mua/main/muac
+  release-mua:
+    name: Create Mua release
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'workflow_dispatch'}}
+    needs: [make-linux, make-windows, make-macos]
+    steps:
+    - name: Download Mua artifacts
+      uses: actions/download-artifact@v4
+    - name: Display structure of downloaded artifacts
+      run: ls -R
 
