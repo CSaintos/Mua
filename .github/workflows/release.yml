@@ -1,4 +1,4 @@
-# ci.yml
+# release.yml
 
 name: Release Mua
 
@@ -42,7 +42,7 @@ jobs:
       uses: actions/checkout@v4
     - name: make muac
       working-directory: .
-      run: make -j SYS=Linux #-f ./make/mua/token.mk
+      run: make -j SYS=Linux
     - name: Upload muac-linux
       uses: actions/upload-artifact@v4
       with:
