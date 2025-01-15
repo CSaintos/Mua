@@ -23,7 +23,7 @@ on:
 jobs:
   tmate:
     name: Action tmate session
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
     steps:
     - name: Checkout repository
@@ -88,6 +88,22 @@ jobs:
     steps:
     - name: Download Mua artifacts
       uses: actions/download-artifact@v4
+    - name: Compress Mua artifacts
+      run: |
+        7z a muac-linux.7z muac-linux
+        7z a muac-windows.7z muac-windows
+        7z a muac-macos.7z muac-macos
+    - name: Generate Checksums
+      run: |
+        sha256sum muac-linux.7z > muac-linux.7z.sha256sum
+        echo "SHA_MUAC_LINUX_7Z=$(cat muac-linux.7z.sha256sum)" >> $GITHUB_ENV
+        sha256sum muac-windows.7z > muac-windows.7z.sha256sum
+        echo "SHA_MUAC_WINDOWS_7Z=$(cat muac-windows.7z.sha256sum)" >> $GITHUB_ENV
+        sha256sum muac-macos.7z > muac-macos.7z.sha256sum
+        echo "SHA_MUAC_MACOS_7Z=$(cat muac-macos.7z.sha256sum)" >> $GITHUB_ENV
     - name: Display structure of downloaded artifacts
       run: ls -R
+    - name: Create Release
+      run: |
+        gh release create 0.1.0-alpha -p -d muac-linux.7z muac-linux.7z.sha256sum muac-windows.7z muac-windows.7z.sha256sum muac-macos.7z muac-macos.7z.sha256sum
 
