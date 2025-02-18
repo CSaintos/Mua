@@ -38,7 +38,7 @@ PROJECTS = \
 	./make/mua-test/interpreter.mk \
 	./make/mua-test/writer.mk
 
-#? List of TARGET_PATHs to be created first. (Only useful if running `make -j` and there are shared TARGET_PATHs) # ./make/submake1.mk 
+#? List of TARGET_PATHs to be created first. (Only useful if running `make -j` and there are shared TARGET_PATHs) ex. # ./make/submake1.mk 
 PROJECTDIRS = \
 	./make/mua/error.mk \
 	./make/mua-test/error.mk

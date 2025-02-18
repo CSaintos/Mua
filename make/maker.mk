@@ -9,14 +9,6 @@ endef
 
 #* Compiler flags
 CXXFLAGS += -MD -MP -g
-#* Pre-constants
-#ifeq ($(OS),Windows_NT)
-#SYS = Windows
-#else ifeq ($(shell uname -s),Linux)
-#SYS = Linux
-#else ifeq ($(shell uname -s),Darwin)
-#SYS = OSX
-#endif
 ifeq ($(SYS), Windows)
 SLINK_TYPE = lib
 DLINK_TYPE = dll
@@ -140,7 +132,7 @@ compile: $(OBJECTS)
 build: $(TARGET)
 	$(POSTBUILDCMDS)
 dirs: $(OBJDIR) $(TARGETDIR)
-#	@echo $(CXXFLAGS)
+#DEBUG	@echo $(CXXFLAGS)
 
 clean: 
 	@echo clean
