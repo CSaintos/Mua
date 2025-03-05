@@ -54,6 +54,7 @@ void Parser::err(int i, Token &tok)
 
   cout << serr.to_string() << endl;
 
+  // TODO: Determine if program should be canceled or not
   exit(1);
 }
 
@@ -430,7 +431,7 @@ void Parser::scanOneToken()
       switch (last_op)
       {
       case TokenType::RPAREN:
-        if (pemd.contains(op_ere_paren.top()->tok.type))
+        if (pemd.contains(op_b4_paren.top()->tok.type))
         {
           toParseTree(itr->type);
         }
@@ -639,7 +640,7 @@ void Parser::scanOneToken()
     case TokenType::RPAREN:
     case TokenType::LPAREN:
     case TokenType::EQUAL:
-      op_ere_paren.push(node_stack.top().get());
+      op_b4_paren.push(node_stack.top().get());
     case TokenType::EMPTY:
       node_stack.push(std::make_unique<Paren>(*itr));
       open_parens.push(node_stack.top().get());
@@ -759,7 +760,7 @@ void Parser::parse(list<Token> *token_stream)
   
   for (itr = token_stream->begin(); itr != token_stream->end(); ++itr)
   {
-    //cout << (*itr).to_string() << endl;
+    //cout << (*itr).to_string() << endl; // DEBUG
     scanOneToken();
   }
 }
@@ -771,12 +772,3 @@ void Parser::checkSemicolonError()
     err(8, node_stack.top()->tok);
   }
 }
-
-//vector<Node*> Parser::getParseTrees()
-//{
-//  vector<Node*> parse_tree_pointers;
-//  for (int i = 0; i < parse_trees.size(); i++)
-//  {
-//    parse_trees[i].get();
-//  }
-//}

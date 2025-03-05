@@ -21,7 +21,7 @@ void Lexer::init(list<Character> *char_list)
   end = char_list->end();
   token_temp.init();
   token_stream.clear();
-  ls.clear();
+  lexemes.clear();
   curr = token_trie->getTrie();
 }
 
@@ -40,10 +40,10 @@ void Lexer::toTokenStream()
   token_temp.type == TokenType::IDENTIFIER)
   {
     stringstream ss;
-    for (list<Character>::const_iterator it = ls.begin(); it != ls.end(); ++it)
+    for (list<Character>::const_iterator it = lexemes.begin(); it != lexemes.end(); ++it)
     {
       ss << it->c;
-      if (ls.end() == std::next(it))
+      if (std::next(it) == lexemes.end())
       {
         if (token_temp.pos.column_nums[0] != it->pos.column_nums[0])
         {
@@ -52,22 +52,20 @@ void Lexer::toTokenStream()
       }
     }
     token_temp.lexemes = ss.str();
-  //if (TokenUtils::m_RT_map.find(ss.str()) != TokenUtils::m_RT_map.end())
-  //  token_temp.type = TokenUtils::m_RT_map[ss.str()];
   }
   
   if (token_temp.type == TokenType::COMMENT) return;
   token_stream.push_back(token_temp);
 
   token_temp.init();
-  ls.clear();
+  lexemes.clear();
 }
 
 void Lexer::createToken(const TokenType &type, Character &c)
 {
   token_temp.type = type;
   token_temp.pos = c.pos;
-  ls.push_back(c);
+  lexemes.push_back(c);
 }
 
 void Lexer::scanOneChar(Character &c)
@@ -88,7 +86,7 @@ void Lexer::scanOneChar(Character &c)
       {
         Error err(c.pos, "IllegalCharError", "DIGIT cannot end with DOT '.'");
         cout << err.to_string() << endl;
-        ls.pop_back();
+        lexemes.pop_back();
         dot_count = 0;
       }
       break;
@@ -116,13 +114,18 @@ void Lexer::scanOneChar(Character &c)
       }
       else
       {
-        ls.push_back(c);
+        lexemes.push_back(c);
       }
       curr = curr->nodes[c.c].get();
     }
     else
     {
-      if (curr == token_trie->getTrie()) break;
+      if (curr == token_trie->getTrie()) 
+      {
+        Error err(c.pos, "IllegalCharError", "Undefined Character to Token mapping");
+        cout << err.to_string() << endl;
+        break;
+      }
       TokenType token_type = token_trie->getTrie()->nodes[c.c]->type;
       if (token_temp.type == TokenType::IDENTIFIER || token_temp.type == TokenType::DIGIT)
       {
@@ -142,7 +145,7 @@ void Lexer::scanOneChar(Character &c)
           {
             ++dot_count;
           }
-          ls.push_back(c);
+          lexemes.push_back(c);
           if (curr != nullptr) curr = nullptr;
         }
         else
@@ -151,10 +154,10 @@ void Lexer::scanOneChar(Character &c)
           {
             Error err(c.pos, "IllegalCharError", "DIGIT cannot end with DOT '.'");
             cout << err.to_string() << endl;
-            ls.pop_back();
+            lexemes.pop_back();
             dot_count = 0;
           }
-          if (ls.size() != 0)
+          if (lexemes.size() != 0)
           {
             toTokenStream();
           }
@@ -162,9 +165,9 @@ void Lexer::scanOneChar(Character &c)
           {
             curr = curr->nodes[c.c].get();
             createToken(curr->type, c);
+            // if `(.`, `(4`, or etc
             if (token_temp.type == TokenType::DIGIT)
             {
-              cout << "When is this true. Output in lexer btw" << endl;
               dot_count = 0;
               if (c.type == CharacterType::DOT)
               {

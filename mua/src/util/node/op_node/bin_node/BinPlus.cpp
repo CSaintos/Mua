@@ -395,10 +395,10 @@ bool BinPlus::interpret(const unordered_set<InterpretType> &flags)
       {
         int lhs_denominator = std::stod(left_denominator->to_repr());
         int rhs = std::stod(rhs_node->to_repr());
-        int rhs_denominator = lhs_denominator * rhs;
+        int rhs_numerator = lhs_denominator * rhs;
         Token tok_value;
         tok_value.type = TokenType::DIGIT;
-        tok_value.lexemes = std::to_string(rhs_denominator);
+        tok_value.lexemes = std::to_string(rhs_numerator);
         right_numerator = std::make_unique<ValueNode>(tok_value);
         if (is_right_minus)
         {
@@ -436,10 +436,10 @@ bool BinPlus::interpret(const unordered_set<InterpretType> &flags)
       {
         int rhs_denominator = std::stod(right_denominator->to_repr());
         int lhs = std::stod(lhs_node->to_repr());
-        int lhs_denominator = rhs_denominator * lhs;
+        int lhs_numerator = rhs_denominator * lhs;
         Token tok_value;
         tok_value.type = TokenType::DIGIT;
-        tok_value.lexemes = std::to_string(lhs_denominator);
+        tok_value.lexemes = std::to_string(lhs_numerator);
         left_numerator = std::make_unique<ValueNode>(tok_value);
         if (is_left_minus)
         {

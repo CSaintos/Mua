@@ -79,6 +79,7 @@ void Definer::searchOneNode(Node* node)
       pos = node->tok.pos;
       pos.column_nums[1] = pos.column_nums[0];
       pos.column_nums[1]--;
+      // Breakup Identifier into valid identifiers
       for (char c : node->tok.lexemes)
       {
         pos.column_nums[1]++;
@@ -126,6 +127,7 @@ void Definer::searchOneNode(Node* node)
         tok.lexemes = curr->lexemes;
         adjacent_nodes.push(std::make_unique<ValueNode>(tok));
       }
+      // Insert adjacent_nodes into tree
       Node* temp = node->parent;
       Node* node_to_replace = node;
       unique_ptr<Node> left_node;

@@ -43,13 +43,6 @@ namespace mua
     void open();
 
     /**
-     * @brief Gets file name
-     * 
-     * @return fileName string reference
-     */
-    //inline const std::string &getFileName() { return  file_name; }
-
-    /**
      * @brief Gets read line
      * 
      * @return line string reference

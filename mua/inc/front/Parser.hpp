@@ -52,12 +52,14 @@ namespace mua
     /// stack of nodes of unclosed parenthesis
     std::stack<Node*> open_parens;
     /// stack of operators before lparens
-    std::stack<Node*> op_ere_paren;
+    std::stack<Node*> op_b4_paren;
     /// pointer to token stream
     std::list<Token> *token_stream;
     /// iterator to current element in token stream
     std::list<Token>::iterator itr;
+    /// pemd in pemdas
     std::unordered_set<TokenType> pemd;
+    /// pe in pemdas
     std::unordered_set<TokenType> pe;
     
     /// Holds pointer to current/root node of tree
@@ -70,8 +72,6 @@ namespace mua
 
     TokenType last_type; ///< last token type iterated
     TokenType last_op; ///< last operator token type iterated
-
-    UnaOpNode *unaop_node; ///< for building parantheses nodes
 
     int equal_count;
     
@@ -88,10 +88,6 @@ namespace mua
      */
     void err(int i, Token &tok); //? Temporary syntax error
 
-    /**
-     * @brief adds exclusive parent node to m_node_queue
-     */
-    void addExclusiveParent(Node *node);
     /**
      * @brief builds parse tree by emptying out m_node_stack or until stopped
      */
@@ -120,13 +116,11 @@ namespace mua
     void parse(std::list<Token> *token_stream);
     
     void checkSemicolonError();
-    //inline bool isNodeStackEmpty() { return node_stack.empty(); }
     /**
      * @brief returns a pointer to list of completed parse trees
      * 
      * @return pointer to list of completed parse trees
      */
-    //std::vector<stem::Node*> getParseTrees();
     inline std::list<std::unique_ptr<Node>>* getParseTrees() { return &parse_trees; }
   };
 }

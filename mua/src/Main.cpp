@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     Lexer lexer;
     Parser parser;
     Definer definer;
-    list<Character> character_list;
+    list<Character> characters;
     list<unique_ptr<Node>>* parse_trees;
     string line;
     cout << "Type \"exit[];\" on an empty line to exit mua repl mode" << endl;
@@ -51,8 +51,8 @@ int main(int argc, char *argv[])
       cout << "mua>";
       std::getline(cin, line);
       if (line == "exit[];") continue;
-      character_list = c_stream.strToCharacterList(line); 
-      lexer.lex(&character_list);
+      characters = c_stream.strToCharacterList(line); 
+      lexer.lex(&characters);
       parser.parse(lexer.getList());
       // notice that we're skipping the parser.checkSemicolonError()
       definer.define(parser.getParseTrees());

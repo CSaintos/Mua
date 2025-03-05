@@ -32,9 +32,6 @@ void Reader::open()
     char_stream.pos.init();
     char_stream.pos.file_name = file_name;
     char_stream.pos.line_num = 0;
-    //pos.init();
-    //pos.file_name = file_name;
-    //pos.line_num = 0;
   }
   catch (ifstream::failure e)
   {
@@ -50,10 +47,8 @@ int Reader::readLine()
     std::getline(file, line);
     char_stream.pos.line_num++;
     char_stream.pos.column_nums[0] = 0;
-    //pos.line_num ++;
-    //pos.column_nums[0] = 0;
 
-    // cout << m_line << endl; // DEBUG
+    // cout << line << endl; // DEBUG
 
     // resets char list
     char_list.clear();

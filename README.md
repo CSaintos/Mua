@@ -10,7 +10,7 @@ Mua is <span style="color:gray">(an open source, rudimentary, step-by-step, cli-
 - [Building Mua](#building-mua)
 
 ## Getting Started
-- To download Mua, go to [Releases](https://github.com/CSaintos/STEM/releases)
+- To download Mua, go to [Releases](https://github.com/CSaintos/Mua/releases)
 - Install/Place Mua anywhere you'd like on your machine, and to make it easily accessible, add it to your system's or shell's environment path.
 ## Documentation
 ### Shell Operations
@@ -45,7 +45,7 @@ Mua is <span style="color:gray">(an open source, rudimentary, step-by-step, cli-
 - If you are on Windows, you can download these packages through [MSYS2](https://www.msys2.org/)
 - Make sure to add the installed packages to your system/shell environment path
 ### Clone
-- clone this repo into an empty directory `git clone https://github.com/CSaintos/STEM.git`
+- clone this repo into an empty directory `git clone https://github.com/CSaintos/Mua.git`
 ### Build
 - Within that same directory, run `make` following one of the options for your operating system below
 ##### Windows Build
