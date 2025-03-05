@@ -16,7 +16,6 @@
 #include "CharacterType.hpp"
 #include "Token.hpp"
 #include "TokenType.hpp"
-#include "TokenUtils.hpp"
 #include "TrieNode.hpp"
 #include "TokenTrie.hpp"
 

@@ -22,7 +22,6 @@ namespace mua
   private:
     Interpreter();
   public:
-
     static std::vector<std::string> interpret(std::unique_ptr<Node>& parse_tree, bool is_debug);
   };
 }

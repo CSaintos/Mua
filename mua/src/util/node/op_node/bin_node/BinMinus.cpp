@@ -1,5 +1,4 @@
 #include "BinMinus.hpp"
-#include "NumberUtils.hpp"
 #include <cmath>
 
 using namespace std;

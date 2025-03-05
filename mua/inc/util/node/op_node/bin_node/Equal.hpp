@@ -11,7 +11,6 @@
 #include <unordered_set>
 
 #include "Token.hpp"
-#include "TokenType.hpp"
 #include "Node.hpp"
 #include "BinOpNode.hpp"
 #include "InterpretType.hpp"

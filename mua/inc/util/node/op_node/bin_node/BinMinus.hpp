@@ -15,6 +15,7 @@
 #include "ValueNode.hpp"
 #include "BinOpNode.hpp"
 #include "BinPlus.hpp"
+#include "FSlash.hpp"
 #include "UnaOpNode.hpp"
 #include "UnaMinus.hpp"
 #include "NodeUtils.hpp"

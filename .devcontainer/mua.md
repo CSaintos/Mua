@@ -5,242 +5,292 @@
 'https://plantuml.com/class-diagram
 title mua class diagram
 
-!pragma ratio 0.7
+!pragma ratio 0.8
 hide methods
+hide fields
 
-struct Position {
-string file_name
-int column_nums[2]
-int line_num
-void init()
-}
+struct Position
+
 enum CharacterType
-class CharacterUtils {
-+{static} unordered_map<char, CharacterType> cC_map
-+{static} unordered_map<ChatacterType, string> repr_map
-}
+
+class CharacterUtils
 CharacterUtils o--> CharacterType
-struct Character {
-CharacterType type
-Position pos
-char character
-}
+
+struct Character
 Character --> CharacterType
 Character --> Position
-class Reader {
-fstream file
-list<Character> char_list
-Position pos
-string file_name
-string line
-}
+Character ..> CharacterUtils
+
+class Error
+Error --> Position
+
+class CharacterStream
+CharacterStream o--> Character
+CharacterStream --> Position
+CharacterStream ..> CharacterUtils
+CharacterStream ..> Error
+
+class Reader
 Reader o--> Character
 Reader --> Position
-Reader ..> CharacterUtils
-Reader ..> Error
-Reader ..> CharacterType
+Reader --> CharacterStream
+
 enum TokenType
-struct Token {
-TokenType type
-Position pos
-string lexemes
-}
+
+class TokenUtils
+TokenUtils o--> TokenType
+
+struct Token
 Token --> TokenType
 Token --> Position
 Token ..> TokenUtils
-class TokenUtils {
-+{static} unordered_map<TokenType, string> m_TS_map
-+{static} unordered_map<string, TokenType> m_RT_map
-}
-TokenUtils o--> TokenType
-class Error {
--stringstream ss
-#Position pos
-#string err_name
-#string details
-}
-Error --> Position
-class TrieNode {
-unordered_map<char, TrieNode> nodes
-TokenType type
-string lexemes
-}
+
+struct TrieNode
 TrieNode o--> TrieNode
 TrieNode --> TokenType
-class TokenTrie {
--{static} TokenTrie instance
--Trienode root
--{static} bool isInstanciated
-}
+
+class TokenTrie
 TokenTrie --> TrieNode
 TokenTrie ..> TokenUtils
-class Lexer {
-list<Character> ls
-list<Token> token_stream
-list<Character> *char_list
-list<Character>::iterator itr
-list<Character>::iterator end
-TokenTrie* token_trie
-TrieNode* curr
-Token token_temp
-int dot_count
-}
-Lexer ..> Error
-Lexer o--> Token
+TokenTrie ..> TokenType
+
+class Lexer
 Lexer o--> Character
-Lexer ..> CharacterType
-Lexer ..> Position
-Lexer ..> TokenType
-Lexer ..> TokenUtils
-Lexer --> TrieNode
+Lexer o--> Token
 Lexer --> TokenTrie
+Lexer --> TrieNode
+Lexer ..> Error
+Lexer ..> CharacterType
+Lexer ..> TokenType
+
 enum NodeType
-struct Node {
-Node* parent
-Token token
-}
+
+enum InterpretType
+
+struct Node
 Node --> Token
 Node ..> NodeType
+Node ..> InterpretType
+
 struct ValueNode
 ValueNode --|> Node
 ValueNode ..> Token
 ValueNode ..> NodeType
-struct BinOpNode {
-unique_ptr<Node> node_left
-unique_ptr<Node> node_right
-}
+ValueNode ..> InterpretType
+
+struct BinOpNode
 BinOpNode --|> Node
+BinOpNode ..> Token
 BinOpNode ..> TokenType
 BinOpNode ..> NodeType
-BinOpNode ..> Token
-struct UnaOpNode {
-unique_ptr<Node> node
-}
+BinOpNode ..> InterpretType
+
+struct UnaOpNode
 UnaOpNode --|> Node
 UnaOpNode ..> NodeType
 UnaOpNode ..> Token
-UnaOpNode ..> TokenType
-class Parser {
-vector<unique_ptr<Node>> parse_trees
-stack<unique_ptr<Node>> node_stack
-queue<Node*> node_queue
-list<Token>* token_stream
-list<Token>::iterator itr
-unique_ptr<Node> curr_node
-unique_ptr<Node> left_node
-unique_ptr<Node> right_node
-unique_ptr<Node> op_node
-TokenType last_type
-TokenType last_op
-UnaOpNode* unaop_node
-int paren_count
-bool let_stmt
-bool right_paren
-bool end_of_expr
-bool end_of_stmt
-}
-Parser o---> Node
-Parser o---> Token
-Parser ---> "2" TokenType
-Parser ---> UnaOpNode
-Parser ...> Error
-Parser ...> BinOpNode
-Parser ...> ValueNode
-Parser ...> Error
+UnaOpNode ..> InterpretType
 
-class NameTrie {
-TrieNode root
-}
-NameTrie --> TrieNode
-class Definer {
-stack<Node*> analyze_nodes
-unordered_map<string, Node*> name_table
-stack<unique_ptr<Node>> adjacent_nodes
-NameTrie name_trie
-TrieNode* curr
-Position pos
-bool let_stmt
-}
-Definer o---> Node
-Definer ---> NameTrie
-Definer ---> TrieNode
-Definer ---> Position
-Definer ...> NodeType
-Definer ...> BinOpNode
-Definer ...> UnaOpNode
-Definer ...> ValueNode
-Definer ...> TokenType
-Definer ...> Error
-class Interpreter {
-vector<unique_ptr<Node>>* parse_trees
-}
-Interpreter o---> Node
-struct UnaPlus
-UnaPlus --|> UnaOpNode
+class NumberUtils
+NumberUtils ..> Character
+NumberUtils ..> CharacterType
+NumberUtils ..> CharacterUtils
+NumberUtils ..> Token
+NumberUtils ..> TokenType
+NumberUtils ..> Node
+NumberUtils ..> ValueNode
+
+class NodeUtils
+NodeUtils ..> Node
+NodeUtils ..> NodeType
+NodeUtils ..> BinOpNode
+NodeUtils ..> UnaOpNode
+
 struct UnaMinus
 UnaMinus --|> UnaOpNode
-struct LParen
-LParen --|> UnaOpNode
-struct Semicolon
-Semicolon --|> UnaOpNode
-Semicolon ..> Token
-Semicolon ..> Node
+UnaMinus ..> Token
+UnaMinus ..> TokenType
+UnaMinus ..> Node
+UnaMinus ..> NodeUtils
+UnaMinus ..> InterpretType
+
+struct UnaPlus
+UnaPlus --|> UnaOpNode
+UnaPlus ..> Token
+UnaPlus ..> TokenType
+UnaPlus ..> Node
+UnaPlus ..> ValueNode
+UnaPlus ..> NumberUtils
+UnaPlus ..> NodeUtils
+UnaPlus ..> InterpretType
+UnaPlus ..> UnaMinus
+
+struct Paren
+Paren --|> UnaOpNode
+Paren ..> Token
+Paren ..> Node
+Paren ..> InterpretType
+Paren ..> NodeUtils
+
 struct Let
 Let --|> UnaOpNode
+Let ..> Node
+Let ..> Token
+Let ..> InterpretType
+
+struct Semicolon
+Semicolon --|> UnaOpNode
+Semicolon ..> Node
+Semicolon ..> Token
+Semicolon ..> InterpretType
+
 struct BinPlus
 BinPlus --|> BinOpNode
 BinPlus ..> Token
 BinPlus ..> TokenType
 BinPlus ..> Node
 BinPlus ..> ValueNode
+BinPlus ..> UnaOpNode
+BinPlus ..> UnaMinus
+BinPlus ..> Paren
 BinPlus ..> NodeUtils
 BinPlus ..> NumberUtils
+BinPlus ..> InterpretType
+
 struct BinMinus
 BinMinus --|> BinOpNode
 BinMinus ..> Token
 BinMinus ..> TokenType
 BinMinus ..> Node
 BinMinus ..> ValueNode
+BinMinus ..> BinPlus
+BinMinus ..> UnaOpNode
+BinMinus ..> UnaMinus
 BinMinus ..> NodeUtils
 BinMinus ..> NumberUtils
+BinMinus ..> InterpretType
+
+BinPlus ..> BinMinus
+
 struct Asterisk
 Asterisk --|> BinOpNode
 Asterisk ..> Token
 Asterisk ..> TokenType
 Asterisk ..> Node
 Asterisk ..> ValueNode
+Asterisk ..> UnaOpNode
+Asterisk ..> UnaMinus
+Asterisk ..> Paren
 Asterisk ..> NodeUtils
 Asterisk ..> NumberUtils
-struct Adjacent
-Adjacent --|> BinOpNode
+Asterisk ..> InterpretType
+
 struct FSlash
 FSlash --|> BinOpNode
+FSlash ..> Token
+FSlash ..> TokenType
+FSlash ..> NodeType
+FSlash ..> Node
+FSlash ..> Asterisk
+FSlash ..> UnaOpNode
+FSlash ..> UnaMinus
+FSlash ..> Paren
+FSlash ..> ValueNode
+FSlash ..> NodeUtils
+FSlash ..> NumberUtils
+FSlash ..> InterpretType
+
+NumberUtils ..> FSlash
+BinPlus ..> FSlash
+BinMinus ..> FSlash
+Asterisk ..> FSlash
+
 struct Percent
 Percent --|> BinOpNode
+Percent ..> Token
+Percent ..> TokenType
+Percent ..> Node
+Percent ..> ValueNode
+Percent ..> NumberUtils
+Percent ..> NodeUtils
+Percent ..> InterpretType
+
 struct Caret
 Caret --|> BinOpNode
 Caret ..> Token
 Caret ..> TokenType
+Caret ..> TokenUtils
 Caret ..> Node
+Caret ..> UnaOpNode
 Caret ..> ValueNode
+Caret ..> Paren
+Caret ..> UnaMinus
+Caret ..> Asterisk
+Caret ..> FSlash
 Caret ..> NodeUtils
 Caret ..> NumberUtils
+Caret ..> InterpretType
+
 struct Equal
 Equal --|> BinOpNode
-class NodeUtils
-NodeUtils ..> Node
-NodeUtils ..> NodeType
-NodeUtils ..> BinOpNode
-NodeUtils ..> UnaOpNode
-class NumberUtils
-NumberUtils ..> Character
-NumberUtils ..> CharacterType
-NumberUtils ..> CharacterUtils
-Parser ...> Semicolon
+Equal ..> Token
+Equal ..> Node
+Equal ..> InterpretType
+
+class Parser
+Parser o---> Token
+Parser o---> TokenType
+Parser o---> Node
+Parser ---> UnaOpNode
+Parser ---> BinOpNode
+Parser ...> Error
+Parser ...> UnaPlus
+Parser ...> UnaMinus
+Parser ...> Paren
+Parser ...> Let
 Parser ...> BinPlus
 Parser ...> BinMinus
 Parser ...> Asterisk
+Parser ...> FSlash
+Parser ...> Percent
 Parser ...> Caret
+Parser ...> Equal
+Parser ...> ValueNode
+Parser ...> Error
+
+class NameTrie
+NameTrie --> TrieNode
+
+class Definer
+Definer o---> Node
+Definer ---> NameTrie
+Definer ---> TrieNode
+Definer ---> Position
+Definer ...> TokenType
+Definer ...> Token
+Definer ...> NodeType
+Definer ...> BinOpNode
+Definer ...> UnaOpNode
+Definer ...> Asterisk
+Definer ...> ValueNode
+Definer ...> Error
+
+class Interpreter
+Interpreter ...> Node
+Interpreter ...> InterpretType
+
+class Writer
+
+class Main
+Main ...> Reader
+Main ...> Character
+Main ...> CharacterStream
+Main ...> Lexer
+Main ...> Node
+Main ...> Parser
+Main ...> Definer
+Main ...> Interpreter
+Main ...> Writer
 
 @enduml
 ```

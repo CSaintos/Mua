@@ -13,11 +13,8 @@
 #include <string>
 
 #include "Character.hpp"
-#include "CharacterUtils.hpp"
-#include "CharacterType.hpp"
 #include "CharacterStream.hpp"
 #include "Position.hpp"
-#include "Error.hpp"
 
 namespace mua
 {

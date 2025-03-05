@@ -10,6 +10,8 @@
 #include <string>
 #include <iostream>
 
+#include "CharacterType.hpp"
+#include "CharacterUtils.hpp"
 #include "Character.hpp"
 #include "Position.hpp"
 #include "Error.hpp"
@@ -23,7 +25,7 @@ namespace mua
   {
   private:
   public:
-    Position pos;
     std::list<Character> strToCharacterList(std::string str); 
+    Position pos;
   };
 }

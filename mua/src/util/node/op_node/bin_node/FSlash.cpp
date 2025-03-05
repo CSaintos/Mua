@@ -117,7 +117,7 @@ bool FSlash::interpret(const unordered_set<InterpretType> &flags)
       }
       if (una_op_node->node->tok.type == TokenType::DIGIT)
       {
-//        removable_left_paren = true;
+        //removable_left_paren = true;
         lhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
       }
       if (una_op_node->node->tok.type == TokenType::FSLASH)

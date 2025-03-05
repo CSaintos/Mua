@@ -14,10 +14,12 @@
 
 #include "Token.hpp"
 #include "TokenType.hpp"
+#include "NodeType.hpp"
 #include "Node.hpp"
 #include "BinOpNode.hpp"
 #include "Asterisk.hpp"
 #include "UnaOpNode.hpp"
+#include "UnaMinus.hpp"
 #include "Paren.hpp"
 #include "ValueNode.hpp"
 #include "NodeUtils.hpp"

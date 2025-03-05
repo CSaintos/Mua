@@ -10,6 +10,7 @@
 #include <memory>
 #include <unordered_set>
 
+#include "TokenType.hpp"
 #include "Token.hpp"
 #include "Node.hpp"
 #include "UnaOpNode.hpp"

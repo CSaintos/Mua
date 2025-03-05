@@ -13,6 +13,7 @@
 
 #include "TrieNode.hpp"
 #include "TokenUtils.hpp"
+#include "TokenType.hpp"
 
 namespace mua
 {

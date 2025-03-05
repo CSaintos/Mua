@@ -15,7 +15,7 @@
 #include "TokenType.hpp"
 #include "Node.hpp"
 #include "UnaOpNode.hpp"
-#include "NumberUtils.hpp"
+#include "NodeUtils.hpp"
 #include "InterpretType.hpp"
 
 namespace mua
