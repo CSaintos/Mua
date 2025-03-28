@@ -328,7 +328,7 @@ void Parser::toParseTree(TokenType precedence_type)
       break;
     default:
       //! Error
-      err(1, *itr); // expected d or i
+      err(1, *itr); // expected digit or identifier
       break;
     }
   }
@@ -492,7 +492,7 @@ void Parser::scanOneToken()
     case TokenType::ASTERISK:
     case TokenType::PERCENT:
     case TokenType::EQUAL:
-      err(1, *itr); // expected d or i
+      err(1, *itr); // expected digit or identifier
       break;
     default:
       switch (last_op)
@@ -562,7 +562,7 @@ void Parser::scanOneToken()
     case TokenType::PLUS:
     case TokenType::LPAREN:
     case TokenType::EQUAL:
-      err(1, *itr); // expected d or i
+      err(1, *itr); // expected digit or identifier
       break;
     default:
       switch (last_op)
