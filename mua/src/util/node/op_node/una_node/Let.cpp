@@ -13,9 +13,11 @@ Let::Let(unique_ptr<Node> &node_op, unique_ptr<Node> &node)
   : UnaOpNode(node_op, node)
 {}
 
-Let::Let(Token &tok_op, unique_ptr<Node> &node)
+Let::Let(INodeFactory *node_factory, Token &tok_op, unique_ptr<Node> &node)
   : UnaOpNode(tok_op, node)
-{}
+{
+  this->node_factory = node_factory;
+}
 
 string Let::to_repr()
 {
@@ -30,6 +32,9 @@ bool Let::interpret(const unordered_set<InterpretType> &flags)
 
 unique_ptr<Node> Let::copy()
 {
+  //probably not safe code
+  //return std::make_unique<Let>(tok, (unique_ptr<Node> &)*node->copy());
   unique_ptr<Node> node_copy = node->copy();
-  return std::make_unique<Let>(tok, node_copy);
+  return node_factory->produceNode(tok, node_copy);
+  //return std::make_unique<Let>(tok, node_copy);
 }

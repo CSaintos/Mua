@@ -28,7 +28,7 @@ namespace mua
   {
     UnaPlus(INodeFactory *node_factory, Token &tok_op);
     UnaPlus(std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node);
-    UnaPlus(Token &tok_op, std::unique_ptr<Node> &node);
+    UnaPlus(INodeFactory *node_factory, Token &tok_op, std::unique_ptr<Node> &node);
     std::string to_repr() override;
     bool interpret(const std::unordered_set<InterpretType> &flags = {}) override;
     std::unique_ptr<Node> copy() override;

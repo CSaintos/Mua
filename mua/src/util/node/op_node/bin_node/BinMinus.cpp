@@ -14,9 +14,11 @@ BinMinus::BinMinus(unique_ptr<Node> &node_left, unique_ptr<Node> &node_op, uniqu
   : BinOpNode(node_left, node_op, node_right)
 {}
 
-BinMinus::BinMinus(unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &node_right)
+BinMinus::BinMinus(INodeFactory *node_factory, unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &node_right)
   : BinOpNode(node_left, tok_op, node_right)
-{}
+{
+  this->node_factory = node_factory;
+}
 
 string BinMinus::to_repr()
 {
@@ -94,7 +96,7 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
 
       if (una_op_node->node->tok.type == TokenType::DIGIT)
       {
-        lhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
+        lhs_node = NumberUtils::fractionalize(node_factory, una_op_node->node->to_repr());
       }
     }
     else if (node_left->tok.type == TokenType::FSLASH)
@@ -142,7 +144,7 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
       }
       if (una_op_node->node->tok.type == TokenType::DIGIT)
       {
-        lhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
+        lhs_node = NumberUtils::fractionalize(node_factory, una_op_node->node->to_repr());
       }
       if (una_op_node->node->tok.type == TokenType::FSLASH)
       {
@@ -187,7 +189,7 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
   {
     if (node_left->tok.type == TokenType::DIGIT)
     {
-      lhs_node = NumberUtils::fractionalize(node_left->to_repr());
+      lhs_node = NumberUtils::fractionalize(node_factory, node_left->to_repr());
     }
   }
   
@@ -200,7 +202,7 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
 
       if (una_op_node->node->tok.type == TokenType::DIGIT)
       {
-        rhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
+        rhs_node = NumberUtils::fractionalize(node_factory, una_op_node->node->to_repr());
       }
     }
     else if (node_right->tok.type == TokenType::FSLASH)
@@ -248,7 +250,7 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
       }
       if (una_op_node->node->tok.type == TokenType::DIGIT)
       {
-        rhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
+        rhs_node = NumberUtils::fractionalize(node_factory, una_op_node->node->to_repr());
       }
       if (una_op_node->node->tok.type == TokenType::FSLASH)
       {
@@ -293,7 +295,7 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
   {
     if (node_right->tok.type == TokenType::DIGIT)
     {
-      rhs_node = NumberUtils::fractionalize(node_right->to_repr());
+      rhs_node = NumberUtils::fractionalize(node_factory, node_right->to_repr());
     }
   }
 
@@ -305,13 +307,13 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
       {
         Token tok_minus;
         tok_minus.type = TokenType::MINUS;
-        lhs_node = std::make_unique<UnaMinus>(tok_minus, lhs_node);
+        lhs_node = std::make_unique<UnaMinus>(node_factory, tok_minus, lhs_node);
       }
       if (is_right_minus)
       {
         Token tok_minus;
         tok_minus.type = TokenType::PLUS;
-        lhs_node = std::make_unique<BinPlus>(lhs_node, tok_minus, rhs_node);
+        lhs_node = std::make_unique<BinPlus>(node_factory, lhs_node, tok_minus, rhs_node);
         NodeUtils::replaceNode(this, lhs_node);
         change = true;
       }
@@ -332,13 +334,13 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
         res_tok.lexemes = std::to_string(result);
         res_tok.type = TokenType::DIGIT;
 
-        lhs_node = std::make_unique<ValueNode>(res_tok);
+        lhs_node = std::make_unique<ValueNode>(node_factory, res_tok);
 
         if (is_minus)
         {
           Token tok_minus;
           tok_minus.type = TokenType::MINUS;
-          lhs_node = std::make_unique<UnaMinus>(tok_minus, lhs_node);
+          lhs_node = std::make_unique<UnaMinus>(node_factory, tok_minus, lhs_node);
         }
 
         NodeUtils::replaceNode(this, lhs_node);
@@ -358,7 +360,7 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
           {
             BinOpNode* bin_op_node = static_cast<BinOpNode*>(lhs_node.get());
             unique_ptr<Node> left_numerator = std::move(bin_op_node->node_left);
-            left_numerator = std::make_unique<UnaMinus>(tok_minus, left_numerator);
+            left_numerator = std::make_unique<UnaMinus>(node_factory, tok_minus, left_numerator);
             bin_op_node->node_left = std::move(left_numerator);
             bin_op_node->node_left->parent = bin_op_node;
           }
@@ -377,7 +379,7 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
           {
             BinOpNode* bin_op_node = static_cast<BinOpNode*>(rhs_node.get());
             unique_ptr<Node> right_numerator = std::move(bin_op_node->node_left);
-            right_numerator = std::make_unique<UnaMinus>(tok_minus, right_numerator);
+            right_numerator = std::make_unique<UnaMinus>(node_factory, tok_minus, right_numerator);
             bin_op_node->node_left = std::move(right_numerator);
             bin_op_node->node_left->parent = bin_op_node;
           }
@@ -386,7 +388,7 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
         {
           Token tok_paren;
           tok_paren.type = TokenType::LPAREN;
-          rhs_node = std::make_unique<Paren>(tok_paren, rhs_node);
+          rhs_node = std::make_unique<Paren>(node_factory, tok_paren, rhs_node);
         }
         NodeUtils::replaceNode(node_right.get(), rhs_node);
       }
@@ -405,18 +407,18 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
         Token tok_value;
         tok_value.type = TokenType::DIGIT;
         tok_value.lexemes = std::to_string(rhs_denominator);
-        right_numerator = std::make_unique<ValueNode>(tok_value);
+        right_numerator = std::make_unique<ValueNode>(node_factory, tok_value);
         if (is_right_minus)
         {
           Token tok_minus;
           tok_minus.type = TokenType::MINUS;
-          right_numerator = std::make_unique<UnaMinus>(tok_minus, right_numerator);
+          right_numerator = std::make_unique<UnaMinus>(node_factory, tok_minus, right_numerator);
         }
         tok_value.lexemes = std::to_string(lhs_denominator);
-        right_denominator = std::make_unique<ValueNode>(tok_value);
+        right_denominator = std::make_unique<ValueNode>(node_factory, tok_value);
         Token tok_fslash;
         tok_fslash.type = TokenType::FSLASH;
-        unique_ptr<Node> fraction = std::make_unique<FSlash>(right_numerator, tok_fslash, right_denominator);
+        unique_ptr<Node> fraction = std::make_unique<FSlash>(node_factory, right_numerator, tok_fslash, right_denominator);
         FSlash* fslash = static_cast<FSlash*>(fraction.get());
         fslash->is_const_fraction = true;
         NodeUtils::replaceNode(node_right.get(), fraction);
@@ -425,9 +427,9 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
         {
           Token tok_minus;
           tok_minus.type = TokenType::MINUS;
-          left_numerator = std::make_unique<UnaMinus>(tok_minus, left_numerator);
+          left_numerator = std::make_unique<UnaMinus>(node_factory, tok_minus, left_numerator);
         }
-        lhs_node = std::make_unique<FSlash>(left_numerator, tok_fslash, left_denominator);
+        lhs_node = std::make_unique<FSlash>(node_factory, left_numerator, tok_fslash, left_denominator);
         NodeUtils::replaceNode(node_left.get(), lhs_node);
 
         change = true;
@@ -446,18 +448,18 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
         Token tok_value;
         tok_value.type = TokenType::DIGIT;
         tok_value.lexemes = std::to_string(lhs_denominator);
-        left_numerator = std::make_unique<ValueNode>(tok_value);
+        left_numerator = std::make_unique<ValueNode>(node_factory, tok_value);
         if (is_left_minus)
         {
           Token tok_minus;
           tok_minus.type = TokenType::MINUS;
-          left_numerator = std::make_unique<UnaMinus>(tok_minus, left_numerator);
+          left_numerator = std::make_unique<UnaMinus>(node_factory, tok_minus, left_numerator);
         }
         tok_value.lexemes = std::to_string(rhs_denominator);
-        left_denominator = std::make_unique<ValueNode>(tok_value);
+        left_denominator = std::make_unique<ValueNode>(node_factory, tok_value);
         Token tok_fslash;
         tok_fslash.type = TokenType::FSLASH;
-        unique_ptr<Node> fraction = std::make_unique<FSlash>(left_numerator, tok_fslash, left_denominator);
+        unique_ptr<Node> fraction = std::make_unique<FSlash>(node_factory, left_numerator, tok_fslash, left_denominator);
         FSlash* fslash = static_cast<FSlash*>(fraction.get());
         fslash->is_const_fraction = true;
         NodeUtils::replaceNode(node_left.get(), fraction);
@@ -466,9 +468,9 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
         {
           Token tok_minus;
           tok_minus.type = TokenType::MINUS;
-          right_numerator = std::make_unique<UnaMinus>(tok_minus, right_numerator);
+          right_numerator = std::make_unique<UnaMinus>(node_factory, tok_minus, right_numerator);
         }
-        rhs_node = std::make_unique<FSlash>(right_numerator, tok_fslash, right_denominator);
+        rhs_node = std::make_unique<FSlash>(node_factory, right_numerator, tok_fslash, right_denominator);
         NodeUtils::replaceNode(node_right.get(), rhs_node);
 
         change = true;
@@ -490,7 +492,7 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
           {
             Token tok_minus;
             tok_minus.type = TokenType::MINUS;
-            left_numerator = std::make_unique<UnaMinus>(tok_minus, left_numerator);
+            left_numerator = std::make_unique<UnaMinus>(node_factory, tok_minus, left_numerator);
           }
 
           unique_ptr<Node> numerator;
@@ -498,20 +500,20 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
           {
             Token tok_minus;
             tok_minus.type = TokenType::MINUS;
-            numerator = std::make_unique<BinMinus>(left_numerator, tok_minus, right_numerator);
+            numerator = std::make_unique<BinMinus>(node_factory, left_numerator, tok_minus, right_numerator);
           }
           else
           {
             Token tok_plus;
             tok_plus.type = TokenType::PLUS;
-            numerator = std::make_unique<BinPlus>(left_numerator, tok_plus, right_numerator);
+            numerator = std::make_unique<BinPlus>(node_factory, left_numerator, tok_plus, right_numerator);
           }
           Token tok_paren;
           tok_paren.type = TokenType::LPAREN;
-          numerator = std::make_unique<Paren>(tok_paren, numerator);
+          numerator = std::make_unique<Paren>(node_factory, tok_paren, numerator);
           Token tok_fslash;
           tok_fslash.type = TokenType::FSLASH;
-          unique_ptr<Node> fraction = std::make_unique<FSlash>(numerator, tok_fslash, left_denominator);
+          unique_ptr<Node> fraction = std::make_unique<FSlash>(node_factory, numerator, tok_fslash, left_denominator);
 
           NodeUtils::replaceNode(this, fraction);
           change = true;
@@ -534,12 +536,12 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
           {
             Token tok_minus;
             tok_minus.type = TokenType::MINUS;
-            left_numerator = std::make_unique<UnaMinus>(tok_minus, left_numerator);
+            left_numerator = std::make_unique<UnaMinus>(node_factory, tok_minus, left_numerator);
           }
           Token tok_fslash;
           tok_fslash.type = TokenType::FSLASH;
-          lhs_node = std::make_unique<FSlash>(left_numerator, tok_fslash, left_denominator);
-          rhs_node = std::make_unique<FSlash>(right_numerator, tok_fslash, right_denominator);
+          lhs_node = std::make_unique<FSlash>(node_factory, left_numerator, tok_fslash, left_denominator);
+          rhs_node = std::make_unique<FSlash>(node_factory, right_numerator, tok_fslash, right_denominator);
           FSlash* fslash;
           fslash = static_cast<FSlash*>(lhs_node.get());
           fslash->is_const_fraction = true;
@@ -556,7 +558,7 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
           {
             Token tok_minus;
             tok_minus.type = TokenType::MINUS;
-            lhs_node = std::make_unique<BinMinus>(lhs_node, tok_minus, rhs_node);
+            lhs_node = std::make_unique<BinMinus>(node_factory, lhs_node, tok_minus, rhs_node);
             NodeUtils::replaceNode(this, lhs_node);
           }
           change = true;
@@ -572,5 +574,6 @@ unique_ptr<Node> BinMinus::copy()
 {
   unique_ptr<Node> lhs_node = node_left->copy();
   unique_ptr<Node> rhs_node = node_right->copy();
-  return std::make_unique<BinMinus>(node_left, tok, node_right);
+  return node_factory->produceNode(tok, lhs_node, rhs_node);
+  //return std::make_unique<BinMinus>(node_left, tok, node_right);
 }

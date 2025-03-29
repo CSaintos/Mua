@@ -15,6 +15,8 @@
 #include "Asterisk.hpp"
 #include "Token.hpp"
 #include "TokenType.hpp"
+#include "INodeFactory.hpp"
+#include "NodeFactory.hpp"
 
 using namespace std;
 using namespace mua;
@@ -23,14 +25,15 @@ using namespace mua;
 // For the future, casting is code smell (yes i know)
 int main(int argc, char *argv[])
 {
+  unique_ptr<INodeFactory> node_factory = std::make_unique<NodeFactory>();
   // Create tokens
   Token digit;
   digit.type = TokenType::DIGIT;
   digit.lexemes = "0";
-  unique_ptr<Node> node_digit = std::make_unique<ValueNode>(digit);
+  unique_ptr<Node> node_digit = node_factory->produceNode(digit);
   Token semicolon;
   semicolon.type = TokenType::SEMICOLON;
-  unique_ptr<Node> node_semi = std::make_unique<Semicolon>(semicolon, node_digit);
+  unique_ptr<Node> node_semi = node_factory->produceNode(semicolon, node_digit);
 
   Node* temp = node_semi.get();
   UnaOpNode* temp_una = static_cast<UnaOpNode*>(temp);
@@ -44,9 +47,9 @@ int main(int argc, char *argv[])
     b.lexemes = "b";
     Token adj;
     adj.type = TokenType::ADJACENT;
-    unique_ptr<Node> node_a = std::make_unique<ValueNode>(a);
-    unique_ptr<Node> node_b = std::make_unique<ValueNode>(b);
-    temp_una->node = std::make_unique<Asterisk>(node_a, adj, node_b);
+    unique_ptr<Node> node_a = node_factory->produceNode(a);
+    unique_ptr<Node> node_b = node_factory->produceNode(b);
+    temp_una->node = node_factory->produceNode(adj, node_a, node_b);
   }
 
   cout << temp->to_string() << endl;

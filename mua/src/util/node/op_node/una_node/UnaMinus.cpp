@@ -13,9 +13,11 @@ UnaMinus::UnaMinus(unique_ptr<Node> &node_op, unique_ptr<Node> &node)
   : UnaOpNode(node_op, node)
 {}
 
-UnaMinus::UnaMinus(Token &tok_op, unique_ptr<Node> &node)
+UnaMinus::UnaMinus(INodeFactory *node_factory, Token &tok_op, unique_ptr<Node> &node)
   : UnaOpNode(tok_op, node)
-{}
+{
+  this->node_factory = node_factory;
+}
 
 string UnaMinus::to_repr()
 {
@@ -60,7 +62,7 @@ bool UnaMinus::interpret(const unordered_set<InterpretType> &flags)
       {
         Token tok_minus;
         tok_minus.type = TokenType::MINUS;
-        res_node = std::make_unique<UnaMinus>(tok_minus, res_node);
+        res_node = std::make_unique<UnaMinus>(this->node_factory, tok_minus, res_node);
       }
       NodeUtils::replaceNode(this, res_node);
       change = true;
@@ -72,5 +74,6 @@ bool UnaMinus::interpret(const unordered_set<InterpretType> &flags)
 unique_ptr<Node> UnaMinus::copy()
 {
   unique_ptr<Node> node_copy = node->copy();
-  return std::make_unique<UnaMinus>(tok, node_copy);
+  return node_factory->produceNode(tok, node_copy);
+  //return std::make_unique<UnaMinus>(tok, node_copy);
 }

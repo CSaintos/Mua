@@ -23,6 +23,8 @@
 #include "TrieNode.hpp"
 #include "Position.hpp"
 #include "Error.hpp"
+#include "INodeFactory.hpp"
+#include "NodeFactory.hpp"
 
 namespace mua
 {
@@ -32,6 +34,7 @@ namespace mua
     std::stack<Node*> analyze_nodes; // for parsing using dfs
     std::unordered_map<std::string, Node*> name_table; // symbol table
     std::stack<std::unique_ptr<Node>> adjacent_nodes; // for building adjacent nodes
+    std::unique_ptr<INodeFactory> node_factory;
     NameTrie name_trie;
     TrieNode* curr;
     Position pos;

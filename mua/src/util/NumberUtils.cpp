@@ -83,7 +83,7 @@ string NumberUtils::stripTrailingZeros(string number)
   return ss.str();
 }
 
-unique_ptr<Node> NumberUtils::fractionalize(string number)
+unique_ptr<Node> NumberUtils::fractionalize(INodeFactory *node_factory, string number)
 {
   list<Character> whole_number;
   list<Character> less_than_zero;
@@ -128,9 +128,12 @@ unique_ptr<Node> NumberUtils::fractionalize(string number)
     Token tok_op;
     tok_op.type = TokenType::FSLASH;
 
-    unique_ptr<Node> left_node = std::make_unique<ValueNode>(tok_left);
-    unique_ptr<Node> right_node = std::make_unique<ValueNode>(tok_right);
-    unique_ptr<Node> op_node = std::make_unique<FSlash>(left_node, tok_op, right_node);
+    //unique_ptr<Node> left_node = std::make_unique<ValueNode>(tok_left);
+    unique_ptr<Node> left_node = node_factory->produceNode(tok_left);
+    //unique_ptr<Node> right_node = std::make_unique<ValueNode>(tok_right);
+    unique_ptr<Node> right_node = node_factory->produceNode(tok_right);
+    //unique_ptr<Node> op_node = std::make_unique<FSlash>(left_node, tok_op, right_node);
+    unique_ptr<Node> op_node = node_factory->produceNode(tok_op, left_node, right_node);
     return std::move(op_node);
   }
   else 
@@ -139,7 +142,8 @@ unique_ptr<Node> NumberUtils::fractionalize(string number)
     tok.type = TokenType::DIGIT;
     tok.lexemes = NumberUtils::listCharToStr(whole_number);
 
-    unique_ptr<Node> node = std::make_unique<ValueNode>(tok);
+    //unique_ptr<Node> node = std::make_unique<ValueNode>(tok);
+    unique_ptr<Node> node = node_factory->produceNode(tok);
     return std::move(node);
   }
 

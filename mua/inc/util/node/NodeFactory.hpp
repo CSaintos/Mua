@@ -33,7 +33,11 @@ namespace mua
   class NodeFactory : public INodeFactory
   {
   public:
-    std::unique_ptr<Node> produceNode(Token &token, NodeType node_type = NodeType::BINARY_OPERATOR) override;
+    std::unique_ptr<Node> produceNode(Token &token, std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_right, NodeType node_type = NodeType::BINARY_OPERATOR) override;
     std::unique_ptr<Node> produceNode(TokenType token_type, NodeType node_type = NodeType::BINARY_OPERATOR) override;
+    std::unique_ptr<Node> produceNode(TokenType token_type, std::unique_ptr<Node> &node) override;
+    std::unique_ptr<Node> produceNode(TokenType token_type, std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_right) override;
+    std::unique_ptr<Node> produceNode(Token &token, NodeType node_type = NodeType::BINARY_OPERATOR) override;
+    std::unique_ptr<Node> produceNode(Token &token, std::unique_ptr<Node> &node) override;
   };
 }

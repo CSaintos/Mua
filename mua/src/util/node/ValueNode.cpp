@@ -3,12 +3,14 @@
 using namespace mua;
 using namespace std;
 
-ValueNode::ValueNode(Token &tok_value)
+ValueNode::ValueNode(INodeFactory *node_factory, Token &tok_value)
 {
   tok = tok_value;
+  this->node_factory = node_factory;
 }
 
 unique_ptr<Node> ValueNode::copy()
 {
-  return std::make_unique<ValueNode>(tok);
+  return node_factory->produceNode(tok);
+  //return std::make_unique<ValueNode>(tok);
 }

@@ -13,9 +13,11 @@ Caret::Caret(unique_ptr<Node> &node_left, unique_ptr<Node> &node_op, unique_ptr<
   : BinOpNode(node_left, node_op, node_right)
 {}
 
-Caret::Caret(unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &node_right)
+Caret::Caret(INodeFactory *node_factory, unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &node_right)
   : BinOpNode(node_left, tok_op, node_right)
-{}
+{
+  this->node_factory = node_factory;
+}
 
 string Caret::to_repr()
 {
@@ -111,7 +113,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
       }
       if (una_op_node->node->tok.type == TokenType::DIGIT)
       {
-        lhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
+        lhs_node = NumberUtils::fractionalize(node_factory, una_op_node->node->to_repr());
       }
       if (una_op_node->node->tok.type == TokenType::FSLASH)
       {
@@ -156,7 +158,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
   {
     if (node_left->tok.type == TokenType::DIGIT)
     {
-      lhs_node = NumberUtils::fractionalize(node_left->to_repr());
+      lhs_node = NumberUtils::fractionalize(node_factory, node_left->to_repr());
     }
   }
 
@@ -169,7 +171,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
 
       if (una_op_node->node->tok.type == TokenType::DIGIT)
       {
-        rhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
+        rhs_node = NumberUtils::fractionalize(node_factory, una_op_node->node->to_repr());
       }
     }
     else if (node_right->tok.type == TokenType::FSLASH)
@@ -217,7 +219,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
       }
       if (una_op_node->node->tok.type == TokenType::DIGIT)
       {
-        rhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
+        rhs_node = NumberUtils::fractionalize(node_factory, una_op_node->node->to_repr());
       }
       if (una_op_node->node->tok.type == TokenType::FSLASH)
       {
@@ -262,7 +264,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
   {
     if (node_right->tok.type == TokenType::DIGIT)
     {
-      rhs_node = NumberUtils::fractionalize(node_right->to_repr());
+      rhs_node = NumberUtils::fractionalize(node_factory, node_right->to_repr());
     }
   }
 
@@ -275,19 +277,19 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
         Token tok_value;
         tok_value.type = TokenType::DIGIT;
         tok_value.lexemes = "1";
-        left_numerator = std::make_unique<ValueNode>(tok_value);
+        left_numerator = std::make_unique<ValueNode>(node_factory, tok_value);
         if (is_left_minus)
         {
           Token tok_minus;
           tok_minus.type = TokenType::MINUS;
-          lhs_node = std::make_unique<UnaMinus>(tok_minus, lhs_node);
+          lhs_node = std::make_unique<UnaMinus>(node_factory, tok_minus, lhs_node);
         }
         Token tok_fslash;
         tok_fslash.type = TokenType::FSLASH;
-        lhs_node = std::make_unique<FSlash>(left_numerator, tok_fslash, lhs_node);
+        lhs_node = std::make_unique<FSlash>(node_factory, left_numerator, tok_fslash, lhs_node);
         Token tok_paren;
         tok_paren.type = TokenType::LPAREN;
-        lhs_node = std::make_unique<Paren>(tok_paren, lhs_node);
+        lhs_node = std::make_unique<Paren>(node_factory, tok_paren, lhs_node);
 
         NodeUtils::replaceNode(node_left.get(), lhs_node);
         NodeUtils::replaceNode(node_right.get(), rhs_node);
@@ -317,13 +319,13 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
         res_tok.lexemes = result_str;
         res_tok.type = TokenType::DIGIT;
 
-        lhs_node = std::make_unique<ValueNode>(res_tok);
+        lhs_node = std::make_unique<ValueNode>(node_factory, res_tok);
 
         if (is_minus)
         {
           Token tok_minus;
           tok_minus.type = TokenType::MINUS;
-          lhs_node = std::make_unique<UnaMinus>(tok_minus, lhs_node);
+          lhs_node = std::make_unique<UnaMinus>(node_factory, tok_minus, lhs_node);
         }
 
         NodeUtils::replaceNode(this, lhs_node);
@@ -338,7 +340,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
         {
           Token tok_paren;
           tok_paren.type = TokenType::LPAREN;
-          lhs_node = std::make_unique<Paren>(tok_paren, lhs_node);
+          lhs_node = std::make_unique<Paren>(node_factory, tok_paren, lhs_node);
         }
         NodeUtils::replaceNode(node_left.get(), lhs_node);
       }
@@ -357,14 +359,14 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
       {
         Token tok_minus;
         tok_minus.type = TokenType::MINUS;
-        left_numerator = std::make_unique<UnaMinus>(tok_minus, left_numerator);
+        left_numerator = std::make_unique<UnaMinus>(node_factory, tok_minus, left_numerator);
       }
       Token tok_fslash;
       tok_fslash.type = TokenType::FSLASH;
-      lhs_node = std::make_unique<FSlash>(left_denominator, tok_fslash, left_numerator);
+      lhs_node = std::make_unique<FSlash>(node_factory, left_denominator, tok_fslash, left_numerator);
       Token tok_paren;
       tok_paren.type = TokenType::LPAREN;
-      lhs_node = std::make_unique<Paren>(tok_paren, lhs_node);
+      lhs_node = std::make_unique<Paren>(node_factory, tok_paren, lhs_node);
 
       NodeUtils::replaceNode(node_left.get(), lhs_node);
       NodeUtils::replaceNode(node_right.get(), rhs_node);
@@ -377,23 +379,23 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
       {
         Token tok_minus;
         tok_minus.type = TokenType::MINUS;
-        left_numerator = std::make_unique<UnaMinus>(tok_minus, left_numerator);
+        left_numerator = std::make_unique<UnaMinus>(node_factory, tok_minus, left_numerator);
         Token tok_paren;
         tok_paren.type = TokenType::LPAREN;
-        left_numerator = std::make_unique<Paren>(tok_paren, left_numerator);
+        left_numerator = std::make_unique<Paren>(node_factory, tok_paren, left_numerator);
       }
       Token tok_caret;
       tok_caret.type = TokenType::CARET;
-      left_numerator = std::make_unique<Caret>(left_numerator, tok_caret, rhs_node_copy);
-      left_denominator = std::make_unique<Caret>(left_denominator, tok_caret, rhs_node);
+      left_numerator = std::make_unique<Caret>(node_factory, left_numerator, tok_caret, rhs_node_copy);
+      left_denominator = std::make_unique<Caret>(node_factory, left_denominator, tok_caret, rhs_node);
       Token tok_fslash;
       tok_fslash.type = TokenType::FSLASH;
-      lhs_node = std::make_unique<FSlash>(left_numerator, tok_fslash, left_denominator);
+      lhs_node = std::make_unique<FSlash>(node_factory, left_numerator, tok_fslash, left_denominator);
       if (is_lhs_paren)
       {
         Token tok_paren;
         tok_paren.type = TokenType::LPAREN;
-        lhs_node = std::make_unique<Paren>(tok_paren, lhs_node);
+        lhs_node = std::make_unique<Paren>(node_factory, tok_paren, lhs_node);
       }
       NodeUtils::replaceNode(this, lhs_node);
       change = true;
@@ -406,22 +408,22 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
       Token tok_value;
       tok_value.lexemes = "1";
       tok_value.type = TokenType::DIGIT;
-      left_numerator = std::make_unique<ValueNode>(tok_value);
+      left_numerator = std::make_unique<ValueNode>(node_factory, tok_value);
       if (is_left_minus)
       {
         Token tok_minus;
         tok_minus.type = TokenType::MINUS;
-        left_numerator = std::make_unique<UnaMinus>(tok_minus, left_numerator);
+        left_numerator = std::make_unique<UnaMinus>(node_factory, tok_minus, left_numerator);
       }
       Token tok_fslash;
       tok_fslash.type = TokenType::FSLASH;
-      lhs_node = std::make_unique<FSlash>(left_numerator, tok_fslash, lhs_node);
+      lhs_node = std::make_unique<FSlash>(node_factory, left_numerator, tok_fslash, lhs_node);
       Token tok_paren;
       tok_paren.type = TokenType::LPAREN;
-      lhs_node = std::make_unique<Paren>(tok_paren, lhs_node);
+      lhs_node = std::make_unique<Paren>(node_factory, tok_paren, lhs_node);
 
-      rhs_node = std::make_unique<FSlash>(right_numerator, tok_fslash, right_denominator);
-      rhs_node = std::make_unique<Paren>(tok_paren, rhs_node);
+      rhs_node = std::make_unique<FSlash>(node_factory, right_numerator, tok_fslash, right_denominator);
+      rhs_node = std::make_unique<Paren>(node_factory, tok_paren, rhs_node);
 
       NodeUtils::replaceNode(node_left.get(), lhs_node);
       NodeUtils::replaceNode(node_right.get(), rhs_node);
@@ -454,25 +456,25 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
           res_tok.lexemes = result_str;
           res_tok.type = TokenType::DIGIT;
 
-          lhs_node = std::make_unique<ValueNode>(res_tok);
+          lhs_node = std::make_unique<ValueNode>(node_factory, res_tok);
           if (is_minus)
           {
             Token tok_minus;
             tok_minus.type = TokenType::MINUS;
-            lhs_node = std::make_unique<UnaMinus>(tok_minus, lhs_node);
+            lhs_node = std::make_unique<UnaMinus>(node_factory, tok_minus, lhs_node);
           }
 
           Token tok_value;
           tok_value.lexemes = "1";
           tok_value.type = TokenType::DIGIT;
-          right_numerator = std::make_unique<ValueNode>(tok_value);
+          right_numerator = std::make_unique<ValueNode>(node_factory, tok_value);
           
           Token tok_fslash;
           tok_fslash.type = TokenType::FSLASH;
-          rhs_node = std::make_unique<FSlash>(right_numerator, tok_fslash, right_denominator);
+          rhs_node = std::make_unique<FSlash>(node_factory, right_numerator, tok_fslash, right_denominator);
           Token tok_paren;
           tok_paren.type = TokenType::LPAREN;
-          rhs_node = std::make_unique<Paren>(tok_paren, rhs_node);
+          rhs_node = std::make_unique<Paren>(node_factory, tok_paren, rhs_node);
 
           NodeUtils::replaceNode(node_left.get(), lhs_node);
           NodeUtils::replaceNode(node_right.get(), rhs_node);
@@ -536,7 +538,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                 Token tok_value;
                 tok_value.type = TokenType::DIGIT;
                 tok_value.lexemes = std::to_string(rooted_int);
-                lhs_node = std::make_unique<ValueNode>(tok_value);
+                lhs_node = std::make_unique<ValueNode>(node_factory, tok_value);
 
                 NodeUtils::replaceNode(this, lhs_node);
               }
@@ -545,7 +547,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                 Token tok_value;
                 tok_value.type = TokenType::DIGIT;
                 tok_value.lexemes = std::to_string(simple_radicand);
-                lhs_node = std::make_unique<ValueNode>(tok_value);
+                lhs_node = std::make_unique<ValueNode>(node_factory, tok_value);
 
                 //NodeUtils::replaceNode(node_left.get(), lhs_node);
                 
@@ -554,15 +556,15 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                   //lhs_node = std::move(node_left);
                   Token tok_fslash;
                   tok_fslash.type = TokenType::FSLASH;
-                  rhs_node = std::make_unique<FSlash>(right_numerator, tok_fslash, right_denominator);
+                  rhs_node = std::make_unique<FSlash>(node_factory, right_numerator, tok_fslash, right_denominator);
                   Token tok_caret;
                   tok_caret.type = TokenType::CARET;
-                  rhs_node = std::make_unique<Caret>(lhs_node, tok_caret, rhs_node);
+                  rhs_node = std::make_unique<Caret>(node_factory, lhs_node, tok_caret, rhs_node);
                   tok_value.lexemes = std::to_string(rooted_int); 
-                  unique_ptr<Node> rooted_node = std::make_unique<ValueNode>(tok_value);
+                  unique_ptr<Node> rooted_node = std::make_unique<ValueNode>(node_factory, tok_value);
                   Token tok_mult;
                   tok_mult.type = TokenType::ASTERISK;
-                  lhs_node = std::make_unique<Asterisk>(rooted_node, tok_mult, rhs_node);
+                  lhs_node = std::make_unique<Asterisk>(node_factory, rooted_node, tok_mult, rhs_node);
 
                   NodeUtils::replaceNode(this, lhs_node);
                 }
@@ -570,12 +572,12 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                 {
                   Token tok_fslash;
                   tok_fslash.type = TokenType::FSLASH;
-                  rhs_node = std::make_unique<FSlash>(right_numerator, tok_fslash, right_denominator);
+                  rhs_node = std::make_unique<FSlash>(node_factory, right_numerator, tok_fslash, right_denominator);
                   Token tok_caret;
                   tok_caret.type = TokenType::CARET;
-                  rhs_node = std::make_unique<Caret>(lhs_node, tok_caret, rhs_node);
+                  rhs_node = std::make_unique<Caret>(node_factory, lhs_node, tok_caret, rhs_node);
                   tok_value.lexemes = std::to_string(rooted_int);
-                  unique_ptr<Node> rooted_node = std::make_unique<ValueNode>(tok_value);
+                  unique_ptr<Node> rooted_node = std::make_unique<ValueNode>(node_factory, tok_value);
 
                   switch (this->parent->tok.type)
                   {
@@ -584,9 +586,8 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                   {
                     Token tok_mult;
                     tok_mult.type = TokenType::ASTERISK;
-                    lhs_node = std::make_unique<Asterisk>(rooted_node, tok_mult, rhs_node);
+                    lhs_node = std::make_unique<Asterisk>(node_factory, rooted_node, tok_mult, rhs_node);
                     BinOpNode* bin_op_node = static_cast<BinOpNode*>(this->parent);
-                    //lhs_node = std::move(node_left);
                     if (bin_op_node->node_left.get() == this)
                     {
                       NodeUtils::replaceNode(bin_op_node->node_left.get(), lhs_node);
@@ -602,7 +603,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                     Token tok_mult;
                     tok_mult.type = TokenType::ASTERISK;
                     BinOpNode* bin_op_node = static_cast<BinOpNode*>(this->parent);
-                    lhs_node = std::make_unique<Asterisk>(rooted_node, tok_mult, rhs_node);
+                    lhs_node = std::make_unique<Asterisk>(node_factory, rooted_node, tok_mult, rhs_node);
                     if (bin_op_node->node_left.get() == this)
                     {
                       NodeUtils::replaceNode(bin_op_node->node_left.get(), lhs_node);
@@ -611,7 +612,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                     {
                       Token tok_paren;
                       tok_paren.type = TokenType::LPAREN;
-                      lhs_node = std::make_unique<Paren>(tok_paren, lhs_node);
+                      lhs_node = std::make_unique<Paren>(node_factory, tok_paren, lhs_node);
                       NodeUtils::replaceNode(bin_op_node->node_right.get(), lhs_node);
                     }
                     break;
@@ -623,11 +624,11 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                     BinOpNode* bin_op_node = static_cast<BinOpNode*>(this->parent);
                     if (bin_op_node->node_left.get() == this)
                     {
-                      lhs_node = std::make_unique<Asterisk>(bin_op_node->node_right, tok_mult, rooted_node);
+                      lhs_node = std::make_unique<Asterisk>(node_factory, bin_op_node->node_right, tok_mult, rooted_node);
                     }
                     else
                     {
-                      lhs_node = std::make_unique<Asterisk>(bin_op_node->node_left, tok_mult, rooted_node);
+                      lhs_node = std::make_unique<Asterisk>(node_factory, bin_op_node->node_left, tok_mult, rooted_node);
                     }
                     NodeUtils::replaceNode(bin_op_node->node_left.get(), lhs_node);
                     NodeUtils::replaceNode(bin_op_node->node_right.get(), rhs_node);
@@ -637,7 +638,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                   {
                     Token tok_mult;
                     tok_mult.type = TokenType::ASTERISK;
-                    lhs_node = std::make_unique<Asterisk>(rooted_node, tok_mult, rhs_node);
+                    lhs_node = std::make_unique<Asterisk>(node_factory, rooted_node, tok_mult, rhs_node);
                     UnaOpNode* una_op_node = static_cast<UnaOpNode*>(this->parent);
                     NodeUtils::replaceNode(una_op_node->node.get(), lhs_node);
                     break;
@@ -646,10 +647,10 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                   {
                     Token tok_mult;
                     tok_mult.type = TokenType::ASTERISK;
-                    lhs_node = std::make_unique<Asterisk>(rooted_node, tok_mult, rhs_node);
+                    lhs_node = std::make_unique<Asterisk>(node_factory, rooted_node, tok_mult, rhs_node);
                     Token tok_paren;
                     tok_paren.type = TokenType::LPAREN;
-                    lhs_node = std::make_unique<Paren>(tok_paren, lhs_node);
+                    lhs_node = std::make_unique<Paren>(node_factory, tok_paren, lhs_node);
                     BinOpNode* bin_op_node = static_cast<BinOpNode*>(this->parent);
                     if (bin_op_node->node_right.get() == this)
                     {
@@ -702,5 +703,6 @@ unique_ptr<Node> Caret::copy()
 {
   unique_ptr<Node> lhs_node = node_left->copy();
   unique_ptr<Node> rhs_node = node_right->copy();
-  return std::make_unique<Caret>(lhs_node, tok, rhs_node);
+  return node_factory->produceNode(tok, lhs_node, rhs_node);
+  //return std::make_unique<Caret>(lhs_node, tok, rhs_node);
 }

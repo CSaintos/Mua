@@ -25,7 +25,11 @@ namespace mua
   public:
     virtual ~INodeFactory() = default;
 
-    virtual std::unique_ptr<Node> produceNode(Token &token, NodeType node_type = NodeType::BINARY_OPERATOR) = 0;
+    virtual std::unique_ptr<Node> produceNode(Token &token, std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_right, NodeType node_type = NodeType::BINARY_OPERATOR) = 0;
     virtual std::unique_ptr<Node> produceNode(TokenType token_type, NodeType node_type = NodeType::BINARY_OPERATOR) = 0;
+    virtual std::unique_ptr<Node> produceNode(TokenType token_type, std::unique_ptr<Node> &node) = 0;
+    virtual std::unique_ptr<Node> produceNode(TokenType token_type, std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_right) = 0;
+    virtual std::unique_ptr<Node> produceNode(Token &token, NodeType node_type = NodeType::BINARY_OPERATOR) = 0;
+    virtual std::unique_ptr<Node> produceNode(Token &token, std::unique_ptr<Node> &node) = 0;
   };
 }

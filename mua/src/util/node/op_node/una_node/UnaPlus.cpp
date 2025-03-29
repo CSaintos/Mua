@@ -13,9 +13,11 @@ UnaPlus::UnaPlus(unique_ptr<Node> &node_op, unique_ptr<Node> &node)
   : UnaOpNode(node_op, node)
 {}
 
-UnaPlus::UnaPlus(Token &tok_op, unique_ptr<Node> &node)
+UnaPlus::UnaPlus(INodeFactory *node_factory, Token &tok_op, unique_ptr<Node> &node)
   : UnaOpNode(tok_op, node)
-{}
+{
+  this->node_factory = node_factory;
+}
 
 string UnaPlus::to_repr()
 {
@@ -51,13 +53,13 @@ bool UnaPlus::interpret(const unordered_set<InterpretType> &flags)
   res_tok.lexemes = result_str;
   res_tok.type = TokenType::DIGIT;
 
-  res_node = std::make_unique<ValueNode>(res_tok);
+  res_node = std::make_unique<ValueNode>(this->node_factory, res_tok);
 
   if (is_negative)
   {
     Token minus_tok;
     minus_tok.type = TokenType::MINUS;
-    res_node = std::make_unique<UnaMinus>(minus_tok, res_node);
+    res_node = std::make_unique<UnaMinus>(this->node_factory, minus_tok, res_node);
   }
 
   if (res_node->to_repr() != this->to_repr())
@@ -72,5 +74,6 @@ bool UnaPlus::interpret(const unordered_set<InterpretType> &flags)
 unique_ptr<Node> UnaPlus::copy()
 {
   unique_ptr<Node> node_copy = node->copy();
-  return std::make_unique<UnaPlus>(tok, node_copy);
+  return node_factory->produceNode(tok, node_copy);
+  //return std::make_unique<UnaPlus>(tok, node_copy);
 }

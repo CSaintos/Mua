@@ -24,7 +24,7 @@ namespace mua
   {
     Paren(INodeFactory *node_factory, Token &tok_op);
     Paren(std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node);
-    Paren(Token &tok_op, std::unique_ptr<Node> &node);
+    Paren(INodeFactory *node_factory, Token &tok_op, std::unique_ptr<Node> &node);
     std::string to_repr() override;
     bool interpret(const std::unordered_set<InterpretType> &flags = {}) override;
     std::unique_ptr<Node> copy() override;

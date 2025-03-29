@@ -23,6 +23,7 @@
 #include "Node.hpp"
 #include "ValueNode.hpp"
 #include "FSlash.hpp"
+#include "INodeFactory.hpp"
 
 namespace mua
 {
@@ -36,7 +37,7 @@ namespace mua
     static int g(int x, int n, int b); // factorize helper function
   public:
     static std::string stripTrailingZeros(std::string number);
-    static std::unique_ptr<Node> fractionalize(std::string number);
+    static std::unique_ptr<Node> fractionalize(INodeFactory *node_factory, std::string number);
     static unsigned long long bpow(unsigned long long b, unsigned long long e);
     static unsigned long long mpow(unsigned long long b, unsigned long long e, unsigned long long m);
     static bool isPrime(int x);
