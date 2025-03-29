@@ -60,9 +60,7 @@ bool UnaMinus::interpret(const unordered_set<InterpretType> &flags)
       res_node = std::move(una_op_node->node);
       if (!is_minus)
       {
-        Token tok_minus;
-        tok_minus.type = TokenType::MINUS;
-        res_node = std::make_unique<UnaMinus>(this->node_factory, tok_minus, res_node);
+        res_node = node_factory->produceNode(TokenType::MINUS, res_node);
       }
       NodeUtils::replaceNode(this, res_node);
       change = true;

@@ -53,13 +53,11 @@ bool UnaPlus::interpret(const unordered_set<InterpretType> &flags)
   res_tok.lexemes = result_str;
   res_tok.type = TokenType::DIGIT;
 
-  res_node = std::make_unique<ValueNode>(this->node_factory, res_tok);
+  res_node = node_factory->produceNode(res_tok);
 
   if (is_negative)
   {
-    Token minus_tok;
-    minus_tok.type = TokenType::MINUS;
-    res_node = std::make_unique<UnaMinus>(this->node_factory, minus_tok, res_node);
+    res_node = node_factory->produceNode(TokenType::MINUS, res_node);
   }
 
   if (res_node->to_repr() != this->to_repr())

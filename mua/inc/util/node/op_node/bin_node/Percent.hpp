@@ -14,7 +14,6 @@
 #include "Token.hpp"
 #include "TokenType.hpp"
 #include "Node.hpp"
-#include "ValueNode.hpp"
 #include "BinOpNode.hpp"
 #include "NumberUtils.hpp"
 #include "NodeUtils.hpp"

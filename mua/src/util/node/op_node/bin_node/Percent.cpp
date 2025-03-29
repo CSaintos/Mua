@@ -45,7 +45,7 @@ bool Percent::interpret(const unordered_set<InterpretType> &flags)
       res_tok.lexemes = result_str;
       res_tok.type = TokenType::DIGIT;
 
-      unique_ptr<Node> res_node = std::make_unique<ValueNode>(node_factory, res_tok);
+      unique_ptr<Node> res_node = node_factory->produceNode(res_tok);
 
       NodeUtils::replaceNode(this, res_node);
       return true;

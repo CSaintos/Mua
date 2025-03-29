@@ -18,6 +18,7 @@
 #include "ValueNode.hpp"
 #include "BinPlus.hpp"
 #include "UnaPlus.hpp"
+#include "UnaMinus.hpp"
 #include "BinMinus.hpp"
 #include "Asterisk.hpp"
 #include "FSlash.hpp"
