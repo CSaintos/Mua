@@ -57,3 +57,10 @@ bool BinOpNode::interpret(const unordered_set<InterpretType> &flags)
   cout << "BinOpNode interpret" << endl;
   return false;
 }
+
+unique_ptr<Node> BinOpNode::copy()
+{
+  unique_ptr<Node> lhs_node = node_left->copy();
+  unique_ptr<Node> rhs_node = node_right->copy();
+  return node_factory->produceNode(tok, lhs_node, rhs_node);
+}

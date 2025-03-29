@@ -526,9 +526,3 @@ bool BinPlus::interpret(const unordered_set<InterpretType> &flags)
   return change;
 }
 
-unique_ptr<Node> BinPlus::copy()
-{
-  unique_ptr<Node> lhs_node = node_left->copy();
-  unique_ptr<Node> rhs_node = node_right->copy();
-  return node_factory->produceNode(tok, lhs_node, rhs_node);
-}

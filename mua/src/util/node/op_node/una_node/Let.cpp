@@ -30,10 +30,3 @@ bool Let::interpret(const unordered_set<InterpretType> &flags)
   return change;
 }
 
-unique_ptr<Node> Let::copy()
-{
-  //probably not safe code
-  //return std::make_unique<Let>(tok, (unique_ptr<Node> &)*node->copy());
-  unique_ptr<Node> node_copy = node->copy();
-  return node_factory->produceNode(tok, node_copy);
-}

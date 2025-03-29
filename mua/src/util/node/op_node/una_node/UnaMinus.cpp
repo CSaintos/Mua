@@ -69,8 +69,3 @@ bool UnaMinus::interpret(const unordered_set<InterpretType> &flags)
   return change;
 }
 
-unique_ptr<Node> UnaMinus::copy()
-{
-  unique_ptr<Node> node_copy = node->copy();
-  return node_factory->produceNode(tok, node_copy);
-}
