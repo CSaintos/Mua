@@ -3,9 +3,11 @@
 using namespace std;
 using namespace mua;
 
-Asterisk::Asterisk(Token &tok_op)
+Asterisk::Asterisk(INodeFactory *node_factory, Token &tok_op)
   : BinOpNode(tok_op)
-{}
+{
+  this->node_factory = node_factory;
+}
 
 Asterisk::Asterisk(unique_ptr<Node> &node_left, unique_ptr<Node> &node_op, unique_ptr<Node> &node_right)
   : BinOpNode(node_left, node_op, node_right)

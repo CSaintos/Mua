@@ -3,9 +3,11 @@
 using namespace std;
 using namespace mua;
 
-Equal::Equal(Token &tok_op)
+Equal::Equal(INodeFactory *node_factory, Token &tok_op)
   : BinOpNode(tok_op)
-{}
+{
+  this->node_factory = node_factory;
+}
 
 Equal::Equal(unique_ptr<Node> &node_left, unique_ptr<Node> &node_op, unique_ptr<Node> &node_right)
   : BinOpNode(node_left, node_op, node_right)

@@ -3,9 +3,11 @@
 using namespace std;
 using namespace mua;
 
-Paren::Paren(Token &tok_op)
+Paren::Paren(INodeFactory *node_factory, Token &tok_op)
   : UnaOpNode(tok_op)
-{}
+{
+  this->node_factory = node_factory;
+}
 
 Paren::Paren(unique_ptr<Node> &node_op, unique_ptr<Node> &node)
   : UnaOpNode(node_op, node)

@@ -14,9 +14,11 @@
 #include "Token.hpp"
 #include "NodeType.hpp"
 #include "InterpretType.hpp"
+#include "INodeFactory.hpp"
 
 namespace mua
 {
+  class INodeFactory; // Forward declaration
   /**
    * @pure @struct Node
    * @brief Specifies generic node
@@ -69,5 +71,7 @@ namespace mua
     virtual bool interpret(const std::unordered_set<InterpretType> &flags = {}) = 0;
 
     virtual std::unique_ptr<Node> copy() = 0;
+  protected:
+    INodeFactory *node_factory;
   };
 }

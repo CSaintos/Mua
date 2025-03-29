@@ -4,9 +4,11 @@
 using namespace std;
 using namespace mua;
 
-BinPlus::BinPlus(Token &tok_op)
+BinPlus::BinPlus(INodeFactory *node_factory, Token &tok_op)
   : BinOpNode(tok_op) 
-{}
+{
+  this->node_factory = node_factory;
+}
 
 BinPlus::BinPlus(unique_ptr<Node> &node_left, unique_ptr<Node> &node_op, unique_ptr<Node> &node_right)
   : BinOpNode(node_left, node_op, node_right)

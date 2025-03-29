@@ -3,9 +3,11 @@
 using namespace std;
 using namespace mua;
 
-Percent::Percent(Token &tok_op)
+Percent::Percent(INodeFactory *node_factory, Token &tok_op)
   : BinOpNode(tok_op)
-{}
+{
+  this->node_factory = node_factory;
+}
 
 Percent::Percent(unique_ptr<Node> &node_left, unique_ptr<Node> &node_op, unique_ptr<Node> &node_right)
   : BinOpNode(node_left, node_op, node_right)

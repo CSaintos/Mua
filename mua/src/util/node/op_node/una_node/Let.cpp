@@ -3,9 +3,11 @@
 using namespace std;
 using namespace mua;
 
-Let::Let(Token &tok_op)
+Let::Let(INodeFactory *node_factory, Token &tok_op)
   : UnaOpNode(tok_op)
-{}
+{
+  this->node_factory = node_factory;
+}
 
 Let::Let(unique_ptr<Node> &node_op, unique_ptr<Node> &node)
   : UnaOpNode(node_op, node)

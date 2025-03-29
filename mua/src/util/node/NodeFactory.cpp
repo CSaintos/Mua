@@ -20,11 +20,11 @@ unique_ptr<Node> NodeFactory::produceNode(Token &token, NodeType node_type)
   case TokenType::PLUS:
     if (node_type == NodeType::BINARY_OPERATOR)
     {
-      return std::make_unique<BinPlus>(token);
+      return std::make_unique<BinPlus>(this, token);
     }
     else if (node_type == NodeType::UNARY_OPERATOR)
     {
-      return std::make_unique<UnaPlus>(token);
+      return std::make_unique<UnaPlus>(this, token);
     }
     else
     {
@@ -34,11 +34,11 @@ unique_ptr<Node> NodeFactory::produceNode(Token &token, NodeType node_type)
   case TokenType::MINUS:
     if (node_type == NodeType::BINARY_OPERATOR)
     {
-      return std::make_unique<BinMinus>(token);
+      return std::make_unique<BinMinus>(this, token);
     }
     else if (node_type == NodeType::UNARY_OPERATOR)
     {
-      return std::make_unique<UnaMinus>(token);
+      return std::make_unique<UnaMinus>(this, token);
     }
     else
     {
@@ -47,29 +47,29 @@ unique_ptr<Node> NodeFactory::produceNode(Token &token, NodeType node_type)
     break;
   case TokenType::ASTERISK:
   case TokenType::ADJACENT:
-    return std::make_unique<Asterisk>(token);
+    return std::make_unique<Asterisk>(this, token);
     break;
   case TokenType::FSLASH:
-    return std::make_unique<FSlash>(token);
+    return std::make_unique<FSlash>(this, token);
     break;
   case TokenType::PERCENT:
-    return std::make_unique<Percent>(token);
+    return std::make_unique<Percent>(this, token);
     break;
   case TokenType::CARET:
-    return std::make_unique<Caret>(token);
+    return std::make_unique<Caret>(this, token);
     break;
   case TokenType::LPAREN:
   case TokenType::RPAREN:
-    return std::make_unique<Paren>(token);
+    return std::make_unique<Paren>(this, token);
     break;
   case TokenType::EQUAL:
-    return std::make_unique<Equal>(token);
+    return std::make_unique<Equal>(this, token);
     break;
   case TokenType::LET:
-    return std::make_unique<Let>(token);
+    return std::make_unique<Let>(this, token);
     break;
   case TokenType::SEMICOLON:
-    return std::make_unique<Semicolon>(token);
+    return std::make_unique<Semicolon>(this, token);
     break;
   default:
     cout << "NodeFactory Error: Unrecognized TokenType " + TokenUtils::m_TS_map[token.type] << endl;

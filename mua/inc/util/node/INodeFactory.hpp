@@ -15,6 +15,7 @@
 
 namespace mua
 {
+  class Node; // Forward declaration (fixes circular dependency compilation error)
   /**
    * @pure @class INodeFactory
    * @brief NodeFactory Interface

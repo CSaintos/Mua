@@ -3,9 +3,11 @@
 using namespace std;
 using namespace mua;
 
-UnaPlus::UnaPlus(Token &tok_op)
+UnaPlus::UnaPlus(INodeFactory *node_factory, Token &tok_op)
   : UnaOpNode(tok_op)
-{}
+{
+  this->node_factory = node_factory;
+}
 
 UnaPlus::UnaPlus(unique_ptr<Node> &node_op, unique_ptr<Node> &node)
   : UnaOpNode(node_op, node)
