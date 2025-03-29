@@ -75,5 +75,4 @@ unique_ptr<Node> UnaPlus::copy()
 {
   unique_ptr<Node> node_copy = node->copy();
   return node_factory->produceNode(tok, node_copy);
-  //return std::make_unique<UnaPlus>(tok, node_copy);
 }

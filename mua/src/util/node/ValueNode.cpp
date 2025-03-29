@@ -12,5 +12,4 @@ ValueNode::ValueNode(INodeFactory *node_factory, Token &tok_value)
 unique_ptr<Node> ValueNode::copy()
 {
   return node_factory->produceNode(tok);
-  //return std::make_unique<ValueNode>(tok);
 }

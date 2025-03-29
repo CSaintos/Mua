@@ -549,11 +549,8 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                 tok_value.lexemes = std::to_string(simple_radicand);
                 lhs_node = std::make_unique<ValueNode>(node_factory, tok_value);
 
-                //NodeUtils::replaceNode(node_left.get(), lhs_node);
-                
                 if (!this->parent)
                 {
-                  //lhs_node = std::move(node_left);
                   Token tok_fslash;
                   tok_fslash.type = TokenType::FSLASH;
                   rhs_node = std::make_unique<FSlash>(node_factory, right_numerator, tok_fslash, right_denominator);
@@ -704,5 +701,4 @@ unique_ptr<Node> Caret::copy()
   unique_ptr<Node> lhs_node = node_left->copy();
   unique_ptr<Node> rhs_node = node_right->copy();
   return node_factory->produceNode(tok, lhs_node, rhs_node);
-  //return std::make_unique<Caret>(lhs_node, tok, rhs_node);
 }

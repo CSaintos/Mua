@@ -94,7 +94,6 @@ void Definer::searchOneNode(Node* node)
           tok.type = TokenType::IDENTIFIER;
           tok.pos = pos;
           tok.lexemes = curr->lexemes;
-          //adjacent_nodes.push(std::make_unique<ValueNode>(tok));
           adjacent_nodes.push(node_factory->produceNode(tok));
           
           curr = name_trie.getTrie();
@@ -127,7 +126,6 @@ void Definer::searchOneNode(Node* node)
         tok.type = TokenType::IDENTIFIER;
         tok.pos = pos;
         tok.lexemes = curr->lexemes;
-        //adjacent_nodes.push(std::make_unique<ValueNode>(tok));
         adjacent_nodes.push(node_factory->produceNode(tok));
       }
       // Insert adjacent_nodes into tree
@@ -147,9 +145,6 @@ void Definer::searchOneNode(Node* node)
           UnaOpNode* temp_una = static_cast<UnaOpNode*>(temp);
           left_node = std::move(adjacent_nodes.top());
           adjacent_nodes.pop();
-          //Token place_holder;
-          //place_holder.type = TokenType::ADJACENT;
-          //temp_una->node = std::make_unique<Asterisk>(left_node, place_holder, right_node);
           temp_una->node = node_factory->produceNode(TokenType::ADJACENT, left_node, right_node);
           temp = temp_una->node.get();
           if (!adjacent_nodes.empty())
@@ -163,17 +158,13 @@ void Definer::searchOneNode(Node* node)
           BinOpNode* temp_bin = static_cast<BinOpNode*>(temp); 
           left_node = std::move(adjacent_nodes.top());
           adjacent_nodes.pop();
-          //Token place_holder;
-          //place_holder.type = TokenType::ADJACENT;
           if (node_to_replace == temp_bin->node_left.get())
           {
-            //temp_bin->node_left = std::make_unique<Asterisk>(left_node, place_holder, right_node);
             temp_bin->node_left = node_factory->produceNode(TokenType::ADJACENT, left_node, right_node);
             temp = temp_bin->node_left.get();
           }
           else
           {
-            //temp_bin->node_right = std::make_unique<Asterisk>(left_node, place_holder, right_node);
             temp_bin->node_right = node_factory->produceNode(TokenType::ADJACENT, left_node, right_node);
             temp = temp_bin->node_right.get();
           }

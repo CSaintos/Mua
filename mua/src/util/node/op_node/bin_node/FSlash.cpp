@@ -121,7 +121,6 @@ bool FSlash::interpret(const unordered_set<InterpretType> &flags)
       }
       if (una_op_node->node->tok.type == TokenType::DIGIT)
       {
-        //removable_left_paren = true;
         lhs_node = NumberUtils::fractionalize(node_factory, una_op_node->node->to_repr());
       }
       if (una_op_node->node->tok.type == TokenType::FSLASH)
@@ -440,5 +439,4 @@ unique_ptr<Node> FSlash::copy()
   unique_ptr<Node> lhs_node = node_left->copy();
   unique_ptr<Node> rhs_node = node_right->copy();
   return node_factory->produceNode(tok, lhs_node, rhs_node);
-  //return std::make_unique<FSlash>(lhs_node, tok, rhs_node);
 }

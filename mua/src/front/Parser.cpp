@@ -566,7 +566,6 @@ void Parser::scanOneToken()
       case TokenType::EMPTY:
       case TokenType::PLUS:
       case TokenType::MINUS:
-//      case TokenType::RPAREN:
       case TokenType::EQUAL:
       case TokenType::LPAREN:
         node_stack.push(node_factory->produceNode(*itr));
