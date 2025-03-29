@@ -49,6 +49,7 @@ SRCFILES = \
 	Paren.cpp \
 	Let.cpp \
 	Semicolon.cpp \
+	NodeFactory.cpp \
 	NodeUtils.cpp \
 	NumberUtils.cpp
 
