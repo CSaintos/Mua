@@ -67,16 +67,25 @@ enum NodeType
 
 enum InterpretType
 
+interface INodeFactory
+INodeFactory ..> TokenType
+INodeFactory ..> Token
+INodeFactory ..> NodeType
+
 struct Node
 Node --> Token
+Node --> INodeFactory
 Node ..> NodeType
 Node ..> InterpretType
+
+INodeFactory ..> Node
 
 struct ValueNode
 ValueNode --|> Node
 ValueNode ..> Token
 ValueNode ..> NodeType
 ValueNode ..> InterpretType
+ValueNode ..> INodeFactory
 
 struct BinOpNode
 BinOpNode --|> Node
@@ -99,12 +108,25 @@ NumberUtils ..> Token
 NumberUtils ..> TokenType
 NumberUtils ..> Node
 NumberUtils ..> ValueNode
+NumberUtils ..> INodeFactory
 
 class NodeUtils
 NodeUtils ..> Node
 NodeUtils ..> NodeType
 NodeUtils ..> BinOpNode
 NodeUtils ..> UnaOpNode
+
+struct FSlash
+FSlash --|> BinOpNode
+FSlash ..> Token
+FSlash ..> TokenType
+FSlash ..> NodeType
+FSlash ..> Node
+FSlash ..> UnaOpNode
+FSlash ..> NodeUtils
+FSlash ..> NumberUtils
+FSlash ..> InterpretType
+FSlash ..> INodeFactory
 
 struct UnaMinus
 UnaMinus --|> UnaOpNode
@@ -113,107 +135,86 @@ UnaMinus ..> TokenType
 UnaMinus ..> Node
 UnaMinus ..> NodeUtils
 UnaMinus ..> InterpretType
+UnaMinus ..> INodeFactory
 
 struct UnaPlus
 UnaPlus --|> UnaOpNode
 UnaPlus ..> Token
 UnaPlus ..> TokenType
 UnaPlus ..> Node
-UnaPlus ..> ValueNode
 UnaPlus ..> NumberUtils
 UnaPlus ..> NodeUtils
 UnaPlus ..> InterpretType
-UnaPlus ..> UnaMinus
+UnaPlus ..> INodeFactory
 
 struct Paren
 Paren --|> UnaOpNode
+Paren ..> TokenType
 Paren ..> Token
 Paren ..> Node
 Paren ..> InterpretType
 Paren ..> NodeUtils
+Paren ..> INodeFactory
 
 struct Let
 Let --|> UnaOpNode
 Let ..> Node
 Let ..> Token
 Let ..> InterpretType
+Let ..> INodeFactory
 
 struct Semicolon
 Semicolon --|> UnaOpNode
 Semicolon ..> Node
 Semicolon ..> Token
 Semicolon ..> InterpretType
+Semicolon ..> INodeFactory
 
 struct BinPlus
 BinPlus --|> BinOpNode
 BinPlus ..> Token
 BinPlus ..> TokenType
 BinPlus ..> Node
-BinPlus ..> ValueNode
+BinPlus ..> NodeType
+BinPlus ..> FSlash
 BinPlus ..> UnaOpNode
-BinPlus ..> UnaMinus
-BinPlus ..> Paren
 BinPlus ..> NodeUtils
 BinPlus ..> NumberUtils
 BinPlus ..> InterpretType
+BinPlus ..> INodeFactory
 
 struct BinMinus
 BinMinus --|> BinOpNode
 BinMinus ..> Token
 BinMinus ..> TokenType
 BinMinus ..> Node
-BinMinus ..> ValueNode
-BinMinus ..> BinPlus
+BinMinus ..> FSlash
 BinMinus ..> UnaOpNode
-BinMinus ..> UnaMinus
 BinMinus ..> NodeUtils
 BinMinus ..> NumberUtils
 BinMinus ..> InterpretType
-
-BinPlus ..> BinMinus
+BinMinus ..> INodeFactory
 
 struct Asterisk
 Asterisk --|> BinOpNode
 Asterisk ..> Token
 Asterisk ..> TokenType
 Asterisk ..> Node
-Asterisk ..> ValueNode
 Asterisk ..> UnaOpNode
-Asterisk ..> UnaMinus
-Asterisk ..> Paren
 Asterisk ..> NodeUtils
 Asterisk ..> NumberUtils
 Asterisk ..> InterpretType
-
-struct FSlash
-FSlash --|> BinOpNode
-FSlash ..> Token
-FSlash ..> TokenType
-FSlash ..> NodeType
-FSlash ..> Node
-FSlash ..> Asterisk
-FSlash ..> UnaOpNode
-FSlash ..> UnaMinus
-FSlash ..> Paren
-FSlash ..> ValueNode
-FSlash ..> NodeUtils
-FSlash ..> NumberUtils
-FSlash ..> InterpretType
-
-NumberUtils ..> FSlash
-BinPlus ..> FSlash
-BinMinus ..> FSlash
-Asterisk ..> FSlash
+Asterisk ..> INodeFactory
 
 struct Percent
 Percent --|> BinOpNode
 Percent ..> Token
 Percent ..> TokenType
 Percent ..> Node
-Percent ..> ValueNode
 Percent ..> NumberUtils
 Percent ..> NodeUtils
 Percent ..> InterpretType
+Percent ..> INodeFactory
 
 struct Caret
 Caret --|> BinOpNode
@@ -222,20 +223,38 @@ Caret ..> TokenType
 Caret ..> TokenUtils
 Caret ..> Node
 Caret ..> UnaOpNode
-Caret ..> ValueNode
-Caret ..> Paren
-Caret ..> UnaMinus
-Caret ..> Asterisk
-Caret ..> FSlash
 Caret ..> NodeUtils
 Caret ..> NumberUtils
 Caret ..> InterpretType
+Caret ..> INodeFactory
 
 struct Equal
 Equal --|> BinOpNode
 Equal ..> Token
 Equal ..> Node
 Equal ..> InterpretType
+Equal ..> INodeFactory
+
+class NodeFactory
+NodeFactory ...|> INodeFactory
+NodeFactory ...> TokenType
+NodeFactory ...> TokenUtils
+NodeFactory ...> Token
+NodeFactory ...> NodeType
+NodeFactory ...> Node
+NodeFactory ...> ValueNode
+NodeFactory ...> BinPlus
+NodeFactory ...> UnaPlus
+NodeFactory ...> UnaMinus
+NodeFactory ...> BinMinus
+NodeFactory ...> Asterisk
+NodeFactory ...> FSlash
+NodeFactory ...> Percent
+NodeFactory ...> Caret
+NodeFactory ...> Paren
+NodeFactory ...> Equal
+NodeFactory ...> Let
+NodeFactory ...> Semicolon
 
 class Parser
 Parser o---> Token
@@ -243,19 +262,8 @@ Parser o---> TokenType
 Parser o---> Node
 Parser ---> UnaOpNode
 Parser ---> BinOpNode
-Parser ...> Error
-Parser ...> UnaPlus
-Parser ...> UnaMinus
-Parser ...> Paren
-Parser ...> Let
-Parser ...> BinPlus
-Parser ...> BinMinus
-Parser ...> Asterisk
-Parser ...> FSlash
-Parser ...> Percent
-Parser ...> Caret
-Parser ...> Equal
-Parser ...> ValueNode
+Parser ---> INodeFactory
+Parser ...> NodeFactory
 Parser ...> Error
 
 class NameTrie
@@ -266,13 +274,13 @@ Definer o---> Node
 Definer ---> NameTrie
 Definer ---> TrieNode
 Definer ---> Position
+Definer ---> INodeFactory
+Definer ...> NodeFactory
 Definer ...> TokenType
 Definer ...> Token
 Definer ...> NodeType
 Definer ...> BinOpNode
 Definer ...> UnaOpNode
-Definer ...> Asterisk
-Definer ...> ValueNode
 Definer ...> Error
 
 class Interpreter
