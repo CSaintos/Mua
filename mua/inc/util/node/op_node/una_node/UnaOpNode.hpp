@@ -76,5 +76,7 @@ namespace mua
     inline bool isLeaf() override { return false; }
 
     bool interpret(const std::unordered_set<InterpretType> &flags = {}) override;   
+
+    std::unique_ptr<Node> copy() override;
   };
 }

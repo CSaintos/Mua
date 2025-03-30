@@ -3,17 +3,21 @@
 using namespace std;
 using namespace mua;
 
-Asterisk::Asterisk(Token &tok_op)
+Asterisk::Asterisk(INodeFactory *node_factory, Token &tok_op)
   : BinOpNode(tok_op)
-{}
+{
+  this->node_factory = node_factory;
+}
 
 Asterisk::Asterisk(unique_ptr<Node> &node_left, unique_ptr<Node> &node_op, unique_ptr<Node> &node_right)
   : BinOpNode(node_left, node_op, node_right)
 {}
 
-Asterisk::Asterisk(unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &node_right)
+Asterisk::Asterisk(INodeFactory *node_factory, unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &node_right)
   : BinOpNode(node_left, tok_op, node_right)
-{}
+{
+  this->node_factory = node_factory;
+}
 
 string Asterisk::to_repr()
 {
@@ -67,7 +71,7 @@ bool Asterisk::interpret(const unordered_set<InterpretType> &flags)
       
       if (una_op_node->node->tok.type == TokenType::DIGIT)
       {
-        lhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
+        lhs_node = NumberUtils::fractionalize(node_factory, una_op_node->node->to_repr());
       }
     }
     else if (node_left->tok.type == TokenType::LPAREN)
@@ -81,7 +85,7 @@ bool Asterisk::interpret(const unordered_set<InterpretType> &flags)
       }
       if (una_op_node->node->tok.type == TokenType::DIGIT)
       {
-        lhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
+        lhs_node = NumberUtils::fractionalize(node_factory, una_op_node->node->to_repr());
       }
       if (una_op_node->node->tok.type == TokenType::FSLASH)
       {
@@ -126,7 +130,7 @@ bool Asterisk::interpret(const unordered_set<InterpretType> &flags)
   {
     if (node_left->tok.type == TokenType::DIGIT)
     {
-      lhs_node = NumberUtils::fractionalize(node_left->to_repr());
+      lhs_node = NumberUtils::fractionalize(node_factory, node_left->to_repr());
     }
   }
 
@@ -139,7 +143,7 @@ bool Asterisk::interpret(const unordered_set<InterpretType> &flags)
       
       if (una_op_node->node->tok.type == TokenType::DIGIT)
       {
-        rhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
+        rhs_node = NumberUtils::fractionalize(node_factory, una_op_node->node->to_repr());
       }
     }
     else if (node_right->tok.type == TokenType::LPAREN)
@@ -158,7 +162,7 @@ bool Asterisk::interpret(const unordered_set<InterpretType> &flags)
           // What's this for?
           removable_right_paren = true;
         }
-        rhs_node = NumberUtils::fractionalize(una_op_node->node->to_repr());
+        rhs_node = NumberUtils::fractionalize(node_factory, una_op_node->node->to_repr());
       }
       if (una_op_node->node->tok.type == TokenType::FSLASH)
       {
@@ -203,7 +207,7 @@ bool Asterisk::interpret(const unordered_set<InterpretType> &flags)
   {
     if (node_right->tok.type == TokenType::DIGIT)
     {
-      rhs_node = NumberUtils::fractionalize(node_right->to_repr());
+      rhs_node = NumberUtils::fractionalize(node_factory, node_right->to_repr());
     }
   }
 
@@ -219,13 +223,11 @@ bool Asterisk::interpret(const unordered_set<InterpretType> &flags)
       res_tok.lexemes = std::to_string(result);
       res_tok.type = TokenType::DIGIT;
 
-      lhs_node = std::make_unique<ValueNode>(res_tok);
+      lhs_node = node_factory->produceNode(res_tok);
 
       if (is_minus)
       {
-        Token tok_minus;
-        tok_minus.type = TokenType::MINUS;
-        lhs_node = std::make_unique<UnaMinus>(tok_minus, lhs_node);
+        lhs_node = node_factory->produceNode(TokenType::MINUS, lhs_node);
       }
 
       NodeUtils::replaceNode(this, lhs_node);
@@ -238,75 +240,44 @@ bool Asterisk::interpret(const unordered_set<InterpretType> &flags)
   }
   else if (left_numerator != nullptr && left_denominator != nullptr && rhs_node != nullptr)
   {
-    Token tok_mult;
-    tok_mult.type = TokenType::ASTERISK;
-    unique_ptr<Node> numerator = std::make_unique<Asterisk>(left_numerator, tok_mult, rhs_node);
+    unique_ptr<Node> numerator = node_factory->produceNode(TokenType::ASTERISK, left_numerator, rhs_node);
     if (is_minus)
     {
-      Token tok_paren;
-      tok_paren.type = TokenType::LPAREN;
-      numerator = std::make_unique<Paren>(tok_paren, numerator);
-      Token tok_minus;
-      tok_minus.type = TokenType::MINUS;
-      numerator = std::make_unique<UnaMinus>(tok_minus, numerator);
+      numerator = node_factory->produceNode(TokenType::LPAREN, numerator);
+      numerator = node_factory->produceNode(TokenType::MINUS, numerator);
     }
-    Token tok_fslash;
-    tok_fslash.type = TokenType::FSLASH;
-    unique_ptr<Node> fraction = std::make_unique<FSlash>(numerator, tok_fslash, left_denominator);
+    unique_ptr<Node> fraction = node_factory->produceNode(TokenType::FSLASH, numerator, left_denominator);
 
     NodeUtils::replaceNode(this, fraction);
     change = true;
   }
   else if (right_numerator != nullptr && right_denominator != nullptr && lhs_node != nullptr)
   {
-    Token tok_mult;
-    tok_mult.type = TokenType::ASTERISK;
-    unique_ptr<Node> numerator = std::make_unique<Asterisk>(lhs_node, tok_mult, right_numerator);
+    unique_ptr<Node> numerator = node_factory->produceNode(TokenType::ASTERISK, lhs_node, right_numerator);
     if (is_minus)
     {
-      Token tok_paren;
-      tok_paren.type = TokenType::LPAREN;
-      numerator = std::make_unique<Paren>(tok_paren, numerator);
-      Token tok_minus;
-      tok_minus.type = TokenType::MINUS;
-      numerator = std::make_unique<UnaMinus>(tok_minus, numerator);
+      numerator = node_factory->produceNode(TokenType::LPAREN, numerator);
+      numerator = node_factory->produceNode(TokenType::MINUS, numerator);
     }
-    Token tok_fslash;
-    tok_fslash.type = TokenType::FSLASH;
-    unique_ptr<Node> fraction = std::make_unique<FSlash>(numerator, tok_fslash, right_denominator);
+    unique_ptr<Node> fraction = node_factory->produceNode(TokenType::FSLASH, numerator, right_denominator);
 
     NodeUtils::replaceNode(this, fraction);
     change = true;
   }
   else if (left_numerator != nullptr && left_denominator != nullptr && right_numerator != nullptr && right_denominator != nullptr)
   {
-    Token tok_mult;
-    tok_mult.type = TokenType::ASTERISK;
-    Token tok_paren;
-    tok_paren.type = TokenType::LPAREN;
     if (is_minus)
     {
-      Token tok_minus;
-      tok_minus.type = TokenType::MINUS;
-      left_numerator = std::make_unique<UnaMinus>(tok_minus, left_numerator);
+      left_numerator = node_factory->produceNode(TokenType::MINUS, left_numerator);
     }
-    unique_ptr<Node> numerator = std::make_unique<Asterisk>(left_numerator, tok_mult, right_numerator);
-    unique_ptr<Node> denominator = std::make_unique<Asterisk>(left_denominator, tok_mult, right_denominator);
-    denominator = std::make_unique<Paren>(tok_paren, denominator);
+    unique_ptr<Node> numerator = node_factory->produceNode(TokenType::ASTERISK, left_numerator, right_numerator);
+    unique_ptr<Node> denominator = node_factory->produceNode(TokenType::ASTERISK, left_denominator, right_denominator);
+    denominator = node_factory->produceNode(TokenType::LPAREN, denominator);
 
-    Token tok_fslash;
-    tok_fslash.type = TokenType::FSLASH;
-    unique_ptr<Node> fraction = std::make_unique<FSlash>(numerator, tok_fslash, denominator);
+    unique_ptr<Node> fraction = node_factory->produceNode(TokenType::FSLASH, numerator, denominator);
     NodeUtils::replaceNode(this, fraction);
     change = true;
   }
 
   return change;
-}
-
-unique_ptr<Node> Asterisk::copy()
-{
-  unique_ptr<Node> lhs_node = node_left->copy();
-  unique_ptr<Node> rhs_node = node_right->copy();
-  return std::make_unique<Asterisk>(lhs_node, tok, rhs_node);
 }

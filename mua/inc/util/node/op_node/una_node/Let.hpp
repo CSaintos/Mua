@@ -12,16 +12,17 @@
 #include "UnaOpNode.hpp"
 #include "Token.hpp"
 #include "InterpretType.hpp"
+#include "INodeFactory.hpp"
 
 namespace mua
 {
   struct Let : public UnaOpNode
   {
-    Let(Token &tok_op);
+    Let(INodeFactory *node_factory, Token &tok_op);
     Let(std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node);
-    Let(Token &tok_op, std::unique_ptr<Node> &node);
+    Let(INodeFactory *node_factory, Token &tok_op, std::unique_ptr<Node> &node);
+
     std::string to_repr() override;
     bool interpret(const std::unordered_set<InterpretType> &flags = {}) override;
-    std::unique_ptr<Node> copy() override;
   };
 }

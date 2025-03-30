@@ -13,6 +13,7 @@
 #include "Node.hpp"
 #include "NodeType.hpp"
 #include "InterpretType.hpp"
+#include "INodeFactory.hpp"
 
 namespace mua
 {
@@ -23,7 +24,7 @@ namespace mua
    */
   struct ValueNode : public Node
   {
-    ValueNode(Token &tok_value);
+    ValueNode(INodeFactory *node_factory, Token &tok_value);
 
     /**
      * @return true because a value node is a leaf

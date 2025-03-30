@@ -3,17 +3,21 @@
 using namespace std;
 using namespace mua;
 
-Let::Let(Token &tok_op)
+Let::Let(INodeFactory *node_factory, Token &tok_op)
   : UnaOpNode(tok_op)
-{}
+{
+  this->node_factory = node_factory;
+}
 
 Let::Let(unique_ptr<Node> &node_op, unique_ptr<Node> &node)
   : UnaOpNode(node_op, node)
 {}
 
-Let::Let(Token &tok_op, unique_ptr<Node> &node)
+Let::Let(INodeFactory *node_factory, Token &tok_op, unique_ptr<Node> &node)
   : UnaOpNode(tok_op, node)
-{}
+{
+  this->node_factory = node_factory;
+}
 
 string Let::to_repr()
 {
@@ -26,8 +30,3 @@ bool Let::interpret(const unordered_set<InterpretType> &flags)
   return change;
 }
 
-unique_ptr<Node> Let::copy()
-{
-  unique_ptr<Node> node_copy = node->copy();
-  return std::make_unique<Let>(tok, node_copy);
-}

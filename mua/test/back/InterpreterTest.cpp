@@ -25,7 +25,6 @@ int main(int argc, char *argv[])
   Lexer lexer;
   Parser parser;
   Definer definer;
-  //Interpreter interpreter;
 
   int line_length = 0;
   

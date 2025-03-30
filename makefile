@@ -19,7 +19,20 @@ PROJECTS = \
 	./make/mua/reader.mk \
 	./make/mua/token.mk \
 	./make/mua/trie.mk \
-	./make/mua/node.mk \
+	./make/mua/base_node.mk \
+	./make/mua/unaplus_node.mk \
+	./make/mua/unaminus_node.mk \
+	./make/mua/semicolon_node.mk \
+	./make/mua/percent_node.mk \
+	./make/mua/paren_node.mk \
+	./make/mua/let_node.mk \
+	./make/mua/equal_node.mk \
+	./make/mua/caret_node.mk \
+	./make/mua/asterisk_node.mk \
+	./make/mua/fslash_node.mk \
+	./make/mua/binminus_node.mk \
+	./make/mua/binplus_node.mk \
+	./make/mua/node_factory.mk \
 	./make/mua/lexer.mk \
 	./make/mua/parser.mk \
 	./make/mua/definer.mk \
@@ -54,25 +67,38 @@ dirs: $(DIRS)
 #? Submake dependencies (allows `make -j` to work) ex. # m./make/submake1.mk: m./make/submake2.mk
 #? A submake dependes on another if it uses the target of the other (such as the form of a library) 
 m./make/mua/trie.mk: m./make/mua/token.mk
+m./make/mua/base_node.mk: m./make/mua/token.mk m./make/mua/character.mk
+m./make/mua/unaplus_node.mk: m./make/mua/base_node.mk
+m./make/mua/unaminus_node.mk: m./make/mua/base_node.mk
+m./make/mua/semicolon_node.mk: m./make/mua/base_node.mk
+m./make/mua/percent_node.mk: m./make/mua/base_node.mk
+m./make/mua/paren_node.mk: m./make/mua/base_node.mk
+m./make/mua/let_node.mk: m./make/mua/base_node.mk
+m./make/mua/equal_node.mk: m./make/mua/base_node.mk
+m./make/mua/caret_node.mk: m./make/mua/base_node.mk
+m./make/mua/asterisk_node.mk: m./make/mua/base_node.mk
+m./make/mua/fslash_node.mk: m./make/mua/base_node.mk
+m./make/mua/binminus_node.mk: m./make/mua/fslash_node.mk
+m./make/mua/binplus_node.mk: m./make/mua/fslash_node.mk
+m./make/mua/node_factory.mk: m./make/mua/binplus_node.mk m./make/mua/binminus_node.mk m./make/mua/asterisk_node.mk m./make/mua/caret_node.mk m./make/mua/equal_node.mk m./make/mua/let_node.mk m./make/mua/paren_node.mk m./make/mua/percent_node.mk m./make/mua/semicolon_node.mk m./make/mua/unaminus_node.mk m./make/mua/unaplus_node.mk
 m./make/mua/node.mk: m./make/mua/token.mk
 m./make/mua/lexer.mk: m./make/mua/error.mk m./make/mua/trie.mk m./make/mua/character.mk
-m./make/mua/parser.mk: m./make/mua/error.mk m./make/mua/node.mk
-m./make/mua/definer.mk: m./make/mua/error.mk m./make/mua/node.mk m./make/mua/trie.mk
-m./make/mua/interpreter.mk: m./make/mua/node.mk
+#m./make/mua/parser.mk: m./make/mua/error.mk m./make/mua/node.mk
+m./make/mua/parser.mk: m./make/mua/error.mk m./make/mua/node_factory.mk
+#m./make/mua/definer.mk: m./make/mua/error.mk m./make/mua/node.mk m./make/mua/trie.mk
+m./make/mua/definer.mk: m./make/mua/error.mk m./make/mua/node_factory.mk m./make/mua/trie.mk
+m./make/mua/interpreter.mk: m./make/mua/base_node.mk
 m./make/mua/reader.mk: m./make/mua/character.mk m./make/mua/error.mk
-m./make/mua/generator.mk: m./make/mua/node.mk
-m./make/plugin/plus.mk: m./make/mua/node.mk
 m./make/mua-test/error.mk: m./make/mua/error.mk
 m./make/mua-test/character.mk: m./make/mua/character.mk
 m./make/mua-test/token.mk: m./make/mua/token.mk
 m./make/mua-test/reader.mk: m./make/mua/reader.mk
 m./make/mua-test/lexer.mk: m./make/mua/lexer.mk m./make/mua/reader.mk
-m./make/mua-test/node.mk: m./make/mua/node.mk
-m./make/mua-test/number.mk: m./make/mua/node.mk m./make/mua/character.mk
+m./make/mua-test/node.mk: m./make/mua/node_factory.mk
+m./make/mua-test/number.mk: m./make/mua/base_node.mk
 m./make/mua-test/parser.mk: m./make/mua/parser.mk m./make/mua/lexer.mk m./make/mua/reader.mk
 m./make/mua-test/definer.mk: m./make/mua/definer.mk m./make/mua/parser.mk m./make/mua/lexer.mk m./make/mua/reader.mk
 m./make/mua-test/interpreter.mk: m./make/mua/interpreter.mk m./make/mua/definer.mk m./make/mua/parser.mk m./make/mua/lexer.mk m./make/mua/reader.mk
-m./make/mua-test/generator.mk: m./make/mua/generator.mk m./make/mua/parser.mk m./make/mua/lexer.mk m./make/mua/reader.mk
 m./make/mua-test/writer.mk: m./make/mua/writer.mk
 m./make/mua/main.mk: m./make/mua/writer.mk m./make/mua/interpreter.mk m./make/mua/definer.mk m./make/mua/parser.mk m./make/mua/lexer.mk m./make/mua/reader.mk
 

@@ -1,55 +1,41 @@
-# mua/parser.mk
+# mua/binplus_node.mk
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
 BUILDTYPE = STATICLIB
 # COMPILEONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
-TARGET_NAME = parser
+TARGET_NAME = binplus_node
 # <path-to-dir>
-TARGET_PATH = mua/parser
+TARGET_PATH = mua/node
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Imua/inc/util/character \
-	-Imua/inc/front \
 	-Imua/inc/util/node \
 	-Imua/inc/util/node/op_node/bin_node \
 	-Imua/inc/util/node/op_node/una_node \
 	-Imua/inc/util/token \
-	-Imua/inc/util/error \
 	-Imua/inc/util
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
 	-Lbuild/mua/node \
 	-Lbuild/mua/token \
-	-Lbuild/mua/error \
 	-Lbuild/mua/character
-# Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
+# if on linux or windows, for linking libraries `-l<file>` do not prepend `lib` to the link flag (unless its in the file name) as each `-l` is converted into `-l:` in maker.mk
+# if on osx, use -l (internal lib) syntax only, every lib file must begin with `lib`. if lib is static, it must end in `.a`, else if lib dynamic, it must end in `.dylib`
+# Dynamic link files # (for internal libs) `-l<file-no-extension>` or (for external libs) `-l:<file-w-extension>` # Order from most dependent to least dependent.
 DLINKS =
-# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
+# Static link files # (for internal libs) `-l<file-no-extension>` or (for external libs) `-l:<file-w-extension>` # Order from most dependent to least dependent.
 SLINKS = \
-	-lnode_factory \
-	-lbinminus_node \
-	-lbinplus_node \
 	-lfslash_node \
-	-lpercent_node \
-	-lasterisk_node \
-	-lcaret_node \
-	-lequal_node \
-	-llet_node \
-	-lparen_node \
-	-lunaminus_node \
-	-lunaplus_node \
-	-lsemicolon_node \
 	-lbase_node \
 	-ltoken \
-	-lerror \
 	-lcharacter
-DEFINES = 
+DEFINES =
 SRCDIRS = \
-	mua/src/front
+	mua/src/util/node/op_node/bin_node
 SRCFILES = \
-	Parser.cpp
+	BinPlus.cpp
 
 #? Constants
 OBJDIR = bin/$(TARGET_PATH)

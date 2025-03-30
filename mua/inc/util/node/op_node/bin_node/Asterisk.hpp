@@ -14,24 +14,21 @@
 #include "TokenType.hpp"
 #include "Node.hpp"
 #include "BinOpNode.hpp"
-#include "FSlash.hpp"
-#include "ValueNode.hpp"
 #include "UnaOpNode.hpp"
-#include "UnaMinus.hpp"
-#include "Paren.hpp"
 #include "NodeUtils.hpp"
 #include "NumberUtils.hpp"
 #include "InterpretType.hpp"
+#include "INodeFactory.hpp"
 
 namespace mua
 {
   struct Asterisk : public BinOpNode
   {
-    Asterisk(Token &tok_top);
+    Asterisk(INodeFactory *node_factory, Token &tok_top);
     Asterisk(std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node_right);
-    Asterisk(std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
+    Asterisk(INodeFactory *node_factory, std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
+
     std::string to_repr() override;
     bool interpret(const std::unordered_set<InterpretType> &flags = {}) override;
-    std::unique_ptr<Node> copy() override;
   };
 }

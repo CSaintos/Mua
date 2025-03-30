@@ -19,24 +19,20 @@
 #include "Node.hpp"
 #include "BinOpNode.hpp"
 #include "UnaOpNode.hpp"
-#include "ValueNode.hpp"
-#include "Paren.hpp"
-#include "UnaMinus.hpp"
-#include "Asterisk.hpp"
-#include "FSlash.hpp"
 #include "NodeUtils.hpp"
 #include "NumberUtils.hpp"
 #include "InterpretType.hpp"
+#include "INodeFactory.hpp"
 
 namespace mua
 {
   struct Caret : public BinOpNode
   {
-    Caret(Token &tok_op);
+    Caret(INodeFactory *node_factory, Token &tok_op);
     Caret(std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node_right);
-    Caret(std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
+    Caret(INodeFactory *node_factory, std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
+
     std::string to_repr() override;
     bool interpret(const std::unordered_set<InterpretType> &flags = {}) override;
-    std::unique_ptr<Node> copy() override;
   };
 }

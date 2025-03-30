@@ -14,15 +14,16 @@
 #include "Node.hpp"
 #include "BinOpNode.hpp"
 #include "InterpretType.hpp"
+#include "INodeFactory.hpp"
 
 namespace mua
 {
   struct Equal : public BinOpNode
   {
-    Equal(Token &tok_op);
+    Equal(INodeFactory *node_factory, Token &tok_op);
     Equal(std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node_right);
-    Equal(std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
+    Equal(INodeFactory *node_factory, std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
+
     bool interpret(const std::unordered_set<InterpretType> &flags = {}) override;
-    std::unique_ptr<Node> copy() override;
   };
 }

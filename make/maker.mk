@@ -91,7 +91,7 @@ endif
 
 # Compile sources into objects
 $(OBJECTS): $(SRCS) | $(OBJDIR)
-	@echo compile
+	@echo compile $(SRCS)
 ifeq ($(BUILDTYPE), EXE)
 	$(call pairmap, compile_exe_cmd, $(SRCS), $(OBJECTS))
 else ifeq ($(filter-out STATICLIB DYNAMICLIB, $(BUILDTYPE)),)
@@ -99,7 +99,7 @@ else ifeq ($(filter-out STATICLIB DYNAMICLIB, $(BUILDTYPE)),)
 else
 	@echo invalid buildtype
 endif
-	@echo compiled
+	@echo compiled $(SRCS)
 
 # Create build directory
 $(TARGETDIR):
@@ -118,7 +118,7 @@ $(TARGET): $(LIBS) | $(TARGETDIR)
 else
 $(TARGET): $(OBJECTS) $(LIBS) | $(TARGETDIR)
 endif
-	@echo build
+	@echo build $(TARGET)
 ifeq ($(BUILDTYPE), EXE)
 	$(CXX) $(OBJECTS) $(LINKDIRS) $(STATIC_LINK_FLAG) $(SLINKS) $(DYNAMIC_LINK_FLAG) $(DLINKS) $(AS_NEED_LINK_FLAG) -o $(TARGET)
 else ifeq ($(BUILDTYPE), STATICLIB)
@@ -126,7 +126,7 @@ else ifeq ($(BUILDTYPE), STATICLIB)
 else ifeq ($(BUILDTYPE), DYNAMICLIB)
 	$(CXX) -shared -o $(TARGET) $(OBJECTS) $(LINKDIRS) $(STATIC_LINK_FLAG) $(SLINKS) $(DYNAMIC_LINK_FLAG) $(DLINKS) $(AS_NEED_LINK_FLAG)
 endif
-	@echo built
+	@echo built $(TARGET)
 
 compile: $(OBJECTS)
 build: $(TARGET)

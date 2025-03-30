@@ -17,25 +17,22 @@
 #include "NodeType.hpp"
 #include "Node.hpp"
 #include "BinOpNode.hpp"
-#include "Asterisk.hpp"
 #include "UnaOpNode.hpp"
-#include "UnaMinus.hpp"
-#include "Paren.hpp"
-#include "ValueNode.hpp"
 #include "NodeUtils.hpp"
 #include "NumberUtils.hpp"
 #include "InterpretType.hpp"
+#include "INodeFactory.hpp"
 
 namespace mua
 {
   struct FSlash : public BinOpNode
   {
     bool is_const_fraction = false;
-    FSlash(Token &tok_op);
+    FSlash(INodeFactory *node_factory, Token &tok_op);
     FSlash(std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node_right);
-    FSlash(std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
+    FSlash(INodeFactory *node_factory, std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
+
     std::string to_repr() override;
     bool interpret(const std::unordered_set<InterpretType> &flags = {}) override;
-    std::unique_ptr<Node> copy() override;
   };
 }
