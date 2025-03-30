@@ -20,8 +20,8 @@ INCLUDES = \
 	-Imua/inc/util/character
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/mua/trie \
 	-Lbuild/mua/node \
+	-Lbuild/mua/trie \
 	-Lbuild/mua/token \
 	-Lbuild/mua/error \
 	-Lbuild/mua/character
@@ -29,8 +29,21 @@ LINKDIRS = \
 DLINKS = \
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 SLINKS = \
+	-lnode_factory \
+	-lbinminus_node \
+	-lbinplus_node \
+	-lfslash_node \
+	-lpercent_node \
+	-lasterisk_node \
+	-lcaret_node \
+	-lequal_node \
+	-llet_node \
+	-lparen_node \
+	-lunaminus_node \
+	-lunaplus_node \
+	-lsemicolon_node \
+	-lbase_node \
 	-ltrie \
-	-lnode \
 	-ltoken \
 	-lerror \
 	-lcharacter

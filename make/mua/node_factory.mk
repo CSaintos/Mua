@@ -1,41 +1,32 @@
-# mua-test/parser.mk
+# mua/node_factory.mk
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
-BUILDTYPE = EXE
+BUILDTYPE = STATICLIB
 # COMPILEONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
-TARGET_NAME = parser
+TARGET_NAME = node_factory
 # <path-to-dir>
-TARGET_PATH = mua-test/parser
+TARGET_PATH = mua/node
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
-	-Imua/inc/front \
-	-Imua/inc/util/token \
-	-Imua/inc/util/token/trie \
-	-Imua/inc/util \
+	-Imua/inc/util/character \
 	-Imua/inc/util/node \
 	-Imua/inc/util/node/op_node/bin_node \
 	-Imua/inc/util/node/op_node/una_node \
-	-Imua/inc/util/character
+	-Imua/inc/util/token \
+	-Imua/inc/util
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/mua/parser \
-	-Lbuild/mua/lexer \
-	-Lbuild/mua/reader \
 	-Lbuild/mua/node \
-	-Lbuild/mua/trie \
 	-Lbuild/mua/token \
-	-Lbuild/mua/error \
 	-Lbuild/mua/character
-# Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
+# if on linux or windows, for linking libraries `-l<file>` do not prepend `lib` to the link flag (unless its in the file name) as each `-l` is converted into `-l:` in maker.mk
+# if on osx, use -l (internal lib) syntax only, every lib file must begin with `lib`. if lib is static, it must end in `.a`, else if lib dynamic, it must end in `.dylib`
+# Dynamic link files # (for internal libs) `-l<file-no-extension>` or (for external libs) `-l:<file-w-extension>` # Order from most dependent to least dependent.
 DLINKS =
-# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
+# Static link files # (for internal libs) `-l<file-no-extension>` or (for external libs) `-l:<file-w-extension>` # Order from most dependent to least dependent.
 SLINKS = \
-	-lparser \
-	-llexer \
-	-lreader \
-	-lnode_factory \
 	-lbinminus_node \
 	-lbinplus_node \
 	-lfslash_node \
@@ -49,15 +40,13 @@ SLINKS = \
 	-lunaplus_node \
 	-lsemicolon_node \
 	-lbase_node \
-	-ltrie \
 	-ltoken \
-	-lerror \
 	-lcharacter
 DEFINES = 
 SRCDIRS = \
-	mua/test/front
+	mua/src/util/node
 SRCFILES = \
-	ParserTest.cpp
+	NodeFactory.cpp
 
 #? Constants
 OBJDIR = bin/$(TARGET_PATH)

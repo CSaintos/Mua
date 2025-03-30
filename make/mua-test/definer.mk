@@ -37,7 +37,20 @@ SLINKS = \
 	-lparser \
 	-llexer \
 	-lreader \
-	-lnode \
+	-lnode_factory \
+	-lbinminus_node \
+	-lbinplus_node \
+	-lfslash_node \
+	-lpercent_node \
+	-lasterisk_node \
+	-lcaret_node \
+	-lequal_node \
+	-llet_node \
+	-lparen_node \
+	-lunaminus_node \
+	-lunaplus_node \
+	-lsemicolon_node \
+	-lbase_node \
 	-ltrie \
 	-ltoken \
 	-lcharacter \

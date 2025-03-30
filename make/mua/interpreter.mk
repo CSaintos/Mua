@@ -27,7 +27,7 @@ LINKDIRS = \
 DLINKS = \
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 SLINKS = \
-	-lnode \
+	-lbase_node \
 	-ltoken \
 	-lcharacter
 DEFINES = 
