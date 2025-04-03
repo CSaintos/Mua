@@ -4,7 +4,6 @@ ToDo:
 - I believe our Error class should use exceptions instead, but in such a way that doesn't halt the program.
 - FIXME UnaPlus is not digit independent
 - We can still further decouple the project
-- FIXME something weird is going on when making project. Compilation is repeated.
 
 Notes Opened:
 - At ~/Documents/CECS/OOP/Fundamentals/

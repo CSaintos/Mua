@@ -8,7 +8,7 @@ $(if $(1:$(2)=),,$(if $(2:$(1)=),,T))
 endef
 
 #* Compiler flags
-CXXFLAGS += -MD -MP -g
+CXXFLAGS += -MMD -g
 ifeq ($(SYS), Windows)
 SLINK_TYPE = lib
 DLINK_TYPE = dll
@@ -42,16 +42,15 @@ endif
 LINKS = $(SLINK_FILES) $(DLINK_FILES)
 
 #* First class functions
-find_srcs = $(wildcard $(addprefix $(addsuffix /, $(SRCDIR)), $(SRCFILES)))
-find_libs = $(wildcard $(addprefix $(addsuffix /, $(LINKDIR)), $(LINKS)))
-list_rm = $(wordlist 2, $(words $1), $1)
-pairmap = $(and $(strip $2), $(strip $3), $(call $1, $(firstword $2), $(firstword $3)) $(call pairmap, $1, $(call list_rm, $2), $(call list_rm, $3)))
-compile_exe_cmd = $(shell $(CXX) $(INCLUDES) -c$1 -o$2 $(CXXFLAGS) -MF$(2:%.o=%.d))
-compile_lib_cmd = $(shell $(CXX) -fPIC $(INCLUDES) -c$1 -o$2 $(CXXFLAGS) -MF$(2:%.o=%.d))
+find_file = $(wildcard $(addprefix $(addsuffix /, $2), $1))
+#list_rm = $(wordlist 2, $(words $1), $1)
+#pairmap = $(and $(strip $2), $(strip $3), $(call $1, $(firstword $2), $(firstword $3)) $(call pairmap, $1, $(call list_rm, $2), $(call list_rm, $3)))
+compile_exe_cmd = $(CXX) -o $2 -c $1 $(INCLUDES) $(CXXFLAGS) -MF $(2:%.o=%.d)
+compile_lib_cmd = $(CXX) -o $2 -c $1 $(INCLUDES) -fPIC $(CXXFLAGS) -MF $(2:%.o=%.d)
 
 #* Constants
-SRCS = $(foreach SRCDIR, $(SRCDIRS), $(find_srcs))
-LIBS = $(foreach LINKDIR, $(patsubst -L%, %, $(LINKDIRS)), $(find_libs))
+vpath %.cpp $(SRCDIRS)
+LIBS = $(foreach LINKDIR, $(patsubst -L%, %, $(LINKDIRS)), $(call find_file, $(LINKS), $(LINKDIR)))
 OBJECTS = $(addprefix $(OBJDIR)/, $(patsubst %.cpp, %.o, $(SRCFILES)))
 # FIXME
 ifneq ($(and $(call eq,$(SYS),OSX), $(call eq,$(filter-out STATICLIB DYNAMICLIB, $(BUILDTYPE)),)),)
@@ -82,34 +81,30 @@ endif
 $(OBJDIR):
 ifeq ($(wildcard $(OBJDIR)),)
 ifeq ($(SYS),Windows)
-	@mkdir $(subst /,\\,$(OBJDIR))
+	mkdir $(subst /,\\,$(OBJDIR))
 else ifeq ($(filter-out Linux OSX, $(SYS)),)
-	@mkdir -p $(OBJDIR)
+	mkdir -p $(OBJDIR)
 endif
-	@echo create bin directory
 endif
 
 # Compile sources into objects
-$(OBJECTS): $(SRCS) | $(OBJDIR)
-	@echo compile $(SRCS)
+$(OBJECTS): $(OBJDIR)/%.o : %.cpp | $(OBJDIR)
 ifeq ($(BUILDTYPE), EXE)
-	$(call pairmap, compile_exe_cmd, $(SRCS), $(OBJECTS))
+	$(call compile_exe_cmd,$<,$@)
 else ifeq ($(filter-out STATICLIB DYNAMICLIB, $(BUILDTYPE)),)
-	$(call pairmap, compile_lib_cmd, $(SRCS), $(OBJECTS))
+	$(call compile_lib_cmd,$<,$@)
 else
 	@echo invalid buildtype
 endif
-	@echo compiled $(SRCS)
 
 # Create build directory
 $(TARGETDIR):
 ifeq ($(wildcard $(TARGETDIR)),)
 ifeq ($(SYS),Windows)
-	@mkdir $(subst /,\\,$(TARGETDIR))
+	mkdir $(subst /,\\,$(TARGETDIR))
 else ifeq ($(filter-out Linux OSX, $(SYS)),)
-	@mkdir -p $(TARGETDIR)
+	mkdir -p $(TARGETDIR)
 endif
-	@echo create build directory
 endif
 
 # Build target from objects
@@ -118,7 +113,6 @@ $(TARGET): $(LIBS) | $(TARGETDIR)
 else
 $(TARGET): $(OBJECTS) $(LIBS) | $(TARGETDIR)
 endif
-	@echo build $(TARGET)
 ifeq ($(BUILDTYPE), EXE)
 	$(CXX) $(OBJECTS) $(LINKDIRS) $(STATIC_LINK_FLAG) $(SLINKS) $(DYNAMIC_LINK_FLAG) $(DLINKS) $(AS_NEED_LINK_FLAG) -o $(TARGET)
 else ifeq ($(BUILDTYPE), STATICLIB)
@@ -127,6 +121,7 @@ else ifeq ($(BUILDTYPE), DYNAMICLIB)
 	$(CXX) -shared -o $(TARGET) $(OBJECTS) $(LINKDIRS) $(STATIC_LINK_FLAG) $(SLINKS) $(DYNAMIC_LINK_FLAG) $(DLINKS) $(AS_NEED_LINK_FLAG)
 endif
 	@echo built $(TARGET)
+	@echo .
 
 compile: $(OBJECTS)
 build: $(TARGET)

@@ -30,8 +30,8 @@ SRCFILES = \
 #? Constants
 OBJDIR = bin/$(TARGET_PATH)
 TARGETDIR = build/$(TARGET_PATH)
-OBJCLEANDIR = $(OBJDIR)
-TARGETCLEANDIR = $(TARGETDIR)
+OBJCLEANDIR = bin/mua-test
+TARGETCLEANDIR = build/mua-test
 
 #? Custom build cmds
 define POSTBUILDCMDS
