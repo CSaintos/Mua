@@ -2,7 +2,7 @@
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
-BUILDTYPE = STATICLIB
+BUILDTYPE = DYNAMICLIB
 # COMPILEONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
 TARGET_NAME = error
@@ -26,11 +26,12 @@ SRCFILES = \
 #? Constants
 OBJDIR = bin/$(TARGET_PATH)
 TARGETDIR = build/$(TARGET_PATH)
-OBJCLEANDIR = bin/mua
-TARGETCLEANDIR = build/mua
+OBJCLEANDIR = $(OBJDIR)
+TARGETCLEANDIR = $(TARGETDIR)
 
 #? Custom build cmds
 define POSTBUILDCMDS
 endef
+#$(if $(wildcard build/mua-test/error), $(cp $(TARGET) build/mua-test/error/))
 
 include ./make/maker.mk

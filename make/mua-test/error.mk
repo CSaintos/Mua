@@ -17,10 +17,10 @@ LINKDIRS = \
 # if on linux or windows, for linking libraries `-l<file>` do not prepend `lib` (unless its in the name) as each `-l` is converted into `-l:` in maker.mk
 # if on osx, use -l (internal lib) syntax only, every lib file must be prepended with `lib`, and if static must end in `.a`, if dynamic must end in `.dylib`
 # Dynamic link files # (for internal libs) `-l<file-no-extension>` or (for external libs) `-l:<file-w-extension>`
-DLINKS =
-# Static link files # (for internal libs) `-l<file-no-extension>` or (for external libs) `-l:<file-w-extension>`
-SLINKS = \
+DLINKS = \
 	-lerror
+# Static link files # (for internal libs) `-l<file-no-extension>` or (for external libs) `-l:<file-w-extension>`
+SLINKS =
 DEFINES =
 SRCDIRS = \
   mua/test/util
@@ -30,11 +30,12 @@ SRCFILES = \
 #? Constants
 OBJDIR = bin/$(TARGET_PATH)
 TARGETDIR = build/$(TARGET_PATH)
-OBJCLEANDIR = bin/mua-test
-TARGETCLEANDIR = build/mua-test
+OBJCLEANDIR = $(OBJDIR)
+TARGETCLEANDIR = $(TARGETDIR)
 
 #? Custom build cmds
 define POSTBUILDCMDS
 endef
+
 
 include ./make/maker.mk

@@ -25,14 +25,14 @@ LINKDIRS = \
 	-Lbuild/mua/error \
 	-Lbuild/mua/character
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from least dependent (most depending) to most dependent (least depending) 
-DLINKS =
+DLINKS = \
+	-lerror
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from least dependent (most depending) to most dependent (least depending)
 SLINKS = \
 	-llexer \
 	-lreader \
 	-ltrie \
 	-ltoken \
-	-lerror \
 	-lcharacter
 DEFINES = 
 SRCDIRS = \

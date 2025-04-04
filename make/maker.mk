@@ -47,10 +47,17 @@ find_file = $(wildcard $(addprefix $(addsuffix /, $2), $1))
 #pairmap = $(and $(strip $2), $(strip $3), $(call $1, $(firstword $2), $(firstword $3)) $(call pairmap, $1, $(call list_rm, $2), $(call list_rm, $3)))
 compile_exe_cmd = $(CXX) -o $2 -c $1 $(INCLUDES) $(CXXFLAGS) -MF $(2:%.o=%.d)
 compile_lib_cmd = $(CXX) -o $2 -c $1 $(INCLUDES) -fPIC $(CXXFLAGS) -MF $(2:%.o=%.d)
+ifeq ($(SYS), Windows)
+cp = copy $(subst /,\,$1) $(subst /,\,$2)
+else ifeq ($(filter-out Linux OSX, $(SYS)),)
+cp = cp $1 $2
+endif
 
 #* Constants
 vpath %.cpp $(SRCDIRS)
 LIBS = $(foreach LINKDIR, $(patsubst -L%, %, $(LINKDIRS)), $(call find_file, $(LINKS), $(LINKDIR)))
+OUT_DLIBS = $(foreach DLINK_FILE, $(DLINK_FILES), $(TARGETDIR)/$(DLINK_FILE))
+vpath %.$(DLINK_TYPE) $(patsubst -L%, %, $(LINKDIRS))
 OBJECTS = $(addprefix $(OBJDIR)/, $(patsubst %.cpp, %.o, $(SRCFILES)))
 # FIXME
 ifneq ($(and $(call eq,$(SYS),OSX), $(call eq,$(filter-out STATICLIB DYNAMICLIB, $(BUILDTYPE)),)),)
@@ -81,7 +88,7 @@ endif
 $(OBJDIR):
 ifeq ($(wildcard $(OBJDIR)),)
 ifeq ($(SYS),Windows)
-	mkdir $(subst /,\\,$(OBJDIR))
+	mkdir $(subst /,\,$(OBJDIR))
 else ifeq ($(filter-out Linux OSX, $(SYS)),)
 	mkdir -p $(OBJDIR)
 endif
@@ -101,7 +108,7 @@ endif
 $(TARGETDIR):
 ifeq ($(wildcard $(TARGETDIR)),)
 ifeq ($(SYS),Windows)
-	mkdir $(subst /,\\,$(TARGETDIR))
+	mkdir $(subst /,\,$(TARGETDIR))
 else ifeq ($(filter-out Linux OSX, $(SYS)),)
 	mkdir -p $(TARGETDIR)
 endif
@@ -123,6 +130,13 @@ endif
 	@echo built $(TARGET)
 	@echo .
 
+# Copy Dynamic Libraries
+ifeq ($(BUILDTYPE),EXE)
+$(TARGET): $(OUT_DLIBS)
+$(OUT_DLIBS): $(TARGETDIR)/% : % $(TARGETDIR)
+	$(call cp, $<, $(TARGETDIR)) 
+endif
+
 compile: $(OBJECTS)
 build: $(TARGET)
 	$(POSTBUILDCMDS)
@@ -133,7 +147,7 @@ clean:
 	@echo clean
 ifneq ($(wildcard $(OBJCLEANDIR)),)
 ifeq ($(SYS),Windows)
-	rmdir /s /q $(subst /,\\,$(OBJCLEANDIR))
+	rmdir /s /q $(subst /,\,$(OBJCLEANDIR))
 else ifeq ($(SYS),Linux)
 	rmdir /s /q $(OBJCLEANDIR)
 else ifeq ($(SYS),OSX)
@@ -142,7 +156,7 @@ endif
 endif
 ifneq ($(wildcard $(TARGETCLEANDIR)),)
 ifeq ($(SYS),Windows)
-	rmdir /s /q $(subst /,\\,$(TARGETCLEANDIR))
+	rmdir /s /q $(subst /,\,$(TARGETCLEANDIR))
 else ifeq ($(SYS),Linux)
 	rmdir /s /q $(TARGETCLEANDIR)
 else ifeq ($(SYS),OSX)

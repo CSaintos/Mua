@@ -31,6 +31,7 @@ LINKDIRS = \
 	-Lbuild/mua/error
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS = \
+	-lerror
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 SLINKS = \
 	-ldefiner \
@@ -53,8 +54,7 @@ SLINKS = \
 	-lbase_node \
 	-ltrie \
 	-ltoken \
-	-lcharacter \
-	-lerror
+	-lcharacter
 DEFINES = 
 SRCDIRS = \
 	mua/test/front
