@@ -17,10 +17,10 @@ LINKDIRS = \
 	-Lbuild/mua/reader \
 	-Lbuild/mua/error
 DLINKS = \
-	-lerror
-SLINKS = \
 	-lreader \
-	-lcharacter
+	-lcharacter \
+	-lerror
+SLINKS =
 DEFINES =
 SRCDIRS = \
 	mua/test/front

@@ -2,7 +2,7 @@
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
-BUILDTYPE = STATICLIB
+BUILDTYPE = DYNAMICLIB
 # COMPILEONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
 TARGET_NAME = node_factory
@@ -24,9 +24,7 @@ LINKDIRS = \
 # if on linux or windows, for linking libraries `-l<file>` do not prepend `lib` to the link flag (unless its in the file name) as each `-l` is converted into `-l:` in maker.mk
 # if on osx, use -l (internal lib) syntax only, every lib file must begin with `lib`. if lib is static, it must end in `.a`, else if lib dynamic, it must end in `.dylib`
 # Dynamic link files # (for internal libs) `-l<file-no-extension>` or (for external libs) `-l:<file-w-extension>` # Order from most dependent to least dependent.
-DLINKS =
-# Static link files # (for internal libs) `-l<file-no-extension>` or (for external libs) `-l:<file-w-extension>` # Order from most dependent to least dependent.
-SLINKS = \
+DLINKS = \
 	-lbinminus_node \
 	-lbinplus_node \
 	-lfslash_node \
@@ -42,6 +40,8 @@ SLINKS = \
 	-lbase_node \
 	-ltoken \
 	-lcharacter
+# Static link files # (for internal libs) `-l<file-no-extension>` or (for external libs) `-l:<file-w-extension>` # Order from most dependent to least dependent.
+SLINKS =
 DEFINES = 
 SRCDIRS = \
 	mua/src/util/node

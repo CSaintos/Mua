@@ -34,9 +34,6 @@ LINKDIRS = \
 	-Lbuild/mua/writer
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS = \
-	-lerror
-# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
-SLINKS = \
 	-linterpreter \
 	-ldefiner \
 	-lparser \
@@ -59,7 +56,10 @@ SLINKS = \
 	-ltrie \
 	-ltoken \
 	-lcharacter \
+	-lerror \
 	-lwriter
+# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
+SLINKS =
 DEFINES =
 SRCDIRS = \
 	mua/src

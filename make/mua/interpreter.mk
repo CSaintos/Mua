@@ -2,7 +2,7 @@
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
-BUILDTYPE = STATICLIB
+BUILDTYPE = DYNAMICLIB
 # COMPILEONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
 TARGET_NAME = interpreter
@@ -25,11 +25,11 @@ LINKDIRS = \
 	-Lbuild/mua/character
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS = \
-# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
-SLINKS = \
 	-lbase_node \
 	-ltoken \
 	-lcharacter
+# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
+SLINKS =
 DEFINES = 
 SRCDIRS = \
 	mua/src/back

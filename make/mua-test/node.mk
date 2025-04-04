@@ -22,9 +22,7 @@ LINKDIRS = \
 	-Lbuild/mua/token \
 	-Lbuild/mua/character
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension>
-DLINKS =
-# Static link files # -l<file-no-extension> or -l:<file-w-extension>
-SLINKS = \
+DLINKS = \
 	-lnode_factory \
 	-lbinminus_node \
 	-lbinplus_node \
@@ -41,6 +39,8 @@ SLINKS = \
 	-lbase_node \
 	-ltoken \
 	-lcharacter
+# Static link files # -l<file-no-extension> or -l:<file-w-extension>
+SLINKS =
 DEFINES = 
 SRCDIRS = \
 	mua/test/util/node

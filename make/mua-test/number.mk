@@ -22,12 +22,12 @@ LINKDIRS = \
 	-Lbuild/mua/token \
 	-Lbuild/mua/character
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
-DLINKS =
-# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
-SLINKS = \
+DLINKS = \
 	-lbase_node \
 	-ltoken \
 	-lcharacter
+# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
+SLINKS =
 DEFINES = 
 SRCDIRS = \
 	mua/test/util

@@ -2,7 +2,7 @@
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
-BUILDTYPE = STATICLIB
+BUILDTYPE = DYNAMICLIB
 # COMPILEONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
 TARGET_NAME = definer
@@ -27,8 +27,6 @@ LINKDIRS = \
 	-Lbuild/mua/character
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS = \
-# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
-SLINKS = \
 	-lnode_factory \
 	-lbinminus_node \
 	-lbinplus_node \
@@ -47,6 +45,8 @@ SLINKS = \
 	-ltoken \
 	-lerror \
 	-lcharacter
+# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
+SLINKS =
 DEFINES = 
 SRCDIRS = \
 	mua/src/front

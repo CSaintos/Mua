@@ -26,14 +26,14 @@ LINKDIRS = \
 	-Lbuild/mua/character
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from least dependent (most depending) to most dependent (least depending) 
 DLINKS = \
-	-lerror
-# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from least dependent (most depending) to most dependent (least depending)
-SLINKS = \
 	-llexer \
 	-lreader \
 	-ltrie \
 	-ltoken \
-	-lcharacter
+	-lcharacter \
+	-lerror
+# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from least dependent (most depending) to most dependent (least depending)
+SLINKS =
 DEFINES = 
 SRCDIRS = \
 	mua/test/front
