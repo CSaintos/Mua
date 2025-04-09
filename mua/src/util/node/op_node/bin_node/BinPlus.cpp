@@ -42,8 +42,7 @@ bool BinPlus::interpret(const unordered_set<InterpretType> &flags)
     bool proceed = true;
     if (node_left->tok.type == TokenType::FSLASH)
     {
-      FSlash* fslash = static_cast<FSlash*>(node_left.get());
-      if (fslash->is_const_fraction)
+      if (node_left->meta_data.is_const_fraction)
       {
         proceed = false;
       }
@@ -60,8 +59,7 @@ bool BinPlus::interpret(const unordered_set<InterpretType> &flags)
     bool proceed = true;
     if (node_right->tok.type == TokenType::FSLASH)
     {
-      FSlash* fslash = static_cast<FSlash*>(node_right.get());
-      if (fslash->is_const_fraction)
+      if (node_right->meta_data.is_const_fraction)
       {
         proceed = false;
       }
@@ -399,8 +397,7 @@ bool BinPlus::interpret(const unordered_set<InterpretType> &flags)
         tok_value.lexemes = std::to_string(lhs_denominator);
         right_denominator = node_factory->produceNode(tok_value);
         unique_ptr<Node> fraction = node_factory->produceNode(TokenType::FSLASH, right_numerator, right_denominator);
-        FSlash* fslash = static_cast<FSlash*>(fraction.get());
-        fslash->is_const_fraction = true;
+        fraction->meta_data.is_const_fraction = true;
         NodeUtils::replaceNode(node_right.get(), fraction);
 
         if (is_left_minus)
@@ -434,8 +431,7 @@ bool BinPlus::interpret(const unordered_set<InterpretType> &flags)
         tok_value.lexemes = std::to_string(rhs_denominator);
         left_denominator = node_factory->produceNode(tok_value);
         unique_ptr<Node> fraction = node_factory->produceNode(TokenType::FSLASH, left_numerator, left_denominator);
-        FSlash* fslash = static_cast<FSlash*>(fraction.get());
-        fslash->is_const_fraction = true;
+        fraction->meta_data.is_const_fraction = true;
         NodeUtils::replaceNode(node_left.get(), fraction);
         
         if (is_right_minus)
@@ -500,11 +496,8 @@ bool BinPlus::interpret(const unordered_set<InterpretType> &flags)
           }
           lhs_node = node_factory->produceNode(TokenType::FSLASH, left_numerator, left_denominator);
           rhs_node = node_factory->produceNode(TokenType::FSLASH, right_numerator, right_denominator);
-          FSlash* fslash;
-          fslash = static_cast<FSlash*>(lhs_node.get());
-          fslash->is_const_fraction = true;
-          fslash = static_cast<FSlash*>(rhs_node.get());
-          fslash->is_const_fraction = true;
+          lhs_node->meta_data.is_const_fraction = true;
+          rhs_node->meta_data.is_const_fraction = true;
           if (!is_right_minus)
           {
             node_left = std::move(lhs_node);

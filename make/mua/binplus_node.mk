@@ -25,7 +25,6 @@ LINKDIRS = \
 # if on osx, use -l (internal lib) syntax only, every lib file must begin with `lib`. if lib is static, it must end in `.a`, else if lib dynamic, it must end in `.dylib`
 # Dynamic link files # (for internal libs) `-l<file-no-extension>` or (for external libs) `-l:<file-w-extension>` # Order from most dependent to least dependent.
 DLINKS = \
-	-lfslash_node \
 	-lbase_node \
 	-ltoken \
 	-lcharacter

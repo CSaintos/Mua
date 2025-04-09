@@ -78,8 +78,8 @@ m./make/mua/equal_node.mk: m./make/mua/base_node.mk
 m./make/mua/caret_node.mk: m./make/mua/base_node.mk
 m./make/mua/asterisk_node.mk: m./make/mua/base_node.mk
 m./make/mua/fslash_node.mk: m./make/mua/base_node.mk
-m./make/mua/binminus_node.mk: m./make/mua/fslash_node.mk
-m./make/mua/binplus_node.mk: m./make/mua/fslash_node.mk
+m./make/mua/binminus_node.mk: m./make/mua/base_node.mk
+m./make/mua/binplus_node.mk: m./make/mua/base_node.mk
 m./make/mua/node_factory.mk: m./make/mua/binplus_node.mk m./make/mua/binminus_node.mk m./make/mua/asterisk_node.mk m./make/mua/caret_node.mk m./make/mua/equal_node.mk m./make/mua/let_node.mk m./make/mua/paren_node.mk m./make/mua/percent_node.mk m./make/mua/semicolon_node.mk m./make/mua/unaminus_node.mk m./make/mua/unaplus_node.mk
 m./make/mua/node.mk: m./make/mua/token.mk
 m./make/mua/lexer.mk: m./make/mua/error.mk m./make/mua/trie.mk m./make/mua/character.mk

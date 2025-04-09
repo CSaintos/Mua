@@ -15,6 +15,7 @@
 #include "NodeType.hpp"
 #include "InterpretType.hpp"
 #include "INodeFactory.hpp"
+#include "NodeMeta.hpp"
 
 namespace mua
 {
@@ -27,6 +28,7 @@ namespace mua
   {
     Node* parent = nullptr; ///< pointer to parent Node
     Token tok; ///< Default represented token
+    NodeMeta meta_data;
 
     virtual ~Node() = default;
     /**

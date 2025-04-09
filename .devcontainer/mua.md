@@ -176,7 +176,6 @@ BinPlus ..> Token
 BinPlus ..> TokenType
 BinPlus ..> Node
 BinPlus ..> NodeType
-BinPlus ..> FSlash
 BinPlus ..> UnaOpNode
 BinPlus ..> NodeUtils
 BinPlus ..> NumberUtils
@@ -188,7 +187,6 @@ BinMinus --|> BinOpNode
 BinMinus ..> Token
 BinMinus ..> TokenType
 BinMinus ..> Node
-BinMinus ..> FSlash
 BinMinus ..> UnaOpNode
 BinMinus ..> NodeUtils
 BinMinus ..> NumberUtils
