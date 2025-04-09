@@ -1,10 +1,3 @@
-/**
- * @file mua/inc/front/Parser.hpp
- * @author Christian Santos
- * @version 1.2.5
- * @date 1/3/2025
- */
-
 #pragma once
 
 #include <iostream>

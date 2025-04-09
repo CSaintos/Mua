@@ -1,10 +1,3 @@
-/**
- * @file mua/test/front/LexerTest.cpp
- * @author Christian Santos
- * @version 1.0.1 
- * @date 8/10/2024
- */
-
 #include <string>
 #include <iostream>
 

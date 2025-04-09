@@ -1,10 +1,4 @@
-/**
- * @file mua/inc/util/node/NodeMeta.hpp
- * @author Christian Santos
- * @version 1.0.0
- * @date 4/9/2025
- */
-# pragma once
+#pragma once
 
 namespace mua
 {

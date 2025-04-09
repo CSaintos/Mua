@@ -1,9 +1,3 @@
-/**
- * @file mua/inc/util/Number.hpp
- * @author Christian Santos
- * @version 1.0.0
- * #date 9/30/2024
- */
 #pragma once
 
 #include <string>

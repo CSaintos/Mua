@@ -1,10 +1,3 @@
-/**
- * @file mua/test/back/InterpreterTest.cpp
- * @author Christian Santos
- * @version 1.0.2
- * @date 1/1/2025
- */
-
 #include <list>
 #include <memory>
 

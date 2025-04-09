@@ -1,9 +1,3 @@
-/* 
- * @file mua/inc/util/node/op_node/bin_node/Equal.hpp
- * @author Christian Santos
- * @version 1.0.0
- * @date 11/14/2024
- */
 #pragma once
 
 #include <memory>

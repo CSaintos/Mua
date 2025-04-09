@@ -1,10 +1,3 @@
-/**
- * @file mua/inc/util/Position.hpp
- * @author Christian Santos
- * @version 1.0.1 
- * @date 8/5/2024
- */
-
 #pragma once
 
 #include <string>

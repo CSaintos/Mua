@@ -1,10 +1,3 @@
-/**
- * @file mua/inc/util/character/CharacterType.hpp
- * @author Christian Santos
- * @version 1.0.0
- * @date 8/5/2024
-*/
-
 #pragma once
 
 namespace mua

@@ -1,9 +1,3 @@
-/**
- * @file mua/inc/util/node/op_node/una_node/UnaPlus.hpp
- * @author Christian Santos
- * @version 1.0.2
- * @date 10/12/2024
- */
 #pragma once
 
 #include <memory>

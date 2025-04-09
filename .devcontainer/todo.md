@@ -5,4 +5,3 @@ ToDo:
 - We can still further decouple the project (probably need to do some research on Dependency Inversion)
 - Separate data from behavior with State pattern on all child nodes.
 - Bugfix all issues in math.mua
-- Remove all header file intros (serves no purpose)

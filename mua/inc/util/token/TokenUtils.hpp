@@ -1,10 +1,3 @@
-/**
- * @file mua/inc/util/token/TokenUtils.hpp
- * @author Christian Santos
- * @version 1.0.0 
- * @date 2/19/2023
-*/
-
 #pragma once
 
 #include <unordered_map>

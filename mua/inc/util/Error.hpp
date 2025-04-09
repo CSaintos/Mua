@@ -1,10 +1,3 @@
-/**
- * @file mua/inc/util/Error.hpp
- * @author Christian Santos
- * @version 1.0.4
- * @date 8/10/2024
- */
-
 #pragma once
 
 #include <string>

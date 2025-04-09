@@ -1,9 +1,3 @@
-/**
- * @file mua/inc/util/character/CharacterStream.hpp
- * @author Christian Santos
- * @version 1.0.0
- * @date 1/2/2025
- */
 #pragma once
 
 #include <list>

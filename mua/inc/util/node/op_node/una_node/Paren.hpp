@@ -1,10 +1,3 @@
-/**
- * @file mua/inc/util/node/op_node/una_node/Paren.hpp
- * @author Christian Santos
- * @version 1.0.0
- * @date 10/16/2024
- */
-
 #pragma once
 
 #include <memory>

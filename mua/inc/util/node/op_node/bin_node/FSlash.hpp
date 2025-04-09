@@ -1,10 +1,3 @@
-/*
- * @file mua/inc/util/node/op_node/bin_node/FSlash.hpp
- * @author Christian Santos
- * @version 1.0.4
- * @date 1/2/2025
- */
-
 #pragma once
 
 #include <memory>
@@ -27,7 +20,6 @@ namespace mua
 {
   struct FSlash : public BinOpNode
   {
-    bool is_const_fraction = false;
     FSlash(INodeFactory *node_factory, Token &tok_op);
     FSlash(std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_op, std::unique_ptr<Node> &node_right);
     FSlash(INodeFactory *node_factory, std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);

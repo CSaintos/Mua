@@ -1,9 +1,3 @@
-/*
- * @file mua/inc/util/node/op_node/bin_node/Percent.hpp
- * @author Christian Santos
- * @version 1.0.2
- * @date 1/2/2025
- */
 #pragma once
 
 #include <memory>

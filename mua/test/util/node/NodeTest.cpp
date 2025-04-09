@@ -1,9 +1,3 @@
-/**
- * @file mua/test/util/node/NodeTest.cpp
- * @author Christian Santos
- * @version 1.0.3 9/12/2024
- */
-
 #include <iostream>
 #include <memory>
 

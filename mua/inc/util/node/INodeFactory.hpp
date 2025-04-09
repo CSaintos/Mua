@@ -1,9 +1,3 @@
-/**
- * @file mua/inc/util/node/INodeFactory.hpp
- * @author Christian Santos
- * @version 1.0.0
- * @date 3/27/2025
- */
 #pragma once
 
 #include <memory>
