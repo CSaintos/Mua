@@ -1,10 +1,3 @@
-/**
- * @file mua/test/util/NumberUtilsTest.cpp
- * @author Christian Santos
- * @version 1.0.1
- * @date 12/27/2024
- */
-
 #include <cstdlib>
 #include <iostream>
 #include <list>

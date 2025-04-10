@@ -3,7 +3,7 @@
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
-BUILDTYPE = STATICLIB
+BUILDTYPE = DYNAMICLIB
 # COMPILEONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
 TARGET_NAME = character
@@ -14,9 +14,11 @@ INCLUDES = \
 	-Imua/inc/util/character \
 	-Imua/inc/util
 # Link Directories # -L<path-to-dir>
-LINKDIRS =
+LINKDIRS = \
+	-Lbuild/mua/error
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
-DLINKS =
+DLINKS = \
+	-lerror
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 SLINKS =
 DEFINES = 

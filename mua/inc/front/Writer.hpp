@@ -1,10 +1,3 @@
-/**
- * @file mua/inc/front/Writer.hpp
- * @author Christian Santos
- * @version 1.0.0
- * @date 12/30/2024
- */
-
 #pragma once
 
 #include <iostream>

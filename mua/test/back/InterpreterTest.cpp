@@ -1,10 +1,3 @@
-/**
- * @file mua/test/back/InterpreterTest.cpp
- * @author Christian Santos
- * @version 1.0.2
- * @date 1/1/2025
- */
-
 #include <list>
 #include <memory>
 
@@ -25,7 +18,6 @@ int main(int argc, char *argv[])
   Lexer lexer;
   Parser parser;
   Definer definer;
-  //Interpreter interpreter;
 
   int line_length = 0;
   

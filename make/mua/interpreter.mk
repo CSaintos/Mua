@@ -2,7 +2,7 @@
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
-BUILDTYPE = STATICLIB
+BUILDTYPE = DYNAMICLIB
 # COMPILEONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
 TARGET_NAME = interpreter
@@ -12,8 +12,8 @@ TARGET_PATH = mua/interpreter
 INCLUDES = \
 	-Imua/inc/front \
 	-Imua/inc/back \
-	-Imua/inc/util/node/op_node/bin_node \
-	-Imua/inc/util/node/op_node/una_node \
+	-Imua/inc/util/node/op_node \
+	-Imua/inc/util/node/node_state \
 	-Imua/inc/util/node \
 	-Imua/inc/util/token \
 	-Imua/inc/util \
@@ -25,11 +25,11 @@ LINKDIRS = \
 	-Lbuild/mua/character
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS = \
-# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
-SLINKS = \
-	-lnode \
+	-lbase_node \
 	-ltoken \
 	-lcharacter
+# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
+SLINKS =
 DEFINES = 
 SRCDIRS = \
 	mua/src/back

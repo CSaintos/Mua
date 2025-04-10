@@ -14,8 +14,8 @@ INCLUDES = \
 	-Imua/inc/util/character \
 	-Imua/inc/util/token/trie \
 	-Imua/inc/util/token \
-	-Imua/inc/util/node/op_node/bin_node \
-	-Imua/inc/util/node/op_node/una_node \
+	-Imua/inc/util/node/op_node \
+	-Imua/inc/util/node/node_state \
 	-Imua/inc/util/node \
 	-Imua/inc/util
 # Link Directories # -L<path-to-dir>
@@ -31,17 +31,19 @@ LINKDIRS = \
 	-Lbuild/mua/error
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS = \
-# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
-SLINKS = \
 	-ldefiner \
 	-lparser \
 	-llexer \
 	-lreader \
-	-lnode \
+	-lnode_factory \
+	-lnode_state \
+	-lbase_node \
 	-ltrie \
 	-ltoken \
 	-lcharacter \
 	-lerror
+# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
+SLINKS =
 DEFINES = 
 SRCDIRS = \
 	mua/test/front

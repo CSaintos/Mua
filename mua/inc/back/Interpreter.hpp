@@ -1,10 +1,3 @@
-/**
- * @file mua/inc/back/Interpreter.hpp 
- * @author Christian Santos
- * @version 1.1.2
- * @date 1/2/2025
- */
-
 #pragma once
 
 #include <vector>

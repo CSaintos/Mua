@@ -1,10 +1,3 @@
-/**
- * @file mua/inc/util/character/Character.hpp
- * @author Christian Santos
- * @version 1.0.1
- * @date 8/8/2024
- */
-
 #pragma once
 
 #include "CharacterType.hpp"

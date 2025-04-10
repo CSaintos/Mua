@@ -1,10 +1,3 @@
-/**
- * @file mua/test/front/ParserTest.cpp
- * @author Christian Santos
- * @version 1.0.6 
- * @date 9/9/2024
- */
-
 #include <string>
 #include <iostream>
 #include <algorithm>

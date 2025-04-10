@@ -2,7 +2,7 @@
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
-BUILDTYPE = STATICLIB
+BUILDTYPE = DYNAMICLIB
 # COMPILEONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
 TARGET_NAME = reader
@@ -19,11 +19,11 @@ LINKDIRS = \
 	-Lbuild/mua/character \
 	-Lbuild/mua/error
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension>
-DLINKS =
-# Static link files # -l<file-no-extension> or -l:<file-w-extension>
-SLINKS = \
+DLINKS = \
 	-lcharacter \
 	-lerror
+# Static link files # -l<file-no-extension> or -l:<file-w-extension>
+SLINKS =
 DEFINES = 
 SRCDIRS = \
 	mua/src/front

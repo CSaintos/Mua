@@ -1,10 +1,3 @@
-/**
- * @file mua/src/Main.cpp
- * @author Christian Santos
- * @version 1.0.2
- * @date 1/3/2025
- */
-
 #include <iostream>
 #include <sstream>
 #include <string>

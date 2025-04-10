@@ -1,9 +1,3 @@
-/**
- * @file mua/inc/util/node/NodeUtils.hpp
- * @author Christian Santos
- * @version 1.0.0
- * @date 10/1/2024
- */
 #pragma once
 
 #include <memory>

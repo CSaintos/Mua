@@ -1,10 +1,3 @@
-/**
- * @file mua/inc/util/node/ValueNode.hpp
- * @author Christian Santos
- * @version 1.0.2 
- * @date 10/12/2024
-*/
-
 #pragma once
 
 #include <unordered_set>
@@ -13,6 +6,7 @@
 #include "Node.hpp"
 #include "NodeType.hpp"
 #include "InterpretType.hpp"
+#include "INodeFactory.hpp"
 
 namespace mua
 {
@@ -23,7 +17,7 @@ namespace mua
    */
   struct ValueNode : public Node
   {
-    ValueNode(Token &tok_value);
+    ValueNode(INodeFactory *node_factory, Token &tok_value);
 
     /**
      * @return true because a value node is a leaf

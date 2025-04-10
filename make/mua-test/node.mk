@@ -11,8 +11,8 @@ TARGET_PATH = mua-test/node
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Imua/inc/util/node \
-	-Imua/inc/util/node/op_node/bin_node \
-	-Imua/inc/util/node/op_node/una_node \
+	-Imua/inc/util/node/op_node \
+	-Imua/inc/util/node/node_state \
 	-Imua/inc/util/token \
 	-Imua/inc/util/character \
 	-Imua/inc/util
@@ -22,12 +22,14 @@ LINKDIRS = \
 	-Lbuild/mua/token \
 	-Lbuild/mua/character
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension>
-DLINKS =
-# Static link files # -l<file-no-extension> or -l:<file-w-extension>
-SLINKS = \
-	-lnode \
+DLINKS = \
+	-lnode_factory \
+	-lnode_state \
+	-lbase_node \
 	-ltoken \
 	-lcharacter
+# Static link files # -l<file-no-extension> or -l:<file-w-extension>
+SLINKS =
 DEFINES = 
 SRCDIRS = \
 	mua/test/util/node
