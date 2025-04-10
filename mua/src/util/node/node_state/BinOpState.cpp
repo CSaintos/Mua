@@ -3,7 +3,7 @@
 using namespace std;
 using namespace mua;
 
-void BinOpState::setState(Node *node)
+void BinOpState::setContext(Node *node)
 {
   this->node = static_cast<BinOpNode*>(node);
   node_left = this->node->node_left.get();

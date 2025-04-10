@@ -9,16 +9,19 @@
 #include "InterpretType.hpp"
 #include "INodeFactory.hpp"
 #include "NodeMeta.hpp"
+#include "INodeState.hpp"
 
 namespace mua
 {
   class INodeFactory; // Forward declaration
+  class INodeState;
   /**
    * @pure @struct Node
    * @brief Specifies generic node
    */
   struct Node
   {
+    std::unique_ptr<INodeState> state;
     INodeFactory *node_factory;
     Node* parent = nullptr; ///< pointer to parent Node
     Token tok; ///< Default represented token
@@ -37,7 +40,7 @@ namespace mua
      * 
      * @return combined lexemes as a string
      */
-    virtual std::string to_repr() = 0;
+    virtual std::string to_repr();
     /**
      * @return true if node is a leaf,
      * false otherwise.
@@ -64,7 +67,7 @@ namespace mua
      * @note a change is represented by any modification of the parse_tree including modifications of any nodes by modifying their contents.
      * @note an exception: modification of Node.tok.pos is ignored at this stage until further notice.
      */
-    virtual bool interpret(const std::unordered_set<InterpretType> &flags = {}) = 0;
+    virtual bool interpret(const std::unordered_set<InterpretType> &flags = {});
 
     virtual std::unique_ptr<Node> copy() = 0;
   };

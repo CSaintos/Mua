@@ -22,17 +22,17 @@ unique_ptr<Node> NodeFactory::produceNode(Token &token, unique_ptr<Node> &node_l
     {
       if (node_right != nullptr)
       {
-        return std::make_unique<BinPlus>(this, node_left, token, node_right);
+        return std::make_unique<BinOpNode>(this, node_left, token, node_right, std::make_unique<BinPlus>());
       }
-      return std::make_unique<BinPlus>(this, token);
+      return std::make_unique<BinOpNode>(this, token, std::make_unique<BinPlus>());
     }
     else if (node_type == NodeType::UNARY_OPERATOR)
     {
       if (node_left != nullptr)
       {
-        return std::make_unique<UnaPlus>(this, token, node_left);
+        return std::make_unique<UnaOpNode>(this, token, node_left, std::make_unique<UnaPlus>());
       }
-      return std::make_unique<UnaPlus>(this, token);
+      return std::make_unique<UnaOpNode>(this, token, std::make_unique<UnaPlus>());
     }
     else
     {
@@ -44,17 +44,17 @@ unique_ptr<Node> NodeFactory::produceNode(Token &token, unique_ptr<Node> &node_l
     {
       if (node_right != nullptr)
       {
-        return std::make_unique<BinMinus>(this, node_left, token, node_right);
+        return std::make_unique<BinOpNode>(this, node_left, token, node_right, std::make_unique<BinMinus>());
       }
-      return std::make_unique<BinMinus>(this, token);
+      return std::make_unique<BinOpNode>(this, token, std::make_unique<BinMinus>());
     }
     else if (node_type == NodeType::UNARY_OPERATOR)
     {
       if (node_left != nullptr)
       {
-        return std::make_unique<UnaMinus>(this, token, node_left);
+        return std::make_unique<UnaOpNode>(this, token, node_left, std::make_unique<UnaMinus>());
       }
-      return std::make_unique<UnaMinus>(this, token);
+      return std::make_unique<UnaOpNode>(this, token, std::make_unique<UnaMinus>());
     }
     else
     {
@@ -65,59 +65,59 @@ unique_ptr<Node> NodeFactory::produceNode(Token &token, unique_ptr<Node> &node_l
   case TokenType::ADJACENT:
     if (node_right != nullptr)
     {
-      return std::make_unique<Asterisk>(this, node_left, token, node_right);
-      }
-    return std::make_unique<Asterisk>(this, token);
+      return std::make_unique<BinOpNode>(this, node_left, token, node_right, std::make_unique<Asterisk>());
+    }
+    return std::make_unique<BinOpNode>(this, token, std::make_unique<Asterisk>());
     break;
   case TokenType::FSLASH:
     if (node_right != nullptr)
     {
-      return std::make_unique<FSlash>(this, node_left, token, node_right);
+      return std::make_unique<BinOpNode>(this, node_left, token, node_right, std::make_unique<FSlash>());
     }
-    return std::make_unique<FSlash>(this, token);
+    return std::make_unique<BinOpNode>(this, token, std::make_unique<FSlash>());
     break;
   case TokenType::PERCENT:
     if (node_right != nullptr)
     {
-      return std::make_unique<Percent>(this, node_left, token, node_right);
+      return std::make_unique<BinOpNode>(this, node_left, token, node_right, std::make_unique<Percent>());
     }
-    return std::make_unique<Percent>(this, token);
+    return std::make_unique<BinOpNode>(this, token, std::make_unique<Percent>());
     break;
   case TokenType::CARET:
     if (node_right != nullptr)
     {
-      return std::make_unique<Caret>(this, node_left, token, node_right);
+      return std::make_unique<BinOpNode>(this, node_left, token, node_right, std::make_unique<Caret>());
     }
-    return std::make_unique<Caret>(this, token);
+    return std::make_unique<BinOpNode>(this, token, std::make_unique<Caret>());
     break;
   case TokenType::LPAREN:
   case TokenType::RPAREN:
     if (node_left != nullptr)
     {
-      return std::make_unique<Paren>(this, token, node_left);
+      return std::make_unique<UnaOpNode>(this, token, node_left, std::make_unique<Paren>());
     }
-    return std::make_unique<Paren>(this, token);
+    return std::make_unique<UnaOpNode>(this, token, std::make_unique<Paren>());
     break;
   case TokenType::EQUAL:
     if (node_right != nullptr)
     {
-      return std::make_unique<Equal>(this, node_left, token, node_right);
+      return std::make_unique<BinOpNode>(this, node_left, token, node_right, std::make_unique<Equal>());
     }
-    return std::make_unique<Equal>(this, token);
+    return std::make_unique<BinOpNode>(this, token, std::make_unique<Equal>());
     break;
   case TokenType::LET:
     if (node_left != nullptr)
     {
-      return std::make_unique<Let>(this, token, node_left);
+      return std::make_unique<UnaOpNode>(this, token, node_left, std::make_unique<Let>());
     }
-    return std::make_unique<Let>(this, token);
+    return std::make_unique<UnaOpNode>(this, token, std::make_unique<Let>());
     break;
   case TokenType::SEMICOLON:
     if (node_left != nullptr)
     {
-      return std::make_unique<Semicolon>(this, token, node_left);
+      return std::make_unique<UnaOpNode>(this, token, node_left, std::make_unique<Semicolon>());
     }
-    return std::make_unique<Semicolon>(this, token);
+    return std::make_unique<UnaOpNode>(this, token, std::make_unique<Semicolon>());
     break;
   default:
     cout << "NodeFactory Error: Unrecognized TokenType " + TokenUtils::m_TS_map[token.type] << endl;

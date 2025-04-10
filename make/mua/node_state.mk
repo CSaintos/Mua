@@ -1,21 +1,21 @@
-# mua/binminus_node.mk
+# mua/node_state.mk
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
 BUILDTYPE = DYNAMICLIB
 # COMPILEONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
-TARGET_NAME = binminus_node
+TARGET_NAME = node_state
 # <path-to-dir>
 TARGET_PATH = mua/node
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
-	-Imua/inc/util/character \
+	-Imua/inc/util/node/node_state \
 	-Imua/inc/util/node \
-	-Imua/inc/util/node/op_node \
-	-Imua/inc/util/node/op_node/bin_node \
+	-Imua/inc/util \
 	-Imua/inc/util/token \
-	-Imua/inc/util
+	-Imua/inc/util/node/op_node \
+	-Imua/inc/util/character
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
 	-Lbuild/mua/node \
@@ -32,9 +32,22 @@ DLINKS = \
 SLINKS =
 DEFINES = 
 SRCDIRS = \
-	mua/src/util/node/op_node/bin_node
+	mua/src/util/node/node_state
 SRCFILES = \
-	BinMinus.cpp
+	Asterisk.cpp \
+	BinMinus.cpp \
+	BinOpState.cpp \
+	BinPlus.cpp \
+	Caret.cpp \
+	Equal.cpp \
+	FSlash.cpp \
+	Let.cpp \
+	Paren.cpp \
+	Percent.cpp \
+	Semicolon.cpp \
+	UnaMinus.cpp \
+	UnaOpState.cpp \
+	UnaPlus.cpp
 
 #? Constants
 OBJDIR = bin/$(TARGET_PATH)

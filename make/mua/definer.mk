@@ -13,6 +13,7 @@ INCLUDES = \
 	-Imua/inc/front \
 	-Imua/inc/util/token/trie \
 	-Imua/inc/util/token \
+	-Imua/inc/util/node/node_state \
 	-Imua/inc/util/node/op_node \
 	-Imua/inc/util/node \
 	-Imua/inc/util \
@@ -27,18 +28,7 @@ LINKDIRS = \
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS = \
 	-lnode_factory \
-	-lbinminus_node \
-	-lbinplus_node \
-	-lfslash_node \
-	-lpercent_node \
-	-lasterisk_node \
-	-lcaret_node \
-	-lequal_node \
-	-llet_node \
-	-lparen_node \
-	-lunaminus_node \
-	-lunaplus_node \
-	-lsemicolon_node \
+	-lnode_state \
 	-lbase_node \
 	-ltrie \
 	-ltoken \

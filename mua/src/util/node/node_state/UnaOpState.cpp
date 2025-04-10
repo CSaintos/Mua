@@ -3,7 +3,7 @@
 using namespace std;
 using namespace mua;
 
-void UnaOpState::setState(Node *node)
+void UnaOpState::setContext(Node *node)
 {
   this->node = static_cast<UnaOpNode*>(node);
   child = this->node->node.get();

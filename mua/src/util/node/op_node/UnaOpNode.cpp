@@ -3,10 +3,12 @@
 using namespace mua;
 using namespace std;
 
-UnaOpNode::UnaOpNode(INodeFactory *node_factory, Token &tok_op)
+UnaOpNode::UnaOpNode(INodeFactory *node_factory, Token &tok_op, unique_ptr<INodeState> state)
 {
   this->node_factory = node_factory;
   tok = tok_op;
+  this->state = std::move(state);
+  this->state->setContext(this);
 }
 
 UnaOpNode::UnaOpNode(unique_ptr<Node> &node_op, unique_ptr<Node> &node)
@@ -17,12 +19,14 @@ UnaOpNode::UnaOpNode(unique_ptr<Node> &node_op, unique_ptr<Node> &node)
   this->node->parent = this;
 }
 
-UnaOpNode::UnaOpNode(INodeFactory *node_factory, Token &tok_op, unique_ptr<Node> &node)
+UnaOpNode::UnaOpNode(INodeFactory *node_factory, Token &tok_op, unique_ptr<Node> &node, unique_ptr<INodeState> state)
   : node(std::move(node))
 {
   this->node_factory = node_factory;
   tok = tok_op;
   this->node->parent = this;
+  this->state = std::move(state);
+  this->state->setContext(this);
 }
 
 UnaOpNode::~UnaOpNode()
@@ -33,20 +37,9 @@ string UnaOpNode::to_string()
   return ("(" + tok.to_string() + ", " + node->to_string() + ")");
 }
 
-string UnaOpNode::to_repr()
-{
-  return "";
-}
-
 bool UnaOpNode::hasGrandchildren()
 {
   return (!node->isLeaf());
-}
-
-bool UnaOpNode::interpret(const unordered_set<InterpretType> &flags)
-{
-  cout << "UnaOpNode interpret" << endl;
-  return false;
 }
 
 unique_ptr<Node> UnaOpNode::copy()

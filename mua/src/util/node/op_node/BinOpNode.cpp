@@ -3,10 +3,12 @@
 using namespace std;
 using namespace mua;
 
-BinOpNode::BinOpNode(INodeFactory *node_factory, Token &tok_op)
+BinOpNode::BinOpNode(INodeFactory *node_factory, Token &tok_op, unique_ptr<INodeState> state)
 {
   this->node_factory = node_factory;
   tok = tok_op;
+  this->state = std::move(state);
+  this->state->setContext(this);
 }
 
 BinOpNode::BinOpNode(unique_ptr<Node> &node_left, unique_ptr<Node> &node_op, unique_ptr<Node> &node_right)
@@ -18,13 +20,15 @@ BinOpNode::BinOpNode(unique_ptr<Node> &node_left, unique_ptr<Node> &node_op, uni
   this->node_right->parent = this;
 }
 
-BinOpNode::BinOpNode(INodeFactory *node_factory, unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &node_right)
+BinOpNode::BinOpNode(INodeFactory *node_factory, unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &node_right, unique_ptr<INodeState> state)
   : node_left(std::move(node_left)), node_right(std::move(node_right))
 {
   this->node_factory = node_factory;
   tok = tok_op;
   this->node_left->parent = this;
   this->node_right->parent = this;
+  this->state = std::move(state);
+  this->state->setContext(this);
 }
 
 string BinOpNode::to_string()
@@ -40,24 +44,9 @@ string BinOpNode::to_string()
   return ("(" + node_left->to_string() + ", " + tok.to_string() + ", " + node_right->to_string() + ")");
 }
 
-string BinOpNode::to_repr()
-{
-  if (node_left == nullptr || node_right == nullptr)
-  {
-    return tok.lexemes;
-  }
-  return node_left->to_repr() + tok.lexemes + node_right->to_repr();
-}
-
 bool BinOpNode::hasGrandchildren()
 {
   return (!node_left->isLeaf() || !node_right->isLeaf());
-}
-
-bool BinOpNode::interpret(const unordered_set<InterpretType> &flags)
-{
-  cout << "BinOpNode interpret" << endl;
-  return false;
 }
 
 unique_ptr<Node> BinOpNode::copy()

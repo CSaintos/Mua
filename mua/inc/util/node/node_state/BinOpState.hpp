@@ -21,6 +21,6 @@ namespace mua
     INodeFactory *node_factory;
     Token *tok;
   public:
-    void setState(Node *node) override;
+    void setContext(Node *node) override;
   };
 }

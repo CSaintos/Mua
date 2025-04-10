@@ -9,6 +9,7 @@
 #include "NodeType.hpp"
 #include "Node.hpp"
 #include "INodeFactory.hpp"
+#include "INodeState.hpp"
 #include "InterpretType.hpp"
 
 namespace mua
@@ -26,7 +27,7 @@ namespace mua
     /**
      * @brief BinOpNode(tok_op)
      */
-    BinOpNode(INodeFactory *node_factory, Token &tok_op);
+    BinOpNode(INodeFactory *node_factory, Token &tok_op, std::unique_ptr<INodeState> state);
     /**
      * @brief BinOpNode(node_left, node_op, node_right) constructor
      */
@@ -34,7 +35,7 @@ namespace mua
     /**
      * @brief BinOpNode(node_left, tok_op, node_right) 
     */
-    BinOpNode(INodeFactory *node_factory, std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
+    BinOpNode(INodeFactory *node_factory, std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right, std::unique_ptr<INodeState> state);
 
     /**
      * @brief Returns node as string representation
@@ -42,13 +43,6 @@ namespace mua
      * @return string node representation
      */
     std::string to_string() override;
-
-    /**
-     * @brief Returns combined lexemes of each token within each node
-     * 
-     * @return combined lexemes as a string
-     */
-    std::string to_repr() override;
 
     /**
      * @return true if node has grandchildren,
@@ -65,8 +59,6 @@ namespace mua
      * @return false, an operator node is not a leaf
      **/
     inline bool isLeaf() override { return false; } 
-
-    bool interpret(const std::unordered_set<InterpretType> &flags = {}) override;
 
     std::unique_ptr<Node> copy() override;
   };

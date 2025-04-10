@@ -16,8 +16,7 @@ INCLUDES = \
 	-Imua/inc/util \
 	-Imua/inc/util/node \
 	-Imua/inc/util/node/op_node \
-	-Imua/inc/util/node/op_node/bin_node \
-	-Imua/inc/util/node/op_node/una_node \
+	-Imua/inc/util/node/node_state \
 	-Imua/inc/util/character
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
@@ -35,18 +34,7 @@ DLINKS = \
 	-llexer \
 	-lreader \
 	-lnode_factory \
-	-lbinminus_node \
-	-lbinplus_node \
-	-lfslash_node \
-	-lpercent_node \
-	-lasterisk_node \
-	-lcaret_node \
-	-lequal_node \
-	-llet_node \
-	-lparen_node \
-	-lunaminus_node \
-	-lunaplus_node \
-	-lsemicolon_node \
+	-lnode_state \
 	-lbase_node \
 	-ltrie \
 	-ltoken \

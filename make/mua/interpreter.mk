@@ -12,8 +12,8 @@ TARGET_PATH = mua/interpreter
 INCLUDES = \
 	-Imua/inc/front \
 	-Imua/inc/back \
-	-Imua/inc/util/node/op_node/bin_node \
-	-Imua/inc/util/node/op_node/una_node \
+	-Imua/inc/util/node/op_node \
+	-Imua/inc/util/node/node_state \
 	-Imua/inc/util/node \
 	-Imua/inc/util/token \
 	-Imua/inc/util \
