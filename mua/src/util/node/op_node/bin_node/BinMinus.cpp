@@ -1,13 +1,11 @@
-#include "BinMinus.hpp"
-#include <cmath>
+#include "op_node/bin_node/BinMinus.hpp"
 
 using namespace std;
 using namespace mua;
 
 BinMinus::BinMinus(INodeFactory *node_factory, Token &tok_op)
-  : BinOpNode(tok_op)
+  : BinOpNode(node_factory, tok_op)
 {
-  this->node_factory = node_factory;
 }
 
 BinMinus::BinMinus(unique_ptr<Node> &node_left, unique_ptr<Node> &node_op, unique_ptr<Node> &node_right)
@@ -15,9 +13,8 @@ BinMinus::BinMinus(unique_ptr<Node> &node_left, unique_ptr<Node> &node_op, uniqu
 {}
 
 BinMinus::BinMinus(INodeFactory *node_factory, unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &node_right)
-  : BinOpNode(node_left, tok_op, node_right)
+  : BinOpNode(node_factory, node_left, tok_op, node_right)
 {
-  this->node_factory = node_factory;
 }
 
 string BinMinus::to_repr()

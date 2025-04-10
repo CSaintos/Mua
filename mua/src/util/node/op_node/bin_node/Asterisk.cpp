@@ -1,12 +1,11 @@
-#include "Asterisk.hpp"
+#include "op_node/bin_node/Asterisk.hpp"
 
 using namespace std;
 using namespace mua;
 
 Asterisk::Asterisk(INodeFactory *node_factory, Token &tok_op)
-  : BinOpNode(tok_op)
+  : BinOpNode(node_factory, tok_op)
 {
-  this->node_factory = node_factory;
 }
 
 Asterisk::Asterisk(unique_ptr<Node> &node_left, unique_ptr<Node> &node_op, unique_ptr<Node> &node_right)
@@ -14,9 +13,8 @@ Asterisk::Asterisk(unique_ptr<Node> &node_left, unique_ptr<Node> &node_op, uniqu
 {}
 
 Asterisk::Asterisk(INodeFactory *node_factory, unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &node_right)
-  : BinOpNode(node_left, tok_op, node_right)
+  : BinOpNode(node_factory, node_left, tok_op, node_right)
 {
-  this->node_factory = node_factory;
 }
 
 string Asterisk::to_repr()

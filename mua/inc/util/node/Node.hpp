@@ -19,6 +19,7 @@ namespace mua
    */
   struct Node
   {
+    INodeFactory *node_factory;
     Node* parent = nullptr; ///< pointer to parent Node
     Token tok; ///< Default represented token
     NodeMeta meta_data;
@@ -66,7 +67,5 @@ namespace mua
     virtual bool interpret(const std::unordered_set<InterpretType> &flags = {}) = 0;
 
     virtual std::unique_ptr<Node> copy() = 0;
-  protected:
-    INodeFactory *node_factory;
   };
 }

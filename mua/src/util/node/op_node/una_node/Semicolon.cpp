@@ -1,12 +1,11 @@
-#include "Semicolon.hpp"
+#include "op_node/una_node/Semicolon.hpp"
 
 using namespace std;
 using namespace mua;
 
 Semicolon::Semicolon(INodeFactory *node_factory, Token &tok_op)
-  : UnaOpNode(tok_op)
+  : UnaOpNode(node_factory, tok_op)
 {
-  this->node_factory = node_factory;
 }
 
 Semicolon::Semicolon(unique_ptr<Node> &node_op, unique_ptr<Node> &node)
@@ -14,9 +13,8 @@ Semicolon::Semicolon(unique_ptr<Node> &node_op, unique_ptr<Node> &node)
 {}
 
 Semicolon::Semicolon(INodeFactory *node_factory, Token &tok_op, unique_ptr<Node> &node)
-  : UnaOpNode(tok_op, node)
+  : UnaOpNode(node_factory, tok_op, node)
 {
-  this->node_factory = node_factory;
 }
 
 string Semicolon::to_repr()

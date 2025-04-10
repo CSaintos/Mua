@@ -1,11 +1,10 @@
-#include "BinPlus.hpp"
-#include "NodeUtils.hpp"
+#include "op_node/bin_node/BinPlus.hpp"
 
 using namespace std;
 using namespace mua;
 
 BinPlus::BinPlus(INodeFactory *node_factory, Token &tok_op)
-  : BinOpNode(tok_op) 
+  : BinOpNode(node_factory, tok_op) 
 {
   this->node_factory = node_factory;
 }
@@ -15,9 +14,8 @@ BinPlus::BinPlus(unique_ptr<Node> &node_left, unique_ptr<Node> &node_op, unique_
 {}
 
 BinPlus::BinPlus(INodeFactory *node_factory, unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &node_right)
-  : BinOpNode(node_left, tok_op, node_right)
+  : BinOpNode(node_factory, node_left, tok_op, node_right)
 {
-  this->node_factory = node_factory;
 }
 
 string BinPlus::to_repr()

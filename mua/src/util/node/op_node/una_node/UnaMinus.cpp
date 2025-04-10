@@ -1,12 +1,11 @@
-#include "UnaMinus.hpp"
+#include "op_node/una_node/UnaMinus.hpp"
 
 using namespace std;
 using namespace mua;
 
 UnaMinus::UnaMinus(INodeFactory *node_factory, Token &tok_op)
-  : UnaOpNode(tok_op)
+  : UnaOpNode(node_factory, tok_op)
 {
-  this->node_factory = node_factory;
 }
 
 UnaMinus::UnaMinus(unique_ptr<Node> &node_op, unique_ptr<Node> &node)
@@ -14,9 +13,8 @@ UnaMinus::UnaMinus(unique_ptr<Node> &node_op, unique_ptr<Node> &node)
 {}
 
 UnaMinus::UnaMinus(INodeFactory *node_factory, Token &tok_op, unique_ptr<Node> &node)
-  : UnaOpNode(tok_op, node)
+  : UnaOpNode(node_factory, tok_op, node)
 {
-  this->node_factory = node_factory;
 }
 
 string UnaMinus::to_repr()

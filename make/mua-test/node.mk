@@ -11,6 +11,7 @@ TARGET_PATH = mua-test/node
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Imua/inc/util/node \
+	-Imua/inc/util/node/op_node \
 	-Imua/inc/util/node/op_node/bin_node \
 	-Imua/inc/util/node/op_node/una_node \
 	-Imua/inc/util/token \

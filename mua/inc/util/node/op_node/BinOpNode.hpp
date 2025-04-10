@@ -8,6 +8,7 @@
 #include "TokenType.hpp"
 #include "NodeType.hpp"
 #include "Node.hpp"
+#include "INodeFactory.hpp"
 #include "InterpretType.hpp"
 
 namespace mua
@@ -25,7 +26,7 @@ namespace mua
     /**
      * @brief BinOpNode(tok_op)
      */
-    BinOpNode(Token &tok_op);
+    BinOpNode(INodeFactory *node_factory, Token &tok_op);
     /**
      * @brief BinOpNode(node_left, node_op, node_right) constructor
      */
@@ -33,7 +34,7 @@ namespace mua
     /**
      * @brief BinOpNode(node_left, tok_op, node_right) 
     */
-    BinOpNode(std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
+    BinOpNode(INodeFactory *node_factory, std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right);
 
     /**
      * @brief Returns node as string representation

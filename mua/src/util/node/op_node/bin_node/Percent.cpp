@@ -1,12 +1,11 @@
-#include "Percent.hpp"
+#include "op_node/bin_node/Percent.hpp"
 
 using namespace std;
 using namespace mua;
 
 Percent::Percent(INodeFactory *node_factory, Token &tok_op)
-  : BinOpNode(tok_op)
+  : BinOpNode(node_factory, tok_op)
 {
-  this->node_factory = node_factory;
 }
 
 Percent::Percent(unique_ptr<Node> &node_left, unique_ptr<Node> &node_op, unique_ptr<Node> &node_right)
@@ -14,9 +13,8 @@ Percent::Percent(unique_ptr<Node> &node_left, unique_ptr<Node> &node_op, unique_
 {}
 
 Percent::Percent(INodeFactory *node_factory, unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &node_right)
-  : BinOpNode(node_left, tok_op, node_right)
+  : BinOpNode(node_factory, node_left, tok_op, node_right)
 {
-  this->node_factory = node_factory;
 }
 
 string Percent::to_repr()

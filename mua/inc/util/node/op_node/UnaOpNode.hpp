@@ -10,6 +10,7 @@
 #include "NodeType.hpp"
 #include "TokenType.hpp"
 #include "InterpretType.hpp"
+#include "INodeFactory.hpp"
 
 namespace mua
 {
@@ -24,7 +25,7 @@ namespace mua
     /**
      * @brief UnaOpNode(tok_op)
      */
-    UnaOpNode(Token &tok_op);
+    UnaOpNode(INodeFactory *node_factory, Token &tok_op);
     /**
      * @brief UnaOpNode(node_op, node)
      */
@@ -32,7 +33,7 @@ namespace mua
     /**
      * @brief UnaOpNode(tok_op, node)
     */
-    UnaOpNode(Token &tok_op, std::unique_ptr<Node> &node);
+    UnaOpNode(INodeFactory *node_factory, Token &tok_op, std::unique_ptr<Node> &node);
     /**
      * @brief ~UnaOpNode() destructor
      */

@@ -3,8 +3,9 @@
 using namespace mua;
 using namespace std;
 
-UnaOpNode::UnaOpNode(Token &tok_op)
+UnaOpNode::UnaOpNode(INodeFactory *node_factory, Token &tok_op)
 {
+  this->node_factory = node_factory;
   tok = tok_op;
 }
 
@@ -16,9 +17,10 @@ UnaOpNode::UnaOpNode(unique_ptr<Node> &node_op, unique_ptr<Node> &node)
   this->node->parent = this;
 }
 
-UnaOpNode::UnaOpNode(Token &tok_op, unique_ptr<Node> &node)
+UnaOpNode::UnaOpNode(INodeFactory *node_factory, Token &tok_op, unique_ptr<Node> &node)
   : node(std::move(node))
 {
+  this->node_factory = node_factory;
   tok = tok_op;
   this->node->parent = this;
 }

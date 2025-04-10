@@ -12,6 +12,7 @@ TARGET_PATH = mua-test/interpreter
 INCLUDES = \
 	-Imua/inc/back \
 	-Imua/inc/front \
+	-Imua/inc/util/node/op_node \
 	-Imua/inc/util/node/op_node/bin_node \
 	-Imua/inc/util/node/op_node/una_node \
 	-Imua/inc/util/node \

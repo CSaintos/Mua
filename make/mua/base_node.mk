@@ -12,8 +12,7 @@ TARGET_PATH = mua/node
 INCLUDES = \
 	-Imua/inc/util/character \
 	-Imua/inc/util/node \
-	-Imua/inc/util/node/op_node/bin_node \
-	-Imua/inc/util/node/op_node/una_node \
+	-Imua/inc/util/node/op_node \
 	-Imua/inc/util/token \
 	-Imua/inc/util
 # Link Directories # -L<path-to-dir>
@@ -31,8 +30,7 @@ SLINKS =
 DEFINES = 
 SRCDIRS = \
 	mua/src/util/node \
-	mua/src/util/node/op_node/bin_node \
-	mua/src/util/node/op_node/una_node \
+	mua/src/util/node/op_node \
 	mua/src/util
 SRCFILES = \
 	Node.cpp \

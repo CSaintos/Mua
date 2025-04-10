@@ -3,8 +3,9 @@
 using namespace std;
 using namespace mua;
 
-BinOpNode::BinOpNode(Token &tok_op)
+BinOpNode::BinOpNode(INodeFactory *node_factory, Token &tok_op)
 {
+  this->node_factory = node_factory;
   tok = tok_op;
 }
 
@@ -17,9 +18,10 @@ BinOpNode::BinOpNode(unique_ptr<Node> &node_left, unique_ptr<Node> &node_op, uni
   this->node_right->parent = this;
 }
 
-BinOpNode::BinOpNode(unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &node_right)
+BinOpNode::BinOpNode(INodeFactory *node_factory, unique_ptr<Node> &node_left, Token &tok_op, unique_ptr<Node> &node_right)
   : node_left(std::move(node_left)), node_right(std::move(node_right))
 {
+  this->node_factory = node_factory;
   tok = tok_op;
   this->node_left->parent = this;
   this->node_right->parent = this;

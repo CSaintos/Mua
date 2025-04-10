@@ -13,6 +13,7 @@ INCLUDES = \
 	-Imua/inc/util/character \
 	-Imua/inc/front \
 	-Imua/inc/util/node \
+	-Imua/inc/util/node/op_node \
 	-Imua/inc/util/node/op_node/bin_node \
 	-Imua/inc/util/node/op_node/una_node \
 	-Imua/inc/util/token \
