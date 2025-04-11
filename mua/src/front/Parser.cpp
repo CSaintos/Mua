@@ -634,7 +634,7 @@ void Parser::scanOneToken()
       case TokenType::LPAREN:
       case TokenType::RPAREN:
         node_stack.push(node_factory->produceNode(*itr));
-        toParseTree(itr->type);
+        toParseTree(TokenType::EMPTY);
         last_type = itr->type;
         last_op = last_type;
         open_parens.pop();

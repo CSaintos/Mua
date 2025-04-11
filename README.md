@@ -19,11 +19,11 @@ Mua is <span style="color:gray">(an open source, rudimentary, step-by-step, cli-
 `./muac`
 - Exit repl mode: `exit[];` on an empty line.
 ##### Evaluating mua files
-- Evaluate mua file: `./muac <path-to-file>.mua [<output-file-path>.muar]`
+- Evaluate mua file: `./muac <path-to-file>.mua [-o<output-file-path>.muar]`
   - Brackets mean optional argument
 - Ex:
   - `./muac ./hello_world.mua`
-  - `./muac ./hello_world.mua ./hello_world.muar`
+  - `./muac ./hello_world.mua -o./hello_world.muar`
 ### Arithmetic Operators
 | Operation | Example | Result |
 | --- | --- | --- |

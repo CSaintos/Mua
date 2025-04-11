@@ -133,7 +133,7 @@ endif
 # Copy Dynamic Libraries
 ifeq ($(BUILDTYPE),EXE)
 $(TARGET): $(OUT_DLIBS)
-$(OUT_DLIBS): $(TARGETDIR)/% : % $(TARGETDIR)
+$(OUT_DLIBS): $(TARGETDIR)/% : % | $(TARGETDIR)
 	$(call cp, $<, $(TARGETDIR)) 
 endif
 
