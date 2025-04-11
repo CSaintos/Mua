@@ -4,8 +4,8 @@ using namespace std;
 using namespace mua;
 
 Parser::Parser()
-  : pemd({TokenType::ASTERISK, TokenType::ADJACENT, TokenType::FSLASH, TokenType::PERCENT, TokenType::CARET, TokenType::RPAREN}),
-    pe({TokenType::CARET, TokenType::RPAREN}),
+  : pemd({TokenType::ASTERISK, TokenType::ADJACENT, TokenType::FSLASH, TokenType::PERCENT, TokenType::CARET, TokenType::LPAREN}),
+    pe({TokenType::CARET, TokenType::LPAREN}),
     last_op(TokenType::EMPTY),
     last_type(TokenType::EMPTY),
     open_parens(),
@@ -634,7 +634,7 @@ void Parser::scanOneToken()
       case TokenType::LPAREN:
       case TokenType::RPAREN:
         node_stack.push(node_factory->produceNode(*itr));
-        toParseTree(TokenType::EMPTY);
+        toParseTree(itr->type);
         last_type = itr->type;
         last_op = last_type;
         open_parens.pop();
