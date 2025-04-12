@@ -431,6 +431,7 @@ void Parser::scanOneToken()
       switch (last_op)
       {
       case TokenType::RPAREN:
+        // FIXME if op_b4_paren is empty, crashes
         if (pemd.contains(op_b4_paren.top()->tok.type))
         {
           toParseTree(itr->type);
