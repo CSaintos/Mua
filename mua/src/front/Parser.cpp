@@ -218,6 +218,8 @@ void Parser::toParseTree(TokenType precedence_type)
         {
           right_node = std::move(node_stack.top());
           node_stack.pop();
+          // This line below might need to go in more specific places in this method, in the case that looping is false and nodes need to be put back in node_stack.
+          op_b4_paren.pop();
         }
         else
         {
@@ -431,8 +433,7 @@ void Parser::scanOneToken()
       switch (last_op)
       {
       case TokenType::RPAREN:
-        // FIXME if op_b4_paren is empty, crashes
-        if (pemd.contains(op_b4_paren.top()->tok.type))
+        if (!op_b4_paren.empty() && pemd.contains(op_b4_paren.top()))
         {
           toParseTree(itr->type);
         }
@@ -579,6 +580,7 @@ void Parser::scanOneToken()
       case TokenType::MINUS:
       case TokenType::EQUAL:
       case TokenType::LPAREN:
+        op_b4_paren.push(TokenType::ADJACENT);
         node_stack.push(node_factory->produceNode(*itr));
         open_parens.push(node_stack.top().get());
         last_type = itr->type;
@@ -604,7 +606,7 @@ void Parser::scanOneToken()
     case TokenType::RPAREN:
     case TokenType::LPAREN:
     case TokenType::EQUAL:
-      op_b4_paren.push(node_stack.top().get());
+      op_b4_paren.push(last_type);
     case TokenType::EMPTY:
       node_stack.push(node_factory->produceNode(*itr));
       open_parens.push(node_stack.top().get());

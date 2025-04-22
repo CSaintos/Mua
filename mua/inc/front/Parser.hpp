@@ -33,8 +33,8 @@ namespace mua
     std::stack<std::unique_ptr<Node>> node_stack;
     /// stack of nodes of unclosed parenthesis
     std::stack<Node*> open_parens;
-    /// stack of operators before lparens
-    std::stack<Node*> op_b4_paren;
+    /// stack of operator types before lparens
+    std::stack<TokenType> op_b4_paren;
     /// pointer to token stream
     std::list<Token> *token_stream;
     /// iterator to current element in token stream

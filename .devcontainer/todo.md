@@ -5,3 +5,5 @@ ToDo:
 - We can still further decouple the project (probably need to do some research on Dependency Inversion)
 - Replace node building move calls with methods for building nodes.
 - Bugfix all issues in math.mua
+- When rebuilding project, since modules are dynamic libraries, then other executables/libraries shouldn't need to be rebuilt. (double check however)
+- When setting context, its redundant to set the node's state context to itself passing in a pointer of itself.

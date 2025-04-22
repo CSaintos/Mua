@@ -7,9 +7,13 @@ string Asterisk::to_repr()
 {
   if (node_left == nullptr || node_right == nullptr)
   {
-    return "*";
+    if (tok->type == TokenType::ASTERISK)
+      return "*";
+    return ""; // ADJACENT case
   }
-  return node_left->to_repr() + "*" + node_right->to_repr();
+  if (tok->type == TokenType::ASTERISK)
+    return node_left->to_repr() + "*" + node_right->to_repr();
+  return node_left->to_repr() + node_right->to_repr(); // ADJACENT case
 }
 
 bool Asterisk::interpret(const unordered_set<InterpretType> &flags)
