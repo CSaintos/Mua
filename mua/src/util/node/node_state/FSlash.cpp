@@ -314,8 +314,9 @@ bool FSlash::interpret(const unordered_set<InterpretType> &flags)
             BinOpNode* bin_op_node = static_cast<BinOpNode*>(lhs_node.get());
             unique_ptr<Node> left_numerator = std::move(bin_op_node->node_left);
             left_numerator = node_factory->produceNode(TokenType::MINUS, left_numerator);
-            bin_op_node->node_left = std::move(left_numerator);
-            bin_op_node->node_left->parent = bin_op_node;
+            bin_op_node->setLeftNode(left_numerator);
+            //bin_op_node->node_left = std::move(left_numerator);
+            //bin_op_node->node_left->parent = bin_op_node;
           }
         }
         NodeUtils::replaceNode(node_left, lhs_node);
@@ -329,8 +330,9 @@ bool FSlash::interpret(const unordered_set<InterpretType> &flags)
             BinOpNode* bin_op_node = static_cast<BinOpNode*>(rhs_node.get());
             unique_ptr<Node> right_numerator = std::move(bin_op_node->node_left);
             right_numerator = node_factory->produceNode(TokenType::MINUS, right_numerator);
-            bin_op_node->node_left = std::move(right_numerator);
-            bin_op_node->node_left->parent = bin_op_node;
+            bin_op_node->setLeftNode(right_numerator);
+            //bin_op_node->node_left = std::move(right_numerator);
+            //bin_op_node->node_left->parent = bin_op_node;
           }
         }
         if (rhs_node->tok.type == TokenType::FSLASH)

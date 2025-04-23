@@ -20,7 +20,6 @@ namespace mua
    */
   struct BinOpNode : public Node
   {
-  public:
     std::unique_ptr<Node> node_left; ///< left operand
     std::unique_ptr<Node> node_right; ///< right operand
     
@@ -36,6 +35,10 @@ namespace mua
      * @brief BinOpNode(node_left, tok_op, node_right) 
     */
     BinOpNode(INodeFactory *node_factory, std::unique_ptr<Node> &node_left, Token &tok_op, std::unique_ptr<Node> &node_right, std::unique_ptr<INodeState> state);
+
+    void setLeftNode(std::unique_ptr<Node> &node_left);
+    void setRightNode(std::unique_ptr<Node> &node_right);
+    void setNodes(std::unique_ptr<Node> &node_left, std::unique_ptr<Node> &node_right);
 
     /**
      * @brief Returns node as string representation

@@ -35,10 +35,8 @@ namespace mua
      * @brief UnaOpNode(tok_op, node)
     */
     UnaOpNode(INodeFactory *node_factory, Token &tok_op, std::unique_ptr<Node> &node, std::unique_ptr<INodeState> state);
-    /**
-     * @brief ~UnaOpNode() destructor
-     */
-    ~UnaOpNode();
+
+    void setNode(std::unique_ptr<Node> &node);
 
     /**
      * @brief Returns node as string representation

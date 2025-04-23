@@ -582,7 +582,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                     break;
                   }
                   default:
-                    cout << "Not implemented yet where Caret parent node is" << TokenUtils::m_TS_map[node->parent->tok.type] << endl;
+                    cout << "Not implemented yet where Caret parent node is " << TokenUtils::m_TS_map[node->parent->tok.type] << endl;
                     break;
                   }
                 }

@@ -31,6 +31,29 @@ BinOpNode::BinOpNode(INodeFactory *node_factory, unique_ptr<Node> &node_left, To
   this->state->setContext(this);
 }
 
+void BinOpNode::setLeftNode(unique_ptr<Node> &node_left)
+{
+  this->node_left = std::move(node_left);
+  this->node_left->parent = this;
+  this->state->setContext(this);
+}
+
+void BinOpNode::setRightNode(unique_ptr<Node> &node_right)
+{
+  this->node_right = std::move(node_right);
+  this->node_right->parent = this;
+  this->state->setContext(this);
+}
+
+void BinOpNode::setNodes(unique_ptr<Node> &node_left, unique_ptr<Node> &node_right)
+{
+  this->node_left = std::move(node_left);
+  this->node_left->parent = this;
+  this->node_right = std::move(node_right);
+  this->node_right->parent = this;
+  this->state->setContext(this);
+}
+
 string BinOpNode::to_string()
 {
   if (node_left == nullptr || node_right == nullptr)

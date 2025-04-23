@@ -29,8 +29,12 @@ UnaOpNode::UnaOpNode(INodeFactory *node_factory, Token &tok_op, unique_ptr<Node>
   this->state->setContext(this);
 }
 
-UnaOpNode::~UnaOpNode()
-{}
+void UnaOpNode::setNode(unique_ptr<Node> &node)
+{
+  this->node = std::move(node);
+  this->node->parent = this;
+  this->state->setContext(this);
+}
 
 string UnaOpNode::to_string()
 {

@@ -98,12 +98,13 @@ void Parser::toParseTree(TokenType precedence_type)
       {
         op_node = node_factory->produceNode(TokenType::ADJACENT);
       }
-      BinOpNode* bin_raw = static_cast<BinOpNode*>(op_node.get());
-      bin_raw->node_left = std::move(left_node);
-      bin_raw->node_left->parent = bin_raw;
-      bin_raw->node_right = std::move(right_node);
-      bin_raw->node_right->parent = bin_raw;
-      op_node->state->setContext(op_node.get());
+      static_cast<BinOpNode*>(op_node.get())->setNodes(left_node, right_node);
+      //BinOpNode* bin_raw = static_cast<BinOpNode*>(op_node.get());
+      //bin_raw->node_left = std::move(left_node);
+      //bin_raw->node_left->parent = bin_raw;
+      //bin_raw->node_right = std::move(right_node);
+      //bin_raw->node_right->parent = bin_raw;
+      //op_node->state->setContext(op_node.get());
       right_node = std::move(op_node);
       break;
     }
@@ -121,10 +122,11 @@ void Parser::toParseTree(TokenType precedence_type)
         node_stack.pop();
         if (op_node->getType() == NodeType::UNARY_OPERATOR)
         {
-          UnaOpNode* una_raw = static_cast<UnaOpNode*>(op_node.get());
-          una_raw->node = std::move(right_node);
-          una_raw->node->parent = una_raw;
-          op_node->state->setContext(op_node.get());
+          static_cast<UnaOpNode*>(op_node.get())->setNode(right_node);
+          //UnaOpNode* una_raw = static_cast<UnaOpNode*>(op_node.get());
+          //una_raw->node = std::move(right_node);
+          //una_raw->node->parent = una_raw;
+          //op_node->state->setContext(op_node.get());
           right_node = std::move(op_node);
         }
         else if (pemd.count(precedence_type) == 1)
@@ -136,12 +138,13 @@ void Parser::toParseTree(TokenType precedence_type)
       }
       left_node = std::move(node_stack.top());
       node_stack.pop();
-      BinOpNode* bin_raw = static_cast<BinOpNode*>(op_node.get());
-      bin_raw->node_left = std::move(left_node);
-      bin_raw->node_left->parent = bin_raw;
-      bin_raw->node_right = std::move(right_node);
-      bin_raw->node_right->parent = bin_raw;
-      op_node->state->setContext(op_node.get());
+      static_cast<BinOpNode*>(op_node.get())->setNodes(left_node, right_node);
+      //BinOpNode* bin_raw = static_cast<BinOpNode*>(op_node.get());
+      //bin_raw->node_left = std::move(left_node);
+      //bin_raw->node_left->parent = bin_raw;
+      //bin_raw->node_right = std::move(right_node);
+      //bin_raw->node_right->parent = bin_raw;
+      //op_node->state->setContext(op_node.get());
       right_node = std::move(op_node);
       break;
     }
@@ -169,12 +172,13 @@ void Parser::toParseTree(TokenType precedence_type)
       {
         left_node = std::move(node_stack.top());
         node_stack.pop();
-        BinOpNode* bin_raw = static_cast<BinOpNode*>(op_node.get());
-        bin_raw->node_left = std::move(left_node);
-        bin_raw->node_left->parent = bin_raw;
-        bin_raw->node_right = std::move(right_node);
-        bin_raw->node_right->parent = bin_raw;
-        op_node->state->setContext(op_node.get());
+        static_cast<BinOpNode*>(op_node.get())->setNodes(left_node, right_node);
+        //BinOpNode* bin_raw = static_cast<BinOpNode*>(op_node.get());
+        //bin_raw->node_left = std::move(left_node);
+        //bin_raw->node_left->parent = bin_raw;
+        //bin_raw->node_right = std::move(right_node);
+        //bin_raw->node_right->parent = bin_raw;
+        //op_node->state->setContext(op_node.get());
         right_node = std::move(op_node);
         break;
       }
@@ -193,10 +197,11 @@ void Parser::toParseTree(TokenType precedence_type)
           {
             right_node = node_factory->produceNode(TokenType::DIGIT);
           }
-          una_raw = static_cast<UnaOpNode*>(op_node.get());
-          una_raw->node = std::move(right_node);
-          una_raw->node->parent = una_raw;
-          op_node->state->setContext(op_node.get());
+          static_cast<UnaOpNode*>(op_node.get())->setNode(right_node);
+          //una_raw = static_cast<UnaOpNode*>(op_node.get());
+          //una_raw->node = std::move(right_node);
+          //una_raw->node->parent = una_raw;
+          //op_node->state->setContext(op_node.get());
           right_node = std::move(op_node);
           if (!end_of_expr || !end_of_stmt)
           {
@@ -227,12 +232,13 @@ void Parser::toParseTree(TokenType precedence_type)
           {
             left_node = std::move(node_stack.top());
             node_stack.pop();
-            BinOpNode* bin_raw = static_cast<BinOpNode*>(op_node.get());
-            bin_raw->node_left = std::move(left_node);
-            bin_raw->node_left->parent = bin_raw;
-            bin_raw->node_right = std::move(right_node);
-            bin_raw->node_right->parent = bin_raw;
-            op_node->state->setContext(op_node.get());
+            static_cast<BinOpNode*>(op_node.get())->setNodes(left_node, right_node);
+            //BinOpNode* bin_raw = static_cast<BinOpNode*>(op_node.get());
+            //bin_raw->node_left = std::move(left_node);
+            //bin_raw->node_left->parent = bin_raw;
+            //bin_raw->node_right = std::move(right_node);
+            //bin_raw->node_right->parent = bin_raw;
+            //op_node->state->setContext(op_node.get());
             right_node = std::move(op_node);
           } 
           else
@@ -271,12 +277,13 @@ void Parser::toParseTree(TokenType precedence_type)
       {
         left_node = std::move(node_stack.top());
         node_stack.pop();
-        BinOpNode* bin_raw = static_cast<BinOpNode*>(op_node.get());
-        bin_raw->node_left = std::move(left_node);
-        bin_raw->node_left->parent = bin_raw;
-        bin_raw->node_right = std::move(right_node);
-        bin_raw->node_right->parent = bin_raw;
-        op_node->state->setContext(op_node.get());
+        static_cast<BinOpNode*>(op_node.get())->setNodes(left_node, right_node);
+        //BinOpNode* bin_raw = static_cast<BinOpNode*>(op_node.get());
+        //bin_raw->node_left = std::move(left_node);
+        //bin_raw->node_left->parent = bin_raw;
+        //bin_raw->node_right = std::move(right_node);
+        //bin_raw->node_right->parent = bin_raw;
+        //op_node->state->setContext(op_node.get());
         right_node = std::move(op_node);
       }
       else 
@@ -300,10 +307,11 @@ void Parser::toParseTree(TokenType precedence_type)
       }
       op_node = std::move(node_stack.top());
       node_stack.pop();
-      UnaOpNode* una_raw = static_cast<UnaOpNode*>(op_node.get());
-      una_raw->node = std::move(right_node);
-      una_raw->node->parent = una_raw;
-      op_node->state->setContext(op_node.get());
+      static_cast<UnaOpNode*>(op_node.get())->setNode(right_node);
+      //UnaOpNode* una_raw = static_cast<UnaOpNode*>(op_node.get());
+      //una_raw->node = std::move(right_node);
+      //una_raw->node->parent = una_raw;
+      //op_node->state->setContext(op_node.get());
       right_node = std::move(op_node);
       break;
     }
@@ -315,10 +323,11 @@ void Parser::toParseTree(TokenType precedence_type)
         node_stack.pop();
         right_node = std::move(node_stack.top());
         node_stack.pop();
-        UnaOpNode* una_op_node = static_cast<UnaOpNode*>(op_node.get());
-        una_op_node->node = std::move(right_node);
-        una_op_node->node->parent = una_op_node;
-        op_node->state->setContext(op_node.get());
+        static_cast<UnaOpNode*>(op_node.get())->setNode(right_node);
+        //UnaOpNode* una_op_node = static_cast<UnaOpNode*>(op_node.get());
+        //una_op_node->node = std::move(right_node);
+        //una_op_node->node->parent = una_op_node;
+        //op_node->state->setContext(op_node.get());
         right_node = std::move(op_node);
       }
       else
@@ -348,10 +357,11 @@ void Parser::toParseTree(TokenType precedence_type)
     {
       right_node = node_factory->produceNode(TokenType::DIGIT);
     }
-    UnaOpNode* una_op_node = static_cast<UnaOpNode*>(op_node.get());
-    una_op_node->node = std::move(right_node);
-    una_op_node->node->parent = una_op_node;
-    op_node->state->setContext(op_node.get());
+    static_cast<UnaOpNode*>(op_node.get())->setNode(right_node);
+    //UnaOpNode* una_op_node = static_cast<UnaOpNode*>(op_node.get());
+    //una_op_node->node = std::move(right_node);
+    //una_op_node->node->parent = una_op_node;
+    //op_node->state->setContext(op_node.get());
     node_stack.push(std::move(op_node));
   }
   if (right_node != nullptr)

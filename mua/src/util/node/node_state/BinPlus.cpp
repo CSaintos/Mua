@@ -332,8 +332,9 @@ bool BinPlus::interpret(const unordered_set<InterpretType> &flags)
             BinOpNode* bin_op_node = static_cast<BinOpNode*>(lhs_node.get());
             left_numerator = std::move(bin_op_node->node_left);
             left_numerator = node_factory->produceNode(TokenType::MINUS, left_numerator);
-            bin_op_node->node_left = std::move(left_numerator);
-            bin_op_node->node_left->parent = bin_op_node;
+            bin_op_node->setLeftNode(left_numerator);
+            //bin_op_node->node_left = std::move(left_numerator);
+            //bin_op_node->node_left->parent = bin_op_node;
           }
         }
         NodeUtils::replaceNode(node_left, lhs_node);
@@ -347,8 +348,9 @@ bool BinPlus::interpret(const unordered_set<InterpretType> &flags)
             BinOpNode* bin_op_node = static_cast<BinOpNode*>(rhs_node.get());
             right_numerator = std::move(bin_op_node->node_left);
             right_numerator = node_factory->produceNode(TokenType::MINUS, right_numerator);
-            bin_op_node->node_left = std::move(right_numerator);
-            bin_op_node->node_left->parent = bin_op_node;
+            bin_op_node->setLeftNode(right_numerator);
+            //bin_op_node->node_left = std::move(right_numerator);
+            //bin_op_node->node_left->parent = bin_op_node;
           }
         }
         if (rhs_node->tok.type == TokenType::FSLASH)
@@ -483,10 +485,11 @@ bool BinPlus::interpret(const unordered_set<InterpretType> &flags)
           rhs_node->meta_data.is_const_fraction = true;
           if (!is_right_minus)
           {
-            node->node_left = std::move(lhs_node);
-            node_left->parent = node;
-            node->node_right = std::move(rhs_node);
-            node_right->parent = node;
+            node->setNodes(lhs_node, rhs_node);
+            //node->node_left = std::move(lhs_node);
+            //node_left->parent = node;
+            //node->node_right = std::move(rhs_node);
+            //node_right->parent = node;
           }
           else
           {
