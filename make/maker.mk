@@ -13,9 +13,13 @@ ifeq ($(SYS), Windows)
 SLINK_TYPE = lib
 DLINK_TYPE = dll
 EXE_TYPE = .exe
-else ifeq ($(filter-out Linux OSX, $(SYS)),)
+else ifeq ($(SYS), Linux)
 SLINK_TYPE = a
 DLINK_TYPE = so
+EXE_TYPE =
+else ifeq ($(SYS), OSX)
+SLINK_TYPE = a
+DLINK_TYPE = dylib
 EXE_TYPE =
 endif
 ifeq ($(SYS),OSX)
@@ -33,18 +37,14 @@ DLINK_FILES := $(patsubst -l%, %.$(DLINK_TYPE), $(patsubst -l:%, %, $(DLINKS)))
 SLINKS = $(patsubst %, -l:%, $(SLINK_FILES))
 DLINKS = $(patsubst %, -l:%, $(DLINK_FILES))
 else
-SLINK_FILES := $(patsubst -l%, %, $(patsubst -l:%.*, %, $(SLINKS)))
-DLINK_FILES := $(patsubst -l%, %, $(patsubst -l:%.*, %, $(DLINKS)))
+SLINK_FILES := $(patsubst -l%, %.$(SLINK_TYPE), $(patsubst -l:%.$(SLINK_TYPE), %, $(SLINKS)))
+DLINK_FILES := $(patsubst -l%, %.$(DLINK_TYPE), $(patsubst -l:%.$(DLINK_TYPE), %, $(DLINKS)))
 SLINKS = $(patsubst %, -l%, $(SLINK_FILES))
 DLINKS = $(patsubst %, -l%, $(DLINK_FILES))
 endif
 
-LINKS = $(SLINK_FILES) $(DLINK_FILES)
-
 #* First class functions
 find_file = $(wildcard $(addprefix $(addsuffix /, $2), $1))
-#list_rm = $(wordlist 2, $(words $1), $1)
-#pairmap = $(and $(strip $2), $(strip $3), $(call $1, $(firstword $2), $(firstword $3)) $(call pairmap, $1, $(call list_rm, $2), $(call list_rm, $3)))
 compile_exe_cmd = $(CXX) -o $2 -c $1 $(INCLUDES) $(CXXFLAGS) -MF $(2:%.o=%.d)
 compile_lib_cmd = $(CXX) -o $2 -c $1 $(INCLUDES) -fPIC $(CXXFLAGS) -MF $(2:%.o=%.d)
 ifeq ($(SYS), Windows)
@@ -55,7 +55,8 @@ endif
 
 #* Constants
 vpath %.cpp $(SRCDIRS)
-LIBS = $(foreach LINKDIR, $(patsubst -L%, %, $(LINKDIRS)), $(call find_file, $(LINKS), $(LINKDIR)))
+DLIBS = $(foreach LINKDIR, $(patsubst -L%, %, $(LINKDIRS)), $(call find_file, $(DLINK_FILES), $(LINKDIR)))
+SLIBS = $(foreach LINKDIR, $(patsubst -L%, %, $(LINKDIRS)), $(call find_file, $(SLINK_FILES), $(LINKDIR)))
 OUT_DLIBS = $(foreach DLINK_FILE, $(DLINK_FILES), $(TARGETDIR)/$(DLINK_FILE))
 vpath %.$(DLINK_TYPE) $(patsubst -L%, %, $(LINKDIRS))
 OBJECTS = $(addprefix $(OBJDIR)/, $(patsubst %.cpp, %.o, $(SRCFILES)))
@@ -116,12 +117,12 @@ endif
 
 # Build target from objects
 ifeq ($(PROCESS), LINKONLY)
-$(TARGET): $(LIBS) | $(TARGETDIR)
+$(TARGET): $(SLIBS) | $(TARGETDIR) $(DLIBS)
 else
-$(TARGET): $(OBJECTS) $(LIBS) | $(TARGETDIR)
+$(TARGET): $(OBJECTS) $(SLIBS) | $(TARGETDIR) $(DLIBS)
 endif
 ifeq ($(BUILDTYPE), EXE)
-	$(CXX) $(OBJECTS) $(LINKDIRS) $(STATIC_LINK_FLAG) $(SLINKS) $(DYNAMIC_LINK_FLAG) $(DLINKS) $(AS_NEED_LINK_FLAG) -o $(TARGET)
+	$(CXX) -o $(TARGET) $(OBJECTS) $(LINKDIRS) $(STATIC_LINK_FLAG) $(SLINKS) $(DYNAMIC_LINK_FLAG) $(DLINKS) $(AS_NEED_LINK_FLAG)
 else ifeq ($(BUILDTYPE), STATICLIB)
 	$(AR) -rcs $(TARGET) $(OBJECTS)
 else ifeq ($(BUILDTYPE), DYNAMICLIB)
@@ -132,7 +133,7 @@ endif
 
 # Copy Dynamic Libraries
 ifeq ($(BUILDTYPE),EXE)
-$(TARGET): $(OUT_DLIBS)
+$(TARGET): | $(OUT_DLIBS)
 $(OUT_DLIBS): $(TARGETDIR)/% : % | $(TARGETDIR)
 	$(call cp, $<, $(TARGETDIR)) 
 endif
