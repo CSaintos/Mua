@@ -31,16 +31,14 @@ STATIC_LINK_FLAG=-Wl,-Bstatic
 DYNAMIC_LINK_FLAG=-Wl,-Bdynamic
 AS_NEED_LINK_FLAG=-Wl,--as-needed
 endif
-ifneq ($(SYS),OSX)
 SLINK_FILES := $(patsubst -l%, %.$(SLINK_TYPE), $(patsubst -l:%, %, $(SLINKS)))
 DLINK_FILES := $(patsubst -l%, %.$(DLINK_TYPE), $(patsubst -l:%, %, $(DLINKS)))
+ifneq ($(SYS),OSX)
 SLINKS = $(patsubst %, -l:%, $(SLINK_FILES))
 DLINKS = $(patsubst %, -l:%, $(DLINK_FILES))
 else
-SLINK_FILES := $(patsubst -l%, %.$(SLINK_TYPE), $(patsubst -l:%.$(SLINK_TYPE), %, $(SLINKS)))
-DLINK_FILES := $(patsubst -l%, %.$(DLINK_TYPE), $(patsubst -l:%.$(DLINK_TYPE), %, $(DLINKS)))
-SLINKS = $(patsubst %, -l%, $(SLINK_FILES))
-DLINKS = $(patsubst %, -l%, $(DLINK_FILES))
+SLINKS = $(patsubst %.$(SLINK_TYPE), -l%, $(SLINK_FILES))
+DLINKS = $(patsubst %.$(DLINK_TYPE), -l%, $(DLINK_FILES))
 endif
 
 #* First class functions
