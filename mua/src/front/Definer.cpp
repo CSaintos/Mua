@@ -184,8 +184,6 @@ void Definer::searchOneNode(Node* node)
         if (temp->getType() == NodeType::UNARY_OPERATOR)
         {
           static_cast<UnaOpNode*>(temp)->setNode(right_node);
-          //UnaOpNode* temp_una = static_cast<UnaOpNode*>(temp);
-          //temp_una->node = std::move(right_node);
         } 
         else if (temp->getType() == NodeType::BINARY_OPERATOR)
         {
@@ -193,12 +191,10 @@ void Definer::searchOneNode(Node* node)
           if (node_to_replace == temp_bin->node_left.get())
           {
             temp_bin->setLeftNode(right_node);
-            //temp_bin->node_left = std::move(right_node);
           }
           else
           {
             temp_bin->setRightNode(right_node);
-            //temp_bin->node_right = std::move(right_node);
           }
         }
       }

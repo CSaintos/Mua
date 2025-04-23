@@ -11,16 +11,10 @@ void NodeUtils::replaceNode(Node* to_replace, unique_ptr<Node> &replace_with)
     if (parent->node_left.get() == to_replace)
     {
       parent->setLeftNode(replace_with);
-      //parent->node_left = std::move(replace_with);
-      //parent->node_left->parent = parent;
-      //parent->state->setContext(parent);
     }
     else if (parent->node_right.get() == to_replace)
     {
       parent->setRightNode(replace_with);
-      //parent->node_right = std::move(replace_with);
-      //parent->node_right->parent = parent;
-      //parent->state->setContext(parent);
     }
     else
     {
@@ -31,8 +25,5 @@ void NodeUtils::replaceNode(Node* to_replace, unique_ptr<Node> &replace_with)
   {
     UnaOpNode* parent = static_cast<UnaOpNode*>(to_replace->parent);
     parent->setNode(replace_with);
-    //parent->node = std::move(replace_with);
-    //parent->node->parent = parent;
-    //parent->state->setContext(parent);
   }
 }
