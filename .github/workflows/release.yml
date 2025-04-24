@@ -42,12 +42,12 @@ jobs:
       uses: actions/checkout@v4
     - name: make muac
       working-directory: .
-      run: make -j SYS=Linux
+      run: make -j -O SYS=Linux
     - name: Upload muac-linux
       uses: actions/upload-artifact@v4
       with:
         name: muac-linux
-        path: build/mua/main/muac
+        path: build/mua/main
   make-windows:
     name: Build Mua - Windows
     runs-on: windows-latest
@@ -58,12 +58,12 @@ jobs:
     - name: make muac
       shell: pwsh
       working-directory: .
-      run: make -j SYS=Linux
+      run: make -j -O SYS=Linux
     - name: Upload muac-windows
       uses: actions/upload-artifact@v4
       with:
         name: muac-windows
-        path: build/mua/main/muac.exe
+        path: build/mua/main
   make-macos:
     name: Build Mua - MacOS
     runs-on: macos-latest
@@ -74,12 +74,12 @@ jobs:
     - name: make muac
       working-directory: .
       run: |
-        make -j SYS=OSX CXX_VERSION=c++20
+        make -j -O SYS=OSX CXX_VERSION=c++20
     - name: Upload muac-macos
       uses: actions/upload-artifact@v4
       with:
         name: muac-macos
-        path: build/mua/main/muac
+        path: build/mua/main
   release-mua:
     name: Create Mua release
     runs-on: ubuntu-latest
@@ -108,5 +108,5 @@ jobs:
       run: ls -R
     - name: Create Release
       run: |
-        gh release create 0.1.0-alpha -p -t "Mua 0.1.0-alpha" muac-linux.7z muac-linux.7z.sha256sum muac-windows.7z muac-windows.7z.sha256sum muac-macos.7z muac-macos.7z.sha256sum
+        gh release create 0.1.1-alpha -t "Mua 0.1.1-alpha" muac-linux.7z muac-linux.7z.sha256sum muac-windows.7z muac-windows.7z.sha256sum muac-macos.7z muac-macos.7z.sha256sum
 
