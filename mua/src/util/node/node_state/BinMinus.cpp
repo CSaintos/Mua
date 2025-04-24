@@ -65,220 +65,26 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
   unique_ptr<Node> left_denominator;
   unique_ptr<Node> right_numerator;
   unique_ptr<Node> right_denominator;
+  bool removable_right_paren = false;
+  bool is_lhs_paren = false;
   bool is_left_minus = false;
   bool is_right_minus = false;
 
-  if (!is_left_leaf)
-  {
-    if (node_left->tok.type == TokenType::MINUS)
-    {
-      UnaOpNode* una_op_node = static_cast<UnaOpNode*>(node_left);
-      is_left_minus = true;
-
-      if (una_op_node->node->tok.type == TokenType::DIGIT)
-      {
-        lhs_node = NumberUtils::fractionalize(node_factory, una_op_node->node->to_repr());
-      }
-    }
-    else if (node_left->tok.type == TokenType::FSLASH)
-    {
-      BinOpNode* bin_op_node = static_cast<BinOpNode*>(node_left);
-      UnaOpNode* una_op_node;
-
-      if (bin_op_node->node_left->tok.type == TokenType::MINUS)
-      {
-        is_left_minus = !is_left_minus;
-        una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_left.get());
-        left_numerator = std::move(una_op_node->node);
-      }
-      else if (bin_op_node->node_left->tok.type == TokenType::DIGIT)
-      {
-        left_numerator = std::move(bin_op_node->node_left);
-      }
-      else
-      {
-        cout << "Not implemented yet (3)" << endl;
-      }
-      if (bin_op_node->node_right->tok.type == TokenType::MINUS)
-      {
-        is_left_minus = !is_left_minus;
-        una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_right.get());
-        left_denominator = std::move(una_op_node->node);
-      }
-      else if (bin_op_node->node_right->tok.type == TokenType::DIGIT)
-      {
-        left_denominator = std::move(bin_op_node->node_right);
-      }
-      else
-      {
-        cout << "Not implemented yet (3)" << endl;
-      }
-    }
-    else if (node_left->tok.type == TokenType::LPAREN)
-    {
-      UnaOpNode* una_op_node = static_cast<UnaOpNode*>(node_left);
-
-      if (una_op_node->node->tok.type == TokenType::MINUS)
-      {
-        is_left_minus = true;
-        una_op_node = static_cast<UnaOpNode*>(una_op_node->node.get());
-      }
-      if (una_op_node->node->tok.type == TokenType::DIGIT)
-      {
-        lhs_node = NumberUtils::fractionalize(node_factory, una_op_node->node->to_repr());
-      }
-      if (una_op_node->node->tok.type == TokenType::FSLASH)
-      {
-        BinOpNode* bin_op_node = static_cast<BinOpNode*>(una_op_node->node.get());
-
-        if (bin_op_node->node_left->tok.type == TokenType::MINUS)
-        {
-          is_left_minus = !is_left_minus;
-          una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_left.get());
-          left_numerator = std::move(una_op_node->node);
-        }
-        else if (bin_op_node->node_left->tok.type == TokenType::DIGIT)
-        {
-          left_numerator = std::move(bin_op_node->node_left);
-        }
-        else
-        {
-          cout << "Not implemented yet (3)" << endl;
-        }
-        if (bin_op_node->node_right->tok.type == TokenType::MINUS)
-        {
-          is_left_minus = !is_left_minus;
-          una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_right.get());
-          left_denominator = std::move(una_op_node->node);
-        }
-        else if (bin_op_node->node_right->tok.type == TokenType::DIGIT)
-        {
-          left_denominator = std::move(bin_op_node->node_right);
-        }
-        else
-        {
-          cout << "Not implemented yet (3)" << endl;
-        }
-      }
-    }
-    else
-    {
-      cout << "Not implemented yet (2)" << endl;
-    }
-  }
-  else
-  {
-    if (node_left->tok.type == TokenType::DIGIT)
-    {
-      lhs_node = NumberUtils::fractionalize(node_factory, node_left->to_repr());
-    }
-  }
-  
-  if (!is_right_leaf)
-  {
-    if (node_right->tok.type == TokenType::MINUS)
-    {
-      UnaOpNode* una_op_node = static_cast<UnaOpNode*>(node_right);
-      is_right_minus = true;
-
-      if (una_op_node->node->tok.type == TokenType::DIGIT)
-      {
-        rhs_node = NumberUtils::fractionalize(node_factory, una_op_node->node->to_repr());
-      }
-    }
-    else if (node_right->tok.type == TokenType::FSLASH)
-    {
-      BinOpNode* bin_op_node = static_cast<BinOpNode*>(node_right);
-      UnaOpNode* una_op_node;
-      
-      if  (bin_op_node->node_left->tok.type == TokenType::MINUS)
-      {
-        is_right_minus = !is_right_minus;
-        una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_left.get());
-        right_numerator = std::move(una_op_node->node);
-      }
-      else if (bin_op_node->node_left->tok.type == TokenType::DIGIT)
-      {
-        right_numerator = std::move(bin_op_node->node_left);
-      }
-      else
-      {
-        cout << "Not implemented yet (3)" << endl;
-      }
-      if (bin_op_node->node_right->tok.type == TokenType::MINUS)
-      {
-        is_right_minus = !is_right_minus;
-        una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_right.get());
-        right_denominator = std::move(una_op_node->node);
-      }
-      else if (bin_op_node->node_right->tok.type == TokenType::DIGIT)
-      {
-        right_denominator = std::move(bin_op_node->node_right);
-      }
-      else 
-      {
-        cout << "Not implemented yet (3)" << endl;
-      }
-    }
-    else if (node_right->tok.type == TokenType::LPAREN)
-    {
-      UnaOpNode* una_op_node = static_cast<UnaOpNode*>(node_right);
-
-      if (una_op_node->node->tok.type == TokenType::MINUS)
-      {
-        is_right_minus = true;
-        una_op_node = static_cast<UnaOpNode*>(una_op_node->node.get());
-      }
-      if (una_op_node->node->tok.type == TokenType::DIGIT)
-      {
-        rhs_node = NumberUtils::fractionalize(node_factory, una_op_node->node->to_repr());
-      }
-      if (una_op_node->node->tok.type == TokenType::FSLASH)
-      {
-        BinOpNode* bin_op_node = static_cast<BinOpNode*>(una_op_node->node.get());
-
-        if (bin_op_node->node_left->tok.type == TokenType::MINUS)
-        {
-          is_right_minus = !is_right_minus;
-          una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_left.get());
-          right_numerator = std::move(una_op_node->node);
-        }
-        else if (bin_op_node->node_left->tok.type == TokenType::DIGIT)
-        {
-          right_numerator = std::move(bin_op_node->node_left);
-        }
-        else
-        {
-          cout << "Not implemented yet (3)" << endl;
-        }
-        if (bin_op_node->node_right->tok.type == TokenType::MINUS)
-        {
-          is_right_minus = !is_right_minus;
-          una_op_node = static_cast<UnaOpNode*>(bin_op_node->node_right.get());
-          right_denominator = std::move(una_op_node->node);
-        }
-        else if (bin_op_node->node_right->tok.type == TokenType::DIGIT)
-        {
-          right_denominator = std::move(bin_op_node->node_right);
-        }
-        else
-        {
-          cout << "Not implemented yet (3)" << endl;
-        }
-      }
-    }
-    else
-    {
-      cout << "Not implemented yet (2)" << endl;
-    }
-  }
-  else
-  {
-    if (node_right->tok.type == TokenType::DIGIT)
-    {
-      rhs_node = NumberUtils::fractionalize(node_factory, node_right->to_repr());
-    }
-  }
+  extractNodeChildrenData
+  (
+    lhs_node,
+    rhs_node,
+    left_numerator,
+    left_denominator,
+    right_numerator,
+    right_denominator,
+    is_left_minus,
+    is_right_minus,
+    removable_right_paren,
+    is_lhs_paren,
+    is_left_leaf,
+    is_right_leaf
+  );
 
   if (lhs_node != nullptr && rhs_node != nullptr)
   {
