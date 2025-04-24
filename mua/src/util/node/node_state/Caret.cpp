@@ -306,14 +306,15 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                 tok_value.type = TokenType::DIGIT;
                 tok_value.lexemes = std::to_string(simple_radicand);
                 lhs_node = node_factory->produceNode(tok_value);
-
+                
+                // This case may never happen since there will always be a parent of SEMICOLON
                 if (!node->parent)
                 {
                   rhs_node = node_factory->produceNode(TokenType::FSLASH, right_numerator, right_denominator);
                   rhs_node = node_factory->produceNode(TokenType::CARET, lhs_node, rhs_node);
                   tok_value.lexemes = std::to_string(rooted_int); 
-                  unique_ptr<Node> rooted_node = node_factory->produceNode(tok_value);
-                  lhs_node = node_factory->produceNode(TokenType::ASTERISK, rooted_node, rhs_node);
+                  lhs_node = node_factory->produceNode(tok_value);
+                  lhs_node = node_factory->produceNode(TokenType::ASTERISK, lhs_node, rhs_node);
 
                   NodeUtils::replaceNode(node, lhs_node);
                 }
@@ -322,37 +323,41 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                   rhs_node = node_factory->produceNode(TokenType::FSLASH, right_numerator, right_denominator);
                   rhs_node = node_factory->produceNode(TokenType::CARET, lhs_node, rhs_node);
                   tok_value.lexemes = std::to_string(rooted_int);
-                  unique_ptr<Node> rooted_node = node_factory->produceNode(tok_value);
+                  lhs_node = node_factory->produceNode(tok_value);
 
                   switch (node->parent->tok.type)
                   {
                   case TokenType::PLUS:
                   case TokenType::MINUS:
                   {
-                    lhs_node = node_factory->produceNode(TokenType::ASTERISK, rooted_node, rhs_node);
+                    lhs_node = node_factory->produceNode(TokenType::ASTERISK, lhs_node, rhs_node);
                     BinOpNode* bin_op_node = static_cast<BinOpNode*>(node->parent);
                     if (bin_op_node->node_left.get() == node)
                     {
-                      NodeUtils::replaceNode(bin_op_node->node_left.get(), lhs_node);
+                      bin_op_node->setLeftNode(lhs_node);
+                      //NodeUtils::replaceNode(bin_op_node->node_left.get(), lhs_node);
                     }
                     else
                     {
-                      NodeUtils::replaceNode(bin_op_node->node_right.get(), lhs_node);
+                      bin_op_node->setRightNode(lhs_node);
+                      //NodeUtils::replaceNode(bin_op_node->node_right.get(), lhs_node);
                     }
                     break;
                   }
                   case TokenType::FSLASH:
                   {
-                    lhs_node = node_factory->produceNode(TokenType::ASTERISK, rooted_node, rhs_node);
+                    lhs_node = node_factory->produceNode(TokenType::ASTERISK, lhs_node, rhs_node);
                     BinOpNode* bin_op_node = static_cast<BinOpNode*>(node->parent);
                     if (bin_op_node->node_left.get() == node)
                     {
-                      NodeUtils::replaceNode(bin_op_node->node_left.get(), lhs_node);
+                      bin_op_node->setLeftNode(lhs_node);
+                      //NodeUtils::replaceNode(bin_op_node->node_left.get(), lhs_node);
                     }
                     else
                     {
                       lhs_node = node_factory->produceNode(TokenType::LPAREN, lhs_node);
-                      NodeUtils::replaceNode(bin_op_node->node_right.get(), lhs_node);
+                      bin_op_node->setRightNode(lhs_node);
+                      //NodeUtils::replaceNode(bin_op_node->node_right.get(), lhs_node);
                     }
                     break;
                   }
@@ -361,35 +366,46 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                     BinOpNode* bin_op_node = static_cast<BinOpNode*>(node->parent);
                     if (bin_op_node->node_left.get() == node)
                     {
-                      lhs_node = node_factory->produceNode(TokenType::ASTERISK, bin_op_node->node_right, rooted_node);
+                      lhs_node = node_factory->produceNode(TokenType::ASTERISK, bin_op_node->node_right, lhs_node);
                     }
                     else
                     {
-                      lhs_node = node_factory->produceNode(TokenType::ASTERISK, bin_op_node->node_left, rooted_node);
+                      lhs_node = node_factory->produceNode(TokenType::ASTERISK, bin_op_node->node_left, lhs_node);
                     }
-                    NodeUtils::replaceNode(bin_op_node->node_left.get(), lhs_node);
-                    NodeUtils::replaceNode(bin_op_node->node_right.get(), rhs_node);
+                    bin_op_node->setNodes(lhs_node, rhs_node);
+                    //NodeUtils::replaceNode(bin_op_node->node_left.get(), lhs_node);
+                    //NodeUtils::replaceNode(bin_op_node->node_right.get(), rhs_node);
                     break;
                   }
                   case TokenType::LPAREN:
                   {
-                    lhs_node = node_factory->produceNode(TokenType::ASTERISK, rooted_node, rhs_node);
+                    lhs_node = node_factory->produceNode(TokenType::ASTERISK, lhs_node, rhs_node);
                     UnaOpNode* una_op_node = static_cast<UnaOpNode*>(node->parent);
-                    NodeUtils::replaceNode(una_op_node->node.get(), lhs_node);
+                    una_op_node->setNode(lhs_node);
+                    //NodeUtils::replaceNode(una_op_node->node.get(), lhs_node);
+                    break;
+                  }
+                  case TokenType::SEMICOLON:
+                  {
+                    lhs_node = node_factory->produceNode(TokenType::ASTERISK, lhs_node, rhs_node);
+                    UnaOpNode* una_op_node = static_cast<UnaOpNode*>(node->parent);
+                    una_op_node->setNode(lhs_node);
                     break;
                   }
                   case TokenType::CARET:
                   {
-                    lhs_node = node_factory->produceNode(TokenType::ASTERISK, rooted_node, rhs_node);
+                    lhs_node = node_factory->produceNode(TokenType::ASTERISK, lhs_node, rhs_node);
                     lhs_node = node_factory->produceNode(TokenType::LPAREN, lhs_node);
                     BinOpNode* bin_op_node = static_cast<BinOpNode*>(node->parent);
                     if (bin_op_node->node_right.get() == node)
                     {
-                      NodeUtils::replaceNode(bin_op_node->node_right.get(), lhs_node);
+                      bin_op_node->setRightNode(lhs_node);
+                      //NodeUtils::replaceNode(bin_op_node->node_right.get(), lhs_node);
                     }
                     else
                     {
-                      NodeUtils::replaceNode(bin_op_node->node_left.get(), lhs_node);
+                      bin_op_node->setLeftNode(lhs_node);
+                      //NodeUtils::replaceNode(bin_op_node->node_left.get(), lhs_node);
                     }
                     break;
                   }
