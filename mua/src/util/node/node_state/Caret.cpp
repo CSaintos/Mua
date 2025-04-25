@@ -20,25 +20,25 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
   bool is_left_leaf = true;
   bool is_right_leaf = true;
 
-  if (!node_right->isLeaf())
-  {
-    right_change = node_right->interpret(flags);
-    change = right_change || change;
-    is_right_leaf = false;
-  }
   if (!node_left->isLeaf())
   {
     left_change = node_left->interpret(flags);
     change = left_change || change;
     is_left_leaf = false;
   }
+  if (!node_right->isLeaf())
+  {
+    right_change = node_right->interpret(flags);
+    change = right_change || change;
+    is_right_leaf = false;
+  }
   if (change)
   {
     return change;
   }
 
-  unique_ptr<Node> rhs_node;
   unique_ptr<Node> lhs_node;
+  unique_ptr<Node> rhs_node;
   unique_ptr<Node> left_numerator;
   unique_ptr<Node> left_denominator;
   unique_ptr<Node> right_numerator;
@@ -81,8 +81,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
         lhs_node = node_factory->produceNode(TokenType::FSLASH, left_numerator, lhs_node);
         lhs_node = node_factory->produceNode(TokenType::LPAREN, lhs_node);
 
-        NodeUtils::replaceNode(node_left, lhs_node);
-        NodeUtils::replaceNode(node_right, rhs_node);
+        node->setNodes(lhs_node, rhs_node);
         change = true;
       }
       else if (lhs_node->tok.type == TokenType::DIGIT &&
@@ -128,11 +127,15 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
         {
           lhs_node = node_factory->produceNode(TokenType::LPAREN, lhs_node);
         }
-        NodeUtils::replaceNode(node_left, lhs_node);
+        node->setLeftNode(lhs_node);
       }
       if (!rhs_node->isLeaf())
       {
-        NodeUtils::replaceNode(node_right, rhs_node);
+        if (rhs_node->tok.type == TokenType::FSLASH)
+        {
+          rhs_node = node_factory->produceNode(TokenType::LPAREN, rhs_node);
+        }
+        node->setRightNode(rhs_node);
       }
       change = true;
     }
@@ -148,8 +151,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
       lhs_node = node_factory->produceNode(TokenType::FSLASH, left_denominator, left_numerator);
       lhs_node = node_factory->produceNode(TokenType::LPAREN, lhs_node);
 
-      NodeUtils::replaceNode(node_left, lhs_node);
-      NodeUtils::replaceNode(node_right, rhs_node);
+      node->setNodes(lhs_node, rhs_node);
       change = true;
     }
     else
@@ -189,8 +191,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
       rhs_node = node_factory->produceNode(TokenType::FSLASH, right_numerator, right_denominator);
       rhs_node = node_factory->produceNode(TokenType::LPAREN, rhs_node);
 
-      NodeUtils::replaceNode(node_left, lhs_node);
-      NodeUtils::replaceNode(node_right, rhs_node);
+      node->setNodes(lhs_node, rhs_node);
       change = true;
     }
     else
@@ -234,8 +235,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
           rhs_node = node_factory->produceNode(TokenType::FSLASH, right_numerator, right_denominator);
           rhs_node = node_factory->produceNode(TokenType::LPAREN, rhs_node);
 
-          NodeUtils::replaceNode(node_left, lhs_node);
-          NodeUtils::replaceNode(node_right, rhs_node);
+          node->setNodes(lhs_node, rhs_node);
           change = true;
         }
         else
@@ -244,6 +244,12 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
           {
             int root = std::stod(right_denominator->tok.lexemes);
             int radicand = std::stod(lhs_node->tok.lexemes);
+            if (radicand == 1)
+            {
+              NodeUtils::replaceNode(node, lhs_node);
+              return true;
+            }
+
             //cout << "Looking for primes" << endl;
             std::list<int> primes = NumberUtils::factorize(radicand);
             //cout << "Primes were found" << endl;
@@ -439,7 +445,44 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
   right_numerator != nullptr &&
   right_denominator != nullptr)
   {
-    cout << "Not implemented yet where Caret::(left_numerator, left_denominator, right_numerator, right_denominator)" << endl;
+    if (is_right_minus)
+    {
+      if (is_left_minus)
+      {
+        left_numerator = node_factory->produceNode(TokenType::MINUS, left_numerator);
+      }
+      lhs_node = node_factory->produceNode(TokenType::FSLASH, left_denominator, left_numerator);
+      if (is_lhs_paren)
+      {
+        lhs_node = node_factory->produceNode(TokenType::LPAREN, lhs_node);
+      }
+      rhs_node = node_factory->produceNode(TokenType::FSLASH, right_numerator, right_denominator);
+      rhs_node = node_factory->produceNode(TokenType::LPAREN, rhs_node);
+
+      node->setNodes(lhs_node, rhs_node);
+      change = true;
+    }
+    else
+    {
+      unique_ptr<Node> right_numerator_copy = right_numerator->copy();
+      unique_ptr<Node> right_denominator_copy = right_denominator->copy();
+
+      if (is_left_minus)
+      {
+        left_numerator = node_factory->produceNode(TokenType::MINUS, left_numerator);
+        left_numerator = node_factory->produceNode(TokenType::LPAREN, left_numerator);
+      }
+      rhs_node = node_factory->produceNode(TokenType::FSLASH, right_numerator, right_denominator);
+      rhs_node = node_factory->produceNode(TokenType::LPAREN, rhs_node);
+      left_numerator = node_factory->produceNode(TokenType::CARET, left_numerator, rhs_node);
+      rhs_node = node_factory->produceNode(TokenType::FSLASH, right_numerator_copy, right_denominator_copy);
+      rhs_node = node_factory->produceNode(TokenType::LPAREN, rhs_node);
+      left_denominator = node_factory->produceNode(TokenType::CARET, left_denominator, rhs_node);
+      lhs_node = node_factory->produceNode(TokenType::FSLASH, left_numerator, left_denominator);
+
+      NodeUtils::replaceNode(node, lhs_node);
+      change = true;
+    }
   }
   
 
