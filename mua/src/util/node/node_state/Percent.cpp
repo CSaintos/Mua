@@ -145,8 +145,10 @@ bool Percent::interpret(const unordered_set<InterpretType> &flags)
     rhs_node = node_factory->produceNode(truncate_tok);
     lhs_node = node_factory->produceNode(TokenType::FSLASH, left_numerator, left_denominator);
     lhs_node = node_factory->produceNode(TokenType::MINUS, lhs_node, rhs_node);
+    unique_ptr<Node> phony_parent = node_factory->produceNode(TokenType::SEMICOLON, lhs_node);
     // 1st itr: makes equal factions, 2nd itr: subtracts numerators, 3rd itr: simplifies resulting fraction
     while (lhs_node->interpret());
+    lhs_node = std::move(static_cast<UnaOpNode*>(phony_parent.get())->node);
 
     if (is_minus)
     {
@@ -172,7 +174,9 @@ bool Percent::interpret(const unordered_set<InterpretType> &flags)
     right_numerator = node_factory->produceNode(truncate_tok);
     rhs_node = node_factory->produceNode(TokenType::FSLASH, right_numerator, right_denominator);
     lhs_node = node_factory->produceNode(TokenType::MINUS, lhs_node, rhs_node);
-    while(lhs_node->interpret());
+    unique_ptr<Node> phony_parent = node_factory->produceNode(TokenType::SEMICOLON, lhs_node);
+    while(phony_parent->interpret());
+    lhs_node = std::move(static_cast<UnaOpNode*>(phony_parent.get())->node);
 
     if (is_minus)
     {
@@ -200,7 +204,9 @@ bool Percent::interpret(const unordered_set<InterpretType> &flags)
     rhs_node = node_factory->produceNode(TokenType::FSLASH, right_numerator, right_denominator);
     lhs_node = node_factory->produceNode(TokenType::FSLASH, left_numerator, left_denominator);
     lhs_node = node_factory->produceNode(TokenType::MINUS, lhs_node, rhs_node);
-    while(lhs_node->interpret());
+    unique_ptr<Node> phony_parent = node_factory->produceNode(TokenType::SEMICOLON, lhs_node);
+    while(phony_parent->interpret());
+    lhs_node = std::move(static_cast<UnaOpNode*>(phony_parent.get())->node);
 
     if (is_minus)
     {
