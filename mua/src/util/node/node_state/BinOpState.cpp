@@ -150,6 +150,7 @@ void BinOpState::extractNodeChildrenData
   is_left_minus = false;
   is_right_minus = false;
   removable_right_paren = false;
+  is_lhs_paren = false;
   bool removable_left_paren = false;
   bool is_rhs_paren = false;
 
