@@ -65,12 +65,8 @@ bool FSlash::interpret(const unordered_set<InterpretType> &flags)
     is_right_leaf
   );
       
-  is_minus = (
-    (is_left_minus || 
-    is_right_minus) &&
-    !(is_left_minus &&
-    is_right_minus)
-  );
+  is_minus = is_left_minus != is_right_minus;
+  
   if (lhs_node != nullptr && rhs_node != nullptr)
   {
     if (lhs_node->isLeaf() && rhs_node->isLeaf())
