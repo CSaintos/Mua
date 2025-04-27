@@ -15,6 +15,7 @@ export SYS
 #? List of submakes ex. # ./make/submake1.mk
 PROJECTS = \
 	./make/mua/error.mk \
+	./make/mua/cmd.mk \
 	./make/mua/character.mk \
 	./make/mua/reader.mk \
 	./make/mua/token.mk \
@@ -79,7 +80,7 @@ m./make/mua-test/parser.mk: m./make/mua/parser.mk m./make/mua/lexer.mk m./make/m
 m./make/mua-test/definer.mk: m./make/mua/definer.mk m./make/mua/parser.mk m./make/mua/lexer.mk m./make/mua/reader.mk
 m./make/mua-test/interpreter.mk: m./make/mua/interpreter.mk m./make/mua/definer.mk m./make/mua/parser.mk m./make/mua/lexer.mk m./make/mua/reader.mk
 m./make/mua-test/writer.mk: m./make/mua/writer.mk
-m./make/mua/main.mk: m./make/mua/writer.mk m./make/mua/interpreter.mk m./make/mua/definer.mk m./make/mua/parser.mk m./make/mua/lexer.mk m./make/mua/reader.mk
+m./make/mua/main.mk: m./make/mua/writer.mk m./make/mua/interpreter.mk m./make/mua/definer.mk m./make/mua/parser.mk m./make/mua/lexer.mk m./make/mua/reader.mk m./make/mua/cmd.mk
 
 # Static pattern rules for running sub-makes
 $(DIRS): d%: %

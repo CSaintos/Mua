@@ -4,4 +4,3 @@ ToDo:
 - FIXME UnaPlus is not digit independent
 - We can still further decouple the project (probably need to do some research on Dependency Inversion)
 - Bugfix all issues in math.mua
-- Main.cpp shouldn't contain cli logic.
