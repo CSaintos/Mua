@@ -341,12 +341,10 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                     if (bin_op_node->node_left.get() == node)
                     {
                       bin_op_node->setLeftNode(lhs_node);
-                      //NodeUtils::replaceNode(bin_op_node->node_left.get(), lhs_node);
                     }
                     else
                     {
                       bin_op_node->setRightNode(lhs_node);
-                      //NodeUtils::replaceNode(bin_op_node->node_right.get(), lhs_node);
                     }
                     break;
                   }
@@ -357,13 +355,11 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                     if (bin_op_node->node_left.get() == node)
                     {
                       bin_op_node->setLeftNode(lhs_node);
-                      //NodeUtils::replaceNode(bin_op_node->node_left.get(), lhs_node);
                     }
                     else
                     {
                       lhs_node = node_factory->produceNode(TokenType::LPAREN, lhs_node);
                       bin_op_node->setRightNode(lhs_node);
-                      //NodeUtils::replaceNode(bin_op_node->node_right.get(), lhs_node);
                     }
                     break;
                   }
@@ -379,8 +375,6 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                       lhs_node = node_factory->produceNode(TokenType::ASTERISK, bin_op_node->node_left, lhs_node);
                     }
                     bin_op_node->setNodes(lhs_node, rhs_node);
-                    //NodeUtils::replaceNode(bin_op_node->node_left.get(), lhs_node);
-                    //NodeUtils::replaceNode(bin_op_node->node_right.get(), rhs_node);
                     break;
                   }
                   case TokenType::LPAREN:
@@ -388,7 +382,6 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                     lhs_node = node_factory->produceNode(TokenType::ASTERISK, lhs_node, rhs_node);
                     UnaOpNode* una_op_node = static_cast<UnaOpNode*>(node->parent);
                     una_op_node->setNode(lhs_node);
-                    //NodeUtils::replaceNode(una_op_node->node.get(), lhs_node);
                     break;
                   }
                   case TokenType::SEMICOLON:
@@ -406,12 +399,10 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                     if (bin_op_node->node_right.get() == node)
                     {
                       bin_op_node->setRightNode(lhs_node);
-                      //NodeUtils::replaceNode(bin_op_node->node_right.get(), lhs_node);
                     }
                     else
                     {
                       bin_op_node->setLeftNode(lhs_node);
-                      //NodeUtils::replaceNode(bin_op_node->node_left.get(), lhs_node);
                     }
                     break;
                   }
@@ -424,6 +415,10 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
             }
             else
             {
+              if (flags.count(InterpretType::DECIMALIZE) > 0)
+              {
+                double result = NumberUtils::findRadical(radicand, root);
+              }
               cout << "Not implemented yet where Caret::rooted_int == 1" << endl;
               // TODO: GTAB method for flag = DECIMAL
             }

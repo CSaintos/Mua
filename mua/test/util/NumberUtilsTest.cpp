@@ -81,5 +81,8 @@ int main(int argc, char *argv[])
     cout << "| " << key << " | " << is_match << " | " << claims_str.str() << " | " << actuals_str.str() << " |" << endl;
   }
 
+  cout << endl;
+  cout << "2^(1/2) = " << NumberUtils::findRadical(2, 2) << endl;
+
   return 0;
 }
