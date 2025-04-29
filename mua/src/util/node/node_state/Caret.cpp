@@ -430,8 +430,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
               else
               {
                 rhs_node = node_factory->produceNode(TokenType::FSLASH, right_numerator, right_denominator);
-                BinOpNode* bin_op_node = static_cast<BinOpNode*>(rhs_node.get());
-                bin_op_node->meta_data.is_const_fraction = true;
+                rhs_node->meta_data.is_const_fraction = true;
                 rhs_node = node_factory->produceNode(TokenType::LPAREN, rhs_node);
                 node->setRightNode(rhs_node);
               }

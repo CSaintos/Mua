@@ -22,13 +22,13 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
 
   if (!node_left->isLeaf())
   {
-    left_change = node_left->interpret();
+    left_change = node_left->interpret(flags);
     change = left_change || change;
     is_left_leaf = false;
   }
   if (!node_right->isLeaf())
   {
-    right_change = node_right->interpret();
+    right_change = node_right->interpret(flags);
     change = right_change || change;
     is_right_leaf = false;
   }
