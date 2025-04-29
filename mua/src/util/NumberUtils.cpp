@@ -393,7 +393,7 @@ int NumberUtils::sign(T val)
 
 double NumberUtils::radicalFunction(double x, int e, int b)
 {
-  return std::pow(x, e) - b;
+  return std::pow(x, e) - (double)b;
 }
 
 array<int, 2> NumberUtils::findRootInterval(function<double(double)> f)
@@ -494,7 +494,7 @@ double NumberUtils::GTAB(std::function<double(double)> f, double x1, double x2, 
 
 double NumberUtils::findRadical(const int radicand, const int root)
 {
-  std::function<double(double)> f = [root, radicand](int x)
+  std::function<double(double)> f = [root, radicand](double x)
   {
     return radicalFunction(x, root, radicand);
   };
