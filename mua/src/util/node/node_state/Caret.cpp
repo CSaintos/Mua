@@ -250,9 +250,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
               return true;
             }
 
-            //cout << "Looking for primes" << endl;
             std::list<int> primes = NumberUtils::factorize(radicand);
-            //cout << "Primes were found" << endl;
             std::list<int> groups;
             std::map<int, int> sorted_primes;
 
@@ -417,10 +415,24 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
             {
               if (flags.count(InterpretType::DECIMALIZE) > 0)
               {
+                change = true;
                 double result = NumberUtils::findRadical(radicand, root);
+                
+                Token tok_value;
+                tok_value.type = TokenType::DIGIT;
+                tok_value.lexemes = NumberUtils::stripTrailingZeros(std::to_string(result));
+                lhs_node = node_factory->produceNode(tok_value);
+
+                NodeUtils::replaceNode(node, lhs_node);
               }
-              cout << "Not implemented yet where Caret::rooted_int == 1" << endl;
-              // TODO: GTAB method for flag = DECIMAL
+              else
+              {
+                rhs_node = node_factory->produceNode(TokenType::FSLASH, right_numerator, right_denominator);
+                BinOpNode* bin_op_node = static_cast<BinOpNode*>(rhs_node.get());
+                bin_op_node->meta_data.is_const_fraction = true;
+                rhs_node = node_factory->produceNode(TokenType::LPAREN, rhs_node);
+                node->setRightNode(rhs_node);
+              }
             }
           }
           else

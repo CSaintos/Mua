@@ -32,7 +32,7 @@ bool FSlash::interpret(const unordered_set<InterpretType> &flags)
     change = right_change || change;
     is_right_leaf = false;
   }
-  if (change)
+  if (change || node->meta_data.is_const_fraction)
   {
     return change;
   }

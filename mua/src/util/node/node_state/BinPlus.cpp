@@ -22,36 +22,14 @@ bool BinPlus::interpret(const unordered_set<InterpretType> &flags)
 
   if (!node_left->isLeaf())
   {
-    bool proceed = true;
-    if (node_left->tok.type == TokenType::FSLASH)
-    {
-      if (node_left->meta_data.is_const_fraction)
-      {
-        proceed = false;
-      }
-    }
-    if (proceed)
-    {
-      left_change = node_left->interpret();
-      change = left_change || change;
-    }
+    left_change = node_left->interpret();
+    change = left_change || change;
     is_left_leaf = false;
   }
   if (!node_right->isLeaf())
   {
-    bool proceed = true;
-    if (node_right->tok.type == TokenType::FSLASH)
-    {
-      if (node_right->meta_data.is_const_fraction)
-      {
-        proceed = false;
-      }
-    }
-    if (proceed)
-    {
-      right_change = node_right->interpret();
-      change = right_change || change;
-    }
+    right_change = node_right->interpret();
+    change = right_change || change;
     is_right_leaf = false;
   }
   if (change)
