@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
   }
 
   cout << endl;
-  cout << "2^(1/2) = " << NumberUtils::findRadical(2, 2) << endl;
+  cout << "2^(1/3) = " << NumberUtils::findRadical(2, 3) << endl;
 
   return 0;
 }

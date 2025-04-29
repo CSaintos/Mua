@@ -31,7 +31,7 @@ namespace mua
     static int g(int x, int n, int b); // factorize helper function
     static double radicalFunction(double x, int e, int b);
     // TODO: improve performance of this algorithm
-    static std::array<int, 2> findRootInterval(std::function<double(double)> f);
+    static std::array<int, 2> findRadicalInterval(std::function<double(double)> f);
     static int toPrecision(double x);
     template<typename T> static int sign(T val);
     static double GTAB(std::function<double(double)> f, double x1, double x2, double eps); // Ganchovski-Traykov-Anderson-Bjork algorithm

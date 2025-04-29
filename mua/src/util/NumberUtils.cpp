@@ -396,7 +396,7 @@ double NumberUtils::radicalFunction(double x, int e, int b)
   return std::pow(x, e) - (double)b;
 }
 
-array<int, 2> NumberUtils::findRootInterval(function<double(double)> f)
+array<int, 2> NumberUtils::findRadicalInterval(function<double(double)> f)
 {
   array<int, 2> interval = {};
   int x = interval[0];
@@ -429,10 +429,11 @@ double NumberUtils::GTAB(std::function<double(double)> f, double x1, double x2, 
   int side = 0; 
   int precision = toPrecision(eps);
   int N = (int)(std::log2(precision)) / 2 + 1; // Expected num of iters
+  int n = N * 10; // Max num of iters
   bool bisection = true; 
   double x3, y3;
 
-  for (int i = 1; i <= N; i++)
+  for (int i = 1; i <= n; i++)
   {
     if (bisection) // bisection algorithm
     {
@@ -489,7 +490,7 @@ double NumberUtils::GTAB(std::function<double(double)> f, double x1, double x2, 
     }
 
   }
-  return 0;
+  return x3;
 }
 
 double NumberUtils::findRadical(const int radicand, const int root)
@@ -498,7 +499,8 @@ double NumberUtils::findRadical(const int radicand, const int root)
   {
     return radicalFunction(x, root, radicand);
   };
-  array<int, 2> interval = findRootInterval(f);
+  // Issue here I think
+  array<int, 2> interval = findRadicalInterval(f);
 
-  return GTAB(f, interval[0], interval[1], 0.0001);
+  return GTAB(f, interval[0], interval[1], 0.000001);
 }
