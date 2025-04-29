@@ -44,7 +44,7 @@ void BinOpState::extractChildData
       }
       else
       {
-        cout << "Not implemented yet (3)" << endl;
+        cout << "extractChildData() not implemented in_child's " + TokenUtils::m_TS_map[in_child->tok.type] + " node_left " + TokenUtils::m_TS_map[bin_op_node->node_left->tok.type] << endl;
       }
       if (bin_op_node->node_right->tok.type == TokenType::MINUS)
       {
@@ -58,7 +58,7 @@ void BinOpState::extractChildData
       }
       else
       {
-        cout << "Not implemented yet (3)" << endl;
+        cout << "extractChildData() not implemented in_child's " + TokenUtils::m_TS_map[in_child->tok.type] + " node_right " + TokenUtils::m_TS_map[bin_op_node->node_left->tok.type] << endl;
       }
     }
     else if (in_child->tok.type == TokenType::LPAREN)
@@ -95,7 +95,7 @@ void BinOpState::extractChildData
         }
         else
         {
-          cout << "Not implemented yet (3)" << endl;
+          cout << "extractChildData() not implemented in_child's " + TokenUtils::m_TS_map[in_child->tok.type] + " node_left " + TokenUtils::m_TS_map[bin_op_node->node_left->tok.type] << endl;
         }
         if (bin_op_node->node_right->tok.type == TokenType::MINUS)
         {
@@ -109,13 +109,17 @@ void BinOpState::extractChildData
         }
         else
         {
-          cout << "Not implemented yet (3)" << endl;
+          cout << "extractChildData() not implemented in_child's " + TokenUtils::m_TS_map[in_child->tok.type] + " node_right " + TokenUtils::m_TS_map[bin_op_node->node_left->tok.type] << endl;
         }
       }
     }
+    else if (in_child->tok.type == TokenType::CARET)
+    {
+      //cout << "extractChildData() not implemented inchild " + TokenUtils::m_TS_map[in_child->tok.type] << endl;
+    }
     else
     {
-      cout << "Not implemented yet (2)" << endl;
+      cout << "extractChildData() not implemented inchild " + TokenUtils::m_TS_map[in_child->tok.type] << endl;
     }
   }
   else
@@ -126,7 +130,7 @@ void BinOpState::extractChildData
     }
     else
     {
-      cout << "Not implemented yet (1)" << endl;
+      cout << "extractChildData() not implemented leaf inchild " + TokenUtils::m_TS_map[in_child->tok.type] << endl;
     }
   }
 }

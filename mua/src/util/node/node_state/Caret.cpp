@@ -315,6 +315,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                 if (!node->parent)
                 {
                   rhs_node = node_factory->produceNode(TokenType::FSLASH, right_numerator, right_denominator);
+                  rhs_node = node_factory->produceNode(TokenType::LPAREN, rhs_node);
                   rhs_node = node_factory->produceNode(TokenType::CARET, lhs_node, rhs_node);
                   tok_value.lexemes = std::to_string(rooted_int); 
                   lhs_node = node_factory->produceNode(tok_value);
@@ -325,6 +326,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                 else
                 {
                   rhs_node = node_factory->produceNode(TokenType::FSLASH, right_numerator, right_denominator);
+                  rhs_node = node_factory->produceNode(TokenType::LPAREN, rhs_node);
                   rhs_node = node_factory->produceNode(TokenType::CARET, lhs_node, rhs_node);
                   tok_value.lexemes = std::to_string(rooted_int);
                   lhs_node = node_factory->produceNode(tok_value);
@@ -405,7 +407,7 @@ bool Caret::interpret(const unordered_set<InterpretType> &flags)
                     break;
                   }
                   default:
-                    cout << "Not implemented yet where Caret parent node is " << TokenUtils::m_TS_map[node->parent->tok.type] << endl;
+                    cout << "Not implemented where Caret parent node is " << TokenUtils::m_TS_map[node->parent->tok.type] << endl;
                     break;
                   }
                 }
