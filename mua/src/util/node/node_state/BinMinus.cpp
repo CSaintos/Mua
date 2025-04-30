@@ -121,7 +121,7 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
           }
         }
 
-        NodeUtils::replaceNode(node_left, lhs_node);
+        node->setLeftNode(lhs_node);
       }
       if (!rhs_node->isLeaf())
       {
@@ -134,12 +134,13 @@ bool BinMinus::interpret(const unordered_set<InterpretType> &flags)
             right_numerator = node_factory->produceNode(TokenType::MINUS, right_numerator);
             bin_op_node->setLeftNode(right_numerator);
           }
+          if (rhs_node->tok.type == TokenType::FSLASH)
+          {
+            rhs_node = node_factory->produceNode(TokenType::LPAREN, rhs_node);
+          }
         }
-        if (rhs_node->tok.type == TokenType::FSLASH)
-        {
-          rhs_node = node_factory->produceNode(TokenType::LPAREN, rhs_node);
-        }
-        NodeUtils::replaceNode(node_right, rhs_node);
+        
+        node->setRightNode(rhs_node);
       }
       change = true;
     }

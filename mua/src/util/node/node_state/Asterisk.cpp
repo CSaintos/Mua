@@ -100,12 +100,53 @@ bool Asterisk::interpret(const unordered_set<InterpretType> &flags)
     }
     else
     {
-      cout << "Not implemented Asterisk where !lhs_node->isLeaf() || !rhs_node->isLeaf()" << endl;
+      if (!lhs_node->isLeaf())
+      {
+        if (is_left_minus)
+        {
+          if (lhs_node->getType() == NodeType::BINARY_OPERATOR)
+          {
+            BinOpNode* bin_op_node = static_cast<BinOpNode*>(lhs_node.get());
+            unique_ptr<Node> left_numerator = std::move(bin_op_node->node_left);
+            left_numerator = node_factory->produceNode(TokenType::MINUS, left_numerator);
+            bin_op_node->setLeftNode(left_numerator);
+          }
+        }
+        if (flags.count(InterpretType::DECIMALIZE) > 0)
+        {
+          lhs_node->meta_data.is_const_fraction = true;
+        }
+
+        node->setLeftNode(lhs_node);
+      }
+      if (!rhs_node->isLeaf())
+      {
+        if (is_right_minus)
+        {
+          if (rhs_node->getType() == NodeType::BINARY_OPERATOR)
+          {
+            BinOpNode* bin_op_node = static_cast<BinOpNode*>(rhs_node.get());
+            unique_ptr<Node> right_numerator = std::move(bin_op_node->node_left);
+            right_numerator = node_factory->produceNode(TokenType::MINUS, right_numerator);
+            bin_op_node->setLeftNode(right_numerator);
+          }
+        }
+        if (flags.count(InterpretType::DECIMALIZE) > 0)
+        {
+          rhs_node->meta_data.is_const_fraction = true;
+        }
+        
+        node->setRightNode(rhs_node);
+      }
+      change = true;
     }
   }
   else if (left_numerator != nullptr && left_denominator != nullptr && rhs_node != nullptr)
   {
     unique_ptr<Node> numerator = node_factory->produceNode(TokenType::ASTERISK, left_numerator, rhs_node);
+    unique_ptr<Node> phony_parent = node_factory->produceNode(TokenType::SEMICOLON, numerator);
+    phony_parent->interpret();
+    numerator = std::move((static_cast<UnaOpNode*>(phony_parent.get()))->node);
     if (is_minus)
     {
       numerator = node_factory->produceNode(TokenType::LPAREN, numerator);
@@ -119,6 +160,9 @@ bool Asterisk::interpret(const unordered_set<InterpretType> &flags)
   else if (right_numerator != nullptr && right_denominator != nullptr && lhs_node != nullptr)
   {
     unique_ptr<Node> numerator = node_factory->produceNode(TokenType::ASTERISK, lhs_node, right_numerator);
+    unique_ptr<Node> phony_parent = node_factory->produceNode(TokenType::SEMICOLON, numerator);
+    phony_parent->interpret();
+    numerator = std::move((static_cast<UnaOpNode*>(phony_parent.get()))->node);
     if (is_minus)
     {
       numerator = node_factory->produceNode(TokenType::LPAREN, numerator);

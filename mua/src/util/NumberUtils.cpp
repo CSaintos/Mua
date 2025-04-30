@@ -86,35 +86,18 @@ string NumberUtils::stripTrailingZeros(string number)
 unique_ptr<Node> NumberUtils::fractionalize(INodeFactory *node_factory, string number)
 {
   list<Character> whole_number;
-  list<Character> less_than_zero;
-  NumberUtils::strToNumber(number, whole_number, less_than_zero);
+  list<Character> less_than_one;
+  string num = NumberUtils::stripTrailingZeros(number);
+  NumberUtils::strToNumber(number, whole_number, less_than_one);
 
-  list<Character>::iterator itr_at_end = less_than_zero.end();
-  bool loop = true;
-  while (loop && !less_than_zero.empty())
-  {
-    itr_at_end--;
-    if (itr_at_end->c == '0')
-    {
-      less_than_zero.pop_back();
-    }
-    else
-    {
-      loop = false;
-    }
-  }
-
-  if (!less_than_zero.empty())
+  if (!less_than_one.empty())
   {
     string whole_number_str = NumberUtils::listCharToStr(whole_number);
-    string less_than_zero_str = NumberUtils::listCharToStr(less_than_zero);
-    int digit_size = less_than_zero_str.length();
+    string less_than_one_str = NumberUtils::listCharToStr(less_than_one);
+    int digit_size = less_than_one_str.length();
     int before_dot = std::stod(whole_number_str);
-    int after_dot = std::stod(less_than_zero_str);
+    int after_dot = std::stod(less_than_one_str);
     int denominator = std::pow(10, digit_size);
-    int gcd = std::gcd(after_dot, denominator);
-    after_dot = after_dot / gcd;
-    denominator = denominator / gcd;
     int numerator = denominator * before_dot + after_dot;
     string numerator_str = std::to_string(numerator);
     string denominator_str = std::to_string(denominator);
