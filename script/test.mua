@@ -1,0 +1,38 @@
+// integer addition
+12+13;
+// negative integer addition
+-12+13;
+// integer subtraction
+12-13;
+// negative integer subtraction
+-12-13;
+// integer multiplication
+12*13;
+// negative integer multiplication
+12*-13;
+// integer division
+5/15;
+// negative integer division
+-5/15;
+// Adding fractions
+3.5+1.5;
+// Subtracting fractions
+3.5-1.5;
+// Multiplying fractions
+3.5*1.5;
+// Dividing fractions
+3.5/1.5;
+// integer exponentiation
+12^13;
+// negative integer exponentiation
+(-12)^13;
+// fraction exponentiation
+(5/15)^13;
+// integer reciprocal exponentiation
+12^-13;
+// integer radication
+200^(1/2);
+// integer reciprocal radication
+200^-(1/2);
+// fraction radication
+(5/15)^(1/2);
