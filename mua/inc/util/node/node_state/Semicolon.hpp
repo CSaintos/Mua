@@ -4,9 +4,12 @@
 #include <unordered_set>
 
 #include "Token.hpp"
+#include "TokenType.hpp"
 #include "Node.hpp"
 #include "InterpretType.hpp"
 #include "UnaOpState.hpp"
+#include "UnaOpNode.hpp"
+#include "BinOpNode.hpp"
 
 namespace mua
 {
