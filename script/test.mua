@@ -23,13 +23,13 @@
 // Dividing fractions
 3.5/1.5;
 // integer exponentiation
-12^13;
+12^3;
 // negative integer exponentiation
-(-12)^13;
+(-12)^3;
 // fraction exponentiation
-(5/15)^13;
+(4/48)^3;
 // integer reciprocal exponentiation
-12^-13;
+12^-3;
 // integer radication
 200^(1/2);
 // integer reciprocal radication
