@@ -77,7 +77,7 @@ bool FSlash::interpret(const unordered_set<InterpretType> &flags)
 
       if (gcd == 1)
       {
-        if (flags.count(InterpretType::DECIMALIZE) > 0)
+        if (flags.count(InterpretType::DECIMALIZE) > 0 && node->parent->tok.type == TokenType::SEMICOLON)
         {
           double result = double(lhs) / double(rhs);
           string result_str = NumberUtils::stripTrailingZeros(std::to_string(result));
