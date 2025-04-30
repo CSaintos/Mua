@@ -107,7 +107,7 @@ bool Asterisk::interpret(const unordered_set<InterpretType> &flags)
           if (lhs_node->getType() == NodeType::BINARY_OPERATOR)
           {
             BinOpNode* bin_op_node = static_cast<BinOpNode*>(lhs_node.get());
-            unique_ptr<Node> left_numerator = std::move(bin_op_node->node_left);
+            left_numerator = std::move(bin_op_node->node_left);
             left_numerator = node_factory->produceNode(TokenType::MINUS, left_numerator);
             bin_op_node->setLeftNode(left_numerator);
           }
