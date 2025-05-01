@@ -35,8 +35,8 @@ ifeq ($(filter-out Windows Linux, $(SYS)),)
 SLINK_FILES := $(patsubst -l%, %.$(SLINK_TYPE), $(patsubst -l:%, %, $(SLINKS)))
 DLINK_FILES := $(patsubst -l%, %.$(DLINK_TYPE), $(patsubst -l:%, %, $(DLINKS)))
 else
-SLINK_FILES := $(patsubst -l%, lib%.(SLINK_TYPE), $(patsubst -l:%, %, $(SLINKS)))
-DLINK_FILES := $(patsubst -l%, lib%.(DLINK_TYPE), $(patsubst -l:%, %, $(DLINKS)))
+SLINK_FILES := $(patsubst -l%, lib%.$(SLINK_TYPE), $(patsubst -l:%, %, $(SLINKS)))
+DLINK_FILES := $(patsubst -l%, lib%.$(DLINK_TYPE), $(patsubst -l:%, %, $(DLINKS)))
 endif
 ifneq ($(SYS),OSX)
 SLINKS = $(patsubst %, -l:%, $(SLINK_FILES))

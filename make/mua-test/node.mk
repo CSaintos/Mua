@@ -20,14 +20,16 @@ INCLUDES = \
 LINKDIRS = \
 	-Lbuild/mua/node \
 	-Lbuild/mua/token \
-	-Lbuild/mua/character
+	-Lbuild/mua/character \
+	-Lbuild/mua/error
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension>
 DLINKS = \
 	-lnode_factory \
 	-lnode_state \
 	-lbase_node \
 	-ltoken \
-	-lcharacter
+	-lcharacter \
+	-lerror
 # Static link files # -l<file-no-extension> or -l:<file-w-extension>
 SLINKS =
 DEFINES = 
