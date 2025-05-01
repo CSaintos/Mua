@@ -42,8 +42,8 @@ ifneq ($(SYS),OSX)
 SLINKS = $(patsubst %, -l:%, $(SLINK_FILES))
 DLINKS = $(patsubst %, -l:%, $(DLINK_FILES))
 else
-SLINKS = $(patsubst %.$(SLINK_TYPE), -l%, $(SLINK_FILES))
-DLINKS = $(patsubst %.$(DLINK_TYPE), -l%, $(DLINK_FILES))
+SLINKS = $(patsubst lib%.$(SLINK_TYPE), -l%, $(SLINK_FILES))
+DLINKS = $(patsubst lib%.$(DLINK_TYPE), -l%, $(DLINK_FILES))
 endif
 
 #* First class functions
