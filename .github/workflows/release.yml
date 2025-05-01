@@ -60,7 +60,7 @@ jobs:
       working-directory: .
       run: make -j -O SYS=Linux
   test-make-macos:
-    name: Build Mua - MacOS
+    name: Test Build Mua - MacOS
     runs-on: macos-latest
     if: ${{ github.event_name == 'pull_request'}}
     steps:
