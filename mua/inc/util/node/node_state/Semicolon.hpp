@@ -5,6 +5,7 @@
 
 #include "Token.hpp"
 #include "TokenType.hpp"
+#include "TokenUtils.hpp"
 #include "Node.hpp"
 #include "InterpretType.hpp"
 #include "UnaOpState.hpp"

@@ -6,10 +6,10 @@
 #include "Token.hpp"
 #include "TokenType.hpp"
 #include "Node.hpp"
+#include "NodeType.hpp"
 #include "BinOpNode.hpp"
 #include "UnaOpNode.hpp"
 #include "NodeUtils.hpp"
-#include "NumberUtils.hpp"
 #include "InterpretType.hpp"
 #include "BinOpState.hpp"
 

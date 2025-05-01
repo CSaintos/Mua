@@ -29,6 +29,7 @@ CharacterStream o--> Character
 CharacterStream --> Position
 CharacterStream ..> CharacterUtils
 CharacterStream ..> Error
+CharacterStream ..> CharacterType
 
 class Reader
 Reader o--> Character
@@ -67,18 +68,26 @@ enum NodeType
 
 enum InterpretType
 
+struct NodeMeta
+
+interface INodeState
+INodeState ..> InterpretType
+
+struct Node
+Node --> Token
+Node --> NodeMeta
+Node --> INodeState
+Node ..> NodeType
+Node ..> InterpretType
+
 interface INodeFactory
 INodeFactory ..> TokenType
 INodeFactory ..> Token
 INodeFactory ..> NodeType
+INodeFactory .> Node
 
-struct Node
-Node --> Token
+INodeState ..> Node
 Node --> INodeFactory
-Node ..> NodeType
-Node ..> InterpretType
-
-INodeFactory ..> Node
 
 struct ValueNode
 ValueNode --|> Node
@@ -92,13 +101,18 @@ BinOpNode --|> Node
 BinOpNode ..> Token
 BinOpNode ..> TokenType
 BinOpNode ..> NodeType
+BinOpNode ..> INodeFactory
+BinOpNode ..> INodeState
 BinOpNode ..> InterpretType
 
 struct UnaOpNode
 UnaOpNode --|> Node
 UnaOpNode ..> NodeType
 UnaOpNode ..> Token
+UnaOpNode ..> TokenType
 UnaOpNode ..> InterpretType
+UnaOpNode ..> INodeFactory
+UnaOpNode ..> INodeState
 
 class NumberUtils
 NumberUtils ..> Character
@@ -107,7 +121,6 @@ NumberUtils ..> CharacterUtils
 NumberUtils ..> Token
 NumberUtils ..> TokenType
 NumberUtils ..> Node
-NumberUtils ..> ValueNode
 NumberUtils ..> INodeFactory
 
 class NodeUtils
@@ -116,122 +129,147 @@ NodeUtils ..> NodeType
 NodeUtils ..> BinOpNode
 NodeUtils ..> UnaOpNode
 
-struct FSlash
-FSlash --|> BinOpNode
+abstract BinOpState
+BinOpState ..|> INodeState
+BinOpState --> BinOpNode
+BinOpState --> Node
+BinOpState --> INodeFactory
+BinOpState --> Token
+BinOpState ..> TokenType
+BinOpState ..> TokenUtils
+BinOpState ..> UnaOpNode
+BinOpState ..> NumberUtils
+BinOpState ..> InterpretType
+
+abstract UnaOpState
+UnaOpState ..|> INodeState
+UnaOpState --> UnaOpNode
+UnaOpState --> Node
+UnaOpState --> INodeFactory
+UnaOpState --> Token
+UnaOpState ..> InterpretType
+
+class FSlash
+FSlash --|> BinOpState
 FSlash ..> Token
 FSlash ..> TokenType
 FSlash ..> NodeType
 FSlash ..> Node
 FSlash ..> UnaOpNode
+FSlash ..> BinOpNode
 FSlash ..> NodeUtils
 FSlash ..> NumberUtils
 FSlash ..> InterpretType
-FSlash ..> INodeFactory
 
-struct UnaMinus
-UnaMinus --|> UnaOpNode
+class UnaMinus
+UnaMinus --|> UnaOpState
 UnaMinus ..> Token
 UnaMinus ..> TokenType
+UnaMinus ..> TokenUtils
 UnaMinus ..> Node
 UnaMinus ..> NodeUtils
 UnaMinus ..> InterpretType
-UnaMinus ..> INodeFactory
+UnaMinus ..> UnaOpNode
+UnaMinus ..> BinOpNode
 
-struct UnaPlus
-UnaPlus --|> UnaOpNode
+class UnaPlus
+UnaPlus --|> UnaOpState
 UnaPlus ..> Token
 UnaPlus ..> TokenType
 UnaPlus ..> Node
 UnaPlus ..> NumberUtils
 UnaPlus ..> NodeUtils
 UnaPlus ..> InterpretType
-UnaPlus ..> INodeFactory
 
-struct Paren
-Paren --|> UnaOpNode
+class Paren
+Paren --|> UnaOpState
 Paren ..> TokenType
 Paren ..> Token
 Paren ..> Node
 Paren ..> InterpretType
 Paren ..> NodeUtils
-Paren ..> INodeFactory
 
-struct Let
-Let --|> UnaOpNode
+class Let
+Let --|> UnaOpState
 Let ..> Node
 Let ..> Token
 Let ..> InterpretType
-Let ..> INodeFactory
 
-struct Semicolon
-Semicolon --|> UnaOpNode
+class Semicolon
+Semicolon --|> UnaOpState
 Semicolon ..> Node
 Semicolon ..> Token
+Semicolon ..> TokenType
+Semicolon ..> TokenUtils
 Semicolon ..> InterpretType
-Semicolon ..> INodeFactory
+Semicolon ..> UnaOpNode
+Semicolon ..> BinOpNode
 
-struct BinPlus
-BinPlus --|> BinOpNode
+class BinPlus
+BinPlus --|> BinOpState
 BinPlus ..> Token
 BinPlus ..> TokenType
 BinPlus ..> Node
 BinPlus ..> NodeType
 BinPlus ..> UnaOpNode
+BinPlus ..> BinOpNode
 BinPlus ..> NodeUtils
 BinPlus ..> NumberUtils
 BinPlus ..> InterpretType
-BinPlus ..> INodeFactory
 
-struct BinMinus
-BinMinus --|> BinOpNode
+class BinMinus
+BinMinus --|> BinOpState
 BinMinus ..> Token
 BinMinus ..> TokenType
 BinMinus ..> Node
+BinMinus ..> NodeType
 BinMinus ..> UnaOpNode
+BinMinus ..> BinOpNode
 BinMinus ..> NodeUtils
-BinMinus ..> NumberUtils
 BinMinus ..> InterpretType
-BinMinus ..> INodeFactory
 
-struct Asterisk
-Asterisk --|> BinOpNode
+class Asterisk
+Asterisk --|> BinOpState
 Asterisk ..> Token
 Asterisk ..> TokenType
 Asterisk ..> Node
+Asterisk ..> NodeType
 Asterisk ..> UnaOpNode
+Asterisk ..> BinOpNode
 Asterisk ..> NodeUtils
 Asterisk ..> NumberUtils
 Asterisk ..> InterpretType
-Asterisk ..> INodeFactory
 
-struct Percent
-Percent --|> BinOpNode
+class Percent
+Percent --|> BinOpState
 Percent ..> Token
 Percent ..> TokenType
 Percent ..> Node
+Percent ..> NodeType
+Percent ..> UnaOpNode
+Percent ..> BinOpNode
 Percent ..> NumberUtils
 Percent ..> NodeUtils
 Percent ..> InterpretType
-Percent ..> INodeFactory
 
-struct Caret
-Caret --|> BinOpNode
+class Caret
+Caret --|> BinOpState
 Caret ..> Token
 Caret ..> TokenType
 Caret ..> TokenUtils
 Caret ..> Node
 Caret ..> UnaOpNode
+Caret ..> BinOpNode
 Caret ..> NodeUtils
 Caret ..> NumberUtils
 Caret ..> InterpretType
-Caret ..> INodeFactory
 
-struct Equal
-Equal --|> BinOpNode
+class Equal
+Equal --|> BinOpState
 Equal ..> Token
 Equal ..> Node
+Equal ..> BinOpNode
 Equal ..> InterpretType
-Equal ..> INodeFactory
 
 class NodeFactory
 NodeFactory ...|> INodeFactory
@@ -241,6 +279,8 @@ NodeFactory ...> Token
 NodeFactory ...> NodeType
 NodeFactory ...> Node
 NodeFactory ...> ValueNode
+NodeFactory ...> BinOpNode
+NodeFactory ...> UnaOpNode
 NodeFactory ...> BinPlus
 NodeFactory ...> UnaPlus
 NodeFactory ...> UnaMinus
@@ -287,6 +327,12 @@ Interpreter ...> InterpretType
 
 class Writer
 
+enum CmdArg
+struct CmdData
+class Cmd
+Cmd --> CmdData
+Cmd ..> CmdArg
+
 class Main
 Main ...> Reader
 Main ...> Character
@@ -297,6 +343,8 @@ Main ...> Parser
 Main ...> Definer
 Main ...> Interpreter
 Main ...> Writer
+Main ...> Cmd
+Main ...> CmdData
 
 @enduml
 ```

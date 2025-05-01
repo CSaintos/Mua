@@ -8,6 +8,8 @@
 #include "Token.hpp"
 #include "TokenType.hpp"
 #include "Node.hpp"
+#include "NodeType.hpp"
+#include "UnaOpNode.hpp"
 #include "BinOpNode.hpp"
 #include "NodeUtils.hpp"
 #include "NumberUtils.hpp"
