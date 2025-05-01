@@ -1,6 +1,6 @@
 <h1 style="font-size:60px"> &#956;&#965;&#945; </h1>
 
-Mua is <span style="color:gray">(an open source, rudimentary, step-by-step, cli-based, arithmetic)</span> a calculator.
+Mua is a <span style="color:gray">(step-by-step, cli-based, arithmetic)</span> calculator.
 
 ![repl demo](./.devcontainer/repl_demo.gif)
 
@@ -19,11 +19,11 @@ Mua is <span style="color:gray">(an open source, rudimentary, step-by-step, cli-
 `./muac`
 - Exit repl mode: `exit[];` on an empty line.
 ##### Evaluating mua files
-- Evaluate mua file: `./muac <path-to-file>.mua [-o<output-file-path>.muar]`
+- Evaluate mua file: `./muac <path-to-file>.mua [-o <output-file-path>.muar]`
   - Brackets mean optional argument
 - Ex:
   - `./muac ./hello_world.mua`
-  - `./muac ./hello_world.mua -o./hello_world.muar`
+  - `./muac ./hello_world.mua -o ./hello_world.muar`
 ### Arithmetic Operators
 | Operation | Example | Result |
 | --- | --- | --- |
@@ -33,7 +33,8 @@ Mua is <span style="color:gray">(an open source, rudimentary, step-by-step, cli-
 | Division | `-1/(-1);` | `1;` |
 | Modulation | `4%3;` | `1;` |
 | Exponentiation | `2^3;` | `8;` |
-| Radical | `4^(1/2);` | `2;` |
+| Radication | `4^(1/2);` | `2;` |
+| Parentheses | `5-(8-3)` | `0;` |
 ### Misc
 - Comments:
 `// A line comment`

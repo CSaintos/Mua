@@ -95,11 +95,11 @@ void Cmd::scanArgs()
 string Cmd::helpMessage()
 {
   stringstream ss;
-  ss << "usage: muac [<src_file_path>] [-o <dest_file_path>] [-d] [-h]"
+  ss << "usage: muac [<src_file_path>.mua] [-o <dest_file_path>.muar] [-d] [-h]"
   << endl
   << "Repl mode: run muac without options" << endl << endl
   << "muac options:" << endl
-  << "  -o <dest_file_path>" << endl
+  << "  -o <dest_file_path>.muar" << endl
   << "\tset the output file path." << endl
   << "  -d" << endl
   << "\tenable debugging output." << endl

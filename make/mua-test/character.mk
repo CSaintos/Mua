@@ -14,10 +14,12 @@ INCLUDES = \
 	-Imua/inc/util
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
-	-Lbuild/mua/character
+	-Lbuild/mua/character \
+	-Lbuild/mua/error
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 DLINKS = \
-	-lcharacter
+	-lcharacter \
+	-lerror
 # Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
 SLINKS =
 DEFINES = 
