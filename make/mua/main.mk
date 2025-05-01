@@ -12,8 +12,9 @@ TARGET_PATH = mua/main
 INCLUDES = \
 	-Imua/inc/back \
 	-Imua/inc/front \
-	-Imua/inc/util/node/op_node/bin_node \
-	-Imua/inc/util/node/op_node/una_node \
+	-Imua/inc/cmd \
+	-Imua/inc/util/node/node_state \
+	-Imua/inc/util/node/op_node \
 	-Imua/inc/util/node \
 	-Imua/inc/util/token/trie \
 	-Imua/inc/util/token \
@@ -31,22 +32,26 @@ LINKDIRS = \
 	-Lbuild/mua/token \
 	-Lbuild/mua/character \
 	-Lbuild/mua/error \
-	-Lbuild/mua/writer
+	-Lbuild/mua/writer \
+	-Lbuild/mua/cmd
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
-DLINKS =
-# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
-SLINKS = \
+DLINKS = \
 	-linterpreter \
 	-ldefiner \
 	-lparser \
 	-llexer \
 	-lreader \
-	-lnode \
+	-lnode_factory \
+	-lnode_state \
+	-lbase_node \
 	-ltrie \
 	-ltoken \
 	-lcharacter \
 	-lerror \
-	-lwriter
+	-lwriter \
+	-lcmd
+# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
+SLINKS =
 DEFINES =
 SRCDIRS = \
 	mua/src

@@ -1,10 +1,3 @@
-/**
- * @file mua/test/util/character/CharacterTest.cpp
- * @author Christian Santos
- * @version 1.0.0
- * @date 8/5/2024
- */
-
 #include <iostream>
 #include <string>
 

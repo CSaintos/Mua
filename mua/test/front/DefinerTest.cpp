@@ -1,10 +1,3 @@
-/**
- * @file mua/test/front/DefinerTest.cpp
- * @author Christian Santos
- * @version 1.0.0
- * @date 9/9/2024
- */
-
 #include <list>
 
 #include "Reader.hpp"

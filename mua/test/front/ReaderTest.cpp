@@ -1,10 +1,3 @@
-/**
- * @file mua/test/front/ReaderTest.cpp
- * @author Christian Santos
- * @version 1.0.1
- * @date 8/8/2024
- */
-
 #include <iostream>
 #include <algorithm>
 

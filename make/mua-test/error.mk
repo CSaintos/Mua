@@ -1,4 +1,4 @@
-# mua-test/illegalCharError.mk 
+# mua-test/error.mk 
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
@@ -6,7 +6,7 @@ BUILDTYPE = EXE
 # COMPILEONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
 TARGET_NAME = illegalCharError
-# Path to Target # <path-to-dir>
+# <path-to-dir>
 TARGET_PATH = mua-test/error
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
@@ -16,11 +16,11 @@ LINKDIRS = \
 	-Lbuild/mua/error
 # if on linux or windows, for linking libraries `-l<file>` do not prepend `lib` (unless its in the name) as each `-l` is converted into `-l:` in maker.mk
 # if on osx, use -l (internal lib) syntax only, every lib file must be prepended with `lib`, and if static must end in `.a`, if dynamic must end in `.dylib`
-# Dynamic link files # (for internal libs) `-l<file-no-extension>` or (for external libs) `-l:<file-w-extension>`)
-DLINKS =
-# Static link files # (for internal libs) `-l<file-no-extension>` or (for external libs) `-l:<file-w-extension>`
-SLINKS = \
+# Dynamic link files # (for internal libs) `-l<file-no-extension>` or (for external libs) `-l:<file-w-extension>`
+DLINKS = \
 	-lerror
+# Static link files # (for internal libs) `-l<file-no-extension>` or (for external libs) `-l:<file-w-extension>`
+SLINKS =
 DEFINES =
 SRCDIRS = \
   mua/test/util
@@ -36,5 +36,6 @@ TARGETCLEANDIR = $(TARGETDIR)
 #? Custom build cmds
 define POSTBUILDCMDS
 endef
+
 
 include ./make/maker.mk

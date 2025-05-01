@@ -1,5 +1,4 @@
 #include "NameTrie.hpp"
-#include <memory>
 
 using namespace mua;
 using namespace std;

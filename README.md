@@ -1,6 +1,6 @@
 <h1 style="font-size:60px"> &#956;&#965;&#945; </h1>
 
-Mua is <span style="color:gray">(an open source, rudimentary, step-by-step, cli-based, arithmetic)</span> a calculator.
+Mua is a <span style="color:gray">(step-by-step, cli-based, arithmetic)</span> calculator.
 
 ![repl demo](./.devcontainer/repl_demo.gif)
 
@@ -10,7 +10,7 @@ Mua is <span style="color:gray">(an open source, rudimentary, step-by-step, cli-
 - [Building Mua](#building-mua)
 
 ## Getting Started
-- To download Mua, go to [Releases](https://github.com/CSaintos/STEM/releases)
+- To download Mua, go to [Releases](https://github.com/CSaintos/Mua/releases)
 - Install/Place Mua anywhere you'd like on your machine, and to make it easily accessible, add it to your system's or shell's environment path.
 ## Documentation
 ### Shell Operations
@@ -19,11 +19,11 @@ Mua is <span style="color:gray">(an open source, rudimentary, step-by-step, cli-
 `./muac`
 - Exit repl mode: `exit[];` on an empty line.
 ##### Evaluating mua files
-- Evaluate mua file: `./muac <path-to-file>.mua [<output-file-path>.muar]`
+- Evaluate mua file: `./muac <path-to-file>.mua [-o <output-file-path>.muar]`
   - Brackets mean optional argument
 - Ex:
   - `./muac ./hello_world.mua`
-  - `./muac ./hello_world.mua ./hello_world.muar`
+  - `./muac ./hello_world.mua -o ./hello_world.muar`
 ### Arithmetic Operators
 | Operation | Example | Result |
 | --- | --- | --- |
@@ -33,7 +33,8 @@ Mua is <span style="color:gray">(an open source, rudimentary, step-by-step, cli-
 | Division | `-1/(-1);` | `1;` |
 | Modulation | `4%3;` | `1;` |
 | Exponentiation | `2^3;` | `8;` |
-| Radical | `4^(1/2);` | `2;` |
+| Radication | `4^(1/2);` | `2;` |
+| Parentheses | `5-(8-3)` | `0;` |
 ### Misc
 - Comments:
 `// A line comment`
@@ -45,7 +46,7 @@ Mua is <span style="color:gray">(an open source, rudimentary, step-by-step, cli-
 - If you are on Windows, you can download these packages through [MSYS2](https://www.msys2.org/)
 - Make sure to add the installed packages to your system/shell environment path
 ### Clone
-- clone this repo into an empty directory `git clone https://github.com/CSaintos/STEM.git`
+- clone this repo into an empty directory `git clone https://github.com/CSaintos/Mua.git`
 ### Build
 - Within that same directory, run `make` following one of the options for your operating system below
 ##### Windows Build

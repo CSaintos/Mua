@@ -11,8 +11,7 @@ TARGET_PATH = mua-test/number
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Imua/inc/util/node \
-	-Imua/inc/util/node/op_node/bin_node \
-	-Imua/inc/util/node/op_node/una_node \
+	-Imua/inc/util/node/node_state \
 	-Imua/inc/util/token \
 	-Imua/inc/util/character \
 	-Imua/inc/util
@@ -20,14 +19,16 @@ INCLUDES = \
 LINKDIRS = \
 	-Lbuild/mua/node \
 	-Lbuild/mua/token \
-	-Lbuild/mua/character
+	-Lbuild/mua/character \
+	-Lbuild/mua/error
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
-DLINKS =
-# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
-SLINKS = \
-	-lnode \
+DLINKS = \
+	-lbase_node \
 	-ltoken \
-	-lcharacter
+	-lcharacter \
+	-lerror
+# Static link files # -l<file-no-extension> or -l:<file-w-extension> # Order from most dependent to least dependent.
+SLINKS =
 DEFINES = 
 SRCDIRS = \
 	mua/test/util

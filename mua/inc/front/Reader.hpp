@@ -1,10 +1,3 @@
-/**
- * @file mua/inc/front/Reader.hpp
- * @author Christian Santos
- * @version 1.0.1 
- * @date 8/8/2024
- */
-
 #pragma once
 
 #include <iostream>
@@ -13,11 +6,8 @@
 #include <string>
 
 #include "Character.hpp"
-#include "CharacterUtils.hpp"
-#include "CharacterType.hpp"
 #include "CharacterStream.hpp"
 #include "Position.hpp"
-#include "Error.hpp"
 
 namespace mua
 {
@@ -41,13 +31,6 @@ namespace mua
      * @note If a file is already open, it closes then attempts to open the new file.
      */
     void open();
-
-    /**
-     * @brief Gets file name
-     * 
-     * @return fileName string reference
-     */
-    //inline const std::string &getFileName() { return  file_name; }
 
     /**
      * @brief Gets read line

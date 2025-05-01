@@ -1,10 +1,3 @@
-/**
- * @file mua/test/front/WriterTest.cpp
- * @author Christian Santos
- * @version 1.0.0
- * @date 12/31/2024
- */
-
 #include <iostream>
 
 #include "Writer.hpp"

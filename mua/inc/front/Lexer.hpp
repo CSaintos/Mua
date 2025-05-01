@@ -1,10 +1,3 @@
-/**
- * @file mua/inc/front/Lexer.hpp
- * @author Christian Santos
- * @version 1.0.4 
- * @date 8/12/2024
- */
-
 #pragma once
 
 #include <list>
@@ -16,7 +9,6 @@
 #include "CharacterType.hpp"
 #include "Token.hpp"
 #include "TokenType.hpp"
-#include "TokenUtils.hpp"
 #include "TrieNode.hpp"
 #include "TokenTrie.hpp"
 
@@ -29,7 +21,7 @@ namespace mua
   class Lexer
   {
   private:
-    std::list<Character> ls; ///< string of list for constructing lexemes
+    std::list<Character> lexemes; ///< string of list for constructing lexemes
     std::list<Token> token_stream; ///< list of tokens lexed
     std::list<Character> *char_list; ///< list of chars to lex
     std::list<Character>::iterator itr; ///< points to current element
@@ -59,7 +51,7 @@ namespace mua
      * type, and a starting character to ss (string stream).
      * 
      * @param type the token type of the token
-     * @param ch the character to store in token
+     * @param c the character to store in token
      */
     void createToken(const TokenType &type, Character &c);
     /**
@@ -68,26 +60,18 @@ namespace mua
      * - Uses createToken() and toTokenStream() to build tokens
      * and add them to the token stream.
      * 
-     * @param ch single char to convert or add to a token
+     * @param c single char to add to a token
      */
     void scanOneChar(Character &c);
   public:
-    /**
-     * @brief Lexer(file_name) constructor
-     * 
-     * Initializes the file name
-     * 
-     * @see ~Lexer()
-     */
     Lexer();
 
     /**
      * @brief lexes the char list.
-     * 
      * Converts the char list into a list of tokens.
      * 
      * @param char_list pointer to char list
-     * @param line_num line number of char list
+     *
      * @return true if chars were lexed, false if no chars were lexed
      */
     bool lex(std::list<Character> *char_list);

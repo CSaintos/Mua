@@ -10,13 +10,11 @@ void NodeUtils::replaceNode(Node* to_replace, unique_ptr<Node> &replace_with)
     BinOpNode* parent = static_cast<BinOpNode*>(to_replace->parent);
     if (parent->node_left.get() == to_replace)
     {
-      parent->node_left = std::move(replace_with);
-      parent->node_left->parent = parent;
+      parent->setLeftNode(replace_with);
     }
     else if (parent->node_right.get() == to_replace)
     {
-      parent->node_right = std::move(replace_with);
-      parent->node_right->parent = parent;
+      parent->setRightNode(replace_with);
     }
     else
     {
@@ -26,7 +24,6 @@ void NodeUtils::replaceNode(Node* to_replace, unique_ptr<Node> &replace_with)
   else if (to_replace->parent->getType() == NodeType::UNARY_OPERATOR)
   {
     UnaOpNode* parent = static_cast<UnaOpNode*>(to_replace->parent);
-    parent->node = std::move(replace_with);
-    parent->node->parent = parent;
+    parent->setNode(replace_with);
   }
 }

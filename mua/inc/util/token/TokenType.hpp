@@ -1,10 +1,3 @@
-/**
- * @file mua/inc/util/token/TokenType.hpp
- * @author Christian Santos
- * @version 1.0.2 
- * @date 8/12/2024
-*/
-
 #pragma once
 
 namespace mua

@@ -8,22 +8,18 @@ $(if $(1:$(2)=),,$(if $(2:$(1)=),,T))
 endef
 
 #* Compiler flags
-CXXFLAGS += -MD -MP -g
-#* Pre-constants
-#ifeq ($(OS),Windows_NT)
-#SYS = Windows
-#else ifeq ($(shell uname -s),Linux)
-#SYS = Linux
-#else ifeq ($(shell uname -s),Darwin)
-#SYS = OSX
-#endif
+CXXFLAGS += -MMD -g
 ifeq ($(SYS), Windows)
 SLINK_TYPE = lib
 DLINK_TYPE = dll
 EXE_TYPE = .exe
-else ifeq ($(filter-out Linux OSX, $(SYS)),)
+else ifeq ($(SYS), Linux)
 SLINK_TYPE = a
 DLINK_TYPE = so
+EXE_TYPE =
+else ifeq ($(SYS), OSX)
+SLINK_TYPE = a
+DLINK_TYPE = dylib
 EXE_TYPE =
 endif
 ifeq ($(SYS),OSX)
@@ -35,31 +31,37 @@ STATIC_LINK_FLAG=-Wl,-Bstatic
 DYNAMIC_LINK_FLAG=-Wl,-Bdynamic
 AS_NEED_LINK_FLAG=-Wl,--as-needed
 endif
-ifneq ($(SYS),OSX)
+ifeq ($(filter-out Windows Linux, $(SYS)),)
 SLINK_FILES := $(patsubst -l%, %.$(SLINK_TYPE), $(patsubst -l:%, %, $(SLINKS)))
 DLINK_FILES := $(patsubst -l%, %.$(DLINK_TYPE), $(patsubst -l:%, %, $(DLINKS)))
+else
+SLINK_FILES := $(patsubst -l%, lib%.$(SLINK_TYPE), $(patsubst -l:%, %, $(SLINKS)))
+DLINK_FILES := $(patsubst -l%, lib%.$(DLINK_TYPE), $(patsubst -l:%, %, $(DLINKS)))
+endif
+ifneq ($(SYS),OSX)
 SLINKS = $(patsubst %, -l:%, $(SLINK_FILES))
 DLINKS = $(patsubst %, -l:%, $(DLINK_FILES))
 else
-SLINK_FILES := $(patsubst -l%, %, $(patsubst -l:%.*, %, $(SLINKS)))
-DLINK_FILES := $(patsubst -l%, %, $(patsubst -l:%.*, %, $(DLINKS)))
-SLINKS = $(patsubst %, -l%, $(SLINK_FILES))
-DLINKS = $(patsubst %, -l%, $(DLINK_FILES))
+SLINKS = $(patsubst lib%.$(SLINK_TYPE), -l%, $(SLINK_FILES))
+DLINKS = $(patsubst lib%.$(DLINK_TYPE), -l%, $(DLINK_FILES))
 endif
 
-LINKS = $(SLINK_FILES) $(DLINK_FILES)
-
 #* First class functions
-find_srcs = $(wildcard $(addprefix $(addsuffix /, $(SRCDIR)), $(SRCFILES)))
-find_libs = $(wildcard $(addprefix $(addsuffix /, $(LINKDIR)), $(LINKS)))
-list_rm = $(wordlist 2, $(words $1), $1)
-pairmap = $(and $(strip $2), $(strip $3), $(call $1, $(firstword $2), $(firstword $3)) $(call pairmap, $1, $(call list_rm, $2), $(call list_rm, $3)))
-compile_exe_cmd = $(shell $(CXX) $(INCLUDES) -c$1 -o$2 $(CXXFLAGS) -MF$(2:%.o=%.d))
-compile_lib_cmd = $(shell $(CXX) -fPIC $(INCLUDES) -c$1 -o$2 $(CXXFLAGS) -MF$(2:%.o=%.d))
+find_file = $(wildcard $(addprefix $(addsuffix /, $2), $1))
+compile_exe_cmd = $(CXX) -o $2 -c $1 $(INCLUDES) $(CXXFLAGS) -MF $(2:%.o=%.d)
+compile_lib_cmd = $(CXX) -o $2 -c $1 $(INCLUDES) -fPIC $(CXXFLAGS) -MF $(2:%.o=%.d)
+ifeq ($(SYS), Windows)
+cp = copy $(subst /,\,$1) $(subst /,\,$2)
+else ifeq ($(filter-out Linux OSX, $(SYS)),)
+cp = cp $1 $2
+endif
 
 #* Constants
-SRCS = $(foreach SRCDIR, $(SRCDIRS), $(find_srcs))
-LIBS = $(foreach LINKDIR, $(patsubst -L%, %, $(LINKDIRS)), $(find_libs))
+vpath %.cpp $(SRCDIRS)
+DLIBS = $(foreach LINKDIR, $(patsubst -L%, %, $(LINKDIRS)), $(call find_file, $(DLINK_FILES), $(LINKDIR)))
+SLIBS = $(foreach LINKDIR, $(patsubst -L%, %, $(LINKDIRS)), $(call find_file, $(SLINK_FILES), $(LINKDIR)))
+OUT_DLIBS = $(foreach DLINK_FILE, $(DLINK_FILES), $(TARGETDIR)/$(DLINK_FILE))
+vpath %.$(DLINK_TYPE) $(patsubst -L%, %, $(LINKDIRS))
 OBJECTS = $(addprefix $(OBJDIR)/, $(patsubst %.cpp, %.o, $(SRCFILES)))
 # FIXME
 ifneq ($(and $(call eq,$(SYS),OSX), $(call eq,$(filter-out STATICLIB DYNAMICLIB, $(BUILDTYPE)),)),)
@@ -90,63 +92,66 @@ endif
 $(OBJDIR):
 ifeq ($(wildcard $(OBJDIR)),)
 ifeq ($(SYS),Windows)
-	@mkdir $(subst /,\\,$(OBJDIR))
+	mkdir $(subst /,\,$(OBJDIR))
 else ifeq ($(filter-out Linux OSX, $(SYS)),)
-	@mkdir -p $(OBJDIR)
+	mkdir -p $(OBJDIR)
 endif
-	@echo create bin directory
 endif
 
 # Compile sources into objects
-$(OBJECTS): $(SRCS) | $(OBJDIR)
-	@echo compile
+$(OBJECTS): $(OBJDIR)/%.o : %.cpp | $(OBJDIR)
 ifeq ($(BUILDTYPE), EXE)
-	$(call pairmap, compile_exe_cmd, $(SRCS), $(OBJECTS))
+	$(call compile_exe_cmd,$<,$@)
 else ifeq ($(filter-out STATICLIB DYNAMICLIB, $(BUILDTYPE)),)
-	$(call pairmap, compile_lib_cmd, $(SRCS), $(OBJECTS))
+	$(call compile_lib_cmd,$<,$@)
 else
 	@echo invalid buildtype
 endif
-	@echo compiled
 
 # Create build directory
 $(TARGETDIR):
 ifeq ($(wildcard $(TARGETDIR)),)
 ifeq ($(SYS),Windows)
-	@mkdir $(subst /,\\,$(TARGETDIR))
+	mkdir $(subst /,\,$(TARGETDIR))
 else ifeq ($(filter-out Linux OSX, $(SYS)),)
-	@mkdir -p $(TARGETDIR)
+	mkdir -p $(TARGETDIR)
 endif
-	@echo create build directory
 endif
 
 # Build target from objects
 ifeq ($(PROCESS), LINKONLY)
-$(TARGET): $(LIBS) | $(TARGETDIR)
+$(TARGET): $(SLIBS) | $(TARGETDIR) $(DLIBS)
 else
-$(TARGET): $(OBJECTS) $(LIBS) | $(TARGETDIR)
+$(TARGET): $(OBJECTS) $(SLIBS) | $(TARGETDIR) $(DLIBS)
 endif
-	@echo build
 ifeq ($(BUILDTYPE), EXE)
-	$(CXX) $(OBJECTS) $(LINKDIRS) $(STATIC_LINK_FLAG) $(SLINKS) $(DYNAMIC_LINK_FLAG) $(DLINKS) $(AS_NEED_LINK_FLAG) -o $(TARGET)
+	$(CXX) -o $(TARGET) $(OBJECTS) $(LINKDIRS) $(STATIC_LINK_FLAG) $(SLINKS) $(DYNAMIC_LINK_FLAG) $(DLINKS) $(AS_NEED_LINK_FLAG)
 else ifeq ($(BUILDTYPE), STATICLIB)
 	$(AR) -rcs $(TARGET) $(OBJECTS)
 else ifeq ($(BUILDTYPE), DYNAMICLIB)
 	$(CXX) -shared -o $(TARGET) $(OBJECTS) $(LINKDIRS) $(STATIC_LINK_FLAG) $(SLINKS) $(DYNAMIC_LINK_FLAG) $(DLINKS) $(AS_NEED_LINK_FLAG)
 endif
-	@echo built
+	@echo built $(TARGET)
+	@echo .
+
+# Copy Dynamic Libraries
+ifeq ($(BUILDTYPE),EXE)
+$(TARGET): | $(OUT_DLIBS)
+$(OUT_DLIBS): $(TARGETDIR)/% : % | $(TARGETDIR)
+	$(call cp, $<, $(TARGETDIR)) 
+endif
 
 compile: $(OBJECTS)
 build: $(TARGET)
 	$(POSTBUILDCMDS)
 dirs: $(OBJDIR) $(TARGETDIR)
-#	@echo $(CXXFLAGS)
+#DEBUG	@echo $(CXXFLAGS)
 
 clean: 
 	@echo clean
 ifneq ($(wildcard $(OBJCLEANDIR)),)
 ifeq ($(SYS),Windows)
-	rmdir /s /q $(subst /,\\,$(OBJCLEANDIR))
+	rmdir /s /q $(subst /,\,$(OBJCLEANDIR))
 else ifeq ($(SYS),Linux)
 	rmdir /s /q $(OBJCLEANDIR)
 else ifeq ($(SYS),OSX)
@@ -155,7 +160,7 @@ endif
 endif
 ifneq ($(wildcard $(TARGETCLEANDIR)),)
 ifeq ($(SYS),Windows)
-	rmdir /s /q $(subst /,\\,$(TARGETCLEANDIR))
+	rmdir /s /q $(subst /,\,$(TARGETCLEANDIR))
 else ifeq ($(SYS),Linux)
 	rmdir /s /q $(TARGETCLEANDIR)
 else ifeq ($(SYS),OSX)

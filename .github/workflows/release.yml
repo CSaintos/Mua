@@ -9,6 +9,11 @@ on:
   pull_request:
     branches:
       - main
+  pull_request_target:
+    branches:
+      - main
+    types:
+      - closed
   workflow_dispatch:
     inputs:
       debug_enabled:
@@ -33,41 +38,72 @@ jobs:
       with:
         limit-access-to-actor: true
       timeout-minutes: 15
-  make-linux:
-    name: Build Mua - Linux
+  test-make-linux:
+    name: Test Build Mua - Linux
     runs-on: ubuntu-latest
-    if: ${{ github.event_name != 'workflow_dispatch'}}
+    if: ${{ github.event_name == 'pull_request'}}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
     - name: make muac
       working-directory: .
-      run: make -j SYS=Linux
-    - name: Upload muac-linux
-      uses: actions/upload-artifact@v4
-      with:
-        name: muac-linux
-        path: build/mua/main/muac
-  make-windows:
-    name: Build Mua - Windows
+      run: make -j -O SYS=Linux
+  test-make-windows:
+    name: Test Build Mua - Windows
     runs-on: windows-latest
-    if: ${{ github.event_name != 'workflow_dispatch'}}
+    if: ${{ github.event_name == 'pull_request'}}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
     - name: make muac
       shell: pwsh
       working-directory: .
-      run: make -j SYS=Linux
+      run: make -j -O SYS=Linux
+  test-make-macos:
+    name: Test Build Mua - MacOS
+    runs-on: macos-latest
+    if: ${{ github.event_name == 'pull_request'}}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: make muac
+      working-directory: .
+      run: make -j SYS=OSX CXX_VERSION=c++20
+  make-linux:
+    name: Build Mua - Linux
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'workflow_dispatch' && github.event.pull_request.merged == true || github.event_name == 'push' && github.ref_name == 'main'}}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: make muac
+      working-directory: .
+      run: make -j -O SYS=Linux
+    - name: Upload muac-linux
+      uses: actions/upload-artifact@v4
+      with:
+        name: muac-linux
+        path: build/mua/main
+  make-windows:
+    name: Build Mua - Windows
+    runs-on: windows-latest
+    if: ${{ github.event_name != 'workflow_dispatch' && github.event.pull_request.merged == true || github.event_name == 'push' && github.ref_name == 'main'}}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: make muac
+      shell: pwsh
+      working-directory: .
+      run: make -j -O SYS=Linux
     - name: Upload muac-windows
       uses: actions/upload-artifact@v4
       with:
         name: muac-windows
-        path: build/mua/main/muac.exe
+        path: build/mua/main
   make-macos:
     name: Build Mua - MacOS
     runs-on: macos-latest
-    if: ${{ github.event_name != 'workflow_dispatch'}}
+    if: ${{ github.event_name != 'workflow_dispatch' && github.event.pull_request.merged == true || github.event_name == 'push' && github.ref_name == 'main'}}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -79,11 +115,11 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: muac-macos
-        path: build/mua/main/muac
+        path: build/mua/main
   release-mua:
     name: Create Mua release
     runs-on: ubuntu-latest
-    if: ${{ github.event_name != 'workflow_dispatch'}}
+    if: ${{ github.event_name != 'workflow_dispatch' && github.event.pull_request.merged == true || github.event_name == 'push' && github.ref_name == 'main'}}
     needs: [make-linux, make-windows, make-macos]
     env:
       GH_REPO: ${{ github.repository }}
@@ -108,5 +144,5 @@ jobs:
       run: ls -R
     - name: Create Release
       run: |
-        gh release create 0.1.0-alpha -p -t "Mua 0.1.0-alpha" muac-linux.7z muac-linux.7z.sha256sum muac-windows.7z muac-windows.7z.sha256sum muac-macos.7z muac-macos.7z.sha256sum
+        gh release create 0.2.0-alpha -t "Mua 0.2.0-alpha" muac-linux.7z muac-linux.7z.sha256sum muac-windows.7z muac-windows.7z.sha256sum muac-macos.7z muac-macos.7z.sha256sum
 

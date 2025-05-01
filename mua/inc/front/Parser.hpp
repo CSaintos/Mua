@@ -1,10 +1,3 @@
-/**
- * @file mua/inc/front/Parser.hpp
- * @author Christian Santos
- * @version 1.2.5
- * @date 1/3/2025
- */
-
 #pragma once
 
 #include <iostream>
@@ -19,20 +12,9 @@
 #include "TokenType.hpp"
 #include "Node.hpp"
 #include "UnaOpNode.hpp"
-#include "UnaPlus.hpp"
-#include "UnaMinus.hpp"
-#include "Paren.hpp"
-#include "Let.hpp"
-#include "Semicolon.hpp"
 #include "BinOpNode.hpp"
-#include "BinPlus.hpp"
-#include "BinMinus.hpp"
-#include "Asterisk.hpp"
-#include "FSlash.hpp"
-#include "Percent.hpp"
-#include "Caret.hpp"
-#include "Equal.hpp"
-#include "ValueNode.hpp"
+#include "INodeFactory.hpp"
+#include "NodeFactory.hpp"
 
 namespace mua
 {
@@ -51,13 +33,15 @@ namespace mua
     std::stack<std::unique_ptr<Node>> node_stack;
     /// stack of nodes of unclosed parenthesis
     std::stack<Node*> open_parens;
-    /// stack of operators before lparens
-    std::stack<Node*> op_ere_paren;
+    /// stack of operator types before lparens
+    std::stack<TokenType> op_b4_paren;
     /// pointer to token stream
     std::list<Token> *token_stream;
     /// iterator to current element in token stream
     std::list<Token>::iterator itr;
+    /// pemd in pemdas
     std::unordered_set<TokenType> pemd;
+    /// pe in pemdas
     std::unordered_set<TokenType> pe;
     
     /// Holds pointer to current/root node of tree
@@ -67,11 +51,10 @@ namespace mua
     std::unique_ptr<Node> op_node; ///< holds op node for operators
     std::unique_ptr<BinOpNode> bin_op;
     std::unique_ptr<UnaOpNode> una_op;
+    std::unique_ptr<INodeFactory> node_factory;
 
     TokenType last_type; ///< last token type iterated
     TokenType last_op; ///< last operator token type iterated
-
-    UnaOpNode *unaop_node; ///< for building parantheses nodes
 
     int equal_count;
     
@@ -88,10 +71,6 @@ namespace mua
      */
     void err(int i, Token &tok); //? Temporary syntax error
 
-    /**
-     * @brief adds exclusive parent node to m_node_queue
-     */
-    void addExclusiveParent(Node *node);
     /**
      * @brief builds parse tree by emptying out m_node_stack or until stopped
      */
@@ -120,13 +99,11 @@ namespace mua
     void parse(std::list<Token> *token_stream);
     
     void checkSemicolonError();
-    //inline bool isNodeStackEmpty() { return node_stack.empty(); }
     /**
      * @brief returns a pointer to list of completed parse trees
      * 
      * @return pointer to list of completed parse trees
      */
-    //std::vector<stem::Node*> getParseTrees();
     inline std::list<std::unique_ptr<Node>>* getParseTrees() { return &parse_trees; }
   };
 }

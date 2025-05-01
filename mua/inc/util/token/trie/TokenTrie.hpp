@@ -1,10 +1,3 @@
-/**
- * @file mua/inc/util/token/trie/TokenTrie.hpp
- * @author Christian Santos
- * @version 1.0.2
- * @date 1/10/2025
- */
-
 #pragma once
 
 #include <memory>
@@ -13,6 +6,7 @@
 
 #include "TrieNode.hpp"
 #include "TokenUtils.hpp"
+#include "TokenType.hpp"
 
 namespace mua
 {

@@ -1,10 +1,3 @@
-/**
- * @file mua/inc/util/token/Token.hpp
- * @author Christian Santos
- * @version 1.0.4
- * @date 8/11/2024
- */
-
 #pragma once
 
 #include <string>

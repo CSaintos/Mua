@@ -2,7 +2,7 @@
 
 #? Variables
 # STATICLIB, DYNAMICLIB, or EXE # (no space after)
-BUILDTYPE = STATICLIB
+BUILDTYPE = DYNAMICLIB
 # COMPILEONLY, LINKONLY, or BOTH # (no space after)
 PROCESS = BOTH
 TARGET_NAME = lexer
@@ -23,13 +23,13 @@ LINKDIRS = \
 	-Lbuild/mua/token \
 	-Lbuild/mua/trie
 # Dynamic link files # -l<file-no-extension> or -l:<file-w-extension>
-DLINKS =
-# Static link files # -l<file-no-extension> or -l:<file-w-extension>
-SLINKS = \
+DLINKS = \
 	-ltrie \
 	-ltoken \
 	-lcharacter \
 	-lerror
+# Static link files # -l<file-no-extension> or -l:<file-w-extension>
+SLINKS =
 DEFINES = 
 SRCDIRS = \
 	mua/src/front

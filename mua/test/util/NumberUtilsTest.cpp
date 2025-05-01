@@ -1,10 +1,3 @@
-/**
- * @file mua/test/util/NumberUtilsTest.cpp
- * @author Christian Santos
- * @version 1.0.1
- * @date 12/27/2024
- */
-
 #include <cstdlib>
 #include <iostream>
 #include <list>
@@ -87,6 +80,9 @@ int main(int argc, char *argv[])
 
     cout << "| " << key << " | " << is_match << " | " << claims_str.str() << " | " << actuals_str.str() << " |" << endl;
   }
+
+  cout << endl;
+  cout << "2^(1/3) = " << NumberUtils::findRadical(2, 3) << endl;
 
   return 0;
 }
