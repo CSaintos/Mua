@@ -12,18 +12,22 @@ Mua is a <span style="color:gray">(step-by-step, cli-based, arithmetic)</span> c
 ## Getting Started
 - To download Mua, go to [Releases](https://github.com/CSaintos/Mua/releases)
 - Install/Place Mua anywhere you'd like on your machine, and to make it easily accessible, add it to your system's or shell's environment path.
-## Documentation
-### Shell Operations
+
+## Running Mua
+- In your shell: `./muac -h` for how to run mua
+### Mua's two modes
 ##### Repl mode
 - Start repl mode with:
 `./muac`
 - Exit repl mode: `exit[];` on an empty line.
-##### Evaluating mua files
+##### File mode
 - Evaluate mua file: `./muac <path-to-file>.mua [-o <output-file-path>.muar]`
   - Brackets mean optional argument
 - Ex:
   - `./muac ./hello_world.mua`
   - `./muac ./hello_world.mua -o ./hello_world.muar`
+
+## Documentation
 ### Arithmetic Operators
 | Operation | Example | Result |
 | --- | --- | --- |
@@ -38,6 +42,7 @@ Mua is a <span style="color:gray">(step-by-step, cli-based, arithmetic)</span> c
 ### Misc
 - Comments:
 `// A line comment`
+
 ## Building Mua
 ### Requirements
 - You will need GCC v11+ or Clang v17+.
@@ -65,6 +70,6 @@ or
 - `make -j SYS=OSX`
   - By default the CXX_VERSION is c++23 and may not work on your machine with the current version of gcc supported by macos
 
-### Execute
+#### Executable
 - Once completed, the executable is stored in `./build/mua/main/muac`
 
