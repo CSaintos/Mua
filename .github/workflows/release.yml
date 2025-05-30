@@ -38,8 +38,8 @@ jobs:
       with:
         limit-access-to-actor: true
       timeout-minutes: 15
-  test-make-linux:
-    name: Test Build Mua - Linux
+  test-make-linux-x64:
+    name: Test Build Mua - Linux x64
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request'}}
     steps:
@@ -48,8 +48,8 @@ jobs:
     - name: make muac
       working-directory: .
       run: make -j -O SYS=Linux
-  test-make-windows:
-    name: Test Build Mua - Windows
+  test-make-windows-x64:
+    name: Test Build Mua - Windows x64
     runs-on: windows-latest
     if: ${{ github.event_name == 'pull_request'}}
     steps:
@@ -59,8 +59,38 @@ jobs:
       shell: pwsh
       working-directory: .
       run: make -j -O SYS=Linux
-  test-make-macos:
-    name: Test Build Mua - MacOS
+  test-make-macos-x64:
+    name: Test Build Mua - MacOS x64
+    runs-on: macos-13
+    if: ${{ github.event_name == 'pull_request'}}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: make muac
+      working-directory: .
+      run: make -j SYS=OSX CXX_VERSION=c++20
+  test-make-linux-arm64:
+    name: Test Build Mua - Linux arm64
+    runs-on: ubuntu-24.04-arm
+    if: ${{ github.event_name == 'pull_request'}}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: make muac
+      working-directory: .
+      run: make -j -O SYS=Linux
+  test-make-windows-arm64:
+    name: Test Build Mua - Windows arm64
+    runs-on: windows-11-arm
+    if: ${{ github.event_name == 'pull_request'}}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: make muac
+      working-directory: .
+      run: make -j -O SYS=Linux
+  test-make-macos-arm64:
+    name: Test Build Mua - MacOS arm64
     runs-on: macos-latest
     if: ${{ github.event_name == 'pull_request'}}
     steps:
@@ -69,8 +99,8 @@ jobs:
     - name: make muac
       working-directory: .
       run: make -j SYS=OSX CXX_VERSION=c++20
-  make-linux:
-    name: Build Mua - Linux
+  make-linux-x64:
+    name: Build Mua - Linux x64
     runs-on: ubuntu-latest
     if: ${{ github.event_name != 'workflow_dispatch' && github.event.pull_request.merged == true || github.event_name == 'push' && github.ref_name == 'main'}}
     steps:
@@ -79,13 +109,13 @@ jobs:
     - name: make muac
       working-directory: .
       run: make -j -O SYS=Linux
-    - name: Upload muac-linux
+    - name: Upload muac-linux-x64
       uses: actions/upload-artifact@v4
       with:
-        name: muac-linux
+        name: muac-linux-x64
         path: build/mua/main
-  make-windows:
-    name: Build Mua - Windows
+  make-windows-x64:
+    name: Build Mua - Windows x64
     runs-on: windows-latest
     if: ${{ github.event_name != 'workflow_dispatch' && github.event.pull_request.merged == true || github.event_name == 'push' && github.ref_name == 'main'}}
     steps:
@@ -95,13 +125,61 @@ jobs:
       shell: pwsh
       working-directory: .
       run: make -j -O SYS=Linux
-    - name: Upload muac-windows
+    - name: Upload muac-windows-x64
       uses: actions/upload-artifact@v4
       with:
-        name: muac-windows
+        name: muac-windows-x64
         path: build/mua/main
-  make-macos:
-    name: Build Mua - MacOS
+  make-macos-x64:
+    name: Build Mua - MacOS x64
+    runs-on: macos-13
+    if: ${{ github.event_name != 'workflow_dispatch' && github.event.pull_request.merged == true || github.event_name == 'push' && github.ref_name == 'main'}}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: make muac
+      working-directory: .
+      run: |
+        make -j SYS=OSX CXX_VERSION=c++20
+    - name: Upload muac-macos-x64
+      uses: actions/upload-artifact@v4
+      with:
+        name: muac-macos-x64
+        path: build/mua/main
+  make-linux-arm64:
+    name: Build Mua - Linux arm64
+    runs-on: ubuntu-24.04-arm
+    if: ${{ github.event_name != 'workflow_dispatch' && github.event.pull_request.merged == true || github.event_name == 'push' && github.ref_name == 'main'}}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: make muac
+      working-directory: .
+      run: |
+        make -j SYS=Linux
+    - name: Upload muac-linux-arm64
+      uses: actions/upload-artifact@v4
+      with:
+        name: muac-linux-arm64
+        path: build/mua/main
+  make-windows-arm64:
+    name: Build Mua - Windows arm64
+    runs-on: windows-11-arm
+    if: ${{ github.event_name != 'workflow_dispatch' && github.event.pull_request.merged == true || github.event_name == 'push' && github.ref_name == 'main'}}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: make muac
+      working-directory: .
+      run: |
+        make -j -O SYS=Linux
+    - name: Upload muac-windows-arm64
+      uses: actions/upload-artifact@v4
+      with:
+        name: muac-windows-arm64
+        path: build/mua/main
+  make-macos-arm64:
+    name: Build Mua - MacOS arm64
     runs-on: macos-latest
     if: ${{ github.event_name != 'workflow_dispatch' && github.event.pull_request.merged == true || github.event_name == 'push' && github.ref_name == 'main'}}
     steps:
@@ -111,16 +189,15 @@ jobs:
       working-directory: .
       run: |
         make -j SYS=OSX CXX_VERSION=c++20
-    - name: Upload muac-macos
-      uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v4
       with:
-        name: muac-macos
+        name: muac-macos-arm64
         path: build/mua/main
   release-mua:
     name: Create Mua release
     runs-on: ubuntu-latest
     if: ${{ github.event_name != 'workflow_dispatch' && github.event.pull_request.merged == true || github.event_name == 'push' && github.ref_name == 'main'}}
-    needs: [make-linux, make-windows, make-macos]
+    needs: [make-linux-x64, make-windows-x64, make-macos-x64, make-linux-arm64, make-windows-arm64, make-macos-arm64]
     env:
       GH_REPO: ${{ github.repository }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -129,20 +206,29 @@ jobs:
       uses: actions/download-artifact@v4
     - name: Compress Mua artifacts
       run: |
-        7z a muac-linux.7z muac-linux
-        7z a muac-windows.7z muac-windows
-        7z a muac-macos.7z muac-macos
+        7z a muac-linux-x64.7z muac-linux-x64
+        7z a muac-windows-x64.7z muac-windows-x64
+        7z a muac-macos-x64.7z muac-macos-x64
+        7z a muac-linux-arm64.7z muac-linux-arm64
+        7z a muac-windows-arm64.7z muac-windows-arm64
+        7z a muac-macos-arm64.7z muac-macos-arm64
     - name: Generate Checksums
       run: |
-        sha256sum muac-linux.7z > muac-linux.7z.sha256sum
-        echo "SHA_MUAC_LINUX_7Z=$(cat muac-linux.7z.sha256sum)" >> $GITHUB_ENV
-        sha256sum muac-windows.7z > muac-windows.7z.sha256sum
-        echo "SHA_MUAC_WINDOWS_7Z=$(cat muac-windows.7z.sha256sum)" >> $GITHUB_ENV
-        sha256sum muac-macos.7z > muac-macos.7z.sha256sum
-        echo "SHA_MUAC_MACOS_7Z=$(cat muac-macos.7z.sha256sum)" >> $GITHUB_ENV
+        sha256sum muac-linux-x64.7z > muac-linux-x64.7z.sha256sum
+        echo "SHA_MUAC_LINUX_X64_7Z=$(cat muac-linux-x64.7z.sha256sum)" >> $GITHUB_ENV
+        sha256sum muac-windows-x64.7z > muac-windows-x64.7z.sha256sum
+        echo "SHA_MUAC_WINDOWS_X64_7Z=$(cat muac-windows-x64.7z.sha256sum)" >> $GITHUB_ENV
+        sha256sum muac-macos-x64.7z > muac-macos-x64.7z.sha256sum
+        echo "SHA_MUAC_MACOS_X64_7Z=$(cat muac-macos-x64.7z.sha256sum)" >> $GITHUB_ENV
+        sha256sum muac-linux-arm64.7z > muac-linux-arm64.7z.sha256sum
+        echo "SHA_MUAC_LINUX_ARM64_7Z=$(cat muac-linux-arm64.7z.sha256sum)" >> $GITHUB_ENV
+        sha256sum muac-windows-arm64.7z > muac-windows-arm64.7z.sha256sum
+        echo "SHA_MUAC_WINDOWS_ARM64_7Z=$(cat muac-windows-arm64.7z.sha256sum)" >> $GITHUB_ENV
+        sha256sum muac-macos-arm64.7z > muac-macos-arm64.7z.sha256sum
+        echo "SHA_MUAC_MACOS_ARM64_7Z=$(cat muac-macos-arm64.7z.sha256sum)" >> $GITHUB_ENV
     - name: Display structure of downloaded artifacts
       run: ls -R
     - name: Create Release
       run: |
-        gh release create 0.2.0-alpha -t "Mua 0.2.0-alpha" muac-linux.7z muac-linux.7z.sha256sum muac-windows.7z muac-windows.7z.sha256sum muac-macos.7z muac-macos.7z.sha256sum
+        gh release create -d 0.2.1-alpha -t "Mua 0.2.1-alpha" muac-linux-x64.7z muac-linux-x64.7z.sha256sum muac-windows-x64.7z muac-windows-x64.7z.sha256sum muac-macos-x64.7z muac-macos-x64.7z.sha256sum muac-linux-arm64.7z muac-linux-arm64.7z.sha256sum muac-windows-arm64.7z muac-windows-arm64.7z.sha256sum muac-macos-arm64.7z muac-macos-arm64.7z.sha256sum
 
