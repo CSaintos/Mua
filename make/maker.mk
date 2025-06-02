@@ -26,7 +26,13 @@ ifeq ($(SYS),OSX)
 STATIC_LINK_FLAG=
 DYNAMIC_LINK_FLAG=
 AS_NEED_LINK_FLAG=
-else ifeq ($(filter-out Linux Windows, $(SYS)),)
+RPATH_LINK_FLAG=-Wl,-rpath,@executable_path
+else ifeq ($(SYS),Linux)
+STATIC_LINK_FLAG=-Wl,-Bstatic
+DYNAMIC_LINK_FLAG=-Wl,-Bdynamic
+AS_NEED_LINK_FLAG=-Wl,--as-needed
+RPATH_LINK_FLAG=-Wl,-rpath,$$ORIGIN
+else ifeq ($(SYS),Windows)
 STATIC_LINK_FLAG=-Wl,-Bstatic
 DYNAMIC_LINK_FLAG=-Wl,-Bdynamic
 AS_NEED_LINK_FLAG=-Wl,--as-needed
@@ -118,6 +124,11 @@ else ifeq ($(filter-out Linux OSX, $(SYS)),)
 endif
 endif
 
+# More Link Flags
+ifeq ($(SYS),OSX)
+INSTALL_NAME_FLAG=-Wl,-install_name,@rpath/$(TARGET)
+endif
+
 # Build target from objects
 ifeq ($(PROCESS), LINKONLY)
 $(TARGET): $(SLIBS) | $(TARGETDIR) $(DLIBS)
@@ -125,11 +136,11 @@ else
 $(TARGET): $(OBJECTS) $(SLIBS) | $(TARGETDIR) $(DLIBS)
 endif
 ifeq ($(BUILDTYPE), EXE)
-	$(CXX) -o $(TARGET) $(OBJECTS) $(LINKDIRS) $(STATIC_LINK_FLAG) $(SLINKS) $(DYNAMIC_LINK_FLAG) $(DLINKS) $(AS_NEED_LINK_FLAG)
+	$(CXX) -o $(TARGET) $(OBJECTS) $(LINKDIRS) $(STATIC_LINK_FLAG) $(SLINKS) $(DYNAMIC_LINK_FLAG) $(DLINKS) $(AS_NEED_LINK_FLAG) $(RPATH_LINK_FLAG)
 else ifeq ($(BUILDTYPE), STATICLIB)
 	$(AR) -rcs $(TARGET) $(OBJECTS)
 else ifeq ($(BUILDTYPE), DYNAMICLIB)
-	$(CXX) -shared -o $(TARGET) $(OBJECTS) $(LINKDIRS) $(STATIC_LINK_FLAG) $(SLINKS) $(DYNAMIC_LINK_FLAG) $(DLINKS) $(AS_NEED_LINK_FLAG)
+	$(CXX) -shared -o $(TARGET) $(OBJECTS) $(LINKDIRS) $(STATIC_LINK_FLAG) $(SLINKS) $(DYNAMIC_LINK_FLAG) $(DLINKS) $(AS_NEED_LINK_FLAG) $(INSTALL_NAME_FLAG)
 endif
 	@echo built $(TARGET)
 	@echo .
