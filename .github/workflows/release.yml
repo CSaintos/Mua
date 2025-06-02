@@ -141,6 +141,22 @@ jobs:
       working-directory: .
       run: |
         make -j SYS=OSX CXX_VERSION=c++20
+        cd build/mua/main
+        chmod 777 base_node.dylib
+        chmod 777 character.dylib
+        chmod 777 cmd.dylib
+        chmod 777 definer.dylib
+        chmod 777 error.dylib
+        chmod 777 interpreter.dylib
+        chmod 777 lexer.dylib
+        chmod 777 muac
+        chmod 777 node_factory.dylib
+        chmod 777 node_state.dylib
+        chmod 777 parser.dylib
+        chmod 777 reader.dylib
+        chmod 777 token.dylib
+        chmod 777 trie.dylib
+        chmod 777 writer.dylib
     - name: Upload muac-macos-x64
       uses: actions/upload-artifact@v4
       with:
@@ -189,6 +205,22 @@ jobs:
       working-directory: .
       run: |
         make -j SYS=OSX CXX_VERSION=c++20
+        cd build/mua/main
+        chmod 777 base_node.dylib
+        chmod 777 character.dylib
+        chmod 777 cmd.dylib
+        chmod 777 definer.dylib
+        chmod 777 error.dylib
+        chmod 777 interpreter.dylib
+        chmod 777 lexer.dylib
+        chmod 777 muac
+        chmod 777 node_factory.dylib
+        chmod 777 node_state.dylib
+        chmod 777 parser.dylib
+        chmod 777 reader.dylib
+        chmod 777 token.dylib
+        chmod 777 trie.dylib
+        chmod 777 writer.dylib
     - uses: actions/upload-artifact@v4
       with:
         name: muac-macos-arm64
@@ -230,5 +262,5 @@ jobs:
       run: ls -R
     - name: Create Release
       run: |
-        gh release create -d 0.2.1-alpha -t "Mua 0.2.1-alpha" muac-linux-x64.7z muac-linux-x64.7z.sha256sum muac-windows-x64.7z muac-windows-x64.7z.sha256sum muac-macos-x64.7z muac-macos-x64.7z.sha256sum muac-linux-arm64.7z muac-linux-arm64.7z.sha256sum muac-windows-arm64.7z muac-windows-arm64.7z.sha256sum muac-macos-arm64.7z muac-macos-arm64.7z.sha256sum
+        gh release create -d 0.2.2-alpha -t "Mua 0.2.2-alpha" muac-linux-x64.7z muac-linux-x64.7z.sha256sum muac-windows-x64.7z muac-windows-x64.7z.sha256sum muac-macos-x64.7z muac-macos-x64.7z.sha256sum muac-linux-arm64.7z muac-linux-arm64.7z.sha256sum muac-windows-arm64.7z muac-windows-arm64.7z.sha256sum muac-macos-arm64.7z muac-macos-arm64.7z.sha256sum
 
