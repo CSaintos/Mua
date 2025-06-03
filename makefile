@@ -11,6 +11,10 @@ ifeq ($(SYS),)
 SYS = Linux
 endif
 export SYS
+ifeq ($(FILESYS),)
+FILESYS = $(SYS)
+endif
+export FILESYS
 
 #? List of submakes ex. # ./make/submake1.mk
 PROJECTS = \
