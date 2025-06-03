@@ -141,7 +141,7 @@ jobs:
       working-directory: .
       run: |
         make -j SYS=OSX CXX_VERSION=c++20
-        cd build/mua/main
+        cd ./build/mua/main
         chmod 777 base_node.dylib
         chmod 777 character.dylib
         chmod 777 cmd.dylib
@@ -205,7 +205,7 @@ jobs:
       working-directory: .
       run: |
         make -j SYS=OSX CXX_VERSION=c++20
-        cd build/mua/main
+        cd ./build/mua/main
         chmod 777 base_node.dylib
         chmod 777 character.dylib
         chmod 777 cmd.dylib
