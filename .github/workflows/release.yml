@@ -220,7 +220,7 @@ jobs:
         chmod 755 libreader.dylib
         chmod 755 libtoken.dylib
         chmod 755 libtrie.dylib
-        chmod 777 build/mua/main/writer.dylib
+        chmod 777 libwriter.dylib
     - uses: actions/upload-artifact@v4
       with:
         name: muac-macos-arm64
