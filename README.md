@@ -11,6 +11,8 @@ Mua is a <span style="color:gray">(step-by-step, cli-based, arithmetic)</span> c
 
 ## Getting Started
 - To download Mua, go to [Releases](https://github.com/CSaintos/Mua/releases)
+- Extract the Mua 7z
+  - MacOS only: Since MacOS has Gatekeeper, and my app hasn't been notarized by Apple yet. Upon extracting, the file permissions will be set to read-only. You'll want to do a quick `chmod 755 *` inside the mua-macos directory to enable permissions.  
 - Install/Place Mua anywhere you'd like on your machine, and to make it easily accessible, add it to your system's or shell's environment path.
 
 ## Running Mua
