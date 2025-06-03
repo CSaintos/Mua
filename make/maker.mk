@@ -26,7 +26,13 @@ ifeq ($(SYS),OSX)
 STATIC_LINK_FLAG=
 DYNAMIC_LINK_FLAG=
 AS_NEED_LINK_FLAG=
-else ifeq ($(filter-out Linux Windows, $(SYS)),)
+RPATH_LINK_FLAG=-Wl,-rpath,@executable_path
+else ifeq ($(SYS),Linux)
+STATIC_LINK_FLAG=-Wl,-Bstatic
+DYNAMIC_LINK_FLAG=-Wl,-Bdynamic
+AS_NEED_LINK_FLAG=-Wl,--as-needed
+RPATH_LINK_FLAG=-Wl,-rpath,$$ORIGIN
+else ifeq ($(SYS),Windows)
 STATIC_LINK_FLAG=-Wl,-Bstatic
 DYNAMIC_LINK_FLAG=-Wl,-Bdynamic
 AS_NEED_LINK_FLAG=-Wl,--as-needed
@@ -50,9 +56,9 @@ endif
 find_file = $(wildcard $(addprefix $(addsuffix /, $2), $1))
 compile_exe_cmd = $(CXX) -o $2 -c $1 $(INCLUDES) $(CXXFLAGS) -MF $(2:%.o=%.d)
 compile_lib_cmd = $(CXX) -o $2 -c $1 $(INCLUDES) -fPIC $(CXXFLAGS) -MF $(2:%.o=%.d)
-ifeq ($(SYS), Windows)
+ifeq ($(FILESYS), Windows)
 cp = copy $(subst /,\,$1) $(subst /,\,$2)
-else ifeq ($(filter-out Linux OSX, $(SYS)),)
+else ifeq ($(filter-out Linux OSX, $(FILESYS)),)
 cp = cp $1 $2
 endif
 
@@ -91,9 +97,9 @@ endif
 # Create bin directory
 $(OBJDIR):
 ifeq ($(wildcard $(OBJDIR)),)
-ifeq ($(SYS),Windows)
+ifeq ($(FILESYS),Windows)
 	mkdir $(subst /,\,$(OBJDIR))
-else ifeq ($(filter-out Linux OSX, $(SYS)),)
+else ifeq ($(filter-out Linux OSX, $(FILESYS)),)
 	mkdir -p $(OBJDIR)
 endif
 endif
@@ -111,11 +117,16 @@ endif
 # Create build directory
 $(TARGETDIR):
 ifeq ($(wildcard $(TARGETDIR)),)
-ifeq ($(SYS),Windows)
+ifeq ($(FILESYS),Windows)
 	mkdir $(subst /,\,$(TARGETDIR))
-else ifeq ($(filter-out Linux OSX, $(SYS)),)
+else ifeq ($(filter-out Linux OSX, $(FILESYS)),)
 	mkdir -p $(TARGETDIR)
 endif
+endif
+
+# More Link Flags
+ifeq ($(SYS),OSX)
+INSTALL_NAME_FLAG=-Wl,-install_name,@rpath/$(TARGET)
 endif
 
 # Build target from objects
@@ -125,11 +136,11 @@ else
 $(TARGET): $(OBJECTS) $(SLIBS) | $(TARGETDIR) $(DLIBS)
 endif
 ifeq ($(BUILDTYPE), EXE)
-	$(CXX) -o $(TARGET) $(OBJECTS) $(LINKDIRS) $(STATIC_LINK_FLAG) $(SLINKS) $(DYNAMIC_LINK_FLAG) $(DLINKS) $(AS_NEED_LINK_FLAG)
+	$(CXX) -o $(TARGET) $(OBJECTS) $(LINKDIRS) $(STATIC_LINK_FLAG) $(SLINKS) $(DYNAMIC_LINK_FLAG) $(DLINKS) $(AS_NEED_LINK_FLAG) $(RPATH_LINK_FLAG)
 else ifeq ($(BUILDTYPE), STATICLIB)
 	$(AR) -rcs $(TARGET) $(OBJECTS)
 else ifeq ($(BUILDTYPE), DYNAMICLIB)
-	$(CXX) -shared -o $(TARGET) $(OBJECTS) $(LINKDIRS) $(STATIC_LINK_FLAG) $(SLINKS) $(DYNAMIC_LINK_FLAG) $(DLINKS) $(AS_NEED_LINK_FLAG)
+	$(CXX) -shared -o $(TARGET) $(OBJECTS) $(LINKDIRS) $(STATIC_LINK_FLAG) $(SLINKS) $(DYNAMIC_LINK_FLAG) $(DLINKS) $(AS_NEED_LINK_FLAG) $(INSTALL_NAME_FLAG)
 endif
 	@echo built $(TARGET)
 	@echo .
@@ -150,20 +161,20 @@ dirs: $(OBJDIR) $(TARGETDIR)
 clean: 
 	@echo clean
 ifneq ($(wildcard $(OBJCLEANDIR)),)
-ifeq ($(SYS),Windows)
+ifeq ($(FILESYS),Windows)
 	rmdir /s /q $(subst /,\,$(OBJCLEANDIR))
-else ifeq ($(SYS),Linux)
+else ifeq ($(FILESYS),Linux)
 	rmdir /s /q $(OBJCLEANDIR)
-else ifeq ($(SYS),OSX)
+else ifeq ($(FILESYS),OSX)
 	rm -r $(OBJCLEANDIR)
 endif
 endif
 ifneq ($(wildcard $(TARGETCLEANDIR)),)
-ifeq ($(SYS),Windows)
+ifeq ($(FILESYS),Windows)
 	rmdir /s /q $(subst /,\,$(TARGETCLEANDIR))
-else ifeq ($(SYS),Linux)
+else ifeq ($(FILESYS),Linux)
 	rmdir /s /q $(TARGETCLEANDIR)
-else ifeq ($(SYS),OSX)
+else ifeq ($(FILESYS),OSX)
 	rm -r $(TARGETCLEANDIR)
 endif
 endif
