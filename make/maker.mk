@@ -56,9 +56,9 @@ endif
 find_file = $(wildcard $(addprefix $(addsuffix /, $2), $1))
 compile_exe_cmd = $(CXX) -o $2 -c $1 $(INCLUDES) $(CXXFLAGS) -MF $(2:%.o=%.d)
 compile_lib_cmd = $(CXX) -o $2 -c $1 $(INCLUDES) -fPIC $(CXXFLAGS) -MF $(2:%.o=%.d)
-ifeq ($(SYS), Windows)
+ifeq ($(FILESYS), Windows)
 cp = copy $(subst /,\,$1) $(subst /,\,$2)
-else ifeq ($(filter-out Linux OSX, $(SYS)),)
+else ifeq ($(filter-out Linux OSX, $(FILESYS)),)
 cp = cp $1 $2
 endif
 
@@ -97,9 +97,9 @@ endif
 # Create bin directory
 $(OBJDIR):
 ifeq ($(wildcard $(OBJDIR)),)
-ifeq ($(SYS),Windows)
+ifeq ($(FILESYS),Windows)
 	mkdir $(subst /,\,$(OBJDIR))
-else ifeq ($(filter-out Linux OSX, $(SYS)),)
+else ifeq ($(filter-out Linux OSX, $(FILESYS)),)
 	mkdir -p $(OBJDIR)
 endif
 endif
@@ -117,9 +117,9 @@ endif
 # Create build directory
 $(TARGETDIR):
 ifeq ($(wildcard $(TARGETDIR)),)
-ifeq ($(SYS),Windows)
+ifeq ($(FILESYS),Windows)
 	mkdir $(subst /,\,$(TARGETDIR))
-else ifeq ($(filter-out Linux OSX, $(SYS)),)
+else ifeq ($(filter-out Linux OSX, $(FILESYS)),)
 	mkdir -p $(TARGETDIR)
 endif
 endif
@@ -161,20 +161,20 @@ dirs: $(OBJDIR) $(TARGETDIR)
 clean: 
 	@echo clean
 ifneq ($(wildcard $(OBJCLEANDIR)),)
-ifeq ($(SYS),Windows)
+ifeq ($(FILESYS),Windows)
 	rmdir /s /q $(subst /,\,$(OBJCLEANDIR))
-else ifeq ($(SYS),Linux)
+else ifeq ($(FILESYS),Linux)
 	rmdir /s /q $(OBJCLEANDIR)
-else ifeq ($(SYS),OSX)
+else ifeq ($(FILESYS),OSX)
 	rm -r $(OBJCLEANDIR)
 endif
 endif
 ifneq ($(wildcard $(TARGETCLEANDIR)),)
-ifeq ($(SYS),Windows)
+ifeq ($(FILESYS),Windows)
 	rmdir /s /q $(subst /,\,$(TARGETCLEANDIR))
-else ifeq ($(SYS),Linux)
+else ifeq ($(FILESYS),Linux)
 	rmdir /s /q $(TARGETCLEANDIR)
-else ifeq ($(SYS),OSX)
+else ifeq ($(FILESYS),OSX)
 	rm -r $(TARGETCLEANDIR)
 endif
 endif
