@@ -141,21 +141,22 @@ jobs:
       working-directory: .
       run: |
         make -j SYS=OSX CXX_VERSION=c++20
-        chmod 777 build/mua/main/base_node.dylib
-        chmod 777 build/mua/main/character.dylib
-        chmod 777 build/mua/main/cmd.dylib
-        chmod 777 build/mua/main/definer.dylib
-        chmod 777 build/mua/main/error.dylib
-        chmod 777 build/mua/main/interpreter.dylib
-        chmod 777 build/mua/main/lexer.dylib
-        chmod 777 build/mua/main/muac
-        chmod 777 build/mua/main/node_factory.dylib
-        chmod 777 build/mua/main/node_state.dylib
-        chmod 777 build/mua/main/parser.dylib
-        chmod 777 build/mua/main/reader.dylib
-        chmod 777 build/mua/main/token.dylib
-        chmod 777 build/mua/main/trie.dylib
-        chmod 777 build/mua/main/writer.dylib
+        cd build/mua/main
+        chmod 755 libbase_node.dylib
+        chmod 755 libcharacter.dylib
+        chmod 755 libcmd.dylib
+        chmod 755 libdefiner.dylib
+        chmod 755 liberror.dylib
+        chmod 755 libinterpreter.dylib
+        chmod 755 liblexer.dylib
+        chmod 777 muac
+        chmod 755 libnode_factory.dylib
+        chmod 755 libnode_state.dylib
+        chmod 755 libparser.dylib
+        chmod 755 libreader.dylib
+        chmod 755 libtoken.dylib
+        chmod 755 libtrie.dylib
+        chmod 777 libwriter.dylib
     - name: Upload muac-macos-x64
       uses: actions/upload-artifact@v4
       with:
@@ -204,20 +205,21 @@ jobs:
       working-directory: .
       run: |
         make -j SYS=OSX CXX_VERSION=c++20
-        chmod 777 build/mua/main/base_node.dylib
-        chmod 777 build/mua/main/character.dylib
-        chmod 777 build/mua/main/cmd.dylib
-        chmod 777 build/mua/main/definer.dylib
-        chmod 777 build/mua/main/error.dylib
-        chmod 777 build/mua/main/interpreter.dylib
-        chmod 777 build/mua/main/lexer.dylib
-        chmod 777 build/mua/main/muac
-        chmod 777 build/mua/main/node_factory.dylib
-        chmod 777 build/mua/main/node_state.dylib
-        chmod 777 build/mua/main/parser.dylib
-        chmod 777 build/mua/main/reader.dylib
-        chmod 777 build/mua/main/token.dylib
-        chmod 777 build/mua/main/trie.dylib
+        cd build/mua/main
+        chmod 755 libbase_node.dylib
+        chmod 755 libcharacter.dylib
+        chmod 755 libcmd.dylib
+        chmod 755 libdefiner.dylib
+        chmod 755 liberror.dylib
+        chmod 755 libinterpreter.dylib
+        chmod 755 liblexer.dylib
+        chmod 777 muac
+        chmod 755 libnode_factory.dylib
+        chmod 755 libnode_state.dylib
+        chmod 755 libparser.dylib
+        chmod 755 libreader.dylib
+        chmod 755 libtoken.dylib
+        chmod 755 libtrie.dylib
         chmod 777 build/mua/main/writer.dylib
     - uses: actions/upload-artifact@v4
       with:
