@@ -141,22 +141,21 @@ jobs:
       working-directory: .
       run: |
         make -j SYS=OSX CXX_VERSION=c++20
-        cd ./build/mua/main
-        chmod 777 base_node.dylib
-        chmod 777 character.dylib
-        chmod 777 cmd.dylib
-        chmod 777 definer.dylib
-        chmod 777 error.dylib
-        chmod 777 interpreter.dylib
-        chmod 777 lexer.dylib
-        chmod 777 muac
-        chmod 777 node_factory.dylib
-        chmod 777 node_state.dylib
-        chmod 777 parser.dylib
-        chmod 777 reader.dylib
-        chmod 777 token.dylib
-        chmod 777 trie.dylib
-        chmod 777 writer.dylib
+        chmod 777 build/mua/main/base_node.dylib
+        chmod 777 build/mua/main/character.dylib
+        chmod 777 build/mua/main/cmd.dylib
+        chmod 777 build/mua/main/definer.dylib
+        chmod 777 build/mua/main/error.dylib
+        chmod 777 build/mua/main/interpreter.dylib
+        chmod 777 build/mua/main/lexer.dylib
+        chmod 777 build/mua/main/muac
+        chmod 777 build/mua/main/node_factory.dylib
+        chmod 777 build/mua/main/node_state.dylib
+        chmod 777 build/mua/main/parser.dylib
+        chmod 777 build/mua/main/reader.dylib
+        chmod 777 build/mua/main/token.dylib
+        chmod 777 build/mua/main/trie.dylib
+        chmod 777 build/mua/main/writer.dylib
     - name: Upload muac-macos-x64
       uses: actions/upload-artifact@v4
       with:
@@ -205,22 +204,21 @@ jobs:
       working-directory: .
       run: |
         make -j SYS=OSX CXX_VERSION=c++20
-        cd ./build/mua/main
-        chmod 777 base_node.dylib
-        chmod 777 character.dylib
-        chmod 777 cmd.dylib
-        chmod 777 definer.dylib
-        chmod 777 error.dylib
-        chmod 777 interpreter.dylib
-        chmod 777 lexer.dylib
-        chmod 777 muac
-        chmod 777 node_factory.dylib
-        chmod 777 node_state.dylib
-        chmod 777 parser.dylib
-        chmod 777 reader.dylib
-        chmod 777 token.dylib
-        chmod 777 trie.dylib
-        chmod 777 writer.dylib
+        chmod 777 build/mua/main/base_node.dylib
+        chmod 777 build/mua/main/character.dylib
+        chmod 777 build/mua/main/cmd.dylib
+        chmod 777 build/mua/main/definer.dylib
+        chmod 777 build/mua/main/error.dylib
+        chmod 777 build/mua/main/interpreter.dylib
+        chmod 777 build/mua/main/lexer.dylib
+        chmod 777 build/mua/main/muac
+        chmod 777 build/mua/main/node_factory.dylib
+        chmod 777 build/mua/main/node_state.dylib
+        chmod 777 build/mua/main/parser.dylib
+        chmod 777 build/mua/main/reader.dylib
+        chmod 777 build/mua/main/token.dylib
+        chmod 777 build/mua/main/trie.dylib
+        chmod 777 build/mua/main/writer.dylib
     - uses: actions/upload-artifact@v4
       with:
         name: muac-macos-arm64
