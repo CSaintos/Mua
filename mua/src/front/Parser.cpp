@@ -468,6 +468,7 @@ void Parser::scanOneToken()
           break;
         default:
           cout << "op_b4_paren: " << TokenUtils::m_TS_map[op_b4_paren.top()] << " not implemented when itr: " << TokenUtils::m_TS_map[itr->type] << endl;
+          break;
         }
         break;
       case TokenType::EMPTY:
