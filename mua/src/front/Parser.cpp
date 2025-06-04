@@ -439,15 +439,39 @@ void Parser::scanOneToken()
     case TokenType::FSLASH:
     case TokenType::ASTERISK:
     case TokenType::PERCENT:
+    case TokenType::CARET:
     case TokenType::EQUAL:
       err(1, *itr); // expected digit or identifier
       break;
     default:
       switch (last_op)
       {
+      case TokenType::RPAREN:
+        switch (op_b4_paren.top())
+        {
+        case TokenType::ASTERISK:
+        case TokenType::ADJACENT:
+        case TokenType::FSLASH:
+        case TokenType::PERCENT:
+        case TokenType::CARET:
+          toParseTree(itr->type);
+          last_type = itr->type;
+          last_op = last_type;
+          node_stack.push(node_factory->produceNode(*itr));
+          break;
+        case TokenType::PLUS:
+        case TokenType::MINUS:
+        case TokenType::EQUAL:
+          last_type = itr->type;
+          last_op = last_type;
+          node_stack.push(node_factory->produceNode(*itr));
+          break;
+        default:
+          cout << "op_b4_paren: " << TokenUtils::m_TS_map[op_b4_paren.top()] << " not implemented when itr: " << TokenUtils::m_TS_map[itr->type] << endl;
+        }
+        break;
       case TokenType::EMPTY:
       case TokenType::LPAREN:
-      case TokenType::RPAREN:
       case TokenType::PLUS:
       case TokenType::MINUS:
       case TokenType::EQUAL:
