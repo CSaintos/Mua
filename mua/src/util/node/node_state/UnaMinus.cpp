@@ -23,12 +23,13 @@ bool UnaMinus::interpret(const unordered_set<InterpretType> &flags)
   unique_ptr<Node> res_node;
   unique_ptr<Node> right_numerator;
   unique_ptr<Node> right_denominator;
-  bool is_minus = false;
+  bool is_minus = false; // true would make more sense
 
   if (!is_node_leaf)
   {
     if (child->tok.type == TokenType::MINUS)
     {
+      is_minus = !is_minus;
       UnaOpNode* una_op_node = static_cast<UnaOpNode*>(child);
       res_node = std::move(una_op_node->node);
     }
@@ -45,7 +46,8 @@ bool UnaMinus::interpret(const unordered_set<InterpretType> &flags)
       {
         res_node = std::move(una_op_node->node);
       }
-      if (una_op_node->node->tok.type == TokenType::FSLASH)
+      // nullptr check along with the previews checks is not a very readable/logical solution, even though it saves lines of code.
+      if (una_op_node->node != nullptr && una_op_node->node->tok.type == TokenType::FSLASH)
       {
         BinOpNode* bin_op_node = static_cast<BinOpNode*>(una_op_node->node.get());
 
@@ -80,6 +82,13 @@ bool UnaMinus::interpret(const unordered_set<InterpretType> &flags)
       }
     }
   }
+  else
+  {
+    if (child->tok.type == TokenType::DIGIT && flags.count(InterpretType::DECIMALIZE) == 0)
+    {
+      res_node = NumberUtils::fractionalize(node_factory, child->to_repr());
+    }
+  }
 
   if (res_node != nullptr)
   {
@@ -88,10 +97,11 @@ bool UnaMinus::interpret(const unordered_set<InterpretType> &flags)
       if (is_minus)
       {
         NodeUtils::replaceNode(node, res_node);
+        change = true;
       }
       else
       {
-        node->setNode(res_node);
+        node->setNode(res_node); // This is vague, instead should be setChild
       }
     }
     else
@@ -107,9 +117,10 @@ bool UnaMinus::interpret(const unordered_set<InterpretType> &flags)
         }
       }
 
-      node->setNode(res_node);
+      //node->setNode(res_node);
+      NodeUtils::replaceNode(node, res_node);
+      change = true;
     }
-    change = true;
   }
   else if (right_numerator != nullptr && right_denominator != nullptr)
   {

@@ -8,8 +8,11 @@
 #include "TokenUtils.hpp"
 #include "Node.hpp"
 #include "NodeUtils.hpp"
+#include "NumberUtils.hpp"
 #include "InterpretType.hpp"
 #include "UnaOpState.hpp"
+#include "UnaOpNode.hpp"
+#include "BinOpNode.hpp"
 
 namespace mua
 {
