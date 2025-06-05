@@ -117,6 +117,21 @@ void BinOpState::extractChildData
     {
       //cout << "extractChildData() not implemented inchild " + TokenUtils::m_TS_map[in_child->tok.type] << endl;
     }
+    else if (in_child->tok.type == TokenType::ASTERISK)
+    {
+      BinOpNode* bin_op_node = static_cast<BinOpNode*>(in_child);
+
+      // It cannot be both cases, only one.
+      // TODO have to rethink this, but also finish it.
+      if (bin_op_node->node_left->tok.type == TokenType::DIGIT)
+      {
+        numerator = std::move(bin_op_node->node_left);
+      }
+      if (bin_op_node->node_right->tok.type == TokenType::DIGIT)
+      {
+        denominator = std::move(bin_op_node->node_right);
+      }
+    }
     else
     {
       cout << "extractChildData() not implemented inchild " + TokenUtils::m_TS_map[in_child->tok.type] << endl;
