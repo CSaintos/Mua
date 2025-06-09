@@ -5,8 +5,7 @@ import {
   createRouter
 } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
-
-//import './index.css'
+import './index.css'
 
 const router = createRouter({ routeTree })
 
