@@ -8,7 +8,13 @@ CXX_VERSION=c++23
 endif
 export CXXFLAGS = -std=$(CXX_VERSION)
 ifeq ($(SYS),)
+ifeq ($(OS),Windows_NT)
+SYS = Windows
+else ifeq ($(shell uname -s),Linux)
 SYS = Linux
+else ifeq ($(shell uname -s),Darwin)
+SYS = OSX
+endif
 endif
 export SYS
 ifeq ($(FILESYS),)
