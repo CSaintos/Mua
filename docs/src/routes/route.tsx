@@ -4,8 +4,7 @@ import {
 } from '@tanstack/react-router'
 import {
   Grid,
-  InputBase,
-  Typography
+  InputBase
 } from '@mui/material';
 
 export const Route = createFileRoute('/')({
@@ -44,11 +43,10 @@ function Index() {
       sx={{
         backgroundColor:'#999',
         padding:'0.5rem',
-        borderRadius:'3%'
+        borderRadius:'3%',
+        whiteSpace:"pre-wrap"
       }}>
-        <Typography>
-          {muaCode}
-        </Typography>
+        {muaCode}
       </Grid>
     </Grid>
   </>
