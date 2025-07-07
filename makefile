@@ -71,7 +71,6 @@ m./make/mua/trie.mk: m./make/mua/token.mk
 m./make/mua/base_node.mk: m./make/mua/token.mk m./make/mua/character.mk
 m./make/mua/node_state.mk: m./make/mua/base_node.mk
 m./make/mua/node_factory.mk: m./make/mua/node_state.mk
-m./make/mua/node.mk: m./make/mua/token.mk
 m./make/mua/lexer.mk: m./make/mua/error.mk m./make/mua/trie.mk m./make/mua/character.mk
 m./make/mua/parser.mk: m./make/mua/error.mk m./make/mua/node_factory.mk
 m./make/mua/definer.mk: m./make/mua/error.mk m./make/mua/node_factory.mk m./make/mua/trie.mk
