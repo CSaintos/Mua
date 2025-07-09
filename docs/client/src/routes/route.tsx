@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   createFileRoute,
 } from '@tanstack/react-router'
@@ -6,14 +6,25 @@ import {
   Grid,
   InputBase
 } from '@mui/material';
+import createModule from "../mua_api.mjs"
 
 export const Route = createFileRoute('/')({
   component: Index
 })
 
 function Index() {
+  const [muaApi, setMuaApi] = useState()
   const [muaCode, setMuaCode] = useState('') 
   const rows = 28
+
+  useEffect(
+    () => {
+      createModule().then((Module) => {
+        setMuaApi(() => new Module.MuaApi())
+      })
+    }, []
+  );
+
   return <>
     <Grid container columns={2} spacing={1} sx={{padding:'0.5rem', minHeight:'93vh'}}>
       <Grid 
@@ -46,7 +57,7 @@ function Index() {
         borderRadius:'3%',
         whiteSpace:"pre-wrap"
       }}>
-        {muaCode}
+        {muaApi?.calculate(muaCode, false)}
       </Grid>
     </Grid>
   </>

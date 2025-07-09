@@ -3,6 +3,10 @@
 using namespace std;
 using namespace mua;
 
+MuaApi::MuaApi()
+: lexer(), parser(), definer(), c_stream()
+{}
+
 string MuaApi::calculate(string input, bool is_debug)
 {
   list<Character> characters;

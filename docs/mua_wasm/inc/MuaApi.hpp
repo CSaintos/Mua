@@ -1,5 +1,7 @@
 #pragma once
 
+#include <emscripten/bind.h>
+
 #include <string>
 #include <list>
 #include <memory>
@@ -27,4 +29,11 @@ namespace mua
 
     std::string calculate(std::string input, bool is_debug);
   };
+}
+
+EMSCRIPTEN_BINDINGS(mua_module) {
+  emscripten::class_<mua::MuaApi>("MuaApi")
+  .constructor()
+  .function("calculate", &mua::MuaApi::calculate)
+  ;
 }

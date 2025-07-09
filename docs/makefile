@@ -28,6 +28,7 @@ export FILESYS
 
 #? List of submakes ex. # ./make/submake1.mk
 PROJECTS := \
+	./make/mua/mua_api.mk \
 	./make/mua/interpreter.mk \
 	./make/mua/definer.mk \
 	./make/mua/parser.mk \
@@ -63,6 +64,7 @@ m./make/mua/node_factory.mk: m./make/mua/node_state.mk
 m./make/mua/parser.mk: m./make/mua/node_factory.mk
 m./make/mua/definer.mk: m./make/mua/node_factory.mk m./make/mua/trie.mk
 m./make/mua/interpreter.mk: m./make/mua/base_node.mk
+m./make/mua/mua_api.mk: m./make/mua/interpreter.mk m./make/mua/definer.mk m./make/mua/parser.mk m./make/mua/lexer.mk
 
 # Static pattern rules for running sub-makes
 $(DIRS): d%: %

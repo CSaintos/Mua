@@ -8,7 +8,7 @@ $(if $(1:$(2)=),,$(if $(2:$(1)=),,T))
 endef
 
 #* Compiler flags
-CXXFLAGS += -MMD -g -O2
+CXXFLAGS += -MMD -g
 ifeq ($(SYS), Windows)
 SLINK_TYPE = lib
 DLINK_TYPE = dll
@@ -30,10 +30,10 @@ RPATH_LINK_FLAG=-Wl,-rpath,@executable_path
 else ifeq ($(SYS),Web)
 SLINK_TYPE=a
 DLINK_TYPE=so 
-EXE_TYPE=mjs
-STATIC_LINK_FLAG=-Wl,Bstatic
-DYNAMIC_LINK_FLAG=-Wl,Bdynamic
-AS_NEED_LINK_FLAG=-Wl,--as-needed
+EXE_TYPE=.mjs
+AS_NEED_LINK_FLAG=--bind -sASSERTIONS -O2
+RPATH_LINK_FLAG=-sENVIRONMENT='web' -sEXPORT_NAME='createModule' --no-entry --pre-js locateFile.js
+CXXFLAGS += -O2
 endif
 ifeq ($(filter-out Windows Linux Web, $(SYS)),)
 SLINK_FILES := $(patsubst -l%, %.$(SLINK_TYPE), $(patsubst -l:%, %, $(SLINKS)))
@@ -52,7 +52,7 @@ find_file = $(wildcard $(addprefix $(addsuffix /, $2), $1))
 compile_exe_cmd = $(CXX) -o $2 -c $1 $(INCLUDES) $(CXXFLAGS) -MF $(2:%.o=%.d)
 compile_lib_cmd = $(CXX) -o $2 -c $1 $(INCLUDES) -fPIC $(CXXFLAGS) -MF $(2:%.o=%.d)
 ifeq ($(FILESYS), Windows)
-cp = copy $(subst /,\,$1) $(subst /,\$2)
+cp = copy $(subst /,\,$1) $(subst /,\,$2)
 else ifeq ($(filter-out Linux OSX, $(FILESYS)),)
 cp = cp $1 $2
 endif
