@@ -10,6 +10,7 @@ TARGET_NAME = error
 TARGET_PATH = mua/error
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
+	-I../mua/inc/util/error \
 	-I../mua/inc/util
 # Link Directories # -L<path-to-dir>
 LINKDIRS =
@@ -21,7 +22,7 @@ DLINKS =
 SLINKS =
 DEFINES = 
 SRCDIRS = \
-	../mua/src/util
+	../mua/src/util/error
 SRCFILES = \
 	Error.cpp
 

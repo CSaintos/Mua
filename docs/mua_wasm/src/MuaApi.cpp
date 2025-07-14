@@ -12,6 +12,7 @@ string MuaApi::calculate(string input, bool is_debug)
   list<Character> characters;
   list<unique_ptr<Node>> *parse_trees;
   stringstream ss;
+  Result<> res;
 
   cout << input << endl; //DEBUG
 
@@ -19,8 +20,10 @@ string MuaApi::calculate(string input, bool is_debug)
   c_stream.pos.column_nums[0] = 0;
   characters = c_stream.strToCharacterList(input);
   lexer.lex(&characters);
-  parser.parse(lexer.getList());
-  parser.checkSemicolonError();
+  res = parser.parse(lexer.getList());
+  if (res.is_err()) return res.get_err().to_string();
+  res = parser.checkSemicolonError();
+  if (res.is_err()) return res.get_err().to_string();
   parse_trees = parser.getParseTrees();
   definer.define(parse_trees);
 

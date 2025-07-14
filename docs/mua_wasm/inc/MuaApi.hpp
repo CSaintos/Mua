@@ -7,6 +7,7 @@
 #include <memory>
 #include <sstream>
 
+#include "Result.hpp"
 #include "Character.hpp"
 #include "CharacterStream.hpp"
 #include "Lexer.hpp"
@@ -20,6 +21,7 @@ namespace mua
   class MuaApi
   {
   private:
+    Result<> res;
     Lexer lexer;
     Parser parser;
     Definer definer;

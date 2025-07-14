@@ -17,6 +17,7 @@ INCLUDES = \
 	-I../mua/inc/util/node/op_node \
 	-I../mua/inc/util/node \
 	-I../mua/inc/util \
+	-I../mua/inc/util/error \
 	-I../mua/inc/util/character
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
