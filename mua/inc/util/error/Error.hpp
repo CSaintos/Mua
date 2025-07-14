@@ -32,12 +32,10 @@ namespace mua
      * @see ~Error()
      */
     Error(Position &pos, const std::string &err_name, const std::string &details);
-    /**
-     * @brief ~Error() destructor
-     * @see Error()
-     * @see Error(position &pos, std::string err_name, std::string &details)
-     */
-    //~Error();
+    
+    Error(const Error& other);
+
+    Error& operator=(const Error& err);
 
     /**
      * @brief Sets error position

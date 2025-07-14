@@ -10,6 +10,10 @@ Error::Error(Position &pos, const string &err_name, const string &details)
   : pos(pos), err_name(err_name), details(details)
 {}
 
+Error::Error(const Error& other)
+  : pos(other.pos), err_name(other.err_name), details(other.details)
+{}
+
 string Error::to_string()
 {
   ss.str(string());
@@ -20,4 +24,12 @@ string Error::to_string()
     << ", " << pos.column_nums[1] << endl;
 
   return ss.str();
+}
+
+Error& Error::operator=(const Error& err)
+{
+  pos = err.pos;
+  err_name = err.err_name;
+  details = err.details;
+  return *this;
 }

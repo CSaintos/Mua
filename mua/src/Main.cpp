@@ -5,6 +5,7 @@
 #include <vector>
 #include <list>
 
+#include "Result.hpp"
 #include "Reader.hpp"
 #include "Character.hpp"
 #include "CharacterStream.hpp"
@@ -28,6 +29,7 @@ int main(int argc, char *argv[])
     return 0;
   }
 
+  Result<> res;
   Lexer lexer;
   Parser parser;
   Definer definer;
@@ -47,8 +49,11 @@ int main(int argc, char *argv[])
       if (line == "exit[];") continue;
       characters = c_stream.strToCharacterList(line); 
       lexer.lex(&characters);
-      parser.parse(lexer.getList());
-      // notice that we're skipping the parser.checkSemicolonError()
+      res = parser.parse(lexer.getList());
+      if (res.is_err()) {
+        cout << endl << res.get_err().to_string() << endl;
+        continue;
+      }
       definer.define(parser.getParseTrees());
       parse_trees = parser.getParseTrees();
       while (!(*parse_trees).empty())
@@ -75,9 +80,15 @@ int main(int argc, char *argv[])
     do {
       line_length = reader.readLine();
       lexer.lex(reader.getList());
-      parser.parse(lexer.getList());
-    } while (line_length != -1);
-    parser.checkSemicolonError();
+      res = parser.parse(lexer.getList());
+    } while (line_length != -1 && !res.is_err());
+    res = parser.checkSemicolonError();
+
+    if (res.is_err())
+    {
+      cout << res.get_err().to_string() << endl;
+      return 1;
+    }
 
     definer.define(parser.getParseTrees());
 

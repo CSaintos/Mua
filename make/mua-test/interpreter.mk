@@ -18,6 +18,7 @@ INCLUDES = \
 	-Imua/inc/util/token/trie \
 	-Imua/inc/util/token \
 	-Imua/inc/util/character \
+	-Imua/inc/util/error \
 	-Imua/inc/util
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \

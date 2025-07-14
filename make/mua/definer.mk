@@ -16,6 +16,7 @@ INCLUDES = \
 	-Imua/inc/util/node/node_state \
 	-Imua/inc/util/node/op_node \
 	-Imua/inc/util/node \
+	-Imua/inc/util/error \
 	-Imua/inc/util \
 	-Imua/inc/util/character
 # Link Directories # -L<path-to-dir>

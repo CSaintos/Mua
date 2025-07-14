@@ -12,6 +12,7 @@ TARGET_PATH = mua/character
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
 	-Imua/inc/util/character \
+	-Imua/inc/util/error \
 	-Imua/inc/util
 # Link Directories # -L<path-to-dir>
 LINKDIRS = \
