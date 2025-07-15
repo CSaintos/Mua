@@ -55,23 +55,6 @@ Mua is a <span style="color:gray">(step-by-step, cli-based, arithmetic)</span> c
 ### Clone
 - clone this repo into an empty directory `git clone https://github.com/CSaintos/Mua.git`
 ### Build
-- Within that same directory, run `make` following one of the options for your operating system below
-##### Windows Build
-- `make -j SYS=Windows`
-##### Linux Build
-- `make -j SYS=Linux`
-
-or
-
-- `make -j`
-##### MacOS Build
-- `make -j SYS=OSX CXX_VERSION=c++20`
-
-or
-
-- `make -j SYS=OSX`
-  - By default the CXX_VERSION is c++23 and may not work on your machine with the current version of gcc supported by macos
-
+- Within that same directory, run `make -j`
 #### Executable
 - Once completed, the executable is stored in `./build/mua/main/muac`
-

@@ -4,7 +4,7 @@
 export CXX = g++
 export AR = ar
 ifeq ($(CXX_VERSION),)
-CXX_VERSION=c++23
+CXX_VERSION=c++20
 endif
 export CXXFLAGS = -std=$(CXX_VERSION)
 ifeq ($(SYS),)
