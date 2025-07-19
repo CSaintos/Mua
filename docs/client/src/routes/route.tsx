@@ -5,7 +5,7 @@ import {
 import {
   Grid,
   InputBase
-} from '@mui/material';
+} from '@mui/material'
 import createModule from "../mua_api.mjs"
 
 export const Route = createFileRoute('/')({

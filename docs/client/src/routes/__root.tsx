@@ -4,7 +4,6 @@ import {
 } from '@tanstack/react-router'
 import { Header } from './-header'
 import {
-  Stack,
   Box
 } from '@mui/material'
 
@@ -14,14 +13,20 @@ export const Route = createRootRoute({
 })
 
 function Home() {
-  return <>
-    <Stack>
-      <Box sx={{minHeight:"6.4vh"}}>
-        <Header />
-      </Box>
-      <Box sx={{minHeight:"81vh"}}>
-        <Outlet />
-      </Box>
-    </Stack>
-  </>
+  return <Box
+  sx={{
+    boxSizing:"border-box",
+    display:"grid",
+    minWidth:"100vw",
+    minHeight:"100vh",
+    gridTemplateColumns:"1fr",
+    gridTemplateRows:"1fr 15fr"
+  }}>
+    <Box>
+      <Header />
+    </Box>
+    <Box>
+      <Outlet />
+    </Box>
+  </Box>
 }
