@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as DocRouteImport } from './routes/doc/route'
 import { Route as RouteImport } from './routes/route'
 import { Route as DocIndexImport } from './routes/doc/index'
+import { Route as DocArithmeticImport } from './routes/doc/arithmetic'
 
 // Create/Update Routes
 
@@ -35,6 +36,12 @@ const DocIndexRoute = DocIndexImport.update({
   getParentRoute: () => DocRouteRoute,
 } as any)
 
+const DocArithmeticRoute = DocArithmeticImport.update({
+  id: '/arithmetic',
+  path: '/arithmetic',
+  getParentRoute: () => DocRouteRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -53,6 +60,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocRouteImport
       parentRoute: typeof rootRoute
     }
+    '/doc/arithmetic': {
+      id: '/doc/arithmetic'
+      path: '/arithmetic'
+      fullPath: '/doc/arithmetic'
+      preLoaderRoute: typeof DocArithmeticImport
+      parentRoute: typeof DocRouteImport
+    }
     '/doc/': {
       id: '/doc/'
       path: '/'
@@ -66,10 +80,12 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface DocRouteRouteChildren {
+  DocArithmeticRoute: typeof DocArithmeticRoute
   DocIndexRoute: typeof DocIndexRoute
 }
 
 const DocRouteRouteChildren: DocRouteRouteChildren = {
+  DocArithmeticRoute: DocArithmeticRoute,
   DocIndexRoute: DocIndexRoute,
 }
 
@@ -80,11 +96,13 @@ const DocRouteRouteWithChildren = DocRouteRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   '/': typeof RouteRoute
   '/doc': typeof DocRouteRouteWithChildren
+  '/doc/arithmetic': typeof DocArithmeticRoute
   '/doc/': typeof DocIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof RouteRoute
+  '/doc/arithmetic': typeof DocArithmeticRoute
   '/doc': typeof DocIndexRoute
 }
 
@@ -92,15 +110,16 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof RouteRoute
   '/doc': typeof DocRouteRouteWithChildren
+  '/doc/arithmetic': typeof DocArithmeticRoute
   '/doc/': typeof DocIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/doc' | '/doc/'
+  fullPaths: '/' | '/doc' | '/doc/arithmetic' | '/doc/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/doc'
-  id: '__root__' | '/' | '/doc' | '/doc/'
+  to: '/' | '/doc/arithmetic' | '/doc'
+  id: '__root__' | '/' | '/doc' | '/doc/arithmetic' | '/doc/'
   fileRoutesById: FileRoutesById
 }
 
@@ -134,8 +153,13 @@ export const routeTree = rootRoute
     "/doc": {
       "filePath": "doc/route.tsx",
       "children": [
+        "/doc/arithmetic",
         "/doc/"
       ]
+    },
+    "/doc/arithmetic": {
+      "filePath": "doc/arithmetic.tsx",
+      "parent": "/doc"
     },
     "/doc/": {
       "filePath": "doc/index.tsx",

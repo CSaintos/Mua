@@ -17,8 +17,8 @@ function Home() {
   sx={{
     boxSizing:"border-box",
     display:"grid",
-    minWidth:"100vw",
-    minHeight:"100vh",
+    width:"100%",
+    height:"100%",
     gridTemplateColumns:"1fr",
     gridTemplateRows:"1fr 15fr"
   }}>

@@ -6,12 +6,27 @@ import {
   Typography,
   Button,
   List,
-  ListItem
+  ListItem,
+  ListSubheader
 } from '@mui/material'
+import {
+  CodeHl
+} from "../../MComponents.tsx"
 
 export const Route = createFileRoute('/doc/')({
   component: RouteComponent,
 })
+
+function MListItem({children}) {
+  return <ListItem
+  sx={{
+    display:"list-item",
+    ml:"1rem",
+    mb:"0.5rem"
+  }}>
+    {children}
+  </ListItem>
+}
 
 function RouteComponent() {
   return <Box
@@ -61,13 +76,7 @@ function RouteComponent() {
       listStyleType:"decimal",
     }}
     >
-      <ListItem
-      sx={{
-        display:"list-item",
-        ml:"1rem",
-        mb:"0.5rem"
-      }}
-      >
+      <MListItem>
         <Button 
         variant="outlined"
         href="https://github.com/CSaintos/Mua/releases"
@@ -78,35 +87,111 @@ function RouteComponent() {
         >
           Download Mua
         </Button>
-      </ListItem>
-      <ListItem
-      sx={{
-        display:"list-item",
-        ml:"1rem",
-        mb:"0.5rem"
-      }}>
+      </MListItem>
+      <MListItem>
         Extract Mua 7zip archive.
-      </ListItem>
+        <List
+        component="ul"
+        sx={{
+          listStyleType:"disc"
+        }}>
+          <MListItem>
+            For MacOS: Upon extracting, the file permissions are readonly. Use <CodeHl>chmod 755 *</CodeHl> inside the mua-macos directory to enable permissions.
+          </MListItem>
+        </List>
+      </MListItem>
+      <MListItem>
+        Install/Place Mua anywhere you'd like on your computer,
+      </MListItem>
+      <MListItem>
+        Add Mua app to system or shell environment path.
+      </MListItem>
     </List>
-
-    <Box
+    <Typography
+    variant="h5"
+    my="1rem"
     sx={{
-      display:"flex",
-      alignItems:"center"
+      fontWeight:"bold"
+    }}>
+      Using Mua
+    </Typography>
+    <Typography paragraph>
+      In your shell: <CodeHl>./muac -h</CodeHl> for how to use mua.
+    </Typography>
+    <Typography
+    variant="h6"
+    my="1rem"
+    sx={{
+      fontWeight:"bold"
+    }}>
+      Mua's two modes:
+    </Typography>
+    <List
+    component="ul"
+    sx={{
+      listStyleType:"disc"
     }}
-    >
-      1.
-      <Button 
-      variant="outlined"
-      href="https://github.com/CSaintos/Mua/releases"
-      target="_blank"
+    subheader={
+      <ListSubheader
       sx={{
-        width:"10rem",
-        ml:"1rem"
-      }}
-      >
-        Download Mua
-      </Button>
-    </Box>
+        backgroundColor:"transparent",
+        color:"white",
+        fontWeight:"bold"
+      }}>
+        Repl Mode
+      </ListSubheader>
+    }>
+      <MListItem>
+        Start repl mode with: <CodeHl>./muac</CodeHl>
+      </MListItem>
+      <MListItem>
+        End repl mode: <CodeHl>exit[];</CodeHl> on an empty line.
+      </MListItem>
+    </List>
+    <List
+    component="ul"
+    sx={{
+      listStyleType:"disc"
+    }}
+    subheader={
+      <ListSubheader
+      sx={{
+        backgroundColor:"transparent",
+        color:"white",
+        fontWeight:"bold"
+      }}>
+        File Mode
+      </ListSubheader>
+    }>
+      <MListItem>
+        Evaluate mua file: <CodeHl>./muac &lt;path-to-file&gt;.mua [-o &lt;output-file-path&gt;.muar]</CodeHl>
+        <List
+        component="ul"
+        sx={{
+          listStyleType:"square",
+          p:"0"
+        }}>
+          <MListItem>
+            Brackets mean optional argument
+          </MListItem>
+        </List>
+      </MListItem>
+      <MListItem>
+        Ex:
+       <List
+        component="ul"
+        sx={{
+          listStyleType:"square",
+          p:"0"
+        }}>
+          <MListItem>
+            <CodeHl>./muac ./hello_world.mua</CodeHl>
+          </MListItem>
+          <MListItem>
+            <CodeHl>./muac ./hello_world.mua -o ./hello_world.muar</CodeHl>
+          </MListItem>
+        </List> 
+      </MListItem>
+    </List>
   </Box>
 }

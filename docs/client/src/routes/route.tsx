@@ -26,7 +26,7 @@ function Index() {
   );
 
   return <>
-    <Grid container columns={2} spacing={1} sx={{padding:'0.5rem', minHeight:'93vh'}}>
+    <Grid container columns={2} spacing={1} sx={{padding:'0.5rem', height:'100%'}}>
       <Grid 
       size={{xs:2, sm:1}} 
       sx={{

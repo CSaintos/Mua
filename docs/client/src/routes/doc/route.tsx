@@ -13,8 +13,26 @@ export const Route = createFileRoute('/doc')({
   component: RouteComponent,
 })
 
-function RouteComponent() {
+function SidebarButton({children, path}) {
   const navigate = useNavigate()
+  return <ListItemButton
+  onMouseOver={(event) => {
+    event.target.style.backgroundColor = "#555";
+  }}
+  onMouseOut={(event) => {
+    event.target.style.backgroundColor = "#222";
+  }}
+  onMouseDown={() => {
+    navigate({to:path})
+  }}
+  sx={{
+    color:"white"
+  }}>
+    {children}
+  </ListItemButton>
+}
+
+function RouteComponent() {
   return <Box
   sx={{
     boxSizing:"border-box",
@@ -28,22 +46,14 @@ function RouteComponent() {
       borderRight:"1px solid gray"
     }}>
       <List>
-        <ListItemButton
-        onMouseOver={(event) => {
-          event.target.style.backgroundColor = "#555";
-        }}
-        onMouseOut={(event) => {
-          event.target.style.backgroundColor = "#222";
-        }}
-        onMouseDown={() => {
-          navigate({to:'/doc'})
-        }}
-        sx={{
-          color:"white"
-        }}
-        >
+        <SidebarButton
+        path="/doc">
           Getting Started
-        </ListItemButton>
+        </SidebarButton>
+        <SidebarButton
+        path="/doc/arithmetic">
+          Arithmetic
+        </SidebarButton>
       </List>
     </Box>
     <Box>
