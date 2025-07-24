@@ -36,13 +36,13 @@ function RouteComponent() {
   return <Box
   sx={{
     boxSizing:"border-box",
-    display:"grid",
-    gridTemplateRows:"1fr",
-    gridTemplateColumns:"1fr 4fr",
+    display:"flex",
     height:"100%",
   }}>
     <Box
     sx={{
+      width:"20vw",
+      minWidth:"140px",
       borderRight:"1px solid gray"
     }}>
       <List>
@@ -56,7 +56,10 @@ function RouteComponent() {
         </SidebarButton>
       </List>
     </Box>
-    <Box>
+    <Box
+    sx={{
+      maxWidth:"80vw"
+    }}>
       <Outlet />
     </Box>
     <title>Docs</title>

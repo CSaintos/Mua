@@ -16,16 +16,20 @@ function Home() {
   return <Box
   sx={{
     boxSizing:"border-box",
-    display:"grid",
     width:"100%",
-    height:"100%",
-    gridTemplateColumns:"1fr",
-    gridTemplateRows:"1fr 15fr"
+    minHeight:"100vh",
   }}>
-    <Box>
+    <Box
+    sx={{
+      height:"50px"
+    }}>
       <Header />
     </Box>
-    <Box>
+    <Box
+    sx={{
+      minHeight:"93vh",
+      height:"93vh"
+    }}>
       <Outlet />
     </Box>
   </Box>

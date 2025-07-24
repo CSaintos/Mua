@@ -3,8 +3,10 @@ import {
   createFileRoute,
 } from '@tanstack/react-router'
 import {
-  Grid,
-  InputBase
+  InputBase,
+  Box,
+  Typography,
+  useMediaQuery
 } from '@mui/material'
 import createModule from "../mua_api.mjs"
 
@@ -15,7 +17,8 @@ export const Route = createFileRoute('/')({
 function Index() {
   const [muaApi, setMuaApi] = useState()
   const [muaCode, setMuaCode] = useState('') 
-  const rows = 28
+  const isMobile = useMediaQuery('(width < 600px)')
+  const rows = isMobile ? window.innerHeight * .44 / 23 - 2 : window.innerHeight * .92 / 23 - 1; //isMobile ? 14 : 28
 
   useEffect(
     () => {
@@ -25,40 +28,105 @@ function Index() {
     }, []
   );
 
-  return <>
-    <Grid container columns={2} spacing={1} sx={{padding:'0.5rem', height:'100%'}}>
-      <Grid 
-      size={{xs:2, sm:1}} 
+  let MuaLayout;
+
+  if (isMobile) {
+    MuaLayout = (inputComponent, outputComponent) => {
+    return <Box
+    sx={{
+      boxSizing:"border-box",
+      display:"grid",
+      gridTemplateColumns:"1fr",
+      gridTemplateRows:"1fr 1fr",
+      width:"100%",
+      height:"100%",
+      p:"0.5rem"
+    }}>
+      <Box
       sx={{
-        backgroundColor:'#777',
-        padding:'0.5rem',
-        borderRadius:'3%',
+        boxSizing:"border-box",
+        backgroundColor:"#999",
+        borderRadius:"3%",
+        mb:"0.25rem",
+        p:"0.5rem",
+        height:"44vh"
       }}>
-        <InputBase
-        fullWidth
-        multiline
-        minRows={rows}
-        maxRows={rows}
-        autoFocus={true}
-        placeholder='1+1;'
-        onChange={(event) => {
-          setMuaCode(event.target.value)
-        }}
-        sx={{
-          borderWidth:'0',
-        }}
-        />
-      </Grid>
-      <Grid 
-      size={{xs:2, sm:1}} 
+        {outputComponent}
+      </Box>
+      <Box
       sx={{
-        backgroundColor:'#999',
-        padding:'0.5rem',
-        borderRadius:'3%',
-        whiteSpace:"pre-wrap"
+        boxSizing:"border-box",
+        backgroundColor:"#777",
+        borderRadius:"3%",
+        mt:"0.25rem",
+        p:"0.5rem",
       }}>
-        {muaApi?.calculate(muaCode, false)}
-      </Grid>
-    </Grid>
-  </>
+        {inputComponent}
+      </Box>
+    </Box>
+    }
+  } else {
+    MuaLayout = (inputComponent, outputComponent) => {
+    return <Box
+    sx={{
+      boxSizing:"border-box",
+      display:"grid",
+      gridTemplateColumns:"1fr 1fr",
+      gridTemplateRows:"1fr",
+      width:"100%",
+      height:"100%",
+      p:"0.5rem"
+    }}>
+      <Box
+      sx={{
+        boxSizing:"border-box",
+        backgroundColor:"#777",
+        borderRadius:"3%",
+        mr:"0.25rem",
+        p:"0.5rem"
+      }}>
+        {inputComponent}
+      </Box>
+      <Box
+      sx={{
+        boxSizing:"border-box",
+        backgroundColor:"#999",
+        borderRadius:"3%",
+        ml:"0.25rem",
+        p:"0.5rem",
+        maxHeight:"91vh"
+      }}>
+        {outputComponent}
+      </Box>
+    </Box>
+    }
+  }
+
+  const MuaInput = 
+  <InputBase
+  fullWidth
+  multiline
+  minRows={rows}
+  maxRows={rows}
+  autoFocus={true}
+  placeholder='1+1;'
+  onChange={(event) => {
+    setMuaCode(event.target.value)
+  }}
+  sx={{
+    borderWidth:'0'
+  }}
+  />
+
+  const MuaOutput = 
+  <Typography
+  sx={{
+    whiteSpace:"pre-wrap",
+    overflow: "auto",
+    maxHeight:"100%"
+  }}>
+    {muaApi?.calculate(muaCode, false)}
+  </Typography>
+
+  return MuaLayout(MuaInput, MuaOutput);
 }
