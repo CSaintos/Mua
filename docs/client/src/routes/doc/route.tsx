@@ -8,6 +8,9 @@ import {
   List,
   ListItemButton
 } from '@mui/material'
+import {
+  useTheme
+} from '@mui/material/styles'
 
 export const Route = createFileRoute('/doc')({
   component: RouteComponent,
@@ -15,6 +18,8 @@ export const Route = createFileRoute('/doc')({
 
 function SidebarButton({children, path}) {
   const navigate = useNavigate()
+  const theme = useTheme()
+
   return <ListItemButton
   onMouseOver={(event) => {
     event.target.style.backgroundColor = "#555";
@@ -26,7 +31,7 @@ function SidebarButton({children, path}) {
     navigate({to:path})
   }}
   sx={{
-    color:"white"
+    color:theme.palette.text.primary
   }}>
     {children}
   </ListItemButton>
@@ -36,13 +41,15 @@ function RouteComponent() {
   return <Box
   sx={{
     boxSizing:"border-box",
-    display:"flex",
+    display:"grid",
+    gridTemplateColumns:"1fr 5fr",
     height:"100%",
   }}>
     <Box
     sx={{
       width:"20vw",
       minWidth:"140px",
+      maxWidth:"200px",
       borderRight:"1px solid gray"
     }}>
       <List>
@@ -58,7 +65,7 @@ function RouteComponent() {
     </Box>
     <Box
     sx={{
-      maxWidth:"80vw"
+      maxWidth:"80vw",
     }}>
       <Outlet />
     </Box>

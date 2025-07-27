@@ -6,6 +6,10 @@ import {
 } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
 import './index.css'
+import {
+  ThemeProvider,
+  createTheme
+} from '@mui/material/styles'
 
 const router = createRouter({ routeTree })
 
@@ -15,8 +19,21 @@ declare module '@tanstack/react-router' {
   }
 }
 
+
+const theme = createTheme({
+  palette: {
+    mode: "dark",
+    background: {
+      terminal: "#251510",
+      output: "#152515"
+    }
+  }
+})
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </StrictMode>,
 )

@@ -1,4 +1,7 @@
-import { useState, useEffect } from 'react';
+import { 
+  useState, 
+  useEffect,
+} from 'react';
 import { 
   createFileRoute,
 } from '@tanstack/react-router'
@@ -8,6 +11,9 @@ import {
   Typography,
   useMediaQuery
 } from '@mui/material'
+import {
+  useTheme
+} from '@mui/material/styles'
 import createModule from "../mua_api.mjs"
 
 export const Route = createFileRoute('/')({
@@ -15,10 +21,11 @@ export const Route = createFileRoute('/')({
 })
 
 function Index() {
+  const theme = useTheme()
   const [muaApi, setMuaApi] = useState()
   const [muaCode, setMuaCode] = useState('') 
   const isMobile = useMediaQuery('(width < 600px)')
-  const rows = isMobile ? window.innerHeight * .44 / 23 - 2 : window.innerHeight * .92 / 23 - 1; //isMobile ? 14 : 28
+  const rows = isMobile ? window.innerHeight * .44 / 23 - 2 : window.innerHeight * .92 / 23 - 2; //isMobile ? 14 : 28
 
   useEffect(
     () => {
@@ -40,12 +47,12 @@ function Index() {
       gridTemplateRows:"1fr 1fr",
       width:"100%",
       height:"100%",
-      p:"0.5rem"
+      p:"1rem"
     }}>
       <Box
       sx={{
         boxSizing:"border-box",
-        backgroundColor:"#999",
+        backgroundColor:theme.palette.background.output,
         borderRadius:"3%",
         mb:"0.25rem",
         p:"0.5rem",
@@ -56,7 +63,7 @@ function Index() {
       <Box
       sx={{
         boxSizing:"border-box",
-        backgroundColor:"#777",
+        backgroundColor:theme.palette.background.terminal,
         borderRadius:"3%",
         mt:"0.25rem",
         p:"0.5rem",
@@ -75,25 +82,25 @@ function Index() {
       gridTemplateRows:"1fr",
       width:"100%",
       height:"100%",
-      p:"0.5rem"
+      p:"1rem"
     }}>
       <Box
       sx={{
         boxSizing:"border-box",
-        backgroundColor:"#777",
+        backgroundColor:theme.palette.background.terminal,
         borderRadius:"3%",
         mr:"0.25rem",
-        p:"0.5rem"
+        p:"1rem"
       }}>
         {inputComponent}
       </Box>
       <Box
       sx={{
         boxSizing:"border-box",
-        backgroundColor:"#999",
+        backgroundColor:theme.palette.background.output,
         borderRadius:"3%",
         ml:"0.25rem",
-        p:"0.5rem",
+        p:"1rem",
         maxHeight:"91vh"
       }}>
         {outputComponent}
@@ -110,6 +117,7 @@ function Index() {
   maxRows={rows}
   autoFocus={true}
   placeholder='1+1;'
+  defaultValue={muaCode}
   onChange={(event) => {
     setMuaCode(event.target.value)
   }}
@@ -120,10 +128,11 @@ function Index() {
 
   const MuaOutput = 
   <Typography
+  color="textPrimary"
   sx={{
     whiteSpace:"pre-wrap",
     overflow: "auto",
-    maxHeight:"100%"
+    maxHeight:"100%",
   }}>
     {muaApi?.calculate(muaCode, false)}
   </Typography>

@@ -10,6 +10,9 @@ import {
   ListSubheader
 } from '@mui/material'
 import {
+  useTheme
+} from '@mui/material/styles'
+import {
   CodeHl
 } from "../../MComponents.tsx"
 
@@ -29,9 +32,11 @@ function MListItem({children}) {
 }
 
 function RouteComponent() {
+  const theme = useTheme()
+
   return <Box
   sx={{
-    color:"white",
+    color:theme.palette.text.primary,
     p:"1rem 2rem",
     display:"flex",
     flexDirection:"column"
@@ -135,7 +140,7 @@ function RouteComponent() {
       <ListSubheader
       sx={{
         backgroundColor:"transparent",
-        color:"white",
+        color:theme.palette.text.primary,
         fontWeight:"bold"
       }}>
         Repl Mode
@@ -157,7 +162,7 @@ function RouteComponent() {
       <ListSubheader
       sx={{
         backgroundColor:"transparent",
-        color:"white",
+        color:theme.palette.text.primary,
         fontWeight:"bold"
       }}>
         File Mode

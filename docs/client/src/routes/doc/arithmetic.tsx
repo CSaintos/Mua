@@ -8,6 +8,9 @@ import {
   TableBody,
   TableRow
 } from '@mui/material'
+import {
+  useTheme
+} from '@mui/material/styles'
 import { CodeHl } from '../../MComponents'
 
 export const Route = createFileRoute('/doc/arithmetic')({
@@ -15,18 +18,22 @@ export const Route = createFileRoute('/doc/arithmetic')({
 })
 
 function MTableCell({children}) {
+  const theme = useTheme()
+
   return <TableCell
   sx={{
-    color:"white"
+    color:theme.palette.text.primary
   }}>
     {children}
   </TableCell>
 }
 
 function RouteComponent() {
+  const theme = useTheme()
+
   return <Box
     sx={{
-      color:"white",
+      color:theme.palette.text.primary,
       p:"1rem 2rem",
       display:"flex",
       flexDirection:"column"
