@@ -8,6 +8,7 @@
 #include <unordered_set>
 
 #include "Error.hpp"
+#include "Result.hpp"
 #include "Token.hpp"
 #include "TokenType.hpp"
 #include "Node.hpp"
@@ -52,6 +53,8 @@ namespace mua
     std::unique_ptr<BinOpNode> bin_op;
     std::unique_ptr<UnaOpNode> una_op;
     std::unique_ptr<INodeFactory> node_factory;
+    
+    Result<> res;
 
     TokenType last_type; ///< last token type iterated
     TokenType last_op; ///< last operator token type iterated
@@ -69,7 +72,7 @@ namespace mua
      * @param i error option
      * @param tok token that caused error
      */
-    void err(int i, Token &tok); //? Temporary syntax error
+    Error err(int i, Token &tok); //? Temporary syntax error
 
     /**
      * @brief builds parse tree by emptying out m_node_stack or until stopped
@@ -96,9 +99,9 @@ namespace mua
      * 
      * @param token_stream the list of tokens to be parsed
      */
-    void parse(std::list<Token> *token_stream);
+    Result<> parse(std::list<Token> *token_stream);
     
-    void checkSemicolonError();
+    Result<> checkSemicolonError();
     /**
      * @brief returns a pointer to list of completed parse trees
      * 

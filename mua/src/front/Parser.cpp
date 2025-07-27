@@ -14,10 +14,11 @@ Parser::Parser()
     right_paren(false),
     end_of_expr(false),
     end_of_stmt(false),
-    node_factory(std::make_unique<NodeFactory>())
+    node_factory(std::make_unique<NodeFactory>()),
+    res()
 {}
 
-void Parser::err(int i, Token &tok)
+Error Parser::err(int i, Token &tok)
 {
   Error serr(
     tok.pos, 
@@ -53,10 +54,12 @@ void Parser::err(int i, Token &tok)
     break;
   }
 
-  cout << serr.to_string() << endl;
+  return serr;
+
+  //cout << serr.to_string() << endl;
 
   // TODO: Determine if program should be canceled or not
-  exit(1);
+  //exit(1);
 }
 
 void Parser::propagateTree()
@@ -107,7 +110,8 @@ void Parser::toParseTree(TokenType precedence_type)
     {
       if (right_node == nullptr)
       {
-        err(0, *itr);
+        res = err(0, *itr);
+        loop = false;
         break;
       }
       if (op_node == nullptr)
@@ -138,7 +142,8 @@ void Parser::toParseTree(TokenType precedence_type)
     case TokenType::CARET:
       if (right_node == nullptr)
       {
-        err(0, *itr);
+        res = err(0, *itr);
+        loop = false;
         break;
       }
       if (op_node == nullptr)
@@ -211,7 +216,8 @@ void Parser::toParseTree(TokenType precedence_type)
           } 
           else
           {
-            err(7, right_node->tok);
+            res = err(7, right_node->tok);
+            loop = false;
           }
         }
       }
@@ -225,7 +231,8 @@ void Parser::toParseTree(TokenType precedence_type)
     case TokenType::EQUAL:
       if (right_node == nullptr)
       {
-        err(1, *itr);
+        res = err(1, *itr);
+        loop = false;
         break;
       }
       if (!end_of_expr)
@@ -236,7 +243,8 @@ void Parser::toParseTree(TokenType precedence_type)
       }
       if (open_parens.size() != 0)
       {
-        err(3, open_parens.top()->tok);
+        res = err(3, open_parens.top()->tok);
+        loop = false;
         break;
       }
       op_node = std::move(node_stack.top());
@@ -250,7 +258,8 @@ void Parser::toParseTree(TokenType precedence_type)
       }
       else 
       {
-        err(0, op_node->tok);
+        res = err(0, op_node->tok);
+        loop = false;
         break;
       }
       break;
@@ -258,7 +267,8 @@ void Parser::toParseTree(TokenType precedence_type)
     {
       if (right_node == nullptr)
       {
-        err(6, *itr);
+        res = err(6, *itr);
+        loop = false;
         break;
       }
       if (!end_of_expr)
@@ -288,19 +298,21 @@ void Parser::toParseTree(TokenType precedence_type)
       {
         if (open_parens.size() != 0)
         {
-          err(2, open_parens.top()->tok);
+          res = err(2, open_parens.top()->tok);
         }
         else
         {
-          cout << node_stack.size() << endl;
-          cout << "This is err 3" << endl;
-          err(0, *itr);
+          //cout << node_stack.size() << endl;
+          //cout << "This is err 3" << endl;
+          res = err(0, *itr);
         }
+        loop = false;
       }
       break;
     default:
       //! Error
-      err(1, *itr); // expected digit or identifier
+      res = err(1, *itr); // expected digit or identifier
+      loop = false;
       break;
     }
   }
@@ -357,14 +369,14 @@ void Parser::scanOneToken()
         node_stack.push(node_factory->produceNode(*itr));
         break;
       case TokenType::LET:
-        err(6, *itr);
+        res = err(6, *itr);
       default:
-        err(0, *itr); // unknown error
+        res = err(0, *itr); // unknown error
         break;
       }
       break;
     case TokenType::LET:
-      err(6, *itr);
+      res = err(6, *itr);
       break;
     default:
       last_type = itr->type;
@@ -419,10 +431,10 @@ void Parser::scanOneToken()
         node_stack.push(node_factory->produceNode(*itr));
         break;
       case TokenType::LET:
-        err(6, *itr);
+        res = err(6, *itr);
         break;
       default:
-        err(0, *itr); // unknown
+        res = err(0, *itr); // unknown
         break;
       }
       break;
@@ -439,15 +451,40 @@ void Parser::scanOneToken()
     case TokenType::FSLASH:
     case TokenType::ASTERISK:
     case TokenType::PERCENT:
+    case TokenType::CARET:
     case TokenType::EQUAL:
-      err(1, *itr); // expected digit or identifier
+      res = err(1, *itr); // expected digit or identifier
       break;
     default:
       switch (last_op)
       {
+      case TokenType::RPAREN:
+        switch (op_b4_paren.top())
+        {
+        case TokenType::ASTERISK:
+        case TokenType::ADJACENT:
+        case TokenType::FSLASH:
+        case TokenType::PERCENT:
+        case TokenType::CARET:
+          toParseTree(itr->type);
+          last_type = itr->type;
+          last_op = last_type;
+          node_stack.push(node_factory->produceNode(*itr));
+          break;
+        case TokenType::PLUS:
+        case TokenType::MINUS:
+        case TokenType::EQUAL:
+          last_type = itr->type;
+          last_op = last_type;
+          node_stack.push(node_factory->produceNode(*itr));
+          break;
+        default:
+          cout << "op_b4_paren: " << TokenUtils::m_TS_map[op_b4_paren.top()] << " not implemented when itr: " << TokenUtils::m_TS_map[itr->type] << endl;
+          break;
+        }
+        break;
       case TokenType::EMPTY:
       case TokenType::LPAREN:
-      case TokenType::RPAREN:
       case TokenType::PLUS:
       case TokenType::MINUS:
       case TokenType::EQUAL:
@@ -466,11 +503,11 @@ void Parser::scanOneToken()
         node_stack.push(node_factory->produceNode(*itr));
         break;
       case TokenType::LET:
-        err(6, *itr);
+        res = err(6, *itr);
         break;
       default:
         // error unknown
-        err(0, *itr);
+        res = err(0, *itr);
         break;
       }
       break;
@@ -488,7 +525,7 @@ void Parser::scanOneToken()
     case TokenType::PLUS:
     case TokenType::LPAREN:
     case TokenType::EQUAL:
-      err(1, *itr); // expected digit or identifier
+      res = err(1, *itr); // expected digit or identifier
       break;
     default:
       switch (last_op)
@@ -509,10 +546,10 @@ void Parser::scanOneToken()
         node_stack.push(node_factory->produceNode(*itr));
         break;
       case TokenType::LET:
-        err(6, *itr);
+        res = err(6, *itr);
         break;
       default:
-        err(0, *itr);
+        res = err(0, *itr);
         break;
       }
       break;
@@ -547,15 +584,15 @@ void Parser::scanOneToken()
         last_op = last_type;
         break;
       case TokenType::LET:
-        err(6, *itr);
+        res = err(6, *itr);
         break;
       default:
-        err(0, *itr);
+        res = err(0, *itr);
         break;
       }
       break;
     case TokenType::LET:
-      err(6, *itr);
+      res = err(6, *itr);
       break;
     case TokenType::PLUS:
     case TokenType::MINUS:
@@ -574,7 +611,7 @@ void Parser::scanOneToken()
       last_op = last_type;
       break;
     default:
-      err(0, *itr);
+      res = err(0, *itr);
       break;
     }
     break;
@@ -582,7 +619,7 @@ void Parser::scanOneToken()
     switch (last_type)
     {
     case TokenType::EMPTY:
-      err(1, *itr); // not a valid stmt
+      res = err(1, *itr); // not a valid stmt
       break;
     default:
       switch (last_op)
@@ -603,11 +640,10 @@ void Parser::scanOneToken()
         open_parens.pop();
         break;
       case TokenType::EQUAL:
-        err(3, *itr);
+        res = err(3, *itr);
         break;
       default:
-        //? Error
-        err(0, *itr); // unknown
+        res = err(0, *itr); // unknown
         break;
       }
       break;
@@ -621,7 +657,7 @@ void Parser::scanOneToken()
     case TokenType::IDENTIFIER:
       if (let_stmt && equal_count > 0)
       {
-        err(5, *itr);
+        res = err(5, *itr);
         break;
       }
       toParseTree(itr->type);
@@ -631,7 +667,7 @@ void Parser::scanOneToken()
       equal_count++;
       break;
     default:
-      err(1, *itr);
+      res = err(1, *itr);
       break;
     }
     break;
@@ -645,7 +681,7 @@ void Parser::scanOneToken()
       let_stmt = true;
       break;
     default:
-      err(4, *itr);
+      res = err(4, *itr);
       break;
     }
     break;
@@ -659,42 +695,53 @@ void Parser::scanOneToken()
     case TokenType::PERCENT:
     case TokenType::CARET:
     case TokenType::EQUAL:
-      err(1, *itr);
+      res = err(1, *itr);
       break;
     case TokenType::LET:
-      err(6, *itr);
+      res = err(6, *itr);
       break;
     default:
       end_of_expr = true;
       toParseTree(itr->type);
       node_stack.push(node_factory->produceNode(*itr));
       toParseTree(itr->type);
-      propagateTree();
+      if (!res.is_err())
+        propagateTree();
       break;
     }
     break;
   default:
-    err(0, *itr);
+    res = err(0, *itr);
     break;
   }
 }
 
-void Parser::parse(list<Token> *token_stream)
+Result<> Parser::parse(list<Token> *token_stream)
 {
   // initialize member variables
   token_stream = token_stream;
+  res = Result<>();
   
-  for (itr = token_stream->begin(); itr != token_stream->end(); ++itr)
+  for (itr = token_stream->begin(); itr != token_stream->end() && !res.is_err(); ++itr)
   {
     //cout << (*itr).to_string() << endl; // DEBUG
     scanOneToken();
   }
+  if (res.is_err())
+  {
+    node_stack = std::stack<unique_ptr<Node>>();
+  }
+
+  return res;
 }
 
-void Parser::checkSemicolonError()
+Result<> Parser::checkSemicolonError()
 {
   if (!node_stack.empty())
   {
-    err(8, node_stack.top()->tok);
+    res = err(8, node_stack.top()->tok);
+    node_stack = std::stack<unique_ptr<Node>>();
   }
+
+  return res;
 }

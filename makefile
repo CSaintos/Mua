@@ -4,11 +4,17 @@
 export CXX = g++
 export AR = ar
 ifeq ($(CXX_VERSION),)
-CXX_VERSION=c++23
+CXX_VERSION=c++20
 endif
 export CXXFLAGS = -std=$(CXX_VERSION)
 ifeq ($(SYS),)
+ifeq ($(OS),Windows_NT)
+SYS = Windows
+else ifeq ($(shell uname -s),Linux)
 SYS = Linux
+else ifeq ($(shell uname -s),Darwin)
+SYS = OSX
+endif
 endif
 export SYS
 ifeq ($(FILESYS),)
@@ -65,11 +71,8 @@ m./make/mua/trie.mk: m./make/mua/token.mk
 m./make/mua/base_node.mk: m./make/mua/token.mk m./make/mua/character.mk
 m./make/mua/node_state.mk: m./make/mua/base_node.mk
 m./make/mua/node_factory.mk: m./make/mua/node_state.mk
-m./make/mua/node.mk: m./make/mua/token.mk
 m./make/mua/lexer.mk: m./make/mua/error.mk m./make/mua/trie.mk m./make/mua/character.mk
-#m./make/mua/parser.mk: m./make/mua/error.mk m./make/mua/node.mk
 m./make/mua/parser.mk: m./make/mua/error.mk m./make/mua/node_factory.mk
-#m./make/mua/definer.mk: m./make/mua/error.mk m./make/mua/node.mk m./make/mua/trie.mk
 m./make/mua/definer.mk: m./make/mua/error.mk m./make/mua/node_factory.mk m./make/mua/trie.mk
 m./make/mua/interpreter.mk: m./make/mua/base_node.mk
 m./make/mua/reader.mk: m./make/mua/character.mk m./make/mua/error.mk

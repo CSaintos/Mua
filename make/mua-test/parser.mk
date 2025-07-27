@@ -13,6 +13,7 @@ INCLUDES = \
 	-Imua/inc/front \
 	-Imua/inc/util/token \
 	-Imua/inc/util/token/trie \
+	-Imua/inc/util/error \
 	-Imua/inc/util \
 	-Imua/inc/util/node \
 	-Imua/inc/util/node/op_node \

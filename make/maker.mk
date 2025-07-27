@@ -13,41 +13,34 @@ ifeq ($(SYS), Windows)
 SLINK_TYPE = lib
 DLINK_TYPE = dll
 EXE_TYPE = .exe
+STATIC_LINK_FLAG=-Wl,-Bstatic
+DYNAMIC_LINK_FLAG=-Wl,-Bdynamic
+AS_NEED_LINK_FLAG=-Wl,--as-needed
 else ifeq ($(SYS), Linux)
 SLINK_TYPE = a
 DLINK_TYPE = so
 EXE_TYPE =
-else ifeq ($(SYS), OSX)
-SLINK_TYPE = a
-DLINK_TYPE = dylib
-EXE_TYPE =
-endif
-ifeq ($(SYS),OSX)
-STATIC_LINK_FLAG=
-DYNAMIC_LINK_FLAG=
-AS_NEED_LINK_FLAG=
-RPATH_LINK_FLAG=-Wl,-rpath,@executable_path
-else ifeq ($(SYS),Linux)
 STATIC_LINK_FLAG=-Wl,-Bstatic
 DYNAMIC_LINK_FLAG=-Wl,-Bdynamic
 AS_NEED_LINK_FLAG=-Wl,--as-needed
 RPATH_LINK_FLAG=-Wl,-rpath,$$ORIGIN
-else ifeq ($(SYS),Windows)
-STATIC_LINK_FLAG=-Wl,-Bstatic
-DYNAMIC_LINK_FLAG=-Wl,-Bdynamic
-AS_NEED_LINK_FLAG=-Wl,--as-needed
+else ifeq ($(SYS), OSX)
+SLINK_TYPE = a
+DLINK_TYPE = dylib
+EXE_TYPE =
+STATIC_LINK_FLAG=
+DYNAMIC_LINK_FLAG=
+AS_NEED_LINK_FLAG=
+RPATH_LINK_FLAG=-Wl,-rpath,@executable_path
 endif
 ifeq ($(filter-out Windows Linux, $(SYS)),)
 SLINK_FILES := $(patsubst -l%, %.$(SLINK_TYPE), $(patsubst -l:%, %, $(SLINKS)))
 DLINK_FILES := $(patsubst -l%, %.$(DLINK_TYPE), $(patsubst -l:%, %, $(DLINKS)))
-else
-SLINK_FILES := $(patsubst -l%, lib%.$(SLINK_TYPE), $(patsubst -l:%, %, $(SLINKS)))
-DLINK_FILES := $(patsubst -l%, lib%.$(DLINK_TYPE), $(patsubst -l:%, %, $(DLINKS)))
-endif
-ifneq ($(SYS),OSX)
 SLINKS = $(patsubst %, -l:%, $(SLINK_FILES))
 DLINKS = $(patsubst %, -l:%, $(DLINK_FILES))
 else
+SLINK_FILES := $(patsubst -l%, lib%.$(SLINK_TYPE), $(patsubst -l:%, %, $(SLINKS)))
+DLINK_FILES := $(patsubst -l%, lib%.$(DLINK_TYPE), $(patsubst -l:%, %, $(DLINKS)))
 SLINKS = $(patsubst lib%.$(SLINK_TYPE), -l%, $(SLINK_FILES))
 DLINKS = $(patsubst lib%.$(DLINK_TYPE), -l%, $(DLINK_FILES))
 endif

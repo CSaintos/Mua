@@ -10,6 +10,7 @@ TARGET_NAME = illegalCharError
 TARGET_PATH = mua-test/error
 # Include Directories # -I<path-to-dir>
 INCLUDES = \
+	-Imua/inc/util/error \
   -Imua/inc/util
 # Dynamic Link Directories # -L<path-to-dir>
 LINKDIRS = \
