@@ -244,23 +244,9 @@ jobs:
         7z a muac-linux-arm64.7z muac-linux-arm64
         7z a muac-windows-arm64.7z muac-windows-arm64
         7z a muac-macos-arm64.7z muac-macos-arm64
-    - name: Generate Checksums
-      run: |
-        sha256sum muac-linux-x64.7z > muac-linux-x64.7z.sha256sum
-        echo "SHA_MUAC_LINUX_X64_7Z=$(cat muac-linux-x64.7z.sha256sum)" >> $GITHUB_ENV
-        sha256sum muac-windows-x64.7z > muac-windows-x64.7z.sha256sum
-        echo "SHA_MUAC_WINDOWS_X64_7Z=$(cat muac-windows-x64.7z.sha256sum)" >> $GITHUB_ENV
-        sha256sum muac-macos-x64.7z > muac-macos-x64.7z.sha256sum
-        echo "SHA_MUAC_MACOS_X64_7Z=$(cat muac-macos-x64.7z.sha256sum)" >> $GITHUB_ENV
-        sha256sum muac-linux-arm64.7z > muac-linux-arm64.7z.sha256sum
-        echo "SHA_MUAC_LINUX_ARM64_7Z=$(cat muac-linux-arm64.7z.sha256sum)" >> $GITHUB_ENV
-        sha256sum muac-windows-arm64.7z > muac-windows-arm64.7z.sha256sum
-        echo "SHA_MUAC_WINDOWS_ARM64_7Z=$(cat muac-windows-arm64.7z.sha256sum)" >> $GITHUB_ENV
-        sha256sum muac-macos-arm64.7z > muac-macos-arm64.7z.sha256sum
-        echo "SHA_MUAC_MACOS_ARM64_7Z=$(cat muac-macos-arm64.7z.sha256sum)" >> $GITHUB_ENV
     - name: Display structure of downloaded artifacts
       run: ls -R
     - name: Create Release
       run: |
-        gh release create -d 0.2.2-alpha -t "Mua 0.2.2-alpha" muac-linux-x64.7z muac-linux-x64.7z.sha256sum muac-windows-x64.7z muac-windows-x64.7z.sha256sum muac-macos-x64.7z muac-macos-x64.7z.sha256sum muac-linux-arm64.7z muac-linux-arm64.7z.sha256sum muac-windows-arm64.7z muac-windows-arm64.7z.sha256sum muac-macos-arm64.7z muac-macos-arm64.7z.sha256sum
+        gh release create -d 0.3.0-alpha -t "Mua 0.3.0-alpha" muac-linux-x64.7z muac-windows-x64.7z muac-macos-x64.7z muac-linux-arm64.7z muac-windows-arm64.7z muac-macos-arm64.7z
 
