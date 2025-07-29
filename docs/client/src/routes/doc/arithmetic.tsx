@@ -12,12 +12,13 @@ import {
   useTheme
 } from '@mui/material/styles'
 import { CodeHl } from '../../MComponents'
+import type { Props } from "../../Types"
 
 export const Route = createFileRoute('/doc/arithmetic')({
   component: RouteComponent,
 })
 
-function MTableCell({children}) {
+function MTableCell({children}: Props) {
   const theme = useTheme()
 
   return <TableCell

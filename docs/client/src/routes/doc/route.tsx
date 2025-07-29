@@ -11,21 +11,24 @@ import {
 import {
   useTheme
 } from '@mui/material/styles'
+import type {
+  Props
+} from "../../Types.tsx"
 
 export const Route = createFileRoute('/doc')({
   component: RouteComponent,
 })
 
-function SidebarButton({children, path}) {
+function SidebarButton({children, path}:Props) {
   const navigate = useNavigate()
   const theme = useTheme()
 
   return <ListItemButton
   onMouseOver={(event) => {
-    event.target.style.backgroundColor = "#555";
+    (event.target as HTMLElement).style.backgroundColor = "#555";
   }}
   onMouseOut={(event) => {
-    event.target.style.backgroundColor = "#222";
+    (event.target as HTMLElement).style.backgroundColor = "#222";
   }}
   onMouseDown={() => {
     navigate({to:path})

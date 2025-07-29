@@ -15,12 +15,15 @@ import {
 import {
   CodeHl
 } from "../../MComponents.tsx"
+import type {
+  Props
+} from "../../Types.tsx"
 
 export const Route = createFileRoute('/doc/')({
   component: RouteComponent,
 })
 
-function MListItem({children}) {
+function MListItem({children}: Props) {
   return <ListItem
   sx={{
     display:"list-item",

@@ -54,7 +54,7 @@ const MuaIcon = createSvgIcon(
     height="24.00" 
     rx="12" 
     fill="#ec7ec9" 
-    strokewidth="0"
+    strokeWidth="0"
     />
   </g>
   <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.336"/>

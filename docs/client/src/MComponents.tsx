@@ -1,5 +1,8 @@
+import type {
+  Props
+} from './Types.tsx'
 
-export function CodeHl({children}) {
+export function CodeHl({children}: Props) {
   return <span
   style={{
     color:"gold",

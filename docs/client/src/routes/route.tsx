@@ -2,6 +2,9 @@ import {
   useState, 
   useEffect,
 } from 'react';
+import type {
+  ReactNode
+} from 'react'
 import { 
   createFileRoute,
 } from '@tanstack/react-router'
@@ -14,6 +17,7 @@ import {
 import {
   useTheme
 } from '@mui/material/styles'
+// @ts-expect-error generated wasm glue code
 import createModule from "../mua_api.mjs"
 
 export const Route = createFileRoute('/')({
@@ -29,6 +33,7 @@ function Index() {
 
   useEffect(
     () => {
+      // @ts-expect-error Module is part of wasm glue code
       createModule().then((Module) => {
         setMuaApi(() => new Module.MuaApi())
       })
@@ -38,7 +43,7 @@ function Index() {
   let MuaLayout;
 
   if (isMobile) {
-    MuaLayout = (inputComponent, outputComponent) => {
+    MuaLayout = (inputComponent:ReactNode, outputComponent:ReactNode) => {
     return <Box
     sx={{
       boxSizing:"border-box",
@@ -73,7 +78,7 @@ function Index() {
     </Box>
     }
   } else {
-    MuaLayout = (inputComponent, outputComponent) => {
+    MuaLayout = (inputComponent:ReactNode, outputComponent:ReactNode) => {
     return <Box
     sx={{
       boxSizing:"border-box",
@@ -119,7 +124,7 @@ function Index() {
   placeholder='1+1;'
   defaultValue={muaCode}
   onChange={(event) => {
-    setMuaCode(event.target.value)
+    setMuaCode(event.currentTarget.value)
   }}
   sx={{
     borderWidth:'0'
@@ -134,6 +139,7 @@ function Index() {
     overflow: "auto",
     maxHeight:"100%",
   }}>
+    {/* @ts-expect-error calculate is a function of Module */}
     {muaApi?.calculate(muaCode, false)}
   </Typography>
 

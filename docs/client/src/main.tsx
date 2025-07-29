@@ -11,14 +11,16 @@ import {
   createTheme
 } from '@mui/material/styles'
 
-const router = createRouter({ routeTree })
+const router = createRouter({ 
+  routeTree,
+  basepath: "/Mua/"
+})
 
 declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router
   }
 }
-
 
 const theme = createTheme({
   palette: {
@@ -29,6 +31,13 @@ const theme = createTheme({
     }
   }
 })
+
+declare module '@mui/material/styles' {
+  interface TypeBackground {
+    terminal: string;
+    output: string;
+  }
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
