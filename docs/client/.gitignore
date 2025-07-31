@@ -24,5 +24,5 @@ dist-ssr
 *.sw?
 
 # Generated build files
-mua_api.wasm
-mua_api.mjs
+# mua_api.wasm
+# mua_api.mjs
