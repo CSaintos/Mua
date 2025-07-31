@@ -14,7 +14,7 @@ import {
 } from '@mui/material/styles'
 import {
   CodeHl
-} from "../../MComponents.tsx"
+} from "../../Components.tsx"
 import type {
   Props
 } from "../../Types.tsx"

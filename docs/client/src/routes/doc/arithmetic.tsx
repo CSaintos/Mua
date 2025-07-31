@@ -11,7 +11,7 @@ import {
 import {
   useTheme
 } from '@mui/material/styles'
-import { CodeHl } from '../../MComponents'
+import { CodeHl } from '../../Components'
 import type { Props } from "../../Types"
 
 export const Route = createFileRoute('/doc/arithmetic')({

@@ -745,3 +745,30 @@ Result<> Parser::checkSemicolonError()
 
   return res;
 }
+
+void Parser::dropParseTrees()
+{
+  if (!node_stack.empty())
+  {
+    node_stack = std::stack<unique_ptr<Node>>();
+  }
+  if (!parse_trees.empty())
+  {
+    parse_trees = std::list<unique_ptr<Node>>();
+  }
+  if (!open_parens.empty())
+  {
+    open_parens = std::stack<Node*>();
+  }
+  if (!op_b4_paren.empty())
+  {
+    op_b4_paren = std::stack<TokenType>();
+  }
+  last_type = TokenType::EMPTY;
+  last_op = TokenType::EMPTY;
+  equal_count = 0;
+  let_stmt = false;
+  right_paren = false;
+  end_of_expr = false;
+  end_of_stmt = false;
+}

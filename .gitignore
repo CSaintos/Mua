@@ -1,9 +1,9 @@
-# Ignore VSCode files
+# VSCode files
 .vscode
-# Ignore build files
+# build files
 build/*
-# Ignore bin files
+# bin files
 bin/*
-# Ignore clangd files
+# clangd files
 .cache
 compile_commands.json

@@ -50,8 +50,6 @@ namespace mua
     std::unique_ptr<Node> left_node; ///< holds left node for binary operators
     std::unique_ptr<Node> right_node; ///< holds right node for operators
     std::unique_ptr<Node> op_node; ///< holds op node for operators
-    std::unique_ptr<BinOpNode> bin_op;
-    std::unique_ptr<UnaOpNode> una_op;
     std::unique_ptr<INodeFactory> node_factory;
     
     Result<> res;
@@ -108,5 +106,7 @@ namespace mua
      * @return pointer to list of completed parse trees
      */
     inline std::list<std::unique_ptr<Node>>* getParseTrees() { return &parse_trees; }
+
+    void dropParseTrees();
   };
 }

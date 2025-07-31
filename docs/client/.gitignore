@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Generated build files
+mua_api.wasm
+mua_api.mjs

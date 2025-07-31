@@ -21,9 +21,15 @@ string MuaApi::calculate(string input, bool is_debug)
   characters = c_stream.strToCharacterList(input);
   lexer.lex(&characters);
   res = parser.parse(lexer.getList());
-  if (res.is_err()) return res.get_err().to_string();
+  if (res.is_err()) {
+    parser.dropParseTrees();
+    return res.get_err().to_string();
+  } 
   res = parser.checkSemicolonError();
-  if (res.is_err()) return res.get_err().to_string();
+  if (res.is_err()) {
+    parser.dropParseTrees();
+    return res.get_err().to_string();
+  }
   parse_trees = parser.getParseTrees();
   definer.define(parse_trees);
 
