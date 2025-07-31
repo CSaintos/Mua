@@ -31,7 +31,7 @@ else ifeq ($(SYS),Web)
 SLINK_TYPE=a
 DLINK_TYPE=so 
 EXE_TYPE=.mjs
-AS_NEED_LINK_FLAG=--bind -sASSERTIONS -O2
+AS_NEED_LINK_FLAG=--bind -sASSERTIONS -O2 -g
 RPATH_LINK_FLAG=-sENVIRONMENT='web' -sEXPORT_NAME='createModule' --no-entry --pre-js locateFile.js
 CXXFLAGS += -O2
 endif

@@ -28,6 +28,7 @@ function Index() {
   const theme = useTheme()
   const [muaApi, setMuaApi] = useState()
   const [muaCode, setMuaCode] = useState('') 
+  const [muaOutput, setMuaOutput] = useState('')
   const isMobile = useMediaQuery('(width < 600px)')
   const rows = isMobile ? window.innerHeight * .44 / 23 - 2 : window.innerHeight * .92 / 23 - 2; //isMobile ? 14 : 28
 
@@ -35,7 +36,7 @@ function Index() {
     () => {
       // @ts-expect-error Module is part of wasm glue code
       createModule().then((Module) => {
-        setMuaApi(() => new Module.MuaApi())
+        setMuaApi(() => {return new Module.MuaApi()})
       })
     }, []
   );
@@ -125,6 +126,8 @@ function Index() {
   defaultValue={muaCode}
   onChange={(event) => {
     setMuaCode(event.currentTarget.value)
+    // @ts-expect-error calculate is a function of Module
+    setMuaOutput(muaApi?.calculate(event.currentTarget.value, false))
   }}
   sx={{
     borderWidth:'0'
@@ -139,8 +142,7 @@ function Index() {
     overflow: "auto",
     maxHeight:"100%",
   }}>
-    {/* @ts-expect-error calculate is a function of Module */}
-    {muaApi?.calculate(muaCode, false)}
+    {muaOutput}
   </Typography>
 
   return MuaLayout(MuaInput, MuaOutput);
