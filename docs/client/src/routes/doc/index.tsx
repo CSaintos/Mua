@@ -60,7 +60,7 @@ function RouteComponent() {
       &nbsp;calculator.
     </Typography>
     <img
-    src={'/repl_demo.gif'}
+    src={'repl_demo.gif'}
     alt="mua_repl_demo"
     style={{
       maxWidth:"50%",

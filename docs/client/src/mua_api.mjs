@@ -32,7 +32,7 @@ var ENVIRONMENT_IS_SHELL = false;
 // refer to Module (if they choose; they can also define Module)
 // include: locateFile.js
 Module["locateFile"] = (path, scriptDirectory_unused) => {
-  return "/" + path;
+  return "/Mua/" + path;
 };
 // end include: locateFile.js
 

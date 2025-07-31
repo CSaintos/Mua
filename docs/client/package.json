@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "/Mua/",
+  "homepage": "https://csaintos.github.io/Mua/",
   "scripts": {
     "dev": "vite --open",
     "build": "tsc -b && vite build",
