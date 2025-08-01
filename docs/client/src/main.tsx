@@ -2,7 +2,6 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { 
   RouterProvider,
-  createHashHistory,
   createRouter,
 } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
@@ -12,11 +11,9 @@ import {
   createTheme
 } from '@mui/material/styles'
 
-const hashHistory = createHashHistory()
-
 const router = createRouter({ 
   routeTree,
-  history: hashHistory,
+  basepath: "/Mua/"
 })
 
 declare module '@tanstack/react-router' {

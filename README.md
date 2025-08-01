@@ -1,18 +1,18 @@
 <h1 style="font-size:60px; color:salmon;"> &#956;&#965;&#945; </h1>
 
 Mua is a <span style="color:gray;">(step-by-step, cli-based, arithmetic)</span> calculator.  
-Try it out here: https://csaintos.github.io/Mua/#/
+Try it out here: https://csaintos.github.io/Mua/
 
 ![repl demo](./.devcontainer/repl_demo.gif)
 
 ## Getting Started
-- You may [download Mua](https://github.com/CSaintos/Mua/releases) or begin trying it at https://csaintos.github.io/Mua/#/  
+- You may [download Mua](https://github.com/CSaintos/Mua/releases) or begin trying it at https://csaintos.github.io/Mua/  
 - After downloading, extract the Mua 7z
   - MacOS only: Since MacOS has Gatekeeper, and my app hasn't been notarized by Apple yet. Upon extracting, the file permissions will be set to read-only. You'll want to do a quick `chmod 755 *` inside the mua-macos directory to enable permissions.  
 - Install/Place Mua anywhere you'd like on your machine, and to make it easily accessible, add it to your system's or shell's environment path.
 
 ## Documentation
-- https://csaintos.github.io/Mua/#/doc
+- Can be found at https://csaintos.github.io/Mua/
 
 ## Building Mua
 ### Requirements
